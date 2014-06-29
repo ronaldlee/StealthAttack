@@ -24,7 +24,7 @@
 -(void)moveForward;
 -(void)moveBackward;
 -(void)rotateClockwise;
--(void)rotateBlackwise;
+-(void)rotateCounterClockwise;
 -(void)stop;
 
 -(void)toggleFiring;

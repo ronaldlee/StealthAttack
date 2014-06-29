@@ -70,10 +70,22 @@
         rotate_c_button.position = CGPointMake(left_corner_x+100, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
         [self addChild:rotate_c_button];
         
+        button_size = CGSizeMake(50,50);
+        rotate_uc_button = [[STAButton alloc] initWithSize:button_size Name:@"rotate_uc_button"];
+        rotate_uc_button.userInteractionEnabled = NO;
+        rotate_uc_button.position = CGPointMake(left_corner_x+150, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
+        [self addChild:rotate_uc_button];
+        
+        button_size = CGSizeMake(50,50);
+        forward_button = [[STAButton alloc] initWithSize:button_size Name:@"forward_button"];
+        forward_button.userInteractionEnabled = NO;
+        forward_button.position = CGPointMake(left_corner_x+200, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
+        [self addChild:forward_button];
+        
         //==
         self.player = [[STATank alloc] initWithScale:scale];
-        
-        player_bottom_border_y = bottom_corner_y + [self.player getAnchorOffsetY];//+PIXEL_WIDTHHEIGHT+1;
+    
+        player_bottom_border_y = bottom_corner_y + [self.player getAnchorOffsetY]+PIXEL_WIDTHHEIGHT+1;//+PIXEL_WIDTHHEIGHT+1;
         player_top_border_y = top_corner_y-PIXEL_WIDTHHEIGHT*2*scale-3;
         player_left_border_x = left_corner_x+3;
         player_right_border_x = right_corner_x-11;
@@ -82,9 +94,12 @@
                                    player_right_border_x-player_left_border_x,
                                    player_top_border_y-player_bottom_border_y);
         
-        self.player.position = CGPointMake(([[UIScreen mainScreen] bounds].size.width-PLAYER_WIDTH)/2 +
-                                           [self.player getAnchorOffsetX],
-                                           player_bottom_border_y);
+        
+        CGFloat stage_start_x = ([[UIScreen mainScreen] bounds].size.width-PLAYER_WIDTH)/2 +
+                                [self.player getAnchorOffsetX];
+        CGFloat stage_start_y = player_bottom_border_y+20;
+        
+        self.player.position = CGPointMake(stage_start_x,stage_start_y);
         
         [self.player setBorderBounds:bounds];
         
@@ -210,13 +225,23 @@
             NSLog(@"rotate c!!");
             [self.player rotateClockwise];
         }
+        else if ([node.name isEqualToString:@"rotate_uc_button"]) {
+            NSLog(@"rotate uc!!");
+            [self.player rotateCounterClockwise];
+        }
+        else if ([node.name isEqualToString:@"forward_button"]) {
+            NSLog(@"forward!!");
+            [self.player moveForward];
+        }
         
     }
 }
 
 -(void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    NSLog(@"touch end");
+    
     [self.player stop];
+    
+    NSLog(@"touch end: rotate: %f",self.player.zRotation);
    
 }
 
