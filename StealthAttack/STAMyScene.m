@@ -250,7 +250,7 @@
     
     [self.player stop];
     
-    NSLog(@"touch end: rotate: %f",self.player.zRotation);
+//    NSLog(@"touch end: rotate: %f",self.player.zRotation);
    
 }
 
