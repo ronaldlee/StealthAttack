@@ -18,6 +18,14 @@
 @property (nonatomic) SKSpriteNode * tankF;
 @property (nonatomic) SKSpriteNode * tankG;
 
+@property (nonatomic) SKSpriteNode * tankl1;
+@property (nonatomic) SKSpriteNode * tankl2;
+@property (nonatomic) SKSpriteNode * tankl3;
+
+@property (nonatomic) SKSpriteNode * tankr1;
+@property (nonatomic) SKSpriteNode * tankr2;
+@property (nonatomic) SKSpriteNode * tankr3;
+
 -(void)setBorderBounds:(CGRect)p_bounds;
 -(id)initWithScale:(CGFloat)scale;
 

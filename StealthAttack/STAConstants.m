@@ -10,7 +10,7 @@
 
 @implementation STAConstants
 
-float const PIXEL_WIDTHHEIGHT =2;
+float const PIXEL_WIDTHHEIGHT =3;
 float const PIXEL_WIDTHHEIGHT_x2 = PIXEL_WIDTHHEIGHT*2;
 float const PIXEL_WIDTHHEIGHT_x3 = PIXEL_WIDTHHEIGHT*3;
 
