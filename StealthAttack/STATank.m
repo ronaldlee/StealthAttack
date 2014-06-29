@@ -13,6 +13,10 @@
     float max_width, max_height;
     CGRect bounds;
     float bottom_border_y, top_border_y, left_border_x, right_border_x;
+    BOOL isVisible;
+    BOOL is_firing;
+    CGFloat anchoroffset_x;
+    CGFloat anchoroffset_y;
 }
 @end
 
@@ -29,42 +33,48 @@
 - (id)initWithScale:(CGFloat)f_scale {
     self = [super init];
     if (self) {
-        
+        isVisible = TRUE;
         scale = f_scale;
         
         CGFloat scaled_width = PIXEL_WIDTHHEIGHT*scale;
         CGFloat scaled_height = PIXEL_WIDTHHEIGHT*scale;
         
+        max_width = scaled_width*3;
+        max_height = scaled_height*3;
+        
+        anchoroffset_x = max_width/3;
+        anchoroffset_y = max_height/3;
+        
         self.tankA = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
         [self addChild:self.tankA];
-        self.tankA.position = CGPointMake(scaled_width,scaled_height*2);
+        self.tankA.position = CGPointMake(scaled_width-anchoroffset_x,scaled_height*2-anchoroffset_y);
         
         self.tankB = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
         [self addChild:self.tankB];
-        self.tankB.position = CGPointMake(0,scaled_height);
+        self.tankB.position = CGPointMake(0-anchoroffset_x,scaled_height-anchoroffset_y);
         
         self.tankC = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
         [self addChild:self.tankC];
-        self.tankC.position = CGPointMake(scaled_width,scaled_height);
+        self.tankC.position = CGPointMake(scaled_width-anchoroffset_x,scaled_height-anchoroffset_y);
         
         self.tankD = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
         [self addChild:self.tankD];
-        self.tankD.position = CGPointMake(scaled_width*2,scaled_height);
+        self.tankD.position = CGPointMake(scaled_width*2-anchoroffset_x,scaled_height-anchoroffset_y);
         
         self.tankE = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
         [self addChild:self.tankE];
-        self.tankE.position = CGPointMake(0,0);
+        self.tankE.position = CGPointMake(0-anchoroffset_x,0-anchoroffset_y);
         
         self.tankF = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
         [self addChild:self.tankF];
-        self.tankF.position = CGPointMake(scaled_width,0);
+        self.tankF.position = CGPointMake(scaled_width-anchoroffset_x,0-anchoroffset_y);
         
         self.tankG = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
         [self addChild:self.tankG];
-        self.tankG.position = CGPointMake(scaled_width*2,0);
+        self.tankG.position = CGPointMake(scaled_width*2-anchoroffset_x,0-anchoroffset_y);
         
-        max_width = scaled_width*3;
-        max_height = scaled_height*3;
+        
+        self.size = CGSizeMake(max_width, max_height);
         
         self.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:CGSizeMake(max_width, max_height)];
         self.physicsBody.affectedByGravity = NO;
@@ -74,6 +84,14 @@
         
     }
     return self;
+}
+
+
+-(CGFloat)getAnchorOffsetX {
+    return anchoroffset_x;
+}
+-(CGFloat)getAnchorOffsetY {
+    return anchoroffset_y;
 }
 
 -(void)setBorderBounds:(CGRect)p_bounds {
@@ -92,17 +110,42 @@
     
 }
 -(void)rotateClockwise {
+    SKAction *rotation = [SKAction rotateByAngle:M_PI*2 duration:3];
     
+    [self runAction:[SKAction repeatActionForever:rotation]];
 }
 -(void)rotateBlackwise {
     
 }
 -(void)stop {
-    
+    [self removeAllActions];
 }
 
 -(void)explode {
     
+}
+
+-(void)toggleFiring {
+    is_firing = !is_firing;
+}
+
+-(BOOL)isFiring {
+    return is_firing;
+}
+
+-(void)toggleVisibilty {
+    UIColor* color = [UIColor blackColor];
+    if (isVisible) {
+       color = [UIColor whiteColor];
+    }
+    self.tankA.color = color;
+    self.tankB.color = color;
+    self.tankC.color = color;
+    self.tankD.color = color;
+    self.tankE.color = color;
+    self.tankF.color = color;
+    self.tankG.color = color;
+    isVisible = !isVisible;
 }
 
 -(void)contactWith:(id<STAGameObject>)gameObj {

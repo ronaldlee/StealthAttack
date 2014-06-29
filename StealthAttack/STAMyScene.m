@@ -9,6 +9,8 @@
 #import "STAMyScene.h"
 
 @interface STAMyScene () {
+    UILongPressGestureRecognizer* longPressGestureRecognizer;
+    
     float scale;
     float left_corner_x, right_corner_x, top_corner_y, bottom_corner_y;
     float player_bottom_border_y, player_top_border_y, player_left_border_x, player_right_border_x;
@@ -20,6 +22,20 @@
 @implementation STAMyScene
 
 @synthesize fire_button;
+@synthesize rotate_c_button;
+@synthesize rotate_uc_button;
+@synthesize forward_button;
+@synthesize backward_button;
+
+//-(void) didMoveToView:(SKView *)view {
+//    longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
+//    
+//    [view addGestureRecognizer:longPressGestureRecognizer];
+//}
+//
+//-(void)willMoveFromView:(SKView*)view {
+//    [view removeGestureRecognizer:longPressGestureRecognizer];
+//}
 
 -(id)initWithSize:(CGSize)size {    
     if (self = [super initWithSize:size]) {
@@ -37,15 +53,7 @@
         
         self.backgroundColor = [SKColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0];
         [self setupStageBorders];
-        
-        player_bottom_border_y = bottom_corner_y+PIXEL_WIDTHHEIGHT+1;
-        player_top_border_y = top_corner_y-PIXEL_WIDTHHEIGHT*2*scale-3;
-        player_left_border_x = left_corner_x+3;
-        player_right_border_x = right_corner_x-11;
-        
-        CGRect bounds = CGRectMake(player_left_border_x, player_bottom_border_y,
-                                   player_right_border_x-player_left_border_x,
-                                   player_top_border_y-player_bottom_border_y);
+
         
         
         //===
@@ -56,9 +64,26 @@
         fire_button.position = CGPointMake(left_corner_x, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
         [self addChild:fire_button];
         
+        button_size = CGSizeMake(50,50);
+        rotate_c_button = [[STAButton alloc] initWithSize:button_size Name:@"rotate_c_button"];
+        rotate_c_button.userInteractionEnabled = NO;
+        rotate_c_button.position = CGPointMake(left_corner_x+100, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
+        [self addChild:rotate_c_button];
+        
         //==
         self.player = [[STATank alloc] initWithScale:scale];
-        self.player.position = CGPointMake(([[UIScreen mainScreen] bounds].size.width-PLAYER_WIDTH)/2,
+        
+        player_bottom_border_y = bottom_corner_y + [self.player getAnchorOffsetY];//+PIXEL_WIDTHHEIGHT+1;
+        player_top_border_y = top_corner_y-PIXEL_WIDTHHEIGHT*2*scale-3;
+        player_left_border_x = left_corner_x+3;
+        player_right_border_x = right_corner_x-11;
+        
+        CGRect bounds = CGRectMake(player_left_border_x, player_bottom_border_y,
+                                   player_right_border_x-player_left_border_x,
+                                   player_top_border_y-player_bottom_border_y);
+        
+        self.player.position = CGPointMake(([[UIScreen mainScreen] bounds].size.width-PLAYER_WIDTH)/2 +
+                                           [self.player getAnchorOffsetX],
                                            player_bottom_border_y);
         
         [self.player setBorderBounds:bounds];
@@ -130,8 +155,69 @@
     
     for (UITouch *touch in touches) {
         CGPoint location = [touch locationInNode:self];
+        SKNode *node = [self nodeAtPoint:location];
+        
+        if ([node.name isEqualToString:@"fire_button"]) {
+            NSLog(@"fire!!");
+            
+            [self.player toggleFiring];
+            
+            if ([self.player isFiring]) {
+                SKAction* shootBulletAction = [SKAction runBlock:^{
+//                    BORDER cur_border = [self.player getCurrentBorder];
+                    CGPoint location = [self.player position];
+                    STABullet *bullet = [[STABullet alloc]initWithScale:1.0];
+                    
+                    bullet.position = CGPointMake(location.x,location.y+self.player.size.height/2);
+                    //bullet.position = location;
+                    bullet.zPosition = 1;
+                    //                bullet.scale = 0.8;
+                    
+                    SKAction *action = Nil;
+                    SKAction *remove = [SKAction removeFromParent];
+                    float flight_distance = 2000;
+                    CGFloat bullet_speed = 10;
+                    
+//                    if (cur_border == BORDER_TOP) {
+//                        action = [SKAction moveToY:-(flight_distance-self.frame.size.height) duration:bullet_speed];
+//                    }
+//                    else if (cur_border == BORDER_BOTTOM) {
+//                        action = [SKAction moveToY:flight_distance duration:bullet_speed];
+//                    }
+//                    else if (cur_border == BORDER_LEFT) {
+//                        action = [SKAction moveToX:flight_distance duration:bullet_speed];
+//                    }
+//                    else if (cur_border == BORDER_RIGHT) {
+//                        action = [SKAction moveToX:-(flight_distance-self.frame.size.width) duration:bullet_speed];
+//                    }
+                    
+                    [bullet runAction:[SKAction sequence:@[action,remove]]];
+                    
+                    [self addChild:bullet];
+                }];// queue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
+                
+                SKAction *wait = [SKAction waitForDuration:0.4];
+                SKAction *sequence = [SKAction sequence:@[shootBulletAction, wait]];
+                [self runAction:[SKAction repeatActionForever:sequence]];
+            }
+            else {
+                [self removeAllActions];
+            }
+            
+            return;
+        }
+        else if ([node.name isEqualToString:@"rotate_c_button"]) {
+            NSLog(@"rotate c!!");
+            [self.player rotateClockwise];
+        }
         
     }
+}
+
+-(void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    NSLog(@"touch end");
+    [self.player stop];
+   
 }
 
 -(void)update:(CFTimeInterval)currentTime {
@@ -173,5 +259,22 @@
     }
 }
 
+//- (void)handleLongPress:(UILongPressGestureRecognizer*)recognizer {
+//    
+//    CGPoint location = [recognizer locationInView:self.view];
+//    
+//    NSLog(@"logn pressss: count: %d, x: %f, y:%f",i++, location.x, location.y);
+//    
+//    //need to convert the location's Y to be upside down since spritenode y start from bottom
+//    location = CGPointMake(location.x,[[UIScreen mainScreen] bounds].size.height - location.y);
+//    SKNode *node = [self nodeAtPoint:location];
+//    
+//    NSLog(@"logn pressss rotate button: x: %f, y:%f", self.rotate_c_button.position.x,self.rotate_c_button.position.y);
+//    
+//    if ([node.name isEqualToString:@"rotate_c_button"]) {
+//        NSLog(@"long press rotate c button");
+//        [self.player rotateClockwise];
+//    }
+//}
 
 @end

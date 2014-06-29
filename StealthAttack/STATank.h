@@ -27,4 +27,11 @@
 -(void)rotateBlackwise;
 -(void)stop;
 
+-(void)toggleFiring;
+-(BOOL)isFiring;
+-(void)toggleVisibilty;
+
+-(CGFloat)getAnchorOffsetX;
+-(CGFloat)getAnchorOffsetY;
+
 @end
