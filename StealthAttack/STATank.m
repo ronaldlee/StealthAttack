@@ -111,8 +111,6 @@
     CGFloat x = cos([self getAdjRotation])*100+self.position.x;
     CGFloat y = sin([self getAdjRotation])*100+self.position.y;
     
-    NSLog(@"move zrotation: %f, x: %f, y: %f",self.zRotation,x,y);
-    
     CGPoint location = CGPointMake(x,y);
     
     SKAction *rotation = [SKAction moveTo:location duration:3];
@@ -120,8 +118,16 @@
     [self runAction:[SKAction repeatActionForever:rotation]];
 }
 -(void)moveBackward {
+    CGFloat x = cos([self getAdjRotation]+M_PI)*100+self.position.x;
+    CGFloat y = sin([self getAdjRotation]+M_PI)*100+self.position.y;
     
+    CGPoint location = CGPointMake(x,y);
+    
+    SKAction *rotation = [SKAction moveTo:location duration:3];
+    
+    [self runAction:[SKAction repeatActionForever:rotation]];
 }
+
 -(void)rotateClockwise {
     SKAction *rotation = [SKAction rotateByAngle:-M_PI*2 duration:3];
     

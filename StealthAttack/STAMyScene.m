@@ -65,22 +65,28 @@
         [self addChild:fire_button];
         
         button_size = CGSizeMake(50,50);
-        rotate_c_button = [[STAButton alloc] initWithSize:button_size Name:@"rotate_c_button"];
-        rotate_c_button.userInteractionEnabled = NO;
-        rotate_c_button.position = CGPointMake(left_corner_x+100, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
-        [self addChild:rotate_c_button];
-        
-        button_size = CGSizeMake(50,50);
         rotate_uc_button = [[STAButton alloc] initWithSize:button_size Name:@"rotate_uc_button"];
         rotate_uc_button.userInteractionEnabled = NO;
-        rotate_uc_button.position = CGPointMake(left_corner_x+150, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
+        rotate_uc_button.position = CGPointMake(left_corner_x+100, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
         [self addChild:rotate_uc_button];
+        
+        button_size = CGSizeMake(50,50);
+        rotate_c_button = [[STAButton alloc] initWithSize:button_size Name:@"rotate_c_button"];
+        rotate_c_button.userInteractionEnabled = NO;
+        rotate_c_button.position = CGPointMake(left_corner_x+150, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
+        [self addChild:rotate_c_button];
         
         button_size = CGSizeMake(50,50);
         forward_button = [[STAButton alloc] initWithSize:button_size Name:@"forward_button"];
         forward_button.userInteractionEnabled = NO;
         forward_button.position = CGPointMake(left_corner_x+200, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
         [self addChild:forward_button];
+        
+        button_size = CGSizeMake(50,50);
+        backward_button = [[STAButton alloc] initWithSize:button_size Name:@"backward_button"];
+        backward_button.userInteractionEnabled = NO;
+        backward_button.position = CGPointMake(left_corner_x+250, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
+        [self addChild:backward_button];
         
         //==
         self.player = [[STATank alloc] initWithScale:scale];
@@ -232,6 +238,9 @@
         else if ([node.name isEqualToString:@"forward_button"]) {
             NSLog(@"forward!!");
             [self.player moveForward];
+        }
+        else if ([node.name isEqualToString:@"backward_button"]) {
+            [self.player moveBackward];
         }
         
     }
