@@ -24,6 +24,11 @@
     
     CGFloat wheel_height;
     CGFloat wheel_diff;
+    
+    BOOL isMovingForward;
+    BOOL isMovingBackward;
+    BOOL isRotatingClockwise;
+    BOOL isRotatingCounterClockwise;
 }
 @end
 
@@ -179,29 +184,6 @@
 }
 
 -(void)moveLeftWheelsForward {
-//    //make sure the wheels have same distance from each others
-//    if (self.tankl1.position.y > self.tankl2.position.y > self.tankl3.position.y) {
-//        self.tankl2.position =
-//            CGPointMake(self.tankl2.position.x,self.tankl1.position.y-wheel_height-wheel_diff);
-//        self.tankl3.position =
-//            CGPointMake(self.tankl3.position.x,self.tankl2.position.y-wheel_height-wheel_diff);
-//    }
-//    else if (self.tankl2.position.y > self.tankl3.position.y > self.tankl1.position.y) {
-//        self.tankl3.position =
-//            CGPointMake(self.tankl3.position.x,self.tankl2.position.y-wheel_height-wheel_diff);
-//        self.tankl1.position =
-//            CGPointMake(self.tankl1.position.x,self.tankl3.position.y-wheel_height-wheel_diff);
-//    }
-//    else if (self.tankl3.position.y > self.tankl1.position.y > self.tankl2.position.y) {
-//        self.tankl1.position =
-//            CGPointMake(self.tankl1.position.x,self.tankl3.position.y-wheel_height-wheel_diff);
-//        self.tankl2.position =
-//            CGPointMake(self.tankl2.position.x,self.tankl1.position.y-wheel_height-wheel_diff);
-//    }
-    
-    NSLog(@"t1.y: %f, t2.y: %f, t3.y: %f, anchoroffset_y: %f",
-          self.tankl1.position.y, self.tankl2.position.y, self.tankl3.position.y,
-          anchoroffset_y);
     
     CGFloat speed = 1;
     CGFloat base_y = anchoroffset_y + 2;
@@ -241,25 +223,6 @@
 }
 
 -(void)moveLeftWheelsBackward {
-//    //make sure the wheels have same distance from each others
-//    if (self.tankl1.position.y > self.tankl2.position.y > self.tankl3.position.y) {
-//        self.tankl2.position =
-//        CGPointMake(self.tankl2.position.x,self.tankl1.position.y-wheel_height-wheel_diff);
-//        self.tankl3.position =
-//        CGPointMake(self.tankl3.position.x,self.tankl2.position.y-wheel_height-wheel_diff);
-//    }
-//    else if (self.tankl2.position.y > self.tankl3.position.y > self.tankl1.position.y) {
-//        self.tankl3.position =
-//        CGPointMake(self.tankl3.position.x,self.tankl2.position.y-wheel_height-wheel_diff);
-//        self.tankl1.position =
-//        CGPointMake(self.tankl1.position.x,self.tankl3.position.y-wheel_height-wheel_diff);
-//    }
-//    else if (self.tankl3.position.y > self.tankl1.position.y > self.tankl2.position.y) {
-//        self.tankl1.position =
-//        CGPointMake(self.tankl1.position.x,self.tankl3.position.y-wheel_height-wheel_diff);
-//        self.tankl2.position =
-//        CGPointMake(self.tankl2.position.x,self.tankl1.position.y-wheel_height-wheel_diff);
-//    }
     
     CGFloat speed = 1;
     CGFloat base_y = anchoroffset_y + 2;
@@ -293,25 +256,6 @@
 }
 
 -(void)moveRightWheelsForward {
-//    //make sure the wheels have same distance from each others
-//    if (self.tankr1.position.y > self.tankr2.position.y > self.tankr3.position.y) {
-//        self.tankr2.position =
-//            CGPointMake(self.tankr2.position.x,self.tankr1.position.y-wheel_height-wheel_diff);
-//        self.tankr3.position =
-//            CGPointMake(self.tankr3.position.x,self.tankr2.position.y-wheel_height-wheel_diff);
-//    }
-//    else if (self.tankr2.position.y > self.tankr3.position.y > self.tankr1.position.y) {
-//        self.tankr3.position =
-//            CGPointMake(self.tankr3.position.x,self.tankr2.position.y-wheel_height-wheel_diff);
-//        self.tankr1.position =
-//            CGPointMake(self.tankr1.position.x,self.tankr3.position.y-wheel_height-wheel_diff);
-//    }
-//    else if (self.tankr3.position.y > self.tankr1.position.y > self.tankr2.position.y) {
-//        self.tankr1.position =
-//            CGPointMake(self.tankr1.position.x,self.tankr3.position.y-wheel_height-wheel_diff);
-//        self.tankr2.position =
-//            CGPointMake(self.tankr2.position.x,self.tankr1.position.y-wheel_height-wheel_diff);
-//    }
     
     CGFloat speed = 1;
     CGFloat base_y = anchoroffset_y + 2;
@@ -344,25 +288,6 @@
 }
 
 -(void)moveRightWheelsBackward {
-//    //make sure the wheels have same distance from each others
-//    if (self.tankr1.position.y > self.tankr2.position.y > self.tankr3.position.y) {
-//        self.tankr2.position =
-//        CGPointMake(self.tankr2.position.x,self.tankr1.position.y-wheel_height-wheel_diff);
-//        self.tankr3.position =
-//        CGPointMake(self.tankr3.position.x,self.tankr2.position.y-wheel_height-wheel_diff);
-//    }
-//    else if (self.tankr2.position.y > self.tankr3.position.y > self.tankr1.position.y) {
-//        self.tankr3.position =
-//        CGPointMake(self.tankr3.position.x,self.tankr2.position.y-wheel_height-wheel_diff);
-//        self.tankr1.position =
-//        CGPointMake(self.tankr1.position.x,self.tankr3.position.y-wheel_height-wheel_diff);
-//    }
-//    else if (self.tankr3.position.y > self.tankr1.position.y > self.tankr2.position.y) {
-//        self.tankr1.position =
-//        CGPointMake(self.tankr1.position.x,self.tankr3.position.y-wheel_height-wheel_diff);
-//        self.tankr2.position =
-//        CGPointMake(self.tankr2.position.x,self.tankr1.position.y-wheel_height-wheel_diff);
-//    }
     
     CGFloat speed = 1;
     CGFloat base_y = anchoroffset_y + 2;
@@ -395,6 +320,9 @@
 }
 
 -(void)moveForward {
+    if (isRotatingClockwise || isRotatingCounterClockwise || isMovingBackward) return;
+    isMovingForward= true;
+    
     CGFloat x = cos([self getAdjRotation])*10000+self.position.x;
     CGFloat y = sin([self getAdjRotation])*10000+self.position.y;
     
@@ -408,6 +336,9 @@
     [self moveRightWheelsForward];
 }
 -(void)moveBackward {
+    if (isRotatingClockwise || isRotatingCounterClockwise || isMovingForward) return;
+    isMovingBackward= true;
+    
     CGFloat x = cos([self getAdjRotation]+M_PI)*10000+self.position.x;
     CGFloat y = sin([self getAdjRotation]+M_PI)*10000+self.position.y;
     
@@ -422,6 +353,9 @@
 }
 
 -(void)rotateClockwise {
+    if (isRotatingCounterClockwise || isMovingForward || isMovingBackward) return;
+    isRotatingClockwise= true;
+    
     SKAction *rotation = [SKAction rotateByAngle:-M_PI*2 duration:3];
     
     [self runAction:[SKAction repeatActionForever:rotation]];
@@ -430,6 +364,9 @@
     [self moveRightWheelsBackward];
 }
 -(void)rotateCounterClockwise {
+    if (isRotatingClockwise || isMovingForward || isMovingBackward) return;
+    isRotatingCounterClockwise= true;
+    
     SKAction *rotation = [SKAction rotateByAngle:M_PI*2 duration:3];
     
     [self runAction:[SKAction repeatActionForever:rotation]];
@@ -439,6 +376,9 @@
 }
 
 -(void)stop {
+    isMovingForward = isMovingBackward = false;
+    isRotatingClockwise = isRotatingCounterClockwise = false;
+    
     [self removeAllActions];
     [self.tankl1 removeAllActions];
     [self.tankl2 removeAllActions];
