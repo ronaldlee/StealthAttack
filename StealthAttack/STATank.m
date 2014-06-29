@@ -52,46 +52,55 @@
         isVisible = TRUE;
         scale = f_scale;
         
-        scaled_width = PIXEL_WIDTHHEIGHT*scale;
-        scaled_height = PIXEL_WIDTHHEIGHT*scale;
+        scaled_width = PIXEL_WIDTHHEIGHT*scale; //6
+        scaled_height = PIXEL_WIDTHHEIGHT*scale; //6
         
         max_width = scaled_width*3;
         max_height = scaled_height*3;
         
-        anchoroffset_x = max_width/3;
-        anchoroffset_y = max_height/3;
+        anchoroffset_x = max_width/2;
+        anchoroffset_y = max_height/2;
+        
+//        NSLog(@"max width: %f, %f, ancx/y: %f, %f", max_width, max_height, anchoroffset_x,anchoroffset_y);
         
         self.tankA = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
+        self.tankA.anchorPoint = CGPointMake(0,0);
         [self addChild:self.tankA];
         self.tankA.position = CGPointMake(scaled_width-anchoroffset_x,scaled_height*2-anchoroffset_y);
         
         self.tankB = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
+        self.tankB.anchorPoint = CGPointMake(0,0);
         [self addChild:self.tankB];
         self.tankB.position = CGPointMake(0-anchoroffset_x,scaled_height-anchoroffset_y);
         
         self.tankC = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
+        self.tankC.anchorPoint = CGPointMake(0,0);
         [self addChild:self.tankC];
         self.tankC.position = CGPointMake(scaled_width-anchoroffset_x,scaled_height-anchoroffset_y);
         
         self.tankD = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
+        self.tankD.anchorPoint = CGPointMake(0,0);
         [self addChild:self.tankD];
         self.tankD.position = CGPointMake(scaled_width*2-anchoroffset_x,scaled_height-anchoroffset_y);
         
         self.tankE = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
+        self.tankE.anchorPoint = CGPointMake(0,0);
         [self addChild:self.tankE];
         self.tankE.position = CGPointMake(0-anchoroffset_x,0-anchoroffset_y);
         
         self.tankF = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
+        self.tankF.anchorPoint = CGPointMake(0,0);
         [self addChild:self.tankF];
         self.tankF.position = CGPointMake(scaled_width-anchoroffset_x,0-anchoroffset_y);
         
         self.tankG = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
+        self.tankG.anchorPoint = CGPointMake(0,0);
         [self addChild:self.tankG];
         self.tankG.position = CGPointMake(scaled_width*2-anchoroffset_x,0-anchoroffset_y);
         
         //wheels
-        CGFloat wheel_x_offset = 1;
-        CGFloat wheel_y_offset = -1;
+        CGFloat wheel_x_offset = -1;
+        CGFloat wheel_y_offset = 1;
         CGFloat wheel_width = 3;
         
         wheel_height = 2;
@@ -99,40 +108,41 @@
         wheel_diff = 2;
         
         self.tankl1 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,wheel_height)];
+        self.tankl1.anchorPoint = CGPointMake(0,0);
         [self addChild:self.tankl1];
         self.tankl1.position = CGPointMake(0-anchoroffset_x-wheel_x_offset,
-                                           scaled_height-anchoroffset_y-wheel_y_offset);
+                                           scaled_height*2-wheel_height-anchoroffset_y-wheel_y_offset);
         
         self.tankl2 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,wheel_height)];
+        self.tankl2.anchorPoint = CGPointMake(0,0);
         [self addChild:self.tankl2];
         self.tankl2.position = CGPointMake(0-anchoroffset_x-wheel_x_offset,
                                            self.tankl1.position.y-wheel_height-wheel_diff);
         
         self.tankl3 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,wheel_height)];
+        self.tankl3.anchorPoint = CGPointMake(0,0);
         [self addChild:self.tankl3];
         self.tankl3.position = CGPointMake(0-anchoroffset_x-wheel_x_offset,
                                            self.tankl2.position.y-wheel_height-wheel_diff);
         
-//        self.tankl4 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,wheel_height)];
-//        [self addChild:self.tankl4];
-//        self.tankl4.position = CGPointMake(0-anchoroffset_x-wheel_x_offset,
-//                                           self.tankl3.position.y-wheel_height-wheel_diff);
-        
         //==
-        wheel_x_offset = -1;
+        wheel_x_offset = 1;
         self.tankr1 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,wheel_height)];
+        self.tankr1.anchorPoint = CGPointMake(0,0);
         [self addChild:self.tankr1];
-        self.tankr1.position = CGPointMake(scaled_width*2-anchoroffset_x-wheel_x_offset,
-                                           scaled_height-anchoroffset_y-wheel_y_offset);
+        self.tankr1.position = CGPointMake(scaled_width*3-wheel_width-wheel_x_offset-anchoroffset_x,
+                                           scaled_height*2-wheel_height-anchoroffset_y-wheel_y_offset);
         
         self.tankr2 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,wheel_height)];
+        self.tankr2.anchorPoint = CGPointMake(0,0);
         [self addChild:self.tankr2];
-        self.tankr2.position = CGPointMake(scaled_width*2-anchoroffset_x-wheel_x_offset,
+        self.tankr2.position = CGPointMake(scaled_width*3-wheel_width-wheel_x_offset-anchoroffset_x,
                                            self.tankl1.position.y-wheel_height-wheel_diff);
         
         self.tankr3 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,wheel_height)];
+        self.tankr3.anchorPoint = CGPointMake(0,0);
         [self addChild:self.tankr3];
-        self.tankr3.position = CGPointMake(scaled_width*2-anchoroffset_x-wheel_x_offset,
+        self.tankr3.position = CGPointMake(scaled_width*3-wheel_width-wheel_x_offset-anchoroffset_x,
                                            self.tankl2.position.y-wheel_height-wheel_diff);
         
         self.size = CGSizeMake(max_width, max_height);
@@ -189,25 +199,35 @@
 //            CGPointMake(self.tankl2.position.x,self.tankl1.position.y-wheel_height-wheel_diff);
 //    }
     
+    NSLog(@"t1.y: %f, t2.y: %f, t3.y: %f, anchoroffset_y: %f",
+          self.tankl1.position.y, self.tankl2.position.y, self.tankl3.position.y,
+          anchoroffset_y);
+    
     CGFloat speed = 1;
     CGFloat base_y = anchoroffset_y + 2;
     CGFloat tank_body_height = scaled_height*2;
     
     //left
-    CGPoint location = CGPointMake(self.tankl1.position.x,0-base_y);
-    CGPoint location2 = CGPointMake(self.tankl1.position.x,scaled_height*2-base_y);
+    CGPoint base_location = CGPointMake(self.tankl1.position.x,0-base_y);
+    
+    
+    CGPoint start_location = CGPointMake(self.tankl1.position.x,scaled_height*2-base_y);
+    
+    NSLog(@"start_location: %f, base_location: %f, tank_body_height: %f" ,
+          start_location.y, base_location.y, tank_body_height);
     
     CGFloat duration_l1 = (self.tankl1.position.y+base_y)/tank_body_height*speed;
     CGFloat duration_l2 = (self.tankl2.position.y+base_y)/tank_body_height*speed;
     CGFloat duration_l3 = (self.tankl3.position.y+base_y)/tank_body_height*speed;
     
-    SKAction *rotationl1 = [SKAction moveTo:location duration:duration_l1];
-    SKAction *rotationl2 = [SKAction moveTo:location duration:duration_l2];
-    SKAction *rotationl3 = [SKAction moveTo:location duration:duration_l3];
+    SKAction *rotationl1 = [SKAction moveTo:base_location duration:duration_l1];
+    SKAction *rotationl2 = [SKAction moveTo:base_location duration:duration_l2];
+    SKAction *rotationl3 = [SKAction moveTo:base_location duration:duration_l3];
     
     //move back to top
-    SKAction *rotation2 = [SKAction moveTo:location2 duration:0];
-    SKAction *rotation3 = [SKAction moveTo:location duration:speed];
+    SKAction *rotation2 = [SKAction moveTo:start_location duration:0];
+    
+    SKAction *rotation3 = [SKAction moveTo:base_location duration:speed];
     
     [self.tankl1 runAction:rotationl1 completion:^(void) {
         [self.tankl1 runAction:[SKAction repeatActionForever:[SKAction sequence:@[rotation2,rotation3]]]];
