@@ -29,6 +29,7 @@
     BOOL isMovingBackward;
     BOOL isRotatingClockwise;
     BOOL isRotatingCounterClockwise;
+    
 }
 @end
 
@@ -167,12 +168,16 @@
                                            self.tankr3.position.y-wheel_height-wheel_diff);
         
         self.size = CGSizeMake(max_width, max_height);
+//        self.anchorPoint = CGPointMake(0,0);
         
         self.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:CGSizeMake(max_width, max_height)];
-        self.physicsBody.affectedByGravity = NO;
+        
+//        self.physicsBody.affectedByGravity = NO;
         self.physicsBody.categoryBitMask = PLAYER_CATEGORY;
         self.physicsBody.contactTestBitMask = ENEMY_CATEGORY;
-        self.physicsBody.collisionBitMask = 0;
+        self.physicsBody.collisionBitMask = WALL_CATEGORY | PLAYER_CATEGORY | ENEMY_CATEGORY;
+        
+//        self.physicsBody.collisionBitMask = 0;
         
         NSLog(@"tb.top.y: %f, y: %f", self.tankB.position.y+self.tankB.size.height, self.tankB.position.y);
         NSLog(@"start tl1.y: %f, l2: %f, l3: %f",self.tankl1.position.y,self.tankl2.position.y,self.tankl3.position.y);
@@ -554,5 +559,13 @@
     //monster explode
     [enemy explode];
 }
+
+-(void)stopMovement {
+    if (isMovingForward || isMovingBackward) {
+        isMovingForward = isMovingBackward = false;
+        [self removeAllActions];
+    }
+}
+
 
 @end

@@ -17,6 +17,8 @@
 }
 
 @property (nonatomic) STATank * player;
+@property (nonatomic) STATank * enemy;
+
 @end
 
 @implementation STAMyScene
@@ -40,6 +42,8 @@
 -(id)initWithSize:(CGSize)size {    
     if (self = [super initWithSize:size]) {
         /* Setup your scene here */
+        
+        [self createSceneContents];
         
         self.physicsWorld.gravity = CGVectorMake(0,0);
         self.physicsWorld.contactDelegate = self;
@@ -110,7 +114,19 @@
         [self.player setBorderBounds:bounds];
         
         [self addChild:self.player];
-
+        
+        //==enemy
+        self.enemy = [[STATank alloc] initWithScale:scale];
+        
+        stage_start_x = ([[UIScreen mainScreen] bounds].size.width-PLAYER_WIDTH)/2 +
+        [self.player getAnchorOffsetX];
+        stage_start_y = player_bottom_border_y+20+50;
+        
+        self.enemy.position = CGPointMake(stage_start_x,stage_start_y);
+        
+        [self.enemy setBorderBounds:bounds];
+        
+        [self addChild:self.enemy];
         
     }
     return self;
@@ -130,6 +146,11 @@
     [border_top setStrokeColor:BORDER_COLOR];
     [border_top setLineWidth:1];
     [border_top setAntialiased:FALSE];
+    
+    border_top.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:CGSizeMake(right_corner_x-left_corner_x, 1)];
+    border_top.physicsBody.affectedByGravity = NO;
+    border_top.physicsBody.categoryBitMask = WALL_CATEGORY;
+    
     [self addChild:border_top];
     
     //left
@@ -145,15 +166,29 @@
     [self addChild:border_left];
     
     //bottom
-    SKShapeNode* border_bottom = [SKShapeNode node];
+//    SKShapeNode* border_bottom = [SKShapeNode node];
+//    CGPathMoveToPoint(pathToDraw, NULL, left_corner_x, bottom_corner_y);
+//    CGPathAddLineToPoint(pathToDraw, NULL, right_corner_x, bottom_corner_y);
+//    
+//    border_bottom.path = pathToDraw;
+//    [border_bottom setStrokeColor:BORDER_COLOR];
+//    [border_bottom setLineWidth:1];
+//    [border_bottom setAntialiased:FALSE];
     
-    CGPathMoveToPoint(pathToDraw, NULL, left_corner_x, bottom_corner_y);
-    CGPathAddLineToPoint(pathToDraw, NULL, right_corner_x, bottom_corner_y);
+    CGFloat border_width = (right_corner_x-left_corner_x)*scale;
+    SKSpriteNode* border_bottom = [SKSpriteNode spriteNodeWithColor:BORDER_COLOR
+                                                               size:CGSizeMake(border_width,1)];
+    border_bottom.position = CGPointMake(left_corner_x*scale, bottom_corner_y);
     
-    border_bottom.path = pathToDraw;
-    [border_bottom setStrokeColor:BORDER_COLOR];
-    [border_bottom setLineWidth:1];
-    [border_bottom setAntialiased:FALSE];
+    NSLog(@"right corner x: %f, left x: %f", right_corner_x,left_corner_x);
+    border_bottom.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:CGSizeMake(border_width, 1)];
+    border_bottom.physicsBody.affectedByGravity = NO;
+    border_bottom.physicsBody.categoryBitMask = WALL_CATEGORY;
+    border_bottom.physicsBody.contactTestBitMask = PLAYER_CATEGORY;
+    border_bottom.physicsBody.collisionBitMask = PLAYER_CATEGORY;
+    border_bottom.physicsBody.resting = TRUE;
+    border_bottom.physicsBody.dynamic = FALSE;
+    
     [self addChild:border_bottom];
     
     //right
@@ -267,6 +302,9 @@
             NSLog(@"contact!: player and monster");
             [player contactWith:enemy];
         }
+        else if ((contact.bodyB.categoryBitMask & WALL_CATEGORY) != 0) {
+            NSLog(@"hit wall");
+        }
     }
     else if ((contact.bodyA.categoryBitMask & ENEMY_CATEGORY) != 0) {
         STAEnemyTank* enemyBody = (STAEnemyTank*)contact.bodyA.node;
@@ -288,7 +326,24 @@
             [enemyBody explode];
         }
     }
+    else if ((contact.bodyA.categoryBitMask & WALL_CATEGORY) != 0) {
+        NSLog(@"hit wall!");
+        if ((contact.bodyB.categoryBitMask & PLAYER_CATEGORY) != 0) {
+            STATank *player = (STATank*)contact.bodyB.node;
+            
+            NSLog(@"contact!: player and monster");
+            [player stopMovement];
+        }
+    }
 }
+
+- (void) createSceneContents
+{
+    self.scaleMode = SKSceneScaleModeAspectFit;
+    self.physicsBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:self.frame];
+    self.physicsBody.friction = 0.0f;
+}
+
 
 //- (void)handleLongPress:(UILongPressGestureRecognizer*)recognizer {
 //    

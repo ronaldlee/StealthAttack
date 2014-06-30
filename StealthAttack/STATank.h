@@ -44,4 +44,5 @@
 -(CGFloat)getAnchorOffsetX;
 -(CGFloat)getAnchorOffsetY;
 
+-(void)stopMovement;
 @end
