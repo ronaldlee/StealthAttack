@@ -228,15 +228,12 @@
             return;
         }
         else if ([node.name isEqualToString:@"rotate_c_button"]) {
-            NSLog(@"rotate c!!");
             [self.player rotateClockwise];
         }
         else if ([node.name isEqualToString:@"rotate_uc_button"]) {
-            NSLog(@"rotate uc!!");
             [self.player rotateCounterClockwise];
         }
         else if ([node.name isEqualToString:@"forward_button"]) {
-            NSLog(@"forward!!");
             [self.player moveForward];
         }
         else if ([node.name isEqualToString:@"backward_button"]) {
