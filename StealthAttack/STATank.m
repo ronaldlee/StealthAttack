@@ -177,9 +177,10 @@
         
         self.physicsBody.affectedByGravity = NO;
         self.physicsBody.categoryBitMask = PLAYER_CATEGORY;
-        self.physicsBody.contactTestBitMask = ENEMY_CATEGORY | WALL_CATEGORY;
+        self.physicsBody.contactTestBitMask = ENEMY_CATEGORY | WALL_CATEGORY | PLAYER_CATEGORY;
         self.physicsBody.collisionBitMask = WALL_CATEGORY | PLAYER_CATEGORY | ENEMY_CATEGORY;
-        self.physicsBody.restitution = -1;
+        self.physicsBody.restitution = -1.0f;
+        
 //        self.physicsBody.friction = 0;
 //        self.physicsBody.linearDamping = 0;
 //        self.physicsBody.angularDamping = 0;

@@ -291,6 +291,24 @@
     /* Called before each frame is rendered */
 }
 
+//- (void)didEndContact:(SKPhysicsContact *)contact {
+//    if ((contact.bodyA.categoryBitMask & PLAYER_CATEGORY)!=0) {
+//        
+//        STATank *player = (STATank*)contact.bodyA.node;
+//        
+//        if ((contact.bodyB.categoryBitMask & PLAYER_CATEGORY) != 0) {
+//            STATank *player2 = (STATank*)contact.bodyB.node;
+////            [player stop];
+////            [player2 stop];
+//        }
+//        else if ((contact.bodyB.categoryBitMask & ENEMY_CATEGORY) != 0) {
+//            STAEnemyTank *player2 = (STAEnemyTank*)contact.bodyB.node;
+////            [player stop];
+////            [player2 stop];
+//        }
+//    }
+//}
+
 - (void)didBeginContact:(SKPhysicsContact *)contact
 {
     NSLog(@"did contact");
