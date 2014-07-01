@@ -30,6 +30,8 @@
     BOOL isRotatingClockwise;
     BOOL isRotatingCounterClockwise;
     
+    CGFloat moveSpeed;
+    
 }
 @end
 
@@ -57,6 +59,7 @@
 - (id)initWithScale:(CGFloat)f_scale {
     self = [super init];
     if (self) {
+        moveSpeed = 20;
         isVisible = TRUE;
         scale = f_scale;
         
@@ -172,10 +175,14 @@
         
         self.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:CGSizeMake(max_width, max_height)];
         
-//        self.physicsBody.affectedByGravity = NO;
+        self.physicsBody.affectedByGravity = NO;
         self.physicsBody.categoryBitMask = PLAYER_CATEGORY;
-        self.physicsBody.contactTestBitMask = ENEMY_CATEGORY;
+        self.physicsBody.contactTestBitMask = ENEMY_CATEGORY | WALL_CATEGORY;
         self.physicsBody.collisionBitMask = WALL_CATEGORY | PLAYER_CATEGORY | ENEMY_CATEGORY;
+        self.physicsBody.restitution = -1;
+//        self.physicsBody.friction = 0;
+//        self.physicsBody.linearDamping = 0;
+//        self.physicsBody.angularDamping = 0;
         
 //        self.physicsBody.collisionBitMask = 0;
         
@@ -454,14 +461,16 @@
     if (isRotatingClockwise || isRotatingCounterClockwise || isMovingBackward) return;
     isMovingForward= true;
     
-    CGFloat x = cos([self getAdjRotation])*10000+self.position.x;
-    CGFloat y = sin([self getAdjRotation])*10000+self.position.y;
+    CGFloat x = cos([self getAdjRotation])*moveSpeed;//+self.position.x;
+    CGFloat y = sin([self getAdjRotation])*moveSpeed;//+self.position.y;
     
-    CGPoint location = CGPointMake(x,y);
+//    CGPoint location = CGPointMake(x,y);
+//    
+//    SKAction *rotation = [SKAction moveTo:location duration:300];
+//    
+//    [self runAction:[SKAction repeatActionForever:rotation]];
     
-    SKAction *rotation = [SKAction moveTo:location duration:300];
-    
-    [self runAction:[SKAction repeatActionForever:rotation]];
+    self.physicsBody.velocity = CGVectorMake(x, y);
     
     [self moveLeftWheelsForward];
     [self moveRightWheelsForward];
@@ -470,14 +479,18 @@
     if (isRotatingClockwise || isRotatingCounterClockwise || isMovingForward) return;
     isMovingBackward= true;
     
-    CGFloat x = cos([self getAdjRotation]+M_PI)*10000+self.position.x;
-    CGFloat y = sin([self getAdjRotation]+M_PI)*10000+self.position.y;
+    CGFloat x = cos([self getAdjRotation]+M_PI)*moveSpeed;//+self.position.x;
+    CGFloat y = sin([self getAdjRotation]+M_PI)*moveSpeed;//+self.position.y;
     
-    CGPoint location = CGPointMake(x,y);
+//    
+//    CGPoint location = CGPointMake(x,y);
+//    
+//    SKAction *rotation = [SKAction moveTo:location duration:300];
+//    
+//    [self runAction:[SKAction repeatActionForever:rotation]];
     
-    SKAction *rotation = [SKAction moveTo:location duration:300];
-    
-    [self runAction:[SKAction repeatActionForever:rotation]];
+    self.physicsBody.velocity = CGVectorMake(x, y);
+//    [self.physicsBody applyImpulse:location];
     
     [self moveLeftWheelsBackward];
     [self moveRightWheelsBackward];
@@ -509,6 +522,8 @@
 -(void)stop {
     isMovingForward = isMovingBackward = false;
     isRotatingClockwise = isRotatingCounterClockwise = false;
+    
+    self.physicsBody.velocity = CGVectorMake(0, 0);
     
     [self removeAllActions];
     [self.tankl1 removeAllActions];

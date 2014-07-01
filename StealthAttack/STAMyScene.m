@@ -188,6 +188,7 @@
     border_bottom.physicsBody.collisionBitMask = PLAYER_CATEGORY;
     border_bottom.physicsBody.resting = TRUE;
     border_bottom.physicsBody.dynamic = FALSE;
+    border_bottom.physicsBody.restitution = 0;
     
     [self addChild:border_bottom];
     
@@ -292,6 +293,7 @@
 
 - (void)didBeginContact:(SKPhysicsContact *)contact
 {
+    NSLog(@"did contact");
     if ((contact.bodyA.categoryBitMask & PLAYER_CATEGORY)!=0) {
         
         STATank *player = (STATank*)contact.bodyA.node;
@@ -304,6 +306,7 @@
         }
         else if ((contact.bodyB.categoryBitMask & WALL_CATEGORY) != 0) {
             NSLog(@"hit wall");
+            [player stopMovement];
         }
     }
     else if ((contact.bodyA.categoryBitMask & ENEMY_CATEGORY) != 0) {
@@ -331,7 +334,7 @@
         if ((contact.bodyB.categoryBitMask & PLAYER_CATEGORY) != 0) {
             STATank *player = (STATank*)contact.bodyB.node;
             
-            NSLog(@"contact!: player and monster");
+            NSLog(@"contact!: wall contact player");
             [player stopMovement];
         }
     }
