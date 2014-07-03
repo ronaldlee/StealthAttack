@@ -42,13 +42,15 @@
         
         self.bullet = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
         [self addChild:self.bullet];
-        self.bullet.position = CGPointMake(scaled_width,scaled_height);
+        self.bullet.position = CGPointMake(scaled_width,scaled_height-3);
         
         self.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:self.size];
         self.physicsBody.affectedByGravity = NO;
         self.physicsBody.categoryBitMask = MISSLE_CATEGORY;
         self.physicsBody.contactTestBitMask = ENEMY_CATEGORY;
         self.physicsBody.collisionBitMask = 0;
+        self.physicsBody.linearDamping = 0;
+        
     }
     return self;
 }

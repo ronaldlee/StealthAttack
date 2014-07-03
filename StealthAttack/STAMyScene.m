@@ -225,30 +225,30 @@
                     CGPoint location = [self.player position];
                     STABullet *bullet = [[STABullet alloc]initWithScale:1.0];
                     
-                    bullet.position = CGPointMake(location.x,location.y+self.player.size.height/2);
+                    //need to position at the tip of the tank's turret..
+                    
                     //bullet.position = location;
                     bullet.zPosition = 1;
-                    //                bullet.scale = 0.8;
                     
-                    SKAction *action = Nil;
-                    SKAction *remove = [SKAction removeFromParent];
-                    float flight_distance = 2000;
-                    CGFloat bullet_speed = 10;
+                    //bullet.scale = 0.8;
                     
-//                    if (cur_border == BORDER_TOP) {
-//                        action = [SKAction moveToY:-(flight_distance-self.frame.size.height) duration:bullet_speed];
-//                    }
-//                    else if (cur_border == BORDER_BOTTOM) {
-//                        action = [SKAction moveToY:flight_distance duration:bullet_speed];
-//                    }
-//                    else if (cur_border == BORDER_LEFT) {
-//                        action = [SKAction moveToX:flight_distance duration:bullet_speed];
-//                    }
-//                    else if (cur_border == BORDER_RIGHT) {
-//                        action = [SKAction moveToX:-(flight_distance-self.frame.size.width) duration:bullet_speed];
-//                    }
+                    CGFloat velocity_x = cos([self.player getAdjRotation])*100;
+                    CGFloat velocity_y = sin([self.player getAdjRotation])*100;
                     
-                    [bullet runAction:[SKAction sequence:@[action,remove]]];
+                    CGFloat radius = PLAYER_WIDTH;
+                    CGFloat x = cos([self.player getAdjRotation])*radius +
+                                self.player.position.x;
+                    CGFloat y = sin([self.player getAdjRotation])*radius +
+                                self.player.position.y;
+                    
+//                    bullet.position = CGPointMake(location.x,location.y+self.player.size.height/2);
+                    bullet.position = CGPointMake(x,y);
+                    
+                    NSLog(@"x: %f, y: %f", x,y);
+                    
+                    bullet.zRotation = [self.player getAdjRotation];
+                    
+                    bullet.physicsBody.velocity = CGVectorMake(velocity_x, velocity_y);
                     
                     [self addChild:bullet];
                 }];// queue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
