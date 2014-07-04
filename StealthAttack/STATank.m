@@ -69,49 +69,42 @@
         max_width = scaled_width*3;
         max_height = scaled_height*3;
         
-        anchoroffset_x = max_width/2;
-        anchoroffset_y = max_height/2;
+        anchoroffset_x = scaled_width; //max_width/2;
+        anchoroffset_y = scaled_height; //max_height/2;
         
         NSLog(@"max width: %f, %f, ancx/y: %f, %f", max_width, max_height, anchoroffset_x,anchoroffset_y);
         
         self.tankA = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
-        self.tankA.anchorPoint = CGPointMake(0,0);
         [self addChild:self.tankA];
         self.tankA.position = CGPointMake(scaled_width-anchoroffset_x,scaled_height*2-anchoroffset_y);
         
         self.tankB = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
-        self.tankB.anchorPoint = CGPointMake(0,0);
         [self addChild:self.tankB];
         self.tankB.position = CGPointMake(0-anchoroffset_x,scaled_height-anchoroffset_y);
         
         self.tankC = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
-        self.tankC.anchorPoint = CGPointMake(0,0);
         [self addChild:self.tankC];
         self.tankC.position = CGPointMake(scaled_width-anchoroffset_x,scaled_height-anchoroffset_y);
         
         self.tankD = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
-        self.tankD.anchorPoint = CGPointMake(0,0);
         [self addChild:self.tankD];
         self.tankD.position = CGPointMake(scaled_width*2-anchoroffset_x,scaled_height-anchoroffset_y);
         
         self.tankE = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
-        self.tankE.anchorPoint = CGPointMake(0,0);
         [self addChild:self.tankE];
         self.tankE.position = CGPointMake(0-anchoroffset_x,0-anchoroffset_y);
         
         self.tankF = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
-        self.tankF.anchorPoint = CGPointMake(0,0);
         [self addChild:self.tankF];
         self.tankF.position = CGPointMake(scaled_width-anchoroffset_x,0-anchoroffset_y);
         
         self.tankG = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
-        self.tankG.anchorPoint = CGPointMake(0,0);
         [self addChild:self.tankG];
         self.tankG.position = CGPointMake(scaled_width*2-anchoroffset_x,0-anchoroffset_y);
         
         //wheels
-        CGFloat wheel_x_offset = -1;
-        CGFloat wheel_y_offset = -1;
+        CGFloat wheel_x_offset = 1;
+        CGFloat wheel_y_offset = 1;
         CGFloat wheel_width = 3;
         
         wheel_height = 2;
@@ -119,7 +112,6 @@
         wheel_diff = 2;
         
         self.tankl1 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,wheel_height)];
-        self.tankl1.anchorPoint = CGPointMake(0,0);
         [self addChild:self.tankl1];
         self.tankl1.position = CGPointMake(0-anchoroffset_x-wheel_x_offset,
                                            scaled_height*2-wheel_y_offset-anchoroffset_y);
@@ -127,51 +119,43 @@
         wheel_origin_y = self.tankl1.position.y;
         
         self.tankl2 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,wheel_height)];
-        self.tankl2.anchorPoint = CGPointMake(0,0);
         [self addChild:self.tankl2];
         self.tankl2.position = CGPointMake(0-anchoroffset_x-wheel_x_offset,
                                            self.tankl1.position.y-wheel_height-wheel_diff);
         
         self.tankl3 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,wheel_height)];
-        self.tankl3.anchorPoint = CGPointMake(0,0);
         [self addChild:self.tankl3];
         self.tankl3.position = CGPointMake(0-anchoroffset_x-wheel_x_offset,
                                            self.tankl2.position.y-wheel_height-wheel_diff);
         
         self.tankl4 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,wheel_height)];
-        self.tankl4.anchorPoint = CGPointMake(0,0);
         [self addChild:self.tankl4];
         self.tankl4.position = CGPointMake(0-anchoroffset_x-wheel_x_offset,
                                            self.tankl3.position.y-wheel_height-wheel_diff);
         
         //==
-        wheel_x_offset = 1;
+        wheel_x_offset = 2;
         self.tankr1 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,wheel_height)];
-        self.tankr1.anchorPoint = CGPointMake(0,0);
         [self addChild:self.tankr1];
         self.tankr1.position = CGPointMake(scaled_width*3-wheel_width-wheel_x_offset-anchoroffset_x,
                                            scaled_height*2-wheel_y_offset-anchoroffset_y);
         
         self.tankr2 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,wheel_height)];
-        self.tankr2.anchorPoint = CGPointMake(0,0);
         [self addChild:self.tankr2];
         self.tankr2.position = CGPointMake(scaled_width*3-wheel_width-wheel_x_offset-anchoroffset_x,
                                            self.tankr1.position.y-wheel_height-wheel_diff);
         
         self.tankr3 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,wheel_height)];
-        self.tankr3.anchorPoint = CGPointMake(0,0);
         [self addChild:self.tankr3];
         self.tankr3.position = CGPointMake(scaled_width*3-wheel_width-wheel_x_offset-anchoroffset_x,
                                            self.tankr2.position.y-wheel_height-wheel_diff);
         
         self.tankr4 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,wheel_height)];
-        self.tankr4.anchorPoint = CGPointMake(0,0);
         [self addChild:self.tankr4];
         self.tankr4.position = CGPointMake(scaled_width*3-wheel_width-wheel_x_offset-anchoroffset_x,
                                            self.tankr3.position.y-wheel_height-wheel_diff);
         
         self.size = CGSizeMake(max_width, max_height);
-//        self.anchorPoint = CGPointMake(0,0);
         
         self.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:CGSizeMake(max_width, max_height)];
         
@@ -215,88 +199,96 @@
 }
 
 -(void) correctLeftWheels {
-    if (self.tankl1.position.y > self.tankl2.position.y &&
-        self.tankl2.position.y > self.tankl3.position.y &&
-        self.tankl3.position.y > self.tankl4.position.y) {
-        self.tankl2.position = CGPointMake(self.tankl2.position.x,
-                                           self.tankl1.position.y-wheel_height-wheel_diff);
-        self.tankl3.position = CGPointMake(self.tankl3.position.x,
-                                           self.tankl2.position.y-wheel_height-wheel_diff);
-        self.tankl4.position = CGPointMake(self.tankl4.position.x,
-                                           self.tankl3.position.y-wheel_height-wheel_diff);
+    SKSpriteNode *first = self.tankl1;
+    if (tankl2.position.y >= first.position.y) {
+        first = tankl2;
     }
-    else if (self.tankl2.position.y > self.tankl3.position.y &&
-             self.tankl3.position.y > self.tankl4.position.y &&
-             self.tankl4.position.y > self.tankl1.position.y) {
-        self.tankl3.position = CGPointMake(self.tankl3.position.x,
-                                           self.tankl2.position.y-wheel_height-wheel_diff);
-        self.tankl4.position = CGPointMake(self.tankl4.position.x,
-                                           self.tankl3.position.y-wheel_height-wheel_diff);
-        self.tankl1.position = CGPointMake(self.tankl1.position.x,
-                                           self.tankl4.position.y-wheel_height-wheel_diff);
+    if (tankl3.position.y >= first.position.y) {
+        first = tankl3;
     }
-    else if (self.tankl3.position.y > self.tankl4.position.y &&
-             self.tankl4.position.y > self.tankl1.position.y &&
-             self.tankl1.position.y > self.tankl2.position.y) {
-        self.tankl4.position = CGPointMake(self.tankl4.position.x,
-                                           self.tankl3.position.y-wheel_height-wheel_diff);
-        self.tankl1.position = CGPointMake(self.tankl1.position.x,
-                                           self.tankl4.position.y-wheel_height-wheel_diff);
-        self.tankl2.position = CGPointMake(self.tankl2.position.x,
-                                           self.tankl1.position.y-wheel_height-wheel_diff);
+    if (tankl4.position.y >= first.position.y) {
+        first = tankl4;
     }
-    else if (self.tankl4.position.y > self.tankl1.position.y &&
-             self.tankl1.position.y > self.tankl2.position.y &&
-             self.tankl2.position.y > self.tankl3.position.y) {
-        self.tankl1.position = CGPointMake(self.tankl1.position.x,
-                                           self.tankl4.position.y-wheel_height-wheel_diff);
-        self.tankl2.position = CGPointMake(self.tankl2.position.x,
-                                           self.tankl1.position.y-wheel_height-wheel_diff);
-        self.tankl3.position = CGPointMake(self.tankl3.position.x,
-                                           self.tankl2.position.y-wheel_height-wheel_diff);
+    
+    if (first == tankl1) {
+        self.tankl2.position = CGPointMake(first.position.x,
+                                           first.position.y-wheel_height-wheel_diff);
+        self.tankl3.position = CGPointMake(first.position.x,
+                                           tankl2.position.y-wheel_height-wheel_diff);
+        self.tankl4.position = CGPointMake(first.position.x,
+                                           tankl3.position.y-wheel_height-wheel_diff);
     }
+    else if (first == tankl2) {
+        self.tankl3.position = CGPointMake(first.position.x,
+                                           first.position.y-wheel_height-wheel_diff);
+        self.tankl4.position = CGPointMake(first.position.x,
+                                           tankl3.position.y-wheel_height-wheel_diff);
+        self.tankl1.position = CGPointMake(first.position.x,
+                                           tankl4.position.y-wheel_height-wheel_diff);
+    }
+    else if (first == tankl3) {
+        self.tankl4.position = CGPointMake(first.position.x,
+                                           first.position.y-wheel_height-wheel_diff);
+        self.tankl1.position = CGPointMake(first.position.x,
+                                           tankl4.position.y-wheel_height-wheel_diff);
+        self.tankl2.position = CGPointMake(first.position.x,
+                                           tankl1.position.y-wheel_height-wheel_diff);
+    }
+    else if (first == tankl4) {
+        self.tankl1.position = CGPointMake(first.position.x,
+                                           first.position.y-wheel_height-wheel_diff);
+        self.tankl2.position = CGPointMake(first.position.x,
+                                           tankl1.position.y-wheel_height-wheel_diff);
+        self.tankl3.position = CGPointMake(first.position.x,
+                                           tankl2.position.y-wheel_height-wheel_diff);
+    }
+
 }
 -(void) correctRightWheels {
-    if (self.tankr1.position.y > self.tankr2.position.y &&
-        self.tankr2.position.y > self.tankr3.position.y &&
-        self.tankr3.position.y > self.tankr4.position.y) {
-        self.tankr2.position = CGPointMake(self.tankr2.position.x,
-                                           self.tankr1.position.y-wheel_height-wheel_diff);
-        self.tankr3.position = CGPointMake(self.tankr3.position.x,
-                                           self.tankr2.position.y-wheel_height-wheel_diff);
-        self.tankr4.position = CGPointMake(self.tankr4.position.x,
-                                           self.tankr3.position.y-wheel_height-wheel_diff);
+    SKSpriteNode *first = self.tankr1;
+    if (tankr2.position.y >= first.position.y) {
+        first = tankr2;
     }
-    else if (self.tankr2.position.y > self.tankr3.position.y &&
-             self.tankr3.position.y > self.tankr4.position.y &&
-             self.tankr4.position.y > self.tankr1.position.y) {
-        self.tankr3.position = CGPointMake(self.tankr3.position.x,
-                                           self.tankr2.position.y-wheel_height-wheel_diff);
-        self.tankr4.position = CGPointMake(self.tankr4.position.x,
-                                           self.tankr3.position.y-wheel_height-wheel_diff);
-        self.tankr1.position = CGPointMake(self.tankr1.position.x,
-                                           self.tankr4.position.y-wheel_height-wheel_diff);
+    if (tankr3.position.y >= first.position.y) {
+        first = tankr3;
     }
-    else if (self.tankr3.position.y > self.tankr4.position.y &&
-             self.tankr4.position.y > self.tankr1.position.y &&
-             self.tankr1.position.y > self.tankr2.position.y) {
-        self.tankr4.position = CGPointMake(self.tankr4.position.x,
-                                           self.tankr3.position.y-wheel_height-wheel_diff);
-        self.tankr1.position = CGPointMake(self.tankr1.position.x,
-                                           self.tankr4.position.y-wheel_height-wheel_diff);
-        self.tankr2.position = CGPointMake(self.tankr2.position.x,
-                                           self.tankr1.position.y-wheel_height-wheel_diff);
+    if (tankr4.position.y >= first.position.y) {
+        first = tankr4;
     }
-    else if (self.tankr4.position.y > self.tankr1.position.y &&
-             self.tankr1.position.y > self.tankr2.position.y &&
-             self.tankr2.position.y > self.tankr3.position.y) {
-        self.tankr1.position = CGPointMake(self.tankr1.position.x,
-                                           self.tankr4.position.y-wheel_height-wheel_diff);
-        self.tankr2.position = CGPointMake(self.tankr2.position.x,
-                                           self.tankr1.position.y-wheel_height-wheel_diff);
-        self.tankr3.position = CGPointMake(self.tankr3.position.x,
-                                           self.tankr2.position.y-wheel_height-wheel_diff);
+    
+    if (first == tankr1) {
+        self.tankr2.position = CGPointMake(first.position.x,
+                                           first.position.y-wheel_height-wheel_diff);
+        self.tankr3.position = CGPointMake(first.position.x,
+                                           tankr2.position.y-wheel_height-wheel_diff);
+        self.tankr4.position = CGPointMake(first.position.x,
+                                           tankr3.position.y-wheel_height-wheel_diff);
     }
+    else if (first == tankr2) {
+        self.tankr3.position = CGPointMake(first.position.x,
+                                           first.position.y-wheel_height-wheel_diff);
+        self.tankr4.position = CGPointMake(first.position.x,
+                                           tankr3.position.y-wheel_height-wheel_diff);
+        self.tankr1.position = CGPointMake(first.position.x,
+                                           tankr4.position.y-wheel_height-wheel_diff);
+    }
+    else if (first == tankr3) {
+        self.tankr4.position = CGPointMake(first.position.x,
+                                           first.position.y-wheel_height-wheel_diff);
+        self.tankr1.position = CGPointMake(first.position.x,
+                                           tankr4.position.y-wheel_height-wheel_diff);
+        self.tankr2.position = CGPointMake(first.position.x,
+                                           tankr1.position.y-wheel_height-wheel_diff);
+    }
+    else if (first == tankr4) {
+        self.tankr1.position = CGPointMake(first.position.x,
+                                           first.position.y-wheel_height-wheel_diff);
+        self.tankr2.position = CGPointMake(first.position.x,
+                                           tankr1.position.y-wheel_height-wheel_diff);
+        self.tankr3.position = CGPointMake(first.position.x,
+                                           tankr2.position.y-wheel_height-wheel_diff);
+    }
+    
 }
 
 -(void)moveLeftWheelsForward {
@@ -538,8 +530,71 @@
     [self.tankr4 removeAllActions];
 }
 
--(void)explode {
+-(void)explodePart:(SKSpriteNode*)part XDiff:(CGFloat)x_diff YDiff:(CGFloat)y_diff
+       FlyDuration:(float)f_duration FadeoutDuration:(float)fo_duration
+       RotateDuration:(float)r_duration{
     
+    self.physicsBody = NULL;
+    
+    CGFloat cur_x = part.position.x;
+    CGFloat cur_y = part.position.y;
+    
+    SKAction *rotate = [SKAction rotateByAngle:360.0 duration:r_duration];
+    
+    SKAction *fadeout = [SKAction fadeOutWithDuration:fo_duration];
+    SKAction *m_hand_1_explode = [SKAction moveTo:CGPointMake(cur_x+x_diff, cur_y+y_diff) duration:f_duration];
+    
+    [part runAction:m_hand_1_explode];
+//    [part runAction:[SKAction repeatActionForever:rotate]];
+    [part runAction:rotate];
+    
+    SKAction *wait = [SKAction waitForDuration:f_duration-fo_duration];
+    SKAction* sequence=[SKAction sequence:@[wait,fadeout]];
+    [part runAction:sequence];
+}
+
+-(void)explode {
+    [self removeAllActions];
+    
+    float f_duration = 2.0;
+    float fo_duration = 0.5;
+    float r_duration = 100.0;
+    
+    //hands and eyes just randomly flies away
+    [self explodePart:tankA XDiff:0 YDiff:30 FlyDuration:f_duration FadeoutDuration:fo_duration
+       RotateDuration:r_duration];
+    
+    [self explodePart:tankB XDiff:20 YDiff:30 FlyDuration:f_duration FadeoutDuration:fo_duration
+       RotateDuration:r_duration];
+    [self explodePart:tankC XDiff:-20 YDiff:20 FlyDuration:f_duration FadeoutDuration:fo_duration
+       RotateDuration:r_duration];
+    [self explodePart:tankD XDiff:20 YDiff:30 FlyDuration:f_duration FadeoutDuration:fo_duration
+       RotateDuration:r_duration];
+    
+    [self explodePart:tankE XDiff:30 YDiff:20 FlyDuration:f_duration FadeoutDuration:fo_duration
+       RotateDuration:r_duration];
+    [self explodePart:tankF XDiff:10 YDiff:10 FlyDuration:f_duration FadeoutDuration:fo_duration
+       RotateDuration:r_duration];
+    [self explodePart:tankG XDiff:-30 YDiff:20 FlyDuration:f_duration FadeoutDuration:fo_duration
+       RotateDuration:r_duration];
+
+    [self explodePart:tankl1 XDiff:-5 YDiff:5 FlyDuration:f_duration FadeoutDuration:fo_duration
+       RotateDuration:r_duration];
+    [self explodePart:tankl2 XDiff:15 YDiff:15 FlyDuration:f_duration FadeoutDuration:fo_duration
+       RotateDuration:r_duration];
+    [self explodePart:tankl3 XDiff:5 YDiff:10 FlyDuration:f_duration FadeoutDuration:fo_duration
+       RotateDuration:r_duration];
+    [self explodePart:tankl4 XDiff:10 YDiff:5 FlyDuration:f_duration FadeoutDuration:fo_duration
+       RotateDuration:r_duration];
+
+    [self explodePart:tankr1 XDiff:5 YDiff:10 FlyDuration:f_duration FadeoutDuration:fo_duration
+       RotateDuration:r_duration];
+    [self explodePart:tankr2 XDiff:20 YDiff:5 FlyDuration:f_duration FadeoutDuration:fo_duration
+       RotateDuration:r_duration];
+    [self explodePart:tankr3 XDiff:-10 YDiff:10 FlyDuration:f_duration FadeoutDuration:fo_duration
+       RotateDuration:r_duration];
+    [self explodePart:tankr4 XDiff:10 YDiff:5 FlyDuration:f_duration FadeoutDuration:fo_duration
+       RotateDuration:r_duration];
 }
 
 -(void)toggleFiring {

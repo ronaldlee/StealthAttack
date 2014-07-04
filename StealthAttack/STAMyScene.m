@@ -116,7 +116,7 @@
         [self addChild:self.player];
         
         //==enemy
-        self.enemy = [[STATank alloc] initWithScale:scale];
+        self.enemy = [[STAEnemyTank alloc] initWithScale:scale];
         
         stage_start_x = ([[UIScreen mainScreen] bounds].size.width-PLAYER_WIDTH)/2 +
         [self.player getAnchorOffsetX];
@@ -244,7 +244,7 @@
 //                    bullet.position = CGPointMake(location.x,location.y+self.player.size.height/2);
                     bullet.position = CGPointMake(x,y);
                     
-                    NSLog(@"x: %f, y: %f", x,y);
+//                    NSLog(@"x: %f, y: %f", x,y);
                     
                     bullet.zRotation = [self.player getAdjRotation];
                     
@@ -326,6 +326,10 @@
             NSLog(@"hit wall");
             [player stopMovement];
         }
+        else if ((contact.bodyB.categoryBitMask & MISSLE_CATEGORY) != 0) {
+            NSLog(@"hit missle");
+            [player explode];
+        }
     }
     else if ((contact.bodyA.categoryBitMask & ENEMY_CATEGORY) != 0) {
         STAEnemyTank* enemyBody = (STAEnemyTank*)contact.bodyA.node;
@@ -340,11 +344,11 @@
     else if ((contact.bodyA.categoryBitMask & MISSLE_CATEGORY) != 0) {
         //STABullet* missileBody = (STABullet*)contact.bodyA.node;
         
-        if ((contact.bodyB.categoryBitMask & ENEMY_CATEGORY) != 0) {
-            STAEnemyTank* enemyBody = (STAEnemyTank*)contact.bodyB.node;
+        if ((contact.bodyB.categoryBitMask & PLAYER_CATEGORY) != 0) {
+            STATank* playerBody = (STATank*)contact.bodyB.node;
             
-            NSLog(@"missle hit monster");
-            [enemyBody explode];
+            NSLog(@"missle hit player");
+            [playerBody explode];
         }
     }
     else if ((contact.bodyA.categoryBitMask & WALL_CATEGORY) != 0) {
@@ -356,13 +360,14 @@
             [player stopMovement];
         }
     }
+    
 }
 
 - (void) createSceneContents
 {
     self.scaleMode = SKSceneScaleModeAspectFit;
-    self.physicsBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:self.frame];
-    self.physicsBody.friction = 0.0f;
+//    self.physicsBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:self.frame];
+//    self.physicsBody.friction = 0.0f;
 }
 
 
