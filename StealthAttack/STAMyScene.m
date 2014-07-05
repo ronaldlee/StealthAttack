@@ -320,7 +320,7 @@
             STAEnemyTank *enemy = (STAEnemyTank*)contact.bodyB.node;
             
             NSLog(@"contact!: player and monster");
-            [player contactWith:enemy];
+//            [player contactWith:enemy];
         }
         else if ((contact.bodyB.categoryBitMask & WALL_CATEGORY) != 0) {
             NSLog(@"hit wall");

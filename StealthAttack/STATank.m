@@ -168,11 +168,10 @@
         self.physicsBody.collisionBitMask = WALL_CATEGORY | PLAYER_CATEGORY | ENEMY_CATEGORY;
         self.physicsBody.restitution = -1.0f;
         
-//        self.physicsBody.friction = 0;
-//        self.physicsBody.linearDamping = 0;
-//        self.physicsBody.angularDamping = 0;
-        
-//        self.physicsBody.collisionBitMask = 0;
+        //need these so the tank won't slow down when moving
+        self.physicsBody.friction = 0;
+        self.physicsBody.linearDamping = 0;
+        self.physicsBody.angularDamping = 0;
         
         NSLog(@"tb.top.y: %f, y: %f", self.tankB.position.y+self.tankB.size.height, self.tankB.position.y);
         NSLog(@"start tl1.y: %f, l2: %f, l3: %f",self.tankl1.position.y,self.tankl2.position.y,self.tankl3.position.y);
@@ -640,7 +639,7 @@
     STAEnemyTank* enemy = (STAEnemyTank*)gameObj;
     
     //monster explode
-    [enemy explode];
+//    [enemy explode];
 }
 
 -(void)stopMovement {
