@@ -120,7 +120,7 @@
         
         stage_start_x = ([[UIScreen mainScreen] bounds].size.width-PLAYER_WIDTH)/2 +
         [self.player getAnchorOffsetX];
-        stage_start_y = player_bottom_border_y+20+50;
+        stage_start_y = player_bottom_border_y+20+200;
         
         self.enemy.position = CGPointMake(stage_start_x,stage_start_y);
         

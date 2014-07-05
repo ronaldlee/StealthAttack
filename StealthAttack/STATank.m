@@ -18,6 +18,7 @@
     CGFloat anchoroffset_x;
     CGFloat anchoroffset_y;
     CGFloat wheel_origin_y;
+    CGFloat wheel_bottom_y;
     
     CGFloat scaled_width;
     CGFloat scaled_height;
@@ -132,6 +133,8 @@
         [self addChild:self.tankl4];
         self.tankl4.position = CGPointMake(0-anchoroffset_x-wheel_x_offset,
                                            self.tankl3.position.y-wheel_height-wheel_diff);
+        
+        wheel_bottom_y = tankl4.position.y-wheel_height-wheel_diff;
         
         //==
         wheel_x_offset = 2;
@@ -292,28 +295,31 @@
 }
 
 -(void)moveLeftWheelsForward {
-//    NSLog(@"tl1.y: %f, l2: %f, l3: %f, l4: %f",
+//    NSLog(@"forward tl1.y: %f, l2: %f, l3: %f, l4: %f",
 //          self.tankl1.position.y,self.tankl2.position.y,self.tankl3.position.y,self.tankl4.position.y);
     
     [self correctLeftWheels];
     
     CGFloat speed = 1;
-    CGFloat base_y = -anchoroffset_y-wheel_height-1;
     CGFloat tank_body_height = scaled_height*3-wheel_height;
     
     //left
-    CGPoint base_location = CGPointMake(self.tankl1.position.x,base_y);
+    CGPoint base_location = CGPointMake(self.tankl1.position.x,wheel_bottom_y);
     CGPoint start_location = CGPointMake(self.tankl1.position.x,wheel_origin_y);
     
-    CGFloat duration_l1 = fabsf(base_y-self.tankl1.position.y)/tank_body_height*speed;
-    CGFloat duration_l2 = fabsf(base_y-self.tankl2.position.y)/tank_body_height*speed;
-    CGFloat duration_l3 = fabsf(base_y-self.tankl3.position.y)/tank_body_height*speed;
-    CGFloat duration_l4 = fabsf(base_y-self.tankl4.position.y)/tank_body_height*speed;
+    CGFloat duration_l1 = fabsf(wheel_bottom_y-self.tankl1.position.y)/tank_body_height*speed;
+    CGFloat duration_l2 = fabsf(wheel_bottom_y-self.tankl2.position.y)/tank_body_height*speed;
+    CGFloat duration_l3 = fabsf(wheel_bottom_y-self.tankl3.position.y)/tank_body_height*speed;
+    CGFloat duration_l4 = fabsf(wheel_bottom_y-self.tankl4.position.y)/tank_body_height*speed;
     
     SKAction *rotationl1 = [SKAction moveTo:base_location duration:duration_l1];
     SKAction *rotationl2 = [SKAction moveTo:base_location duration:duration_l2];
     SKAction *rotationl3 = [SKAction moveTo:base_location duration:duration_l3];
     SKAction *rotationl4 = [SKAction moveTo:base_location duration:duration_l4];
+    
+//    SKAction *correct = [SKAction runBlock:^(void) {
+//        [self correctLeftWheels];
+//    }];
     
     //move back to top
     SKAction *rotation2 = [SKAction moveTo:start_location duration:0];
@@ -337,21 +343,24 @@
     [self correctRightWheels];
     
     CGFloat speed = 1;
-    CGFloat base_y = -anchoroffset_y-wheel_height-1;
     CGFloat tank_body_height = scaled_height*3-wheel_height;
     //right
-    CGPoint location = CGPointMake(self.tankr1.position.x,base_y);
+    CGPoint location = CGPointMake(self.tankr1.position.x,wheel_bottom_y);
     CGPoint location2 = CGPointMake(self.tankr1.position.x,wheel_origin_y);
     
-    CGFloat duration_r1 = fabsf(base_y-self.tankr1.position.y)/tank_body_height*speed;
-    CGFloat duration_r2 = fabsf(base_y-self.tankr2.position.y)/tank_body_height*speed;
-    CGFloat duration_r3 = fabsf(base_y-self.tankr3.position.y)/tank_body_height*speed;
-    CGFloat duration_r4 = fabsf(base_y-self.tankr4.position.y)/tank_body_height*speed;
+    CGFloat duration_r1 = fabsf(wheel_bottom_y-self.tankr1.position.y)/tank_body_height*speed;
+    CGFloat duration_r2 = fabsf(wheel_bottom_y-self.tankr2.position.y)/tank_body_height*speed;
+    CGFloat duration_r3 = fabsf(wheel_bottom_y-self.tankr3.position.y)/tank_body_height*speed;
+    CGFloat duration_r4 = fabsf(wheel_bottom_y-self.tankr4.position.y)/tank_body_height*speed;
     
     SKAction *rotationr1 = [SKAction moveTo:location duration:duration_r1];
     SKAction *rotationr2 = [SKAction moveTo:location duration:duration_r2];
     SKAction *rotationr3 = [SKAction moveTo:location duration:duration_r3];
     SKAction *rotationr4 = [SKAction moveTo:location duration:duration_r4];
+    
+//    SKAction *correct = [SKAction runBlock:^(void) {
+//        [self correctRightWheels];
+//    }];
     
     //move back to top
     SKAction *rotation2 = [SKAction moveTo:location2 duration:0];
@@ -373,20 +382,24 @@
 
 
 -(void)moveLeftWheelsBackward {
+//    NSLog(@"backward: tl1.y: %f, l2: %f, l3: %f, l4: %f",
+//          self.tankl1.position.y,self.tankl2.position.y,self.tankl3.position.y,self.tankl4.position.y);
+    
     [self correctLeftWheels];
     
     CGFloat speed = 1;
-    CGFloat base_y = -anchoroffset_y-wheel_height-1;
     CGFloat tank_body_height = scaled_height*3-wheel_height;
+    
+//    NSLog(@"bw base_y: %f: tank_body_height: %f: wheel_origin_y: %f",base_y, tank_body_height, wheel_origin_y);
     
     //left
     CGPoint location = CGPointMake(self.tankl1.position.x,wheel_origin_y);
-    CGPoint location2 = CGPointMake(self.tankl1.position.x,base_y);
+    CGPoint location2 = CGPointMake(self.tankl1.position.x,wheel_bottom_y);
     
-    CGFloat duration_l1 = (tank_body_height-fabsf(base_y-self.tankl1.position.y))/tank_body_height*speed;
-    CGFloat duration_l2 = (tank_body_height-fabsf(base_y-self.tankl2.position.y))/tank_body_height*speed;
-    CGFloat duration_l3 = (tank_body_height-fabsf(base_y-self.tankl3.position.y))/tank_body_height*speed;
-    CGFloat duration_l4 = (tank_body_height-fabsf(base_y-self.tankl4.position.y))/tank_body_height*speed;
+    CGFloat duration_l1 = (tank_body_height-fabsf(wheel_bottom_y-self.tankl1.position.y))/tank_body_height*speed;
+    CGFloat duration_l2 = (tank_body_height-fabsf(wheel_bottom_y-self.tankl2.position.y))/tank_body_height*speed;
+    CGFloat duration_l3 = (tank_body_height-fabsf(wheel_bottom_y-self.tankl3.position.y))/tank_body_height*speed;
+    CGFloat duration_l4 = (tank_body_height-fabsf(wheel_bottom_y-self.tankl4.position.y))/tank_body_height*speed;
     
     SKAction *rotationl1 = [SKAction moveTo:location duration:duration_l1];
     SKAction *rotationl2 = [SKAction moveTo:location duration:duration_l2];
@@ -416,16 +429,15 @@
     [self correctRightWheels];
     
     CGFloat speed = 1;
-    CGFloat base_y = -anchoroffset_y-wheel_height-1;
     CGFloat tank_body_height = scaled_height*3-wheel_height;
     //right
     CGPoint location = CGPointMake(self.tankr1.position.x,wheel_origin_y);
-    CGPoint location2 = CGPointMake(self.tankr1.position.x,base_y);
+    CGPoint location2 = CGPointMake(self.tankr1.position.x,wheel_bottom_y);
     
-    CGFloat duration_r1 = (tank_body_height-fabsf(base_y-self.tankr1.position.y))/tank_body_height*speed;
-    CGFloat duration_r2 = (tank_body_height-fabsf(base_y-self.tankr2.position.y))/tank_body_height*speed;
-    CGFloat duration_r3 = (tank_body_height-fabsf(base_y-self.tankr3.position.y))/tank_body_height*speed;
-    CGFloat duration_r4 = (tank_body_height-fabsf(base_y-self.tankr4.position.y))/tank_body_height*speed;
+    CGFloat duration_r1 = (tank_body_height-fabsf(wheel_bottom_y-self.tankr1.position.y))/tank_body_height*speed;
+    CGFloat duration_r2 = (tank_body_height-fabsf(wheel_bottom_y-self.tankr2.position.y))/tank_body_height*speed;
+    CGFloat duration_r3 = (tank_body_height-fabsf(wheel_bottom_y-self.tankr3.position.y))/tank_body_height*speed;
+    CGFloat duration_r4 = (tank_body_height-fabsf(wheel_bottom_y-self.tankr4.position.y))/tank_body_height*speed;
     
     SKAction *rotationr1 = [SKAction moveTo:location duration:duration_r1];
     SKAction *rotationr2 = [SKAction moveTo:location duration:duration_r2];
