@@ -21,5 +21,8 @@
 #import "STAEnemyTank.h"
 #import "STABullet.h"
 #import "STAButton.h"
+#import "STAStageObject.h"
+#import "STAStage.h"
+#import "STAMainMenu.h"
 
 #endif

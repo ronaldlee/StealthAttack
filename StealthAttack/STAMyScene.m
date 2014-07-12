@@ -19,6 +19,10 @@
 @property (nonatomic) STATank * player;
 @property (nonatomic) STATank * enemy;
 
+@property (nonatomic) STAMainMenu * mainMenu;
+
+@property (nonatomic) STAStage * currStage;
+
 @end
 
 @implementation STAMyScene
@@ -28,6 +32,8 @@
 @synthesize rotate_uc_button;
 @synthesize forward_button;
 @synthesize backward_button;
+@synthesize mainMenu;
+@synthesize currStage;
 
 //-(void) didMoveToView:(SKView *)view {
 //    longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
@@ -59,7 +65,7 @@
         [self setupStageBorders];
 
         
-        
+        /*
         //===
         CGSize button_size = CGSizeMake(50,50);
         
@@ -127,6 +133,22 @@
         [self.enemy setBorderBounds:bounds];
         
         [self addChild:self.enemy];
+         */
+        
+        mainMenu = [[STAMainMenu alloc ]initWithScale:scale Bounds:CGRectMake(0,0,0,0) Scene:self];
+        
+        for(NSString *fontfamilyname in [UIFont familyNames])
+        {
+            NSLog(@"Family:'%@'",fontfamilyname);
+            for(NSString *fontName in [UIFont fontNamesForFamilyName:fontfamilyname])
+            {
+                NSLog(@"\tfont:'%@'",fontName);
+            }
+            NSLog(@"~~~~~~~~");
+        }
+        
+        
+        currStage = mainMenu;
         
     }
     return self;
@@ -210,6 +232,11 @@
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     /* Called when a touch begins */
     
+    if (currStage != nil) {
+        [currStage touchesBegan:touches withEvent:event];
+    }
+    
+    /*
     for (UITouch *touch in touches) {
         CGPoint location = [touch locationInNode:self];
         SKNode *node = [self nodeAtPoint:location];
@@ -277,6 +304,7 @@
         }
         
     }
+    */
 }
 
 -(void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
