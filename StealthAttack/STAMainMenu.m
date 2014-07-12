@@ -16,7 +16,6 @@
 
 @synthesize title1;
 @synthesize title2;
-@synthesize scale;
 
 @synthesize singlePlayer;
 
@@ -38,6 +37,7 @@
         title1.text = title1Str;
         title1.fontSize = 28;
         title1.fontColor = [SKColor whiteColor];
+        title1.alpha = 0;
         
         CGFloat title_x = ([[UIScreen mainScreen] bounds].size.width)/2;
         CGFloat title_y = [[UIScreen mainScreen] bounds].size.height - 100;
@@ -46,6 +46,9 @@
         
         [self.scene addChild:title1];
         
+        SKAction * fadein = [SKAction fadeInWithDuration:0.5];
+        [title1 runAction:fadein];
+        
         //
         title2 = [SKLabelNode labelNodeWithFontNamed:titleFont];
         
@@ -53,12 +56,15 @@
         title2.text = title2Str;
         title2.fontSize = 28;
         title2.fontColor = [SKColor whiteColor];
+        title2.alpha = 0;
         
         title_y = title_y - 50;
         
         title2.position = CGPointMake(title_x,title_y);
         
         [self.scene addChild:title2];
+        
+        [title2 runAction:fadein];
         
         //
         NSString * playFont = @"Press Start 2P";
@@ -109,7 +115,7 @@
             [myScene.currStage cleanup];
             
             myScene.currStage = [[STASinglePlayerSelectOpponent alloc ]
-                                 initWithScale:scale Bounds:CGRectMake(0,0,0,0) Scene:self.scene];
+                                 initWithScale:self.scale Bounds:CGRectMake(0,0,0,0) Scene:self.scene];
         }
     }
 }
