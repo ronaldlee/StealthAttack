@@ -19,10 +19,6 @@
 @property (nonatomic) STATank * player;
 @property (nonatomic) STATank * enemy;
 
-@property (nonatomic) STAMainMenu * mainMenu;
-
-@property (nonatomic) STAStage * currStage;
-
 @end
 
 @implementation STAMyScene
@@ -32,7 +28,6 @@
 @synthesize rotate_uc_button;
 @synthesize forward_button;
 @synthesize backward_button;
-@synthesize mainMenu;
 @synthesize currStage;
 
 //-(void) didMoveToView:(SKView *)view {
@@ -135,7 +130,7 @@
         [self addChild:self.enemy];
          */
         
-        mainMenu = [[STAMainMenu alloc ]initWithScale:scale Bounds:CGRectMake(0,0,0,0) Scene:self];
+        currStage = [[STAMainMenu alloc ]initWithScale:scale Bounds:CGRectMake(0,0,0,0) Scene:self];
         
         for(NSString *fontfamilyname in [UIFont familyNames])
         {
@@ -146,9 +141,6 @@
             }
             NSLog(@"~~~~~~~~");
         }
-        
-        
-        currStage = mainMenu;
         
     }
     return self;

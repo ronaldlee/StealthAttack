@@ -24,5 +24,7 @@
 #import "STAStageObject.h"
 #import "STAStage.h"
 #import "STAMainMenu.h"
+#import "STAMyScene.h"
+#import "STASinglePlayerSelectOpponent.h"
 
 #endif

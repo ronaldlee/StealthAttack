@@ -11,10 +11,11 @@
 @interface STAStage : NSObject<STAStageObject>
 
 @property (nonatomic) SKScene* scene;
-@property (nonatomic) STATank * playerTank;
-@property (nonatomic) STATank * enemyTank1;
-@property (nonatomic) STATank * enemyTank2;
-@property (nonatomic) STATank * enemyTank3;
+@property (nonatomic) float scale;
+//@property (nonatomic) STATank * playerTank;
+//@property (nonatomic) STATank * enemyTank1;
+//@property (nonatomic) STATank * enemyTank2;
+//@property (nonatomic) STATank * enemyTank3;
 
 - (id)initWithScale:(float)scale Bounds:(CGRect)bounds Scene:(SKScene*)scene;
 

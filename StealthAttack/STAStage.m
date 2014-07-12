@@ -11,11 +11,13 @@
 @implementation STAStage
 
 @synthesize scene;
+@synthesize scale;
 
-- (id)initWithScale:(float)scale Bounds:(CGRect)bounds Scene:(SKScene*)sk_scene {
+- (id)initWithScale:(float)sk_scale Bounds:(CGRect)bounds Scene:(SKScene*)sk_scene {
     self = [super init];
     
     if (self) {
+        scale = sk_scale;
         scene = sk_scene;
         
     }

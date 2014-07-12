@@ -7,25 +7,23 @@
 //
 
 #import "STAMainMenu.h"
-@interface STAMainMenu () {
-    
-}
-@end
+//@interface STAMainMenu () {
+//    
+//}
+//@end
 
 @implementation STAMainMenu
 
-
-@synthesize scene;
 @synthesize title1;
 @synthesize title2;
+@synthesize scale;
 
 @synthesize singlePlayer;
 
-- (id)initWithScale:(float)scale Bounds:(CGRect)bounds Scene:(SKScene*)sk_scene {
-    self = [super init];
+- (id)initWithScale:(float)sk_scale Bounds:(CGRect)bounds Scene:(SKScene*)sk_scene {
+    self = [super initWithScale:sk_scale Bounds:bounds Scene:sk_scene];
     
     if (self) {
-        scene = sk_scene;
         
         NSString * titleFont = @"GridExerciseGaps";
         //NSString * titleFont = @"Phaser Bank";
@@ -46,7 +44,7 @@
         
         title1.position = CGPointMake(title_x,title_y);
         
-        [scene addChild:title1];
+        [self.scene addChild:title1];
         
         //
         title2 = [SKLabelNode labelNodeWithFontNamed:titleFont];
@@ -60,7 +58,7 @@
         
         title2.position = CGPointMake(title_x,title_y);
         
-        [scene addChild:title2];
+        [self.scene addChild:title2];
         
         //
         NSString * playFont = @"Press Start 2P";
@@ -77,7 +75,7 @@
         
         singlePlayer.position = CGPointMake(title_x,title_y);
         
-        [scene addChild:singlePlayer];
+        [self.scene addChild:singlePlayer];
         
         SKAction * hideSinglePlayer = [SKAction runBlock:^(void) {
             singlePlayer.alpha = 0;
@@ -97,14 +95,31 @@
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     for (UITouch *touch in touches) {
-        CGPoint location = [touch locationInNode:scene];
-        SKNode *node = [scene nodeAtPoint:location];
+        CGPoint location = [touch locationInNode:self.scene];
+        SKNode *node = [self.scene nodeAtPoint:location];
         
         if ([node.name isEqualToString:@"single_player"]) {
             NSLog(@"single player!!");
+            
+            //go to single player menu: select opponents:
+            //beat the first 3 and unlock more
+            
+            STAMyScene* myScene = (STAMyScene*)self.scene;
+            
+            [myScene.currStage cleanup];
+            
+            myScene.currStage = [[STASinglePlayerSelectOpponent alloc ]
+                                 initWithScale:scale Bounds:CGRectMake(0,0,0,0) Scene:self.scene];
         }
     }
+}
 
+-(void)cleanup {
+    [title1 removeFromParent];
+    [title2 removeFromParent];
+    
+    [singlePlayer removeAllActions];
+    [singlePlayer removeFromParent];
 }
 
 @end

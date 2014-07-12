@@ -12,4 +12,6 @@
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;
 
+-(void)cleanup;
+
 @end

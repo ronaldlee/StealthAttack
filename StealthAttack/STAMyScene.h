@@ -17,4 +17,6 @@
 @property (nonatomic) STAButton * forward_button;
 @property (nonatomic) STAButton * backward_button;
 
+@property (nonatomic) STAStage * currStage;
+
 @end
