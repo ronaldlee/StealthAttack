@@ -15,13 +15,8 @@
     float bottom_border_y, top_border_y, left_border_x, right_border_x;
     BOOL isVisible;
     BOOL is_firing;
-    CGFloat anchoroffset_x;
-    CGFloat anchoroffset_y;
     CGFloat wheel_origin_y;
     CGFloat wheel_bottom_y;
-    
-    CGFloat scaled_width;
-    CGFloat scaled_height;
     
     CGFloat wheel_height;
     CGFloat wheel_diff;
@@ -32,7 +27,6 @@
     BOOL isRotatingCounterClockwise;
     
     CGFloat moveSpeed;
-    
 }
 @end
 
@@ -56,6 +50,12 @@
 @synthesize tankr3;
 @synthesize tankr4;
 
+@synthesize scaled_width;
+@synthesize scaled_height;
+
+@synthesize anchoroffset_x;
+@synthesize anchoroffset_y;
+
 
 - (id)initWithScale:(CGFloat)f_scale {
     self = [super init];
@@ -67,41 +67,15 @@
         scaled_width = PIXEL_WIDTHHEIGHT*scale; //6
         scaled_height = PIXEL_WIDTHHEIGHT*scale; //6
         
-        max_width = scaled_width*3;
-        max_height = scaled_height*3;
+        max_width = scaled_width*[self getWidthInPixels];
+        max_height = scaled_height*[self getHeightInPixels];
         
         anchoroffset_x = scaled_width; //max_width/2;
         anchoroffset_y = scaled_height; //max_height/2;
         
         NSLog(@"max width: %f, %f, ancx/y: %f, %f", max_width, max_height, anchoroffset_x,anchoroffset_y);
         
-        self.tankA = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
-        [self addChild:self.tankA];
-        self.tankA.position = CGPointMake(scaled_width-anchoroffset_x,scaled_height*2-anchoroffset_y);
-        
-        self.tankB = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
-        [self addChild:self.tankB];
-        self.tankB.position = CGPointMake(0-anchoroffset_x,scaled_height-anchoroffset_y);
-        
-        self.tankC = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
-        [self addChild:self.tankC];
-        self.tankC.position = CGPointMake(scaled_width-anchoroffset_x,scaled_height-anchoroffset_y);
-        
-        self.tankD = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
-        [self addChild:self.tankD];
-        self.tankD.position = CGPointMake(scaled_width*2-anchoroffset_x,scaled_height-anchoroffset_y);
-        
-        self.tankE = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
-        [self addChild:self.tankE];
-        self.tankE.position = CGPointMake(0-anchoroffset_x,0-anchoroffset_y);
-        
-        self.tankF = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
-        [self addChild:self.tankF];
-        self.tankF.position = CGPointMake(scaled_width-anchoroffset_x,0-anchoroffset_y);
-        
-        self.tankG = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
-        [self addChild:self.tankG];
-        self.tankG.position = CGPointMake(scaled_width*2-anchoroffset_x,0-anchoroffset_y);
+        [self buildTankBody];
         
         //wheels
         CGFloat wheel_x_offset = 1;
@@ -177,6 +151,43 @@
         NSLog(@"start tl1.y: %f, l2: %f, l3: %f",self.tankl1.position.y,self.tankl2.position.y,self.tankl3.position.y);
     }
     return self;
+}
+
+-(void) buildTankBody {
+    self.tankA = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
+    [self addChild:self.tankA];
+    self.tankA.position = CGPointMake(scaled_width-anchoroffset_x,scaled_height*2-anchoroffset_y);
+    
+    self.tankB = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
+    [self addChild:self.tankB];
+    self.tankB.position = CGPointMake(0-anchoroffset_x,scaled_height-anchoroffset_y);
+    
+    self.tankC = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
+    [self addChild:self.tankC];
+    self.tankC.position = CGPointMake(scaled_width-anchoroffset_x,scaled_height-anchoroffset_y);
+    
+    self.tankD = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
+    [self addChild:self.tankD];
+    self.tankD.position = CGPointMake(scaled_width*2-anchoroffset_x,scaled_height-anchoroffset_y);
+    
+    self.tankE = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
+    [self addChild:self.tankE];
+    self.tankE.position = CGPointMake(0-anchoroffset_x,0-anchoroffset_y);
+    
+    self.tankF = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
+    [self addChild:self.tankF];
+    self.tankF.position = CGPointMake(scaled_width-anchoroffset_x,0-anchoroffset_y);
+    
+    self.tankG = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
+    [self addChild:self.tankG];
+    self.tankG.position = CGPointMake(scaled_width*2-anchoroffset_x,0-anchoroffset_y);
+}
+
+-(int)getWidthInPixels {
+    return 3;
+}
+-(int)getHeightInPixels {
+    return 3;
 }
 
 -(CGFloat)getAdjRotation {

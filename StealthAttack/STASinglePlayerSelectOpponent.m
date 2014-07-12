@@ -11,7 +11,10 @@
 @implementation STASinglePlayerSelectOpponent
 
 @synthesize selectOppTitle;
+@synthesize backLabel;
+@synthesize startLabel;
 @synthesize backButton;
+@synthesize startButton;
 
 - (id)initWithScale:(float)sk_scale Bounds:(CGRect)bounds Scene:(SKScene*)sk_scene {
     self = [super initWithScale:sk_scale Bounds:bounds Scene:sk_scene];
@@ -40,29 +43,67 @@
         [selectOppTitle runAction:fadein];
         
         //
-        backButton = [SKLabelNode labelNodeWithFontNamed:font];
+        backLabel = [SKLabelNode labelNodeWithFontNamed:font];
         
         NSString *back = @"<<";
-        backButton.text = back;
-        backButton.fontSize = 8;
-        backButton.fontColor = [SKColor whiteColor];
-        backButton.name = @"back_button";
-        backButton.alpha = 0;
+        backLabel.text = back;
+        backLabel.fontSize = 8;
+        backLabel.fontColor = [SKColor whiteColor];
+        backLabel.name = @"back_button";
+        backLabel.alpha = 0;
         
         title_y = [[UIScreen mainScreen] bounds].size.height-50;
         
-        backButton.position = CGPointMake(20,title_y);
+        backLabel.position = CGPointMake(20,title_y);
         
+        [self.scene addChild:backLabel];
+        [backLabel runAction:fadein];
+        
+        CGFloat back_button_orig_x =backLabel.position.x;
+        
+        SKAction * backLabelMoveRight = [SKAction moveToX:back_button_orig_x+5 duration:0.5];
+        SKAction * backLabelMoveLeft = [SKAction moveToX:back_button_orig_x duration:0.2];
+        
+        [backLabel runAction:[SKAction repeatActionForever:[SKAction sequence:@[backLabelMoveRight,backLabelMoveLeft]]]];
+        
+        //
+        CGSize button_size = CGSizeMake(30,20);
+        
+        backButton = [[STAButton alloc] initWithSize:button_size Name:@"back_button"];
+        backButton.userInteractionEnabled = NO;
+        backButton.position = CGPointMake(back_button_orig_x-10,backLabel.position.y-5);
         [self.scene addChild:backButton];
-        [backButton runAction:fadein];
         
-        CGFloat back_button_orig_x =backButton.position.x;
+        //
+        startLabel = [SKLabelNode labelNodeWithFontNamed:font];
         
-        SKAction * backButtonMoveRight = [SKAction moveToX:back_button_orig_x+5 duration:0.5];
-        SKAction * backButtonMoveLeft = [SKAction moveToX:back_button_orig_x duration:0.2];
+        NSString *start = @">>";
+        startLabel.text = start;
+        startLabel.fontSize = 8;
+        startLabel.fontColor = [SKColor whiteColor];
+        startLabel.name = @"start_button";
+        startLabel.alpha = 0;
         
-        [backButton runAction:[SKAction repeatActionForever:[SKAction sequence:@[backButtonMoveRight,backButtonMoveLeft]]]];
+        title_x = [[UIScreen mainScreen] bounds].size.width-20;
         
+        startLabel.position = CGPointMake(title_x,title_y);
+        
+        [self.scene addChild:startLabel];
+        [startLabel runAction:fadein];
+        
+        CGFloat start_button_orig_x =startLabel.position.x;
+        
+        SKAction * startLabelMoveRight = [SKAction moveToX:start_button_orig_x-5 duration:0.5];
+        SKAction * startLabelMoveLeft = [SKAction moveToX:start_button_orig_x duration:0.2];
+        
+        [startLabel runAction:[SKAction repeatActionForever:[SKAction sequence:@[startLabelMoveRight,startLabelMoveLeft]]]];
+        
+        //
+        
+        startButton = [[STAButton alloc] initWithSize:button_size Name:@"start_button"];
+        startButton.userInteractionEnabled = NO;
+        startButton.position = CGPointMake(start_button_orig_x-15,startLabel.position.y-5);
+        [self.scene addChild:startButton];
     }
     
     return self;
@@ -90,7 +131,17 @@
             [myScene.currStage cleanup];
             
             myScene.currStage = [[STAMainMenu alloc ]
-                                 initWithScale:self.scale Bounds:CGRectMake(0,0,0,0) Scene:self.scene];
+                                 initWithScale:self.scale Bounds:self.bounds Scene:self.scene];
+        }
+        else if ([node.name isEqualToString:@"start_button"]) {
+            NSLog(@"start_button");
+            
+            STAMyScene* myScene = (STAMyScene*)self.scene;
+            
+            [myScene.currStage cleanup];
+            
+            myScene.currStage = [[STABattleStage alloc ]
+                                 initWithScale:self.scale Bounds:self.bounds Scene:self.scene];
         }
     }
 }
@@ -100,8 +151,17 @@
     [selectOppTitle removeAllActions];
     [selectOppTitle removeFromParent];
     
+    [backLabel removeAllActions];
+    [backLabel removeFromParent];
+    
+    [startLabel removeAllActions];
+    [startLabel removeFromParent];
+    
     [backButton removeAllActions];
     [backButton removeFromParent];
+    
+    [startButton removeAllActions];
+    [startButton removeFromParent];
     
 }
 

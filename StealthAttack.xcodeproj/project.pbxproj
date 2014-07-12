@@ -37,6 +37,7 @@
 		B4B12FF4197196BD005DBFF4 /* phaserbank.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B4B12FF3197196BD005DBFF4 /* phaserbank.ttf */; };
 		B4B12FF8197198A5005DBFF4 /* GRIDEG__.TTF in Resources */ = {isa = PBXBuildFile; fileRef = B4B12FF7197198A5005DBFF4 /* GRIDEG__.TTF */; };
 		B4B12FFB1971A3E7005DBFF4 /* STASinglePlayerSelectOpponent.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B12FFA1971A3E7005DBFF4 /* STASinglePlayerSelectOpponent.m */; };
+		B4B12FFF1971F73C005DBFF4 /* STABattleStage.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B12FFE1971F73C005DBFF4 /* STABattleStage.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +97,8 @@
 		B4B12FF7197198A5005DBFF4 /* GRIDEG__.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = GRIDEG__.TTF; sourceTree = "<group>"; };
 		B4B12FF91971A3E7005DBFF4 /* STASinglePlayerSelectOpponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STASinglePlayerSelectOpponent.h; sourceTree = "<group>"; };
 		B4B12FFA1971A3E7005DBFF4 /* STASinglePlayerSelectOpponent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STASinglePlayerSelectOpponent.m; sourceTree = "<group>"; };
+		B4B12FFD1971F73C005DBFF4 /* STABattleStage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STABattleStage.h; sourceTree = "<group>"; };
+		B4B12FFE1971F73C005DBFF4 /* STABattleStage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STABattleStage.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -227,6 +230,8 @@
 				B4B12FE719717A83005DBFF4 /* STAMainMenu.m */,
 				B4B12FF91971A3E7005DBFF4 /* STASinglePlayerSelectOpponent.h */,
 				B4B12FFA1971A3E7005DBFF4 /* STASinglePlayerSelectOpponent.m */,
+				B4B12FFD1971F73C005DBFF4 /* STABattleStage.h */,
+				B4B12FFE1971F73C005DBFF4 /* STABattleStage.m */,
 			);
 			name = stages;
 			sourceTree = "<group>";
@@ -335,6 +340,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B4B12FFF1971F73C005DBFF4 /* STABattleStage.m in Sources */,
 				B4B12FA1195F5A5A005DBFF4 /* main.m in Sources */,
 				B4B12FE819717A83005DBFF4 /* STAMainMenu.m in Sources */,
 				B4B12FA5195F5A5A005DBFF4 /* STAAppDelegate.m in Sources */,

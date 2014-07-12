@@ -12,6 +12,9 @@
 
 @property (nonatomic) SKScene* scene;
 @property (nonatomic) float scale;
+@property (nonatomic) CGRect bounds;
+
+
 //@property (nonatomic) STATank * playerTank;
 //@property (nonatomic) STATank * enemyTank1;
 //@property (nonatomic) STATank * enemyTank2;

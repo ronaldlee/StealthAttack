@@ -10,6 +10,13 @@
 
 @interface STATank : SKSpriteNode<STAGameObject>
 
+
+@property (nonatomic) CGFloat scaled_width;
+@property (nonatomic) CGFloat scaled_height;
+
+@property (nonatomic) CGFloat anchoroffset_x;
+@property (nonatomic) CGFloat anchoroffset_y;
+
 @property (nonatomic) SKSpriteNode * tankA;
 @property (nonatomic) SKSpriteNode * tankB;
 @property (nonatomic) SKSpriteNode * tankC;
@@ -47,4 +54,10 @@
 -(void)stopMovement;
 
 -(CGFloat)getAdjRotation;
+
+-(int)getWidthInPixels;
+-(int)getHeightInPixels;
+
+-(void)buildTankBody;
+
 @end

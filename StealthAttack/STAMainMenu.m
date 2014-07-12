@@ -115,7 +115,7 @@
             [myScene.currStage cleanup];
             
             myScene.currStage = [[STASinglePlayerSelectOpponent alloc ]
-                                 initWithScale:self.scale Bounds:CGRectMake(0,0,0,0) Scene:self.scene];
+                                 initWithScale:self.scale Bounds:self.bounds Scene:self.scene];
         }
     }
 }

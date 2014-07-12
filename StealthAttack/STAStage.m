@@ -12,13 +12,15 @@
 
 @synthesize scene;
 @synthesize scale;
+@synthesize bounds;
 
-- (id)initWithScale:(float)sk_scale Bounds:(CGRect)bounds Scene:(SKScene*)sk_scene {
+- (id)initWithScale:(float)sk_scale Bounds:(CGRect)sk_bounds Scene:(SKScene*)sk_scene {
     self = [super init];
     
     if (self) {
         scale = sk_scale;
         scene = sk_scene;
+        bounds = sk_bounds;
         
     }
     

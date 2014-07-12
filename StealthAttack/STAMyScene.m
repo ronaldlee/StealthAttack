@@ -130,7 +130,11 @@
         [self addChild:self.enemy];
          */
         
-        currStage = [[STAMainMenu alloc ]initWithScale:scale Bounds:CGRectMake(0,0,0,0) Scene:self];
+        currStage = [[STAMainMenu alloc ]initWithScale:scale
+                                                Bounds:CGRectMake(left_corner_x,bottom_corner_y,
+                                                                  right_corner_x-left_corner_x,
+                                                                  top_corner_y-bottom_corner_y)
+                                                Scene:self];
         
         for(NSString *fontfamilyname in [UIFont familyNames])
         {

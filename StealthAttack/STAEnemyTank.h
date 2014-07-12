@@ -10,4 +10,7 @@
 
 @interface STAEnemyTank : STATank
 
+@property (nonatomic) SKSpriteNode * tankH;
+@property (nonatomic) SKSpriteNode * tankI;
+
 @end

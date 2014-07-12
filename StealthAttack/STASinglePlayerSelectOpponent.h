@@ -11,7 +11,12 @@
 @interface STASinglePlayerSelectOpponent : STAStage
 
 @property (nonatomic) SKLabelNode * selectOppTitle;
-@property (nonatomic) SKLabelNode * backButton;
+@property (nonatomic) SKLabelNode * backLabel;
+@property (nonatomic) SKLabelNode * startLabel;
+
+
+@property (nonatomic) STAButton * backButton;
+@property (nonatomic) STAButton * startButton;
 
 @property (nonatomic) STATank * playerTank;
 @property (nonatomic) STATank * enemyTank1;
