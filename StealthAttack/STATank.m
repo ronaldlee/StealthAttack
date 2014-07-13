@@ -108,7 +108,11 @@
         self.tankl4.position = CGPointMake(0-anchoroffset_x-wheel_x_offset,
                                            self.tankl3.position.y-wheel_height-wheel_diff);
         
-        wheel_bottom_y = tankl4.position.y-wheel_height-wheel_diff;
+        wheel_bottom_y = self.tankl4.position.y-wheel_height-wheel_diff;
+        
+//        NSLog(@"after l4 tl1.y: %f, l2: %f, l3: %f, l4: %f",self.tankl1.position.y,self.tankl2.position.y,self.tankl3.position.y,self.tankl4.position.y);
+//        NSLog(@"start bottom y: %f, tl4.y: %f, wheel_height: %f, wheel_diff: %f",
+//              wheel_bottom_y,self.tankl4.position.y,wheel_height,wheel_diff);
         
         //==
         wheel_x_offset = 2;
@@ -148,7 +152,8 @@
         self.physicsBody.angularDamping = 0;
         
         NSLog(@"tb.top.y: %f, y: %f", self.tankB.position.y+self.tankB.size.height, self.tankB.position.y);
-        NSLog(@"start tl1.y: %f, l2: %f, l3: %f",self.tankl1.position.y,self.tankl2.position.y,self.tankl3.position.y);
+        NSLog(@"start tl1.y: %f, l2: %f, l3: %f, l4: %f",self.tankl1.position.y,self.tankl2.position.y,self.tankl3.position.y,self.tankl4.position.y);
+        NSLog(@"start wheel origin y: %f, bottom y: %f",wheel_origin_y,wheel_bottom_y);
     }
     return self;
 }
@@ -312,6 +317,9 @@
     
     CGFloat speed = 1;
     CGFloat tank_body_height = scaled_height*3-wheel_height;
+    
+    NSLog(@"forward wheel_origin_y: %f, bottom_y: %f, tank_body_height: %f",
+          wheel_origin_y,wheel_bottom_y,tank_body_height);
     
     //left
     CGPoint base_location = CGPointMake(self.tankl1.position.x,wheel_bottom_y);
