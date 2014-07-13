@@ -305,8 +305,8 @@
 }
 
 -(void)moveLeftWheelsForward {
-//    NSLog(@"forward tl1.y: %f, l2: %f, l3: %f, l4: %f",
-//          self.tankl1.position.y,self.tankl2.position.y,self.tankl3.position.y,self.tankl4.position.y);
+    NSLog(@"forward tl1.y: %f, l2: %f, l3: %f, l4: %f",
+          self.tankl1.position.y,self.tankl2.position.y,self.tankl3.position.y,self.tankl4.position.y);
     
     [self correctLeftWheels];
     

@@ -305,6 +305,9 @@
 }
 
 -(void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    if (currStage != nil) {
+        [currStage touchesEnded:touches withEvent:event];
+    }
     
 //    [self.player stop];
     
