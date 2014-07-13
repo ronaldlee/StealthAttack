@@ -20,6 +20,8 @@
     self = [super initWithScale:sk_scale Bounds:bounds Scene:sk_scene];
     
     if (self) {
+        STAMyScene* myScene = (STAMyScene*)self.scene;
+        [myScene.currStage cleanup];
         
         CGFloat title_x = ([[UIScreen mainScreen] bounds].size.width)/2;
         
@@ -49,7 +51,7 @@
         backLabel.text = back;
         backLabel.fontSize = 8;
         backLabel.fontColor = [SKColor whiteColor];
-        backLabel.name = @"back_button";
+        backLabel.name = @"back_label";
         backLabel.alpha = 0;
         
         title_y = [[UIScreen mainScreen] bounds].size.height-50;
@@ -81,7 +83,7 @@
         startLabel.text = start;
         startLabel.fontSize = 8;
         startLabel.fontColor = [SKColor whiteColor];
-        startLabel.name = @"start_button";
+        startLabel.name = @"start_label";
         startLabel.alpha = 0;
         
         title_x = [[UIScreen mainScreen] bounds].size.width-20;
@@ -110,6 +112,7 @@
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    NSLog(@"touch single play");
     for (UITouch *touch in touches) {
         CGPoint location = [touch locationInNode:self.scene];
         SKNode *node = [self.scene nodeAtPoint:location];
@@ -137,30 +140,28 @@
             NSLog(@"start_button");
             
             STAMyScene* myScene = (STAMyScene*)self.scene;
-            
-            [myScene.currStage cleanup];
-            
-            myScene.currStage = [[STABattleStage alloc ]
-                                 initWithScale:self.scale Bounds:self.bounds Scene:self.scene];
+            myScene.currStage = [[STABattleStage alloc ] initWithScale:self.scale Bounds:self.bounds Scene:self.scene];
         }
     }
 }
 
+-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    
+}
+
 -(void)cleanup {
     
-    [selectOppTitle removeAllActions];
-    [selectOppTitle removeFromParent];
-    
-    [backLabel removeAllActions];
-    [backLabel removeFromParent];
-    
-    [startLabel removeAllActions];
-    [startLabel removeFromParent];
-    
-    [backButton removeAllActions];
-    [backButton removeFromParent];
-    
+//    [selectOppTitle removeAllActions];
+//    [backLabel removeAllActions];
+//    [startLabel removeAllActions];
+//    [backButton removeAllActions];
     [startButton removeAllActions];
+    
+//    self.scene removeChildrenInArray:<#(NSArray *)#>
+//    [selectOppTitle removeFromParent];
+//    [backLabel removeFromParent];
+//    [startLabel removeFromParent];
+//    [backButton removeFromParent];
     [startButton removeFromParent];
     
 }

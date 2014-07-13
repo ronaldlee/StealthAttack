@@ -22,6 +22,8 @@
     self = [super initWithScale:sk_scale Bounds:bounds Scene:sk_scene];
     
     if (self) {
+        STAMyScene* myScene = (STAMyScene*)self.scene;
+        [myScene.currStage cleanup];
         
         CGSize button_size = CGSizeMake(50,50);
         
@@ -34,7 +36,7 @@
         fire_button.userInteractionEnabled = NO;
         fire_button.position = CGPointMake(left_corner_x, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
         [self.scene addChild:fire_button];
-        
+
         button_size = CGSizeMake(50,50);
         rotate_uc_button = [[STAButton alloc] initWithSize:button_size Name:@"rotate_uc_button"];
         rotate_uc_button.userInteractionEnabled = NO;
@@ -58,51 +60,51 @@
         backward_button.userInteractionEnabled = NO;
         backward_button.position = CGPointMake(left_corner_x+250, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
         [self.scene addChild:backward_button];
-        
-        //==
-        self.player = [[STAEnemyTank alloc] initWithScale:self.scale];
-        
-        CGFloat player_bottom_border_y = bottom_corner_y + [self.player getAnchorOffsetY]+PIXEL_WIDTHHEIGHT+1;//+PIXEL_WIDTHHEIGHT+1;
-        CGFloat player_top_border_y = top_corner_y-PIXEL_WIDTHHEIGHT*2*self.scale-3;
-        CGFloat player_left_border_x = left_corner_x+3;
-        CGFloat player_right_border_x = right_corner_x-11;
-        
-        CGRect bounds = CGRectMake(player_left_border_x, player_bottom_border_y,
-                                   player_right_border_x-player_left_border_x,
-                                   player_top_border_y-player_bottom_border_y);
-        
-        
-        CGFloat stage_start_x = ([[UIScreen mainScreen] bounds].size.width-PLAYER_WIDTH)/2 +
-        [self.player getAnchorOffsetX];
-        CGFloat stage_start_y = player_bottom_border_y+20;
-        
-        self.player.position = CGPointMake(stage_start_x,stage_start_y);
-        
-        [self.player setBorderBounds:bounds];
-        
-        [self.scene addChild:self.player];
-        
-        //==enemy
-        self.enemy = [[STAEnemyTank alloc] initWithScale:self.scale];
-        
-        stage_start_x = ([[UIScreen mainScreen] bounds].size.width-PLAYER_WIDTH)/2 +
-        [self.player getAnchorOffsetX];
-        stage_start_y = player_bottom_border_y+20+200;
-        
-        self.enemy.position = CGPointMake(stage_start_x,stage_start_y);
-        
-        [self.enemy setBorderBounds:bounds];
-        
-        [self.scene addChild:self.enemy];
-        
+
+//        //==
+        self.player = [[STATank alloc] initWithScale:self.scale];
+
+//        CGFloat player_bottom_border_y = bottom_corner_y + [self.player getAnchorOffsetY]+PIXEL_WIDTHHEIGHT+1;//+PIXEL_WIDTHHEIGHT+1;
+//        CGFloat player_top_border_y = top_corner_y-PIXEL_WIDTHHEIGHT*2*self.scale-3;
+//        CGFloat player_left_border_x = left_corner_x+3;
+//        CGFloat player_right_border_x = right_corner_x-11;
+//        
+//        CGRect bounds = CGRectMake(player_left_border_x, player_bottom_border_y,
+//                                   player_right_border_x-player_left_border_x,
+//                                   player_top_border_y-player_bottom_border_y);
+//
+//        
+//        CGFloat stage_start_x = ([[UIScreen mainScreen] bounds].size.width-PLAYER_WIDTH)/2 +
+//        [self.player getAnchorOffsetX];
+//        CGFloat stage_start_y = player_bottom_border_y+20;
+//        
+//        self.player.position = CGPointMake(stage_start_x,stage_start_y);
+//        
+//        [self.player setBorderBounds:bounds];
+//        
+//        [self.scene addChild:self.player];
+//        
+//        //==enemy
+//        self.enemy = [[STAEnemyTank alloc] initWithScale:self.scale];
+//        
+//        stage_start_x = ([[UIScreen mainScreen] bounds].size.width-PLAYER_WIDTH)/2 +
+//        [self.player getAnchorOffsetX];
+//        stage_start_y = player_bottom_border_y+20+200;
+//        
+//        self.enemy.position = CGPointMake(stage_start_x,stage_start_y);
+//        
+//        [self.enemy setBorderBounds:bounds];
+//        
+//        [self.scene addChild:self.enemy];
     }
     
     return self;
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    NSLog(@"touch battle stage");
     for (UITouch *touch in touches) {
-        CGPoint location = [touch locationInNode:self];
+        CGPoint location = [touch locationInNode:self.scene];
         SKNode *node = [self.scene nodeAtPoint:location];
         
         if ([node.name isEqualToString:@"fire_button"]) {
@@ -168,6 +170,10 @@
         }
         
     }
+}
+
+-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    
 }
 
 -(void)cleanup {

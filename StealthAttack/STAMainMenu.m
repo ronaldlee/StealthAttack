@@ -112,12 +112,16 @@
             
             STAMyScene* myScene = (STAMyScene*)self.scene;
             
-            [myScene.currStage cleanup];
+//            [myScene.currStage cleanup];
             
             myScene.currStage = [[STASinglePlayerSelectOpponent alloc ]
                                  initWithScale:self.scale Bounds:self.bounds Scene:self.scene];
         }
     }
+}
+
+-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    
 }
 
 -(void)cleanup {
