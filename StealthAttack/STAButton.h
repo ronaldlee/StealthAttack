@@ -13,6 +13,6 @@
 
 @property (nonatomic) SKSpriteNode * button;
 
-- (id)initWithSize:(CGSize)size Name:(NSString*)name;
+- (id)initWithSize:(CGSize)size Name:(NSString*)name Alpha:(CGFloat)alpha;
 
 @end

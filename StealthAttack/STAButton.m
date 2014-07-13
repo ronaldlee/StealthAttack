@@ -16,7 +16,7 @@
 @implementation STAButton
 @synthesize button;
 
-- (id)initWithSize:(CGSize)b_size  Name:(NSString*)b_name {
+- (id)initWithSize:(CGSize)b_size  Name:(NSString*)b_name Alpha:(CGFloat)alpha {
     self = [super init];
     if (self) {
         self.anchorPoint = CGPointMake(0,0);
@@ -39,6 +39,7 @@
         border_top.name = @"border_top";
         border_top.path = pathToDraw;
         border_top.userInteractionEnabled = NO;
+        border_top.alpha = alpha;
         [border_top setStrokeColor:BORDER_COLOR];
         [border_top setLineWidth:1];
         [border_top setAntialiased:FALSE];
@@ -52,6 +53,7 @@
         border_left.name = @"border_left";
         border_left.userInteractionEnabled = NO;
         border_left.path = pathToDraw;
+        border_left.alpha = alpha;
         [border_left setStrokeColor:BORDER_COLOR];
         [border_left setLineWidth:1];
         [border_left setAntialiased:FALSE];
@@ -65,6 +67,7 @@
         border_bottom.name = @"border_bottom";
         border_bottom.userInteractionEnabled = NO;
         border_bottom.path = pathToDraw;
+        border_bottom.alpha = alpha;
         [border_bottom setStrokeColor:BORDER_COLOR];
         [border_bottom setLineWidth:1];
         [border_bottom setAntialiased:FALSE];
@@ -78,6 +81,7 @@
         border_right.name = @"border_right";
         border_right.userInteractionEnabled = NO;
         border_right.path = pathToDraw;
+        border_right.alpha = alpha;
         [border_right setStrokeColor:BORDER_COLOR];
         [border_right setLineWidth:1];
         [border_right setAntialiased:FALSE];

@@ -137,15 +137,15 @@
                                                                   top_corner_y-bottom_corner_y)
                                                 Scene:self];
         
-        for(NSString *fontfamilyname in [UIFont familyNames])
-        {
-            NSLog(@"Family:'%@'",fontfamilyname);
-            for(NSString *fontName in [UIFont fontNamesForFamilyName:fontfamilyname])
-            {
-                NSLog(@"\tfont:'%@'",fontName);
-            }
-            NSLog(@"~~~~~~~~");
-        }
+//        for(NSString *fontfamilyname in [UIFont familyNames])
+//        {
+//            NSLog(@"Family:'%@'",fontfamilyname);
+//            for(NSString *fontName in [UIFont fontNamesForFamilyName:fontfamilyname])
+//            {
+//                NSLog(@"\tfont:'%@'",fontName);
+//            }
+//            NSLog(@"~~~~~~~~");
+//        }
         
     }
     return self;
@@ -153,35 +153,64 @@
 
 -(void)setupStageBorders {
     
+    CGFloat border_width = right_corner_x-left_corner_x;
+    CGFloat border_height = top_corner_y-bottom_corner_y;
+    
     CGMutablePathRef pathToDraw = CGPathCreateMutable();
     
     //top
-    SKShapeNode* border_top = [SKShapeNode node];
+//    SKShapeNode* border_top = [SKShapeNode node];
+//    
+//    CGPathMoveToPoint(pathToDraw, NULL, left_corner_x, top_corner_y);
+//    CGPathAddLineToPoint(pathToDraw, NULL, right_corner_x, top_corner_y);
+//    
+//    border_top.path = pathToDraw;
+//    [border_top setStrokeColor:BORDER_COLOR];
+//    [border_top setLineWidth:1];
+//    [border_top setAntialiased:FALSE];
     
-    CGPathMoveToPoint(pathToDraw, NULL, left_corner_x, top_corner_y);
-    CGPathAddLineToPoint(pathToDraw, NULL, right_corner_x, top_corner_y);
+    SKSpriteNode* border_top = [SKSpriteNode spriteNodeWithColor:BORDER_COLOR
+                                                               size:CGSizeMake(border_width,1)];
+    border_top.position = CGPointMake(left_corner_x, top_corner_y);
+    border_top.anchorPoint = CGPointMake(0,0);
     
-    border_top.path = pathToDraw;
-    [border_top setStrokeColor:BORDER_COLOR];
-    [border_top setLineWidth:1];
-    [border_top setAntialiased:FALSE];
-    
-    border_top.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:CGSizeMake(right_corner_x-left_corner_x, 1)];
+    border_top.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:CGSizeMake(border_width*scale, 1)];
     border_top.physicsBody.affectedByGravity = NO;
     border_top.physicsBody.categoryBitMask = WALL_CATEGORY;
+    border_top.physicsBody.contactTestBitMask = PLAYER_CATEGORY;
+    border_top.physicsBody.collisionBitMask = PLAYER_CATEGORY;
+    border_top.physicsBody.resting = TRUE;
+    border_top.physicsBody.dynamic = FALSE;
+    border_top.physicsBody.restitution = 0;
     
     [self addChild:border_top];
     
     //left
-    SKShapeNode* border_left = [SKShapeNode node];
+//    SKShapeNode* border_left = [SKShapeNode node];
+//    
+//    CGPathMoveToPoint(pathToDraw, NULL, left_corner_x, bottom_corner_y);
+//    CGPathAddLineToPoint(pathToDraw, NULL, left_corner_x, top_corner_y);
+//    
+//    border_left.path = pathToDraw;
+//    [border_left setStrokeColor:BORDER_COLOR];
+//    [border_left setLineWidth:1];
+//    [border_left setAntialiased:FALSE];
     
-    CGPathMoveToPoint(pathToDraw, NULL, left_corner_x, bottom_corner_y);
-    CGPathAddLineToPoint(pathToDraw, NULL, left_corner_x, top_corner_y);
     
-    border_left.path = pathToDraw;
-    [border_left setStrokeColor:BORDER_COLOR];
-    [border_left setLineWidth:1];
-    [border_left setAntialiased:FALSE];
+    SKSpriteNode* border_left = [SKSpriteNode spriteNodeWithColor:BORDER_COLOR
+                                                               size:CGSizeMake(1,border_height)];
+    border_left.position = CGPointMake(left_corner_x, bottom_corner_y);
+    border_left.anchorPoint = CGPointMake(0,0);
+    
+    border_left.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:CGSizeMake(1, border_height*scale)];
+    border_left.physicsBody.affectedByGravity = NO;
+    border_left.physicsBody.categoryBitMask = WALL_CATEGORY;
+    border_left.physicsBody.contactTestBitMask = PLAYER_CATEGORY;
+    border_left.physicsBody.collisionBitMask = PLAYER_CATEGORY;
+    border_left.physicsBody.resting = TRUE;
+    border_left.physicsBody.dynamic = FALSE;
+    border_left.physicsBody.restitution = 0;
+    
     [self addChild:border_left];
     
     //bottom
@@ -194,13 +223,12 @@
 //    [border_bottom setLineWidth:1];
 //    [border_bottom setAntialiased:FALSE];
     
-    CGFloat border_width = (right_corner_x-left_corner_x)*scale;
     SKSpriteNode* border_bottom = [SKSpriteNode spriteNodeWithColor:BORDER_COLOR
                                                                size:CGSizeMake(border_width,1)];
-    border_bottom.position = CGPointMake(left_corner_x*scale, bottom_corner_y);
+    border_bottom.position = CGPointMake(left_corner_x, bottom_corner_y);
+    border_bottom.anchorPoint = CGPointMake(0,0);
     
-    NSLog(@"right corner x: %f, left x: %f", right_corner_x,left_corner_x);
-    border_bottom.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:CGSizeMake(border_width, 1)];
+    border_bottom.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:CGSizeMake(border_width*scale, 1)];
     border_bottom.physicsBody.affectedByGravity = NO;
     border_bottom.physicsBody.categoryBitMask = WALL_CATEGORY;
     border_bottom.physicsBody.contactTestBitMask = PLAYER_CATEGORY;
@@ -212,15 +240,30 @@
     [self addChild:border_bottom];
     
     //right
-    SKShapeNode* border_right = [SKShapeNode node];
+//    SKShapeNode* border_right = [SKShapeNode node];
+//    
+//    CGPathMoveToPoint(pathToDraw, NULL, right_corner_x, bottom_corner_y);
+//    CGPathAddLineToPoint(pathToDraw, NULL, right_corner_x, top_corner_y);
+//    
+//    border_right.path = pathToDraw;
+//    [border_right setStrokeColor:BORDER_COLOR];
+//    [border_right setLineWidth:1];
+//    [border_right setAntialiased:FALSE];
     
-    CGPathMoveToPoint(pathToDraw, NULL, right_corner_x, bottom_corner_y);
-    CGPathAddLineToPoint(pathToDraw, NULL, right_corner_x, top_corner_y);
     
-    border_right.path = pathToDraw;
-    [border_right setStrokeColor:BORDER_COLOR];
-    [border_right setLineWidth:1];
-    [border_right setAntialiased:FALSE];
+    SKSpriteNode* border_right = [SKSpriteNode spriteNodeWithColor:BORDER_COLOR
+                                                             size:CGSizeMake(1,border_height)];
+    border_right.position = CGPointMake(right_corner_x-1, bottom_corner_y);
+    border_right.anchorPoint = CGPointMake(0,0);
+    
+    border_right.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:CGSizeMake(1, border_height*scale)];
+    border_right.physicsBody.affectedByGravity = NO;
+    border_right.physicsBody.categoryBitMask = WALL_CATEGORY;
+    border_right.physicsBody.contactTestBitMask = PLAYER_CATEGORY;
+    border_right.physicsBody.collisionBitMask = PLAYER_CATEGORY;
+    border_right.physicsBody.resting = TRUE;
+    border_right.physicsBody.dynamic = FALSE;
+    
     [self addChild:border_right];
     
 }
@@ -232,87 +275,12 @@
     if (currStage != nil) {
         [currStage touchesBegan:touches withEvent:event];
     }
-    
-    /*
-    for (UITouch *touch in touches) {
-        CGPoint location = [touch locationInNode:self];
-        SKNode *node = [self nodeAtPoint:location];
-        
-        if ([node.name isEqualToString:@"fire_button"]) {
-            NSLog(@"fire!!");
-            
-            [self.player toggleFiring];
-            
-            if ([self.player isFiring]) {
-                SKAction* shootBulletAction = [SKAction runBlock:^{
-//                    BORDER cur_border = [self.player getCurrentBorder];
-                    CGPoint location = [self.player position];
-                    STABullet *bullet = [[STABullet alloc]initWithScale:1.0];
-                    
-                    //need to position at the tip of the tank's turret..
-                    
-                    //bullet.position = location;
-                    bullet.zPosition = 1;
-                    
-                    //bullet.scale = 0.8;
-                    
-                    CGFloat velocity_x = cos([self.player getAdjRotation])*100;
-                    CGFloat velocity_y = sin([self.player getAdjRotation])*100;
-                    
-                    CGFloat radius = PLAYER_WIDTH;
-                    CGFloat x = cos([self.player getAdjRotation])*radius +
-                                self.player.position.x;
-                    CGFloat y = sin([self.player getAdjRotation])*radius +
-                                self.player.position.y;
-                    
-//                    bullet.position = CGPointMake(location.x,location.y+self.player.size.height/2);
-                    bullet.position = CGPointMake(x,y);
-                    
-//                    NSLog(@"x: %f, y: %f", x,y);
-                    
-                    bullet.zRotation = [self.player getAdjRotation];
-                    
-                    bullet.physicsBody.velocity = CGVectorMake(velocity_x, velocity_y);
-                    
-                    [self addChild:bullet];
-                }];// queue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
-                
-                SKAction *wait = [SKAction waitForDuration:0.4];
-                SKAction *sequence = [SKAction sequence:@[shootBulletAction, wait]];
-                [self runAction:[SKAction repeatActionForever:sequence]];
-            }
-            else {
-                [self removeAllActions];
-            }
-            
-            return;
-        }
-        else if ([node.name isEqualToString:@"rotate_c_button"]) {
-            [self.player rotateClockwise];
-        }
-        else if ([node.name isEqualToString:@"rotate_uc_button"]) {
-            [self.player rotateCounterClockwise];
-        }
-        else if ([node.name isEqualToString:@"forward_button"]) {
-            [self.player moveForward];
-        }
-        else if ([node.name isEqualToString:@"backward_button"]) {
-            [self.player moveBackward];
-        }
-        
-    }
-    */
 }
 
 -(void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     if (currStage != nil) {
         [currStage touchesEnded:touches withEvent:event];
     }
-    
-//    [self.player stop];
-    
-//    NSLog(@"touch end: rotate: %f",self.player.zRotation);
-   
 }
 
 -(void)update:(CFTimeInterval)currentTime {
