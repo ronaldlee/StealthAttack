@@ -10,26 +10,26 @@
 
 @implementation STAEnemyTank
 
-@synthesize tankA;
-
-@synthesize tankB;
-@synthesize tankC;
-@synthesize tankD;
-@synthesize tankE;
-@synthesize tankF;
-@synthesize tankG;
+//@synthesize tankA;
+//
+//@synthesize tankB;
+//@synthesize tankC;
+//@synthesize tankD;
+//@synthesize tankE;
+//@synthesize tankF;
+//@synthesize tankG;
 @synthesize tankH;
 @synthesize tankI;
 
-@synthesize tankl1;
-@synthesize tankl2;
-@synthesize tankl3;
-@synthesize tankl4;
-
-@synthesize tankr1;
-@synthesize tankr2;
-@synthesize tankr3;
-@synthesize tankr4;
+//@synthesize tankl1;
+//@synthesize tankl2;
+//@synthesize tankl3;
+//@synthesize tankl4;
+//
+//@synthesize tankr1;
+//@synthesize tankr2;
+//@synthesize tankr3;
+//@synthesize tankr4;
 
 - (id)initWithScale:(CGFloat)f_scale {
     self = [super initWithScale:f_scale];
@@ -40,6 +40,63 @@
     }
     return self;
 }
+
+-(void) buildTankWheels {
+    CGFloat wheel_x_offset = 1;
+    CGFloat wheel_y_offset = -1;
+    CGFloat wheel_width = 3;
+    
+    self.wheel_height = 2;
+    UIColor *wheel_color = [UIColor blackColor];
+    self.wheel_diff = 2;
+    
+    self.tankl1 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,self.wheel_height)];
+    [self addChild:self.tankl1];
+    self.tankl1.position = CGPointMake(0-self.anchoroffset_x-wheel_x_offset,
+                                       self.scaled_height*2-wheel_y_offset-self.anchoroffset_y);
+    
+    self.wheel_origin_y = self.tankl1.position.y;
+    
+    self.tankl2 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,self.wheel_height)];
+    [self addChild:self.tankl2];
+    self.tankl2.position = CGPointMake(0-self.anchoroffset_x-wheel_x_offset,
+                                       self.tankl1.position.y-self.wheel_height-self.wheel_diff);
+    
+    self.tankl3 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,self.wheel_height)];
+    [self addChild:self.tankl3];
+    self.tankl3.position = CGPointMake(0-self.anchoroffset_x-wheel_x_offset,
+                                       self.tankl2.position.y-self.wheel_height-self.wheel_diff);
+    
+    self.tankl4 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,self.wheel_height)];
+    [self addChild:self.tankl4];
+    self.tankl4.position = CGPointMake(0-self.anchoroffset_x-wheel_x_offset,
+                                       self.tankl3.position.y-self.wheel_height-self.wheel_diff);
+    
+    self.wheel_bottom_y = self.tankl4.position.y-self.wheel_height-self.wheel_diff;
+    
+    //==
+    wheel_x_offset = 2;
+    self.tankr1 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,self.wheel_height)];
+    [self addChild:self.tankr1];
+    self.tankr1.position = CGPointMake(self.scaled_width*3-wheel_width-wheel_x_offset-self.anchoroffset_x,
+                                       self.scaled_height*2-wheel_y_offset-self.anchoroffset_y);
+    
+    self.tankr2 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,self.wheel_height)];
+    [self addChild:self.tankr2];
+    self.tankr2.position = CGPointMake(self.scaled_width*3-wheel_width-wheel_x_offset-self.anchoroffset_x,
+                                       self.tankr1.position.y-self.wheel_height-self.wheel_diff);
+    
+    self.tankr3 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,self.wheel_height)];
+    [self addChild:self.tankr3];
+    self.tankr3.position = CGPointMake(self.scaled_width*3-wheel_width-wheel_x_offset-self.anchoroffset_x,
+                                       self.tankr2.position.y-self.wheel_height-self.wheel_diff);
+    
+    self.tankr4 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,self.wheel_height)];
+    [self addChild:self.tankr4];
+    self.tankr4.position = CGPointMake(self.scaled_width*3-wheel_width-wheel_x_offset-self.anchoroffset_x,
+                                       self.tankr3.position.y-self.wheel_height-self.wheel_diff);
+}
+
 
 -(void) buildTankBody {
     self.tankA = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor]

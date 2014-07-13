@@ -15,11 +15,7 @@
     float bottom_border_y, top_border_y, left_border_x, right_border_x;
     BOOL isVisible;
     BOOL is_firing;
-    CGFloat wheel_origin_y;
-    CGFloat wheel_bottom_y;
-    
-    CGFloat wheel_height;
-    CGFloat wheel_diff;
+
     
     BOOL isMovingForward;
     BOOL isMovingBackward;
@@ -56,6 +52,11 @@
 @synthesize anchoroffset_x;
 @synthesize anchoroffset_y;
 
+@synthesize wheel_height;
+@synthesize wheel_diff;
+
+@synthesize wheel_origin_y;
+@synthesize wheel_bottom_y;
 
 - (id)initWithScale:(CGFloat)f_scale {
     self = [super init];
@@ -78,63 +79,7 @@
         [self buildTankBody];
         
         //wheels
-        CGFloat wheel_x_offset = 1;
-        CGFloat wheel_y_offset = 1;
-        CGFloat wheel_width = 3;
-        
-        wheel_height = 2;
-        UIColor *wheel_color = [UIColor blackColor];
-        wheel_diff = 2;
-        
-        self.tankl1 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,wheel_height)];
-        [self addChild:self.tankl1];
-        self.tankl1.position = CGPointMake(0-anchoroffset_x-wheel_x_offset,
-                                           scaled_height*2-wheel_y_offset-anchoroffset_y);
-        
-        wheel_origin_y = self.tankl1.position.y;
-        
-        self.tankl2 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,wheel_height)];
-        [self addChild:self.tankl2];
-        self.tankl2.position = CGPointMake(0-anchoroffset_x-wheel_x_offset,
-                                           self.tankl1.position.y-wheel_height-wheel_diff);
-        
-        self.tankl3 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,wheel_height)];
-        [self addChild:self.tankl3];
-        self.tankl3.position = CGPointMake(0-anchoroffset_x-wheel_x_offset,
-                                           self.tankl2.position.y-wheel_height-wheel_diff);
-        
-        self.tankl4 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,wheel_height)];
-        [self addChild:self.tankl4];
-        self.tankl4.position = CGPointMake(0-anchoroffset_x-wheel_x_offset,
-                                           self.tankl3.position.y-wheel_height-wheel_diff);
-        
-        wheel_bottom_y = self.tankl4.position.y-wheel_height-wheel_diff;
-        
-//        NSLog(@"after l4 tl1.y: %f, l2: %f, l3: %f, l4: %f",self.tankl1.position.y,self.tankl2.position.y,self.tankl3.position.y,self.tankl4.position.y);
-//        NSLog(@"start bottom y: %f, tl4.y: %f, wheel_height: %f, wheel_diff: %f",
-//              wheel_bottom_y,self.tankl4.position.y,wheel_height,wheel_diff);
-        
-        //==
-        wheel_x_offset = 2;
-        self.tankr1 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,wheel_height)];
-        [self addChild:self.tankr1];
-        self.tankr1.position = CGPointMake(scaled_width*3-wheel_width-wheel_x_offset-anchoroffset_x,
-                                           scaled_height*2-wheel_y_offset-anchoroffset_y);
-        
-        self.tankr2 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,wheel_height)];
-        [self addChild:self.tankr2];
-        self.tankr2.position = CGPointMake(scaled_width*3-wheel_width-wheel_x_offset-anchoroffset_x,
-                                           self.tankr1.position.y-wheel_height-wheel_diff);
-        
-        self.tankr3 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,wheel_height)];
-        [self addChild:self.tankr3];
-        self.tankr3.position = CGPointMake(scaled_width*3-wheel_width-wheel_x_offset-anchoroffset_x,
-                                           self.tankr2.position.y-wheel_height-wheel_diff);
-        
-        self.tankr4 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,wheel_height)];
-        [self addChild:self.tankr4];
-        self.tankr4.position = CGPointMake(scaled_width*3-wheel_width-wheel_x_offset-anchoroffset_x,
-                                           self.tankr3.position.y-wheel_height-wheel_diff);
+        [self buildTankWheels];
         
         self.size = CGSizeMake(max_width, max_height);
         
@@ -156,6 +101,62 @@
         NSLog(@"start wheel origin y: %f, bottom y: %f",wheel_origin_y,wheel_bottom_y);
     }
     return self;
+}
+
+-(void) buildTankWheels {
+    CGFloat wheel_x_offset = 1;
+    CGFloat wheel_y_offset = 1;
+    CGFloat wheel_width = 3;
+    
+    wheel_height = 2;
+    UIColor *wheel_color = [UIColor blackColor];
+    wheel_diff = 2;
+    
+    self.tankl1 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,wheel_height)];
+    [self addChild:self.tankl1];
+    self.tankl1.position = CGPointMake(0-anchoroffset_x-wheel_x_offset,
+                                       scaled_height*2-wheel_y_offset-anchoroffset_y);
+    
+    wheel_origin_y = self.tankl1.position.y;
+    
+    self.tankl2 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,wheel_height)];
+    [self addChild:self.tankl2];
+    self.tankl2.position = CGPointMake(0-anchoroffset_x-wheel_x_offset,
+                                       self.tankl1.position.y-wheel_height-wheel_diff);
+    
+    self.tankl3 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,wheel_height)];
+    [self addChild:self.tankl3];
+    self.tankl3.position = CGPointMake(0-anchoroffset_x-wheel_x_offset,
+                                       self.tankl2.position.y-wheel_height-wheel_diff);
+    
+    self.tankl4 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,wheel_height)];
+    [self addChild:self.tankl4];
+    self.tankl4.position = CGPointMake(0-anchoroffset_x-wheel_x_offset,
+                                       self.tankl3.position.y-wheel_height-wheel_diff);
+    
+    wheel_bottom_y = self.tankl4.position.y-wheel_height-wheel_diff;
+    
+    //==
+    wheel_x_offset = 2;
+    self.tankr1 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,wheel_height)];
+    [self addChild:self.tankr1];
+    self.tankr1.position = CGPointMake(scaled_width*3-wheel_width-wheel_x_offset-anchoroffset_x,
+                                       scaled_height*2-wheel_y_offset-anchoroffset_y);
+    
+    self.tankr2 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,wheel_height)];
+    [self addChild:self.tankr2];
+    self.tankr2.position = CGPointMake(scaled_width*3-wheel_width-wheel_x_offset-anchoroffset_x,
+                                       self.tankr1.position.y-wheel_height-wheel_diff);
+    
+    self.tankr3 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,wheel_height)];
+    [self addChild:self.tankr3];
+    self.tankr3.position = CGPointMake(scaled_width*3-wheel_width-wheel_x_offset-anchoroffset_x,
+                                       self.tankr2.position.y-wheel_height-wheel_diff);
+    
+    self.tankr4 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,wheel_height)];
+    [self addChild:self.tankr4];
+    self.tankr4.position = CGPointMake(scaled_width*3-wheel_width-wheel_x_offset-anchoroffset_x,
+                                       self.tankr3.position.y-wheel_height-wheel_diff);
 }
 
 -(void) buildTankBody {

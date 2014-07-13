@@ -17,6 +17,12 @@
 @property (nonatomic) CGFloat anchoroffset_x;
 @property (nonatomic) CGFloat anchoroffset_y;
 
+@property (nonatomic) CGFloat wheel_origin_y;
+@property (nonatomic) CGFloat wheel_bottom_y;
+
+@property (nonatomic) CGFloat wheel_height;
+@property (nonatomic) CGFloat wheel_diff;
+
 @property (nonatomic) SKSpriteNode * tankA;
 @property (nonatomic) SKSpriteNode * tankB;
 @property (nonatomic) SKSpriteNode * tankC;
@@ -59,5 +65,6 @@
 -(int)getHeightInPixels;
 
 -(void)buildTankBody;
+-(void)buildTankWheels;
 
 @end
