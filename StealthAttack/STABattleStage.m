@@ -22,8 +22,8 @@
     self = [super initWithScale:sk_scale Bounds:bounds Scene:sk_scene];
     
     if (self) {
-        STAMyScene* myScene = (STAMyScene*)self.scene;
-        [myScene.currStage cleanup];
+//        STAMyScene* myScene = (STAMyScene*)self.scene;
+//        [myScene.currStage cleanup];
         
         CGSize button_size = CGSizeMake(50,50);
         
@@ -178,28 +178,17 @@
 
 -(void)cleanup {
     [player removeAllActions];
-    [player removeFromParent];
-    
     [enemy removeAllActions];
-    [enemy removeFromParent];
-    
-    [player removeFromParent];
-    [enemy removeFromParent];
     
     [fire_button removeAllActions];
-    [fire_button removeFromParent];
-    
     [rotate_c_button removeAllActions];
-    [rotate_c_button removeFromParent];
-    
     [rotate_uc_button removeAllActions];
-    [rotate_uc_button removeFromParent];
-    
     [forward_button removeAllActions];
-    [forward_button removeFromParent];
-    
     [backward_button removeAllActions];
-    [backward_button removeFromParent];
+    
+    NSArray* objs = [NSArray arrayWithObjects:player,enemy,fire_button,rotate_c_button,rotate_uc_button,forward_button,backward_button,nil];
+    
+    [self.scene removeChildrenInArray:objs];
 }
 
 

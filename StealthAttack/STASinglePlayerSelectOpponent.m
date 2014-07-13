@@ -20,8 +20,8 @@
     self = [super initWithScale:sk_scale Bounds:bounds Scene:sk_scene];
     
     if (self) {
-        STAMyScene* myScene = (STAMyScene*)self.scene;
-        [myScene.currStage cleanup];
+//        STAMyScene* myScene = (STAMyScene*)self.scene;
+//        [myScene.currStage cleanup];
         
         CGFloat title_x = ([[UIScreen mainScreen] bounds].size.width)/2;
         
@@ -140,6 +140,9 @@
             NSLog(@"start_button");
             
             STAMyScene* myScene = (STAMyScene*)self.scene;
+            
+            [myScene.currStage cleanup];
+            
             myScene.currStage = [[STABattleStage alloc ] initWithScale:self.scale Bounds:self.bounds Scene:self.scene];
         }
     }
@@ -151,18 +154,16 @@
 
 -(void)cleanup {
     
-//    [selectOppTitle removeAllActions];
-//    [backLabel removeAllActions];
-//    [startLabel removeAllActions];
-//    [backButton removeAllActions];
+    [selectOppTitle removeAllActions];
+    [backLabel removeAllActions];
+    [startLabel removeAllActions];
+    [backButton removeAllActions];
     [startButton removeAllActions];
     
-//    self.scene removeChildrenInArray:<#(NSArray *)#>
-//    [selectOppTitle removeFromParent];
-//    [backLabel removeFromParent];
-//    [startLabel removeFromParent];
-//    [backButton removeFromParent];
-    [startButton removeFromParent];
+    
+    NSArray* objs = [NSArray arrayWithObjects:selectOppTitle,backLabel,startLabel,backButton,startButton,nil];
+    
+    [self.scene removeChildrenInArray:objs];
     
 }
 

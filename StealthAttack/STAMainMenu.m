@@ -112,7 +112,7 @@
             
             STAMyScene* myScene = (STAMyScene*)self.scene;
             
-//            [myScene.currStage cleanup];
+            [myScene.currStage cleanup];
             
             myScene.currStage = [[STASinglePlayerSelectOpponent alloc ]
                                  initWithScale:self.scale Bounds:self.bounds Scene:self.scene];
@@ -125,11 +125,12 @@
 }
 
 -(void)cleanup {
-    [title1 removeFromParent];
-    [title2 removeFromParent];
     
     [singlePlayer removeAllActions];
-    [singlePlayer removeFromParent];
+    
+    NSArray* objs = [NSArray arrayWithObjects:title1,title2,singlePlayer,nil];
+    
+    [self.scene removeChildrenInArray:objs];
 }
 
 @end
