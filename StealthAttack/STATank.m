@@ -88,7 +88,7 @@
         self.physicsBody.affectedByGravity = NO;
         self.physicsBody.categoryBitMask = PLAYER_CATEGORY;
         self.physicsBody.contactTestBitMask = ENEMY_CATEGORY | WALL_CATEGORY | PLAYER_CATEGORY;
-        //self.physicsBody.collisionBitMask = WALL_CATEGORY | PLAYER_CATEGORY | ENEMY_CATEGORY;
+        self.physicsBody.collisionBitMask = WALL_CATEGORY | PLAYER_CATEGORY | ENEMY_CATEGORY;
         self.physicsBody.restitution = -1.0f;
         self.physicsBody.density = 0.0f;
         self.physicsBody.mass = 0.0f;
