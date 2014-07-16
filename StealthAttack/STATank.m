@@ -72,7 +72,7 @@
         max_height = scaled_height*[self getHeightInPixels];
         
         anchoroffset_x = scaled_width; //max_width/2;
-        anchoroffset_y = scaled_height; //max_height/2;
+        anchoroffset_y = scaled_height+3; //max_height/2;
         
         NSLog(@"max width: %f, %f, ancx/y: %f, %f", max_width, max_height, anchoroffset_x,anchoroffset_y);
         
@@ -88,8 +88,10 @@
         self.physicsBody.affectedByGravity = NO;
         self.physicsBody.categoryBitMask = PLAYER_CATEGORY;
         self.physicsBody.contactTestBitMask = ENEMY_CATEGORY | WALL_CATEGORY | PLAYER_CATEGORY;
-        self.physicsBody.collisionBitMask = WALL_CATEGORY | PLAYER_CATEGORY | ENEMY_CATEGORY;
+        //self.physicsBody.collisionBitMask = WALL_CATEGORY | PLAYER_CATEGORY | ENEMY_CATEGORY;
         self.physicsBody.restitution = -1.0f;
+        self.physicsBody.density = 0.0f;
+        self.physicsBody.mass = 0.0f;
         
         //need these so the tank won't slow down when moving
         self.physicsBody.friction = 0;
