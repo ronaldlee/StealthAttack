@@ -309,55 +309,62 @@
 {
     NSLog(@"did contact");
     
-//    
-//    if ((contact.bodyA.categoryBitMask & PLAYER_CATEGORY)!=0) {
-//        
-//        STATank *player = (STATank*)contact.bodyA.node;
-//        
-//        if ((contact.bodyB.categoryBitMask & ENEMY_CATEGORY) != 0) {
-//            STAEnemyTank *enemy = (STAEnemyTank*)contact.bodyB.node;
-//            
-//            NSLog(@"contact!: player and monster");
-////            [player contactWith:enemy];
-//        }
-//        else if ((contact.bodyB.categoryBitMask & WALL_CATEGORY) != 0) {
-//            NSLog(@"hit wall");
-//            [player stopMovement];
-//        }
-//        else if ((contact.bodyB.categoryBitMask & MISSLE_CATEGORY) != 0) {
-//            NSLog(@"hit missle");
-//            [player explode];
-//        }
-//    }
-//    else if ((contact.bodyA.categoryBitMask & ENEMY_CATEGORY) != 0) {
-//        STAEnemyTank* enemyBody = (STAEnemyTank*)contact.bodyA.node;
-//        
-//        if ((contact.bodyB.categoryBitMask & MISSLE_CATEGORY) != 0) {
-//            //STABullet* missileBody = (STABullet*)contact.bodyB.node;
-//            
-//            NSLog(@"missle hit monster");
-//            [enemyBody explode];
-//        }
-//    }
-//    else if ((contact.bodyA.categoryBitMask & MISSLE_CATEGORY) != 0) {
-//        //STABullet* missileBody = (STABullet*)contact.bodyA.node;
-//        
-//        if ((contact.bodyB.categoryBitMask & PLAYER_CATEGORY) != 0) {
-//            STATank* playerBody = (STATank*)contact.bodyB.node;
-//            
-//            NSLog(@"missle hit player");
-//            [playerBody explode];
-//        }
-//    }
-//    else if ((contact.bodyA.categoryBitMask & WALL_CATEGORY) != 0) {
-//        NSLog(@"hit wall!");
-//        if ((contact.bodyB.categoryBitMask & PLAYER_CATEGORY) != 0) {
-//            STATank *player = (STATank*)contact.bodyB.node;
-//            
-//            NSLog(@"contact!: wall contact player");
-//            [player stopMovement];
-//        }
-//    }
+    
+    if ((contact.bodyA.categoryBitMask & PLAYER_CATEGORY)!=0) {
+        
+        STATank *player = (STATank*)contact.bodyA.node;
+        
+        if ((contact.bodyB.categoryBitMask & ENEMY_CATEGORY) != 0) {
+            STAEnemyTank *enemy = (STAEnemyTank*)contact.bodyB.node;
+            
+            NSLog(@"contact!: player and monster");
+//            [player contactWith:enemy];
+        }
+        else if ((contact.bodyB.categoryBitMask & WALL_CATEGORY) != 0) {
+            NSLog(@"hit wall");
+            [player stopMovement];
+        }
+        else if ((contact.bodyB.categoryBitMask & MISSLE_CATEGORY) != 0) {
+            NSLog(@"hit missle");
+            STABullet * bullet = (STABullet*)contact.bodyB.node;
+            if (bullet.ownerId != player.playerId) {
+                [player explode];
+            }
+        }
+    }
+    else if ((contact.bodyA.categoryBitMask & ENEMY_CATEGORY) != 0) {
+        STAEnemyTank* enemy = (STAEnemyTank*)contact.bodyA.node;
+        
+        if ((contact.bodyB.categoryBitMask & MISSLE_CATEGORY) != 0) {
+            STABullet* bullet = (STABullet*)contact.bodyB.node;
+            
+            NSLog(@"missle hit monster");
+            if (bullet.ownerId != enemy.playerId) {
+                [enemy explode];
+            }
+        }
+    }
+    else if ((contact.bodyA.categoryBitMask & MISSLE_CATEGORY) != 0) {
+        STABullet* bullet = (STABullet*)contact.bodyA.node;
+        
+        if ((contact.bodyB.categoryBitMask & PLAYER_CATEGORY) != 0) {
+            STATank* player = (STATank*)contact.bodyB.node;
+            
+            NSLog(@"missle hit player");
+            if (bullet.ownerId != player.playerId) {
+                [player explode];
+            }
+        }
+    }
+    else if ((contact.bodyA.categoryBitMask & WALL_CATEGORY) != 0) {
+        NSLog(@"hit wall!");
+        if ((contact.bodyB.categoryBitMask & PLAYER_CATEGORY) != 0) {
+            STATank *player = (STATank*)contact.bodyB.node;
+            
+            NSLog(@"contact!: wall contact player");
+            [player stopMovement];
+        }
+    }
     
 }
 

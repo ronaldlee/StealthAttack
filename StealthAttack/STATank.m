@@ -58,9 +58,12 @@
 @synthesize wheel_origin_y;
 @synthesize wheel_bottom_y;
 
-- (id)initWithScale:(CGFloat)f_scale {
+@synthesize playerId;
+
+- (id)initWithScale:(CGFloat)f_scale Id:(int)t_id {
     self = [super init];
     if (self) {
+        playerId = t_id;
         moveSpeed = 20;
         isVisible = TRUE;
         scale = f_scale;
@@ -81,12 +84,14 @@
         //wheels
         [self buildTankWheels];
         
-        self.size = CGSizeMake(max_width, max_height);
+//        self.size = CGSizeMake(max_width, max_height);
         
         self.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:CGSizeMake(max_width, max_height)];
         
         self.physicsBody.affectedByGravity = NO;
         self.physicsBody.categoryBitMask = PLAYER_CATEGORY;
+//        self.physicsBody.contactTestBitMask = 0;
+//        self.physicsBody.collisionBitMask = 0;
         self.physicsBody.contactTestBitMask = ENEMY_CATEGORY | WALL_CATEGORY | PLAYER_CATEGORY;
         self.physicsBody.collisionBitMask = WALL_CATEGORY | PLAYER_CATEGORY | ENEMY_CATEGORY;
         self.physicsBody.restitution = -1.0f;

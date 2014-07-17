@@ -8,8 +8,9 @@
 
 #import <SpriteKit/SpriteKit.h>
 
-@interface STATank : SKSpriteNode<STAGameObject>
+@interface STATank : SKNode<STAGameObject>
 
+@property int playerId;
 
 @property (nonatomic) CGFloat scaled_width;
 @property (nonatomic) CGFloat scaled_height;
@@ -42,7 +43,7 @@
 @property (nonatomic) SKSpriteNode * tankr4;
 
 -(void)setBorderBounds:(CGRect)p_bounds;
--(id)initWithScale:(CGFloat)scale;
+-(id)initWithScale:(CGFloat)scale Id:(int)t_id;
 
 -(void)moveForward;
 -(void)moveBackward;

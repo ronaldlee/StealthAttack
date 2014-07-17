@@ -11,6 +11,7 @@
 @interface STABullet : SKSpriteNode<STAGameObject>
 
 @property (nonatomic) SKSpriteNode * bullet;
+@property int ownerId;
 
 - (id)initWithScale:(CGFloat)scale;
 

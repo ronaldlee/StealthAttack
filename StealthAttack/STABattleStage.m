@@ -62,7 +62,7 @@
         [self.scene addChild:backward_button];
 
 //        //==
-        self.player = [[STAEnemyTank alloc] initWithScale:self.scale];
+        self.player = [[STAEnemyTank alloc] initWithScale:self.scale Id:1];
 
         CGFloat player_bottom_border_y = bottom_corner_y + [self.player getAnchorOffsetY]+PIXEL_WIDTHHEIGHT+1;//+PIXEL_WIDTHHEIGHT+1;
         CGFloat player_top_border_y = top_corner_y-PIXEL_WIDTHHEIGHT*2*self.scale-3;
@@ -85,7 +85,7 @@
         [self.scene addChild:self.player];
         
         //==enemy
-        self.enemy = [[STAEnemyTank alloc] initWithScale:self.scale];
+        self.enemy = [[STAEnemyTank alloc] initWithScale:self.scale Id:2];
         
         stage_start_x = ([[UIScreen mainScreen] bounds].size.width-PLAYER_WIDTH)/2 +
         [self.player getAnchorOffsetX];
@@ -142,6 +142,8 @@
                     bullet.zRotation = [self.player getAdjRotation];
                     
                     bullet.physicsBody.velocity = CGVectorMake(velocity_x, velocity_y);
+                    
+                    bullet.ownerId = self.player.playerId;
                     
                     [self.scene addChild:bullet];
                 }];// queue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];

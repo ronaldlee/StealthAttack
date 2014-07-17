@@ -31,8 +31,8 @@
 //@synthesize tankr3;
 //@synthesize tankr4;
 
-- (id)initWithScale:(CGFloat)f_scale {
-    self = [super initWithScale:f_scale];
+- (id)initWithScale:(CGFloat)f_scale Id:(int)t_id{
+    self = [super initWithScale:f_scale Id:t_id];
     
     if (self) {
         self.physicsBody.categoryBitMask = ENEMY_CATEGORY;
