@@ -343,6 +343,19 @@
                 [enemy explode];
             }
         }
+        else if ((contact.bodyB.categoryBitMask & ENEMY_CATEGORY) != 0) {
+            STAEnemyTank* enemy2 = (STAEnemyTank*)contact.bodyB.node;
+            
+            SKAction *wait = [SKAction waitForDuration:1];
+            SKAction* stop=[SKAction runBlock:^(void) {
+                [enemy2 stopVelocity];
+            }];
+            SKAction* restore=[SKAction runBlock:^(void) {
+                [enemy2 restoreVelocity];
+            }];
+            
+            [enemy2 runAction:[SKAction sequence:@[wait,stop,wait,stop,wait,stop]]];
+        }
     }
     else if ((contact.bodyA.categoryBitMask & MISSLE_CATEGORY) != 0) {
         STABullet* bullet = (STABullet*)contact.bodyA.node;

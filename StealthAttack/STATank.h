@@ -68,4 +68,8 @@
 -(void)buildTankBody;
 -(void)buildTankWheels;
 
+-(void)stopVelocity;
+
+-(void)restoreVelocity;
+
 @end

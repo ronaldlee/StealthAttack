@@ -23,6 +23,7 @@
     BOOL isRotatingCounterClockwise;
     
     CGFloat moveSpeed;
+    CGVector prevVelocity;
 }
 @end
 
@@ -94,8 +95,8 @@
 //        self.physicsBody.collisionBitMask = 0;
         self.physicsBody.contactTestBitMask = ENEMY_CATEGORY | WALL_CATEGORY | PLAYER_CATEGORY;
         self.physicsBody.collisionBitMask = WALL_CATEGORY | PLAYER_CATEGORY | ENEMY_CATEGORY;
-        self.physicsBody.restitution = -1.0f;
-        self.physicsBody.density = 0.0f;
+        self.physicsBody.restitution = 0.0f;//-1.0f;
+//        self.physicsBody.density = 0.0f;
         self.physicsBody.mass = 0.0f;
         
         //need these so the tank won't slow down when moving
@@ -674,6 +675,15 @@
         isMovingForward = isMovingBackward = false;
         [self removeAllActions];
     }
+}
+
+-(void)stopVelocity {
+    prevVelocity = self.physicsBody.velocity;
+    self.physicsBody.velocity = CGVectorMake(0, 0);
+}
+
+-(void)restoreVelocity {
+    self.physicsBody.velocity = prevVelocity;
 }
 
 
