@@ -7,6 +7,18 @@
 //
 
 #import "STABattleStage.h"
+@interface STABattleStage () {
+
+    UIColor* tankBodyGreen;
+    UIColor* tankBodyBaseGreen;
+    UIColor* tankBodyRed;
+    UIColor* tankBodyBaseRed;
+    UIColor* tankBodyYellow;
+    UIColor* tankBodyBaseYellow;
+    UIColor* tankBodyBlue;
+    UIColor* tankBodyBaseBlue;
+}
+@end
 
 @implementation STABattleStage
 
@@ -18,12 +30,25 @@
 @synthesize forward_button;
 @synthesize backward_button;
 
+
 - (id)initWithScale:(float)sk_scale Bounds:(CGRect)bounds Scene:(SKScene*)sk_scene {
     self = [super initWithScale:sk_scale Bounds:bounds Scene:sk_scene];
     
     if (self) {
 //        STAMyScene* myScene = (STAMyScene*)self.scene;
 //        [myScene.currStage cleanup];
+        tankBodyGreen = [UIColor greenColor];
+        tankBodyBaseGreen = [UIColor colorWithRed:(70.0f/255.0f) green:(130.0f/255.0f) blue:(17.0f/255.0f) alpha:1.0];
+        
+        tankBodyRed = [UIColor redColor];
+        tankBodyBaseRed = [UIColor colorWithRed:(157.0f/255.0f) green:(28.0f/255.0f) blue:(28.0f/255.0f) alpha:1.0];
+        
+        tankBodyYellow = [UIColor yellowColor];
+        tankBodyBaseYellow = [UIColor colorWithRed:(186.0f/255.0f) green:(184.0f/255.0f) blue:(4.0f/255.0f) alpha:1.0];
+        
+        tankBodyBlue = [UIColor blueColor];
+        tankBodyBaseBlue = [UIColor colorWithRed:(4.0f/255.0f) green:(45.0f/255.0f) blue:(144.0f/255.0f) alpha:1.0];
+        //==
         
         CGSize button_size = CGSizeMake(50,50);
         
@@ -63,8 +88,8 @@
 
 //        //==
         self.player = [[STATank alloc] initWithScale:self.scale Id:1
-                                           BodyColor:[UIColor greenColor]
-                                       BodyBaseColor:[UIColor colorWithRed:(70.0f/255.0f) green:(130.0f/255.0f) blue:(17.0f/255.0f) alpha:1.0]];
+                                           BodyColor:tankBodyYellow
+                                       BodyBaseColor:tankBodyBaseYellow];
 
         CGFloat player_bottom_border_y = bottom_corner_y + [self.player getAnchorOffsetY]+PIXEL_WIDTHHEIGHT+1;//+PIXEL_WIDTHHEIGHT+1;
         CGFloat player_top_border_y = top_corner_y-PIXEL_WIDTHHEIGHT*2*self.scale-3;
@@ -87,9 +112,9 @@
         [self.scene addChild:self.player];
         
         //==enemy
-        self.enemy = [[STATank alloc] initWithScale:self.scale Id:2
-                                    BodyColor:[UIColor redColor]
-                                    BodyBaseColor:[UIColor colorWithRed:(157.0f/255.0f) green:(28.0f/255.0f) blue:(28.0f/255.0f) alpha:1.0]];
+        self.enemy = [[STAEnemyTank alloc] initWithScale:self.scale Id:2
+                                    BodyColor:tankBodyBlue
+                                    BodyBaseColor:tankBodyBaseBlue];
         
         stage_start_x = ([[UIScreen mainScreen] bounds].size.width-PLAYER_WIDTH)/2 +
         [self.player getAnchorOffsetX];
