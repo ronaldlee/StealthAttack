@@ -354,7 +354,7 @@
                 [enemy2 restoreVelocity];
             }];
             
-            [enemy2 runAction:[SKAction sequence:@[wait,stop,wait,stop,wait,stop]]];
+//            [enemy2 runAction:[SKAction sequence:@[wait,stop,wait,stop,wait,stop]]];
         }
     }
     else if ((contact.bodyA.categoryBitMask & MISSLE_CATEGORY) != 0) {

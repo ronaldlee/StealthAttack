@@ -31,8 +31,10 @@
 //@synthesize tankr3;
 //@synthesize tankr4;
 
-- (id)initWithScale:(CGFloat)f_scale Id:(int)t_id{
-    self = [super initWithScale:f_scale Id:t_id];
+- (id)initWithScale:(CGFloat)f_scale Id:(int)t_id BodyColor:tankBodyColor BodyBaseColor:tankBodyBaseColor {
+    
+    
+    self = [super initWithScale:f_scale Id:t_id BodyColor:tankBodyColor BodyBaseColor:tankBodyBaseColor ];
     
     if (self) {
         self.physicsBody.categoryBitMask = ENEMY_CATEGORY;
@@ -99,53 +101,54 @@
 
 
 -(void) buildTankBody {
-    self.tankA = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor]
-                                              size:CGSizeMake(self.scaled_width,self.scaled_height)];
+    
+    self.tankA = [SKSpriteNode spriteNodeWithColor:self.tankBodyColor
+                                              size:CGSizeMake(self.scaled_width/2,self.scaled_height)];
     [self addChild:self.tankA];
     self.tankA.position = CGPointMake(self.scaled_width-self.anchoroffset_x,self.scaled_height*3-self.anchoroffset_y);
     
     //
     
-    self.tankB = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor]
+    self.tankB = [SKSpriteNode spriteNodeWithColor:self.tankBodyBaseColor
                                               size:CGSizeMake(self.scaled_width,self.scaled_height)];
     [self addChild:self.tankB];
     self.tankB.position = CGPointMake(0-self.anchoroffset_x,self.scaled_height*2-self.anchoroffset_y);
     
-    self.tankC = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor]
+    self.tankC = [SKSpriteNode spriteNodeWithColor:self.tankBodyColor
                                               size:CGSizeMake(self.scaled_width,self.scaled_height)];
     [self addChild:self.tankC];
     self.tankC.position = CGPointMake(self.scaled_width-self.anchoroffset_x,self.scaled_height*2-self.anchoroffset_y);
     
-    self.tankD = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor]
+    self.tankD = [SKSpriteNode spriteNodeWithColor:self.tankBodyBaseColor
                                               size:CGSizeMake(self.scaled_width,self.scaled_height)];
     [self addChild:self.tankD];
     self.tankD.position = CGPointMake(self.scaled_width*2-self.anchoroffset_x,self.scaled_height*2-self.anchoroffset_y);
     
     //
-    self.tankE = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor]
+    self.tankE = [SKSpriteNode spriteNodeWithColor:self.tankBodyBaseColor
                                               size:CGSizeMake(self.scaled_width,self.scaled_height)];
     [self addChild:self.tankE];
     self.tankE.position = CGPointMake(0-self.anchoroffset_x,self.scaled_height-self.anchoroffset_y);
     
-    self.tankF = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor]
+    self.tankF = [SKSpriteNode spriteNodeWithColor:self.tankBodyColor
                                               size:CGSizeMake(self.scaled_width,self.scaled_height)];
     [self addChild:self.tankF];
     self.tankF.position = CGPointMake(self.scaled_width-self.anchoroffset_x,self.scaled_height-self.anchoroffset_y);
     
-    self.tankG = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor]
+    self.tankG = [SKSpriteNode spriteNodeWithColor:self.tankBodyBaseColor
                                               size:CGSizeMake(self.scaled_width,self.scaled_height)];
     [self addChild:self.tankG];
     self.tankG.position = CGPointMake(self.scaled_width*2-self.anchoroffset_x,self.scaled_height-self.anchoroffset_y);
     
 
     //
-    self.tankH = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor]
+    self.tankH = [SKSpriteNode spriteNodeWithColor:self.tankBodyBaseColor
                                               size:CGSizeMake(self.scaled_width,self.scaled_height)];
     [self addChild:self.tankH];
     self.tankH.position = CGPointMake(0-self.anchoroffset_x,0-self.anchoroffset_y);
     
     
-    self.tankI = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor]
+    self.tankI = [SKSpriteNode spriteNodeWithColor:self.tankBodyBaseColor
                                               size:CGSizeMake(self.scaled_width,self.scaled_height)];
     [self addChild:self.tankI];
     self.tankI.position = CGPointMake(self.scaled_width*2-self.anchoroffset_x,0-self.anchoroffset_y);

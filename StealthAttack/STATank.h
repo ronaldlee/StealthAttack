@@ -42,8 +42,11 @@
 @property (nonatomic) SKSpriteNode * tankr3;
 @property (nonatomic) SKSpriteNode * tankr4;
 
+@property (nonatomic) UIColor *tankBodyColor;
+@property (nonatomic) UIColor *tankBodyBaseColor;
+
 -(void)setBorderBounds:(CGRect)p_bounds;
--(id)initWithScale:(CGFloat)scale Id:(int)t_id;
+-(id)initWithScale:(CGFloat)scale Id:(int)t_id BodyColor:(UIColor*)b_color BodyBaseColor:(UIColor*)bb_color;
 
 -(void)moveForward;
 -(void)moveBackward;

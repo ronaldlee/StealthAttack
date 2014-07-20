@@ -62,7 +62,9 @@
         [self.scene addChild:backward_button];
 
 //        //==
-        self.player = [[STAEnemyTank alloc] initWithScale:self.scale Id:1];
+        self.player = [[STATank alloc] initWithScale:self.scale Id:1
+                                           BodyColor:[UIColor greenColor]
+                                       BodyBaseColor:[UIColor colorWithRed:(70.0f/255.0f) green:(130.0f/255.0f) blue:(17.0f/255.0f) alpha:1.0]];
 
         CGFloat player_bottom_border_y = bottom_corner_y + [self.player getAnchorOffsetY]+PIXEL_WIDTHHEIGHT+1;//+PIXEL_WIDTHHEIGHT+1;
         CGFloat player_top_border_y = top_corner_y-PIXEL_WIDTHHEIGHT*2*self.scale-3;
@@ -85,11 +87,13 @@
         [self.scene addChild:self.player];
         
         //==enemy
-        self.enemy = [[STAEnemyTank alloc] initWithScale:self.scale Id:2];
+        self.enemy = [[STATank alloc] initWithScale:self.scale Id:2
+                                    BodyColor:[UIColor redColor]
+                                    BodyBaseColor:[UIColor colorWithRed:(157.0f/255.0f) green:(28.0f/255.0f) blue:(28.0f/255.0f) alpha:1.0]];
         
         stage_start_x = ([[UIScreen mainScreen] bounds].size.width-PLAYER_WIDTH)/2 +
         [self.player getAnchorOffsetX];
-        stage_start_y = player_bottom_border_y+20+200;
+        stage_start_y = player_bottom_border_y+20+100;
         
         self.enemy.position = CGPointMake(stage_start_x,stage_start_y);
         
