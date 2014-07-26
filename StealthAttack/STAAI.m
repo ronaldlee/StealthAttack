@@ -19,6 +19,7 @@
 @implementation STAAI
 
 @synthesize stage;
+@synthesize accuracyInRadian;
 
 - (id)initWithStage:(STABattleStage*)b_stage {
     self = [super init];
@@ -26,6 +27,8 @@
         stage = b_stage;
         enemyTank_lastknown_x=-1;
         enemyTank_lastknown_y=-1;
+        
+        accuracyInRadian = 5;
     }
     return self;
 }
@@ -91,7 +94,18 @@
     
     CGFloat degree1 = (M_PI_2-faceRotate) + M_PI_2;
     
-    CGFloat degree1DiffFromLast = degree1 - host.zRotation;
+    //calculate accuracy value
+    //accuracyInRadian
+    int rand_dir = arc4random_uniform(1);
+    
+    CGFloat rand = (CGFloat)arc4random_uniform(accuracyInRadian);
+    CGFloat r = rand / (CGFloat)100.0;
+    
+    if (rand_dir == 1) {
+        r *= -1;
+    }
+    
+    CGFloat degree1DiffFromLast = degree1 - host.zRotation + r;
     
     CGFloat degree2 = degree1DiffFromLast-M_PI * 2;
     CGFloat degree_to_use = degree1DiffFromLast;
@@ -111,7 +125,6 @@
     [self faceEnemy_LastX:lastX LastY:lastY complete:^(void) {
         [host fire];
     }];
-    //fire
 }
 
 -(CGFloat) calculateAngleX1:(CGFloat)x1 Y1:(CGFloat)y1 X2:(CGFloat)x2 Y2:(CGFloat)y2 {
