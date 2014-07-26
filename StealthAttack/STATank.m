@@ -25,6 +25,7 @@
     CGFloat moveSpeed;
     CGVector prevVelocity;
     
+    CGFloat lastRotateDiff;
 }
 @end
 
@@ -765,7 +766,8 @@
     lastY = self.position.y;
     lastDirection = self.physicsBody.velocity;
     
-    lastRotation = self.zRotation;
+    lastRotation = self.zRotation - lastRotateDiff;
+    lastRotateDiff = self.zRotation;
 }
 
 -(void)stopBrain {

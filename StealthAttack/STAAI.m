@@ -44,16 +44,6 @@
     NSLog(@"last x: %f, y: %f; rotation: %f; vector dx: %f; dy: %f", lastX, lastY, lastRotation,
           lastDirection.dx, lastDirection.dy);
     
-    if (enemyTank_lastknown_x != lastX) {
-        NSLog(@"NOT same last X");
-    }
-    if (enemyTank_lastknown_y != lastY) {
-        NSLog(@"NOT same last Y");
-    }
-    if (enemyTank_lastknown_rotation != lastRotation) {
-        NSLog(@"NOT same last rotation");
-    }
-    
     //if last pos is not the same, act!
     if (enemyTank_lastknown_x != lastX ||
         enemyTank_lastknown_y != lastY ||
