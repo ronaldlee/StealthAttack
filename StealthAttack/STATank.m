@@ -79,6 +79,8 @@
 - (id)initWithScale:(CGFloat)f_scale Id:(int)t_id BodyColor:(UIColor*)b_color BodyBaseColor:(UIColor*)bb_color  AI:(STAAI*)t_ai RotationSpeed:(CGFloat)r_speed{
     self = [super init];
     if (self) {
+        lastX = -1;
+        lastY = -1;
         rotation_speed = r_speed;
         ai = t_ai;
         
@@ -133,9 +135,9 @@
         NSLog(@"start tl1.y: %f, l2: %f, l3: %f, l4: %f",self.tankl1.position.y,self.tankl2.position.y,self.tankl3.position.y,self.tankl4.position.y);
         NSLog(@"start wheel origin y: %f, bottom y: %f",wheel_origin_y,wheel_bottom_y);
         
-        lastX = self.position.x;
-        lastY = self.position.y;
-        lastDirection = self.physicsBody.velocity;
+//        lastX = self.position.x;
+//        lastY = self.position.y;
+//        lastDirection = self.physicsBody.velocity;
         
         if (ai != NULL) {
             [ai setHost:self];

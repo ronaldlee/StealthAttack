@@ -108,7 +108,7 @@
         CGFloat stage_start_y = player_bottom_border_y+20;
         
         self.player.position = CGPointMake(stage_start_x,stage_start_y);
-        [self.player updateLastPositionData];
+//        [self.player updateLastPositionData];
         
         [self.player setBorderBounds:bounds];
         
