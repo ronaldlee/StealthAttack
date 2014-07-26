@@ -47,7 +47,7 @@
         self.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:self.size];
         self.physicsBody.affectedByGravity = NO;
         self.physicsBody.categoryBitMask = MISSLE_CATEGORY;
-        self.physicsBody.contactTestBitMask = ENEMY_CATEGORY;
+        self.physicsBody.contactTestBitMask = ENEMY_CATEGORY | PLAYER_CATEGORY;
         self.physicsBody.collisionBitMask = 0;
         self.physicsBody.linearDamping = 0;
         

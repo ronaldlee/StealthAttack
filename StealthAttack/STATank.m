@@ -773,9 +773,10 @@
 }
 
 -(void)updateLastPositionData {
-    NSLog(@"update last pos: x: %f; y: %f; rotate: %f; v.dx: %f; dy: %f",
-          self.position.x,self.position.y,self.self.zRotation,
-          self.physicsBody.velocity.dx,self.physicsBody.velocity.dy);
+//    NSLog(@"update last pos: x: %f; y: %f; rotate: %f; v.dx: %f; dy: %f",
+//          self.position.x,self.position.y,self.self.zRotation,
+//          self.physicsBody.velocity.dx,self.physicsBody.velocity.dy);
+    
     lastX = self.position.x;
     lastY = self.position.y;
     lastDirection = self.physicsBody.velocity;

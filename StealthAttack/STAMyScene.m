@@ -329,6 +329,7 @@
             STABullet * bullet = (STABullet*)contact.bodyB.node;
             if (bullet.ownerId != player.playerId) {
                 [player explode];
+                [bullet removeFromParent];
             }
         }
     }
@@ -341,6 +342,7 @@
             NSLog(@"missle hit monster");
             if (bullet.ownerId != enemy.playerId) {
                 [enemy explode];
+                [bullet removeFromParent];
             }
         }
         else if ((contact.bodyB.categoryBitMask & ENEMY_CATEGORY) != 0) {
@@ -366,6 +368,7 @@
             NSLog(@"missle hit player");
             if (bullet.ownerId != player.playerId) {
                 [player explode];
+                [bullet removeFromParent];
             }
         }
     }
