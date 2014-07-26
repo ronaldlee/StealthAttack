@@ -28,4 +28,5 @@ const uint32_t PLAYER_CATEGORY   =  0x1 << 1;
 const uint32_t ENEMY_CATEGORY    =  0x1 << 2;
 const uint32_t WALL_CATEGORY = 0x1 << 3;
 
+
 @end

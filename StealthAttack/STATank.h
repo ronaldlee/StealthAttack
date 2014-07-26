@@ -24,6 +24,10 @@
 @property (nonatomic) CGFloat wheel_height;
 @property (nonatomic) CGFloat wheel_diff;
 
+@property (nonatomic) CGFloat rotation_speed;
+
+@property (nonatomic) SKNode* brainNode;
+
 @property (nonatomic) SKSpriteNode * tankA;
 @property (nonatomic) SKSpriteNode * tankB;
 @property (nonatomic) SKSpriteNode * tankC;
@@ -45,13 +49,26 @@
 @property (nonatomic) UIColor *tankBodyColor;
 @property (nonatomic) UIColor *tankBodyBaseColor;
 
+@property (nonatomic) STAAI* ai;
+
+
+@property (nonatomic) NSString* TANK_ROTATE_ACTION;
+
+@property (nonatomic) CGFloat lastX;
+@property (nonatomic) CGFloat lastY;
+@property (nonatomic) CGVector lastDirection;
+@property (nonatomic) CGFloat lastRotation;
+
 -(void)setBorderBounds:(CGRect)p_bounds;
--(id)initWithScale:(CGFloat)scale Id:(int)t_id BodyColor:(UIColor*)b_color BodyBaseColor:(UIColor*)bb_color;
+-(id)initWithScale:(CGFloat)scale Id:(int)t_id BodyColor:(UIColor*)b_color BodyBaseColor:(UIColor*)bb_color
+                AI:(STAAI*) ai
+     RotationSpeed:(CGFloat)r_speed;
 
 -(void)moveForward;
 -(void)moveBackward;
 -(void)rotateClockwise;
 -(void)rotateCounterClockwise;
+-(void)rotateInDegree:(CGFloat)degree;
 -(void)stop;
 
 -(void)toggleFiring;
@@ -74,5 +91,9 @@
 -(void)stopVelocity;
 
 -(void)restoreVelocity;
+
+-(void)updateLastPositionData;
+
+-(void)stopBrain;
 
 @end

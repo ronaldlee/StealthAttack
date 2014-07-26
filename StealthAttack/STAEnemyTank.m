@@ -31,10 +31,10 @@
 //@synthesize tankr3;
 //@synthesize tankr4;
 
-- (id)initWithScale:(CGFloat)f_scale Id:(int)t_id BodyColor:tankBodyColor BodyBaseColor:tankBodyBaseColor {
+- (id)initWithScale:(CGFloat)f_scale Id:(int)t_id BodyColor:tankBodyColor BodyBaseColor:tankBodyBaseColor AI:(STAAI*) ai RotationSpeed:(CGFloat)r_speed {
     
-    
-    self = [super initWithScale:f_scale Id:t_id BodyColor:tankBodyColor BodyBaseColor:tankBodyBaseColor ];
+    self = [super initWithScale:f_scale Id:t_id BodyColor:tankBodyColor BodyBaseColor:tankBodyBaseColor AI:ai
+                  RotationSpeed:r_speed];
     
     if (self) {
         self.physicsBody.categoryBitMask = ENEMY_CATEGORY;

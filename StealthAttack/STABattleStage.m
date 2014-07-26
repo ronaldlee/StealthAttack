@@ -89,7 +89,9 @@
 //        //==
         self.player = [[STATank alloc] initWithScale:self.scale Id:1
                                            BodyColor:tankBodyYellow
-                                       BodyBaseColor:tankBodyBaseYellow];
+                                       BodyBaseColor:tankBodyBaseYellow
+                                                  AI:NULL
+                                       RotationSpeed:3];
 
         CGFloat player_bottom_border_y = bottom_corner_y + [self.player getAnchorOffsetY]+PIXEL_WIDTHHEIGHT+1;//+PIXEL_WIDTHHEIGHT+1;
         CGFloat player_top_border_y = top_corner_y-PIXEL_WIDTHHEIGHT*2*self.scale-3;
@@ -106,6 +108,7 @@
         CGFloat stage_start_y = player_bottom_border_y+20;
         
         self.player.position = CGPointMake(stage_start_x,stage_start_y);
+        [self.player updateLastPositionData];
         
         [self.player setBorderBounds:bounds];
         
@@ -113,8 +116,10 @@
         
         //==enemy
         self.enemy = [[STAEnemyTank alloc] initWithScale:self.scale Id:2
-                                    BodyColor:tankBodyBlue
-                                    BodyBaseColor:tankBodyBaseBlue];
+                                               BodyColor:tankBodyBlue
+                                           BodyBaseColor:tankBodyBaseBlue
+                                                      AI:[[STAAI alloc] initWithStage:self]
+                                           RotationSpeed:3];
         
         stage_start_x = ([[UIScreen mainScreen] bounds].size.width-PLAYER_WIDTH)/2 +
         [self.player getAnchorOffsetX];
@@ -142,6 +147,7 @@
             [self.player toggleFiring];
             
             if ([self.player isFiring]) {
+                [self.player updateLastPositionData];
                 SKAction* shootBulletAction = [SKAction runBlock:^{
                     //                    BORDER cur_border = [self.player getCurrentBorder];
                     CGPoint location = [self.player position];
@@ -221,6 +227,5 @@
     
     [self.scene removeChildrenInArray:objs];
 }
-
 
 @end

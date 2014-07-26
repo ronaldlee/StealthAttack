@@ -17,6 +17,7 @@
 
 #import "STAGameObject.h"
 #import "STAConstants.h"
+#import "STAAI.h"
 #import "STATank.h"
 #import "STAEnemyTank.h"
 #import "STABullet.h"

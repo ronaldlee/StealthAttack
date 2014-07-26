@@ -30,6 +30,7 @@
 
 @implementation STATank
 
+@synthesize brainNode;
 @synthesize tankA;
 @synthesize tankB;
 @synthesize tankC;
@@ -65,9 +66,21 @@
 @synthesize tankBodyColor;
 @synthesize tankBodyBaseColor;
 
-- (id)initWithScale:(CGFloat)f_scale Id:(int)t_id BodyColor:(UIColor*)b_color BodyBaseColor:(UIColor*)bb_color {
+@synthesize ai;
+
+@synthesize rotation_speed;
+
+@synthesize lastX;
+@synthesize lastY;
+@synthesize lastDirection;
+@synthesize lastRotation;
+
+- (id)initWithScale:(CGFloat)f_scale Id:(int)t_id BodyColor:(UIColor*)b_color BodyBaseColor:(UIColor*)bb_color  AI:(STAAI*)t_ai RotationSpeed:(CGFloat)r_speed{
     self = [super init];
     if (self) {
+        rotation_speed = r_speed;
+        ai = t_ai;
+        
         tankBodyColor = b_color;
         tankBodyBaseColor = bb_color;
         
@@ -86,6 +99,9 @@
         anchoroffset_y = scaled_height+3; //max_height/2;
         
         NSLog(@"max width: %f, %f, ancx/y: %f, %f", max_width, max_height, anchoroffset_x,anchoroffset_y);
+        
+        brainNode = [[SKNode alloc] init];
+        [self addChild:brainNode];
         
         [self buildTankBody];
         
@@ -115,6 +131,20 @@
         NSLog(@"tb.top.y: %f, y: %f", self.tankB.position.y+self.tankB.size.height, self.tankB.position.y);
         NSLog(@"start tl1.y: %f, l2: %f, l3: %f, l4: %f",self.tankl1.position.y,self.tankl2.position.y,self.tankl3.position.y,self.tankl4.position.y);
         NSLog(@"start wheel origin y: %f, bottom y: %f",wheel_origin_y,wheel_bottom_y);
+        
+        lastX = self.position.x;
+        lastY = self.position.y;
+        lastDirection = self.physicsBody.velocity;
+        
+        if (ai != NULL) {
+            [ai setHost:self];
+            SKAction* aiAction = [SKAction runBlock:^(void) {
+                [ai think];
+            }];
+            
+            SKAction *wait = [SKAction waitForDuration:10];
+            [self.brainNode runAction:[SKAction repeatActionForever:[SKAction sequence:@[wait,aiAction]]]];
+        }
     }
     return self;
 }
@@ -542,7 +572,7 @@
     if (isRotatingCounterClockwise || isMovingForward || isMovingBackward) return;
     isRotatingClockwise= true;
     
-    SKAction *rotation = [SKAction rotateByAngle:-M_PI*2 duration:3];
+    SKAction *rotation = [SKAction rotateByAngle:-M_PI*2 duration:rotation_speed];
     
     [self runAction:[SKAction repeatActionForever:rotation]];
     
@@ -553,12 +583,43 @@
     if (isRotatingClockwise || isMovingForward || isMovingBackward) return;
     isRotatingCounterClockwise= true;
     
-    SKAction *rotation = [SKAction rotateByAngle:M_PI*2 duration:3];
+    SKAction *rotation = [SKAction rotateByAngle:M_PI*2 duration:rotation_speed];
     
     [self runAction:[SKAction repeatActionForever:rotation]];
     
     [self moveLeftWheelsBackward];
     [self moveRightWheelsForward];
+}
+
+-(void)rotateInDegree:(CGFloat)degree {
+    if (degree < 0) {
+        //rotate clockwise
+        if (isRotatingCounterClockwise || isMovingForward || isMovingBackward) return;
+        isRotatingClockwise= true;
+        
+        SKAction *rotation = [SKAction rotateByAngle:degree duration:degree/(-M_PI*2)*rotation_speed];
+        
+        [self runAction:rotation completion:^(void) {
+            [self stop];
+        }];
+        
+        [self moveLeftWheelsForward];
+        [self moveRightWheelsBackward];
+    }
+    else {
+        //rotate counter clockwise
+        if (isRotatingClockwise || isMovingForward || isMovingBackward) return;
+        isRotatingCounterClockwise= true;
+        
+        SKAction *rotation = [SKAction rotateByAngle:degree duration:degree/(M_PI*2)*rotation_speed];
+        
+        [self runAction:rotation completion:^(void) {
+            [self stop];
+        }];
+        
+        [self moveLeftWheelsBackward];
+        [self moveRightWheelsForward];
+    }
 }
 
 -(void)stop {
@@ -696,5 +757,18 @@
     self.physicsBody.velocity = prevVelocity;
 }
 
+-(void)updateLastPositionData {
+    NSLog(@"update last pos: x: %f; y: %f; rotate: %f; v.dx: %f; dy: %f",
+          self.position.x,self.position.y,self.self.zRotation,
+          self.physicsBody.velocity.dx,self.physicsBody.velocity.dy);
+    lastX = self.position.x;
+    lastY = self.position.y;
+    lastDirection = self.physicsBody.velocity;
+    
+    lastRotation = self.zRotation;
+}
 
+-(void)stopBrain {
+    [self.brainNode removeAllActions];
+}
 @end
