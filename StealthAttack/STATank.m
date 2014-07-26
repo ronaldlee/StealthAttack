@@ -25,8 +25,10 @@
     CGFloat moveSpeed;
     CGVector prevVelocity;
     
-    CGFloat lastRotateDiff;
+    CGFloat lastRotationDiff;
     CGFloat lastSelfRotate;
+    
+    STABattleStage* battleStage;
 }
 @end
 
@@ -596,7 +598,7 @@
     [self moveRightWheelsForward];
 }
 
--(void)rotateInDegree:(CGFloat)degree {
+-(void)rotateInDegree:(CGFloat)degree complete:(void (^)() )block{
     if (degree < 0) {
         //rotate clockwise
         if (isRotatingCounterClockwise || isMovingForward || isMovingBackward) return;
@@ -607,6 +609,9 @@
         [self runAction:rotation completion:^(void) {
             [self updateLastSelfRotate];
             [self stop];
+            if (block) {
+                block();
+            }
         }];
         
         [self moveLeftWheelsForward];
@@ -622,6 +627,9 @@
         [self runAction:rotation completion:^(void) {
             [self updateLastSelfRotate];
             [self stop];
+            if (block) {
+                block();
+            }
         }];
         
         [self moveLeftWheelsBackward];
@@ -772,8 +780,8 @@
     lastY = self.position.y;
     lastDirection = self.physicsBody.velocity;
     
-    lastRotation = self.zRotation - lastRotateDiff;
-    lastRotateDiff = self.zRotation;
+    lastRotationDiff = self.zRotation - lastRotation;
+    lastRotation = self.zRotation;
 }
 
 -(void)updateLastSelfRotate {
@@ -786,5 +794,15 @@
 
 -(void)stopBrain {
     [self.brainNode removeAllActions];
+}
+
+-(void) setBattleStage:(STABattleStage*)stage {
+    battleStage = stage;
+}
+
+-(void)fire {
+    if (battleStage != NULL) {
+        [battleStage fireBullet:self];
+    }
 }
 @end

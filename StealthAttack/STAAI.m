@@ -35,13 +35,19 @@
 }
 
 -(void)think {
-    NSLog(@"thinking");
+//    NSLog(@"thinking");
     
     STATank* player = [stage player];
+    
     CGFloat lastX = [player lastX];
     CGFloat lastY = [player lastY];
     CGVector lastDirection = [player lastDirection];
     CGFloat lastRotation = [player lastRotation];
+    
+    //distance from enemy
+    CGFloat distance = [self getDistanceFromEnemy_LastX:lastX LastY:lastY];
+    
+//    NSLog(@"distance sq: %f" , distance);
     
     if (lastX == -1 && lastY == -1) return;
     
@@ -51,24 +57,10 @@
 //        enemyTank_lastknown_rotation != lastRotation) {
     if (enemyTank_lastknown_x != lastX ||
         enemyTank_lastknown_y != lastY) {
-//        NSLog(@"**** not same! ****");
         
-        CGFloat faceRotate = [self calculateAngleX1:host.position.x Y1:host.position.y
-                                                 X2:lastX Y2:lastY];
+//        [self faceEnemy_LastX:lastX LastY:lastY];
+        [self attack_LastX:lastX LastY:lastY];
         
-        CGFloat degree1 = (M_PI_2-faceRotate) + M_PI_2;
-        
-        CGFloat degree1DiffFromLast = degree1 - host.zRotation;
-        
-        CGFloat degree2 = degree1DiffFromLast-M_PI * 2;
-        CGFloat degree_to_use = degree1DiffFromLast;
-        
-        if (fabs(degree2) < fabs(degree1DiffFromLast)) {
-            degree_to_use=degree2;
-        }
-            
-        [host rotateInDegree:degree_to_use];
-            
         enemyTank_lastknown_x = lastX;
         enemyTank_lastknown_y = lastY;
         enemyTank_lastknown_rotation = lastRotation;
@@ -86,14 +78,40 @@
     
 }
 
--(void)faceEnemy {
-    //my current zRotation
-    CGFloat myRotate = host.zRotation;
-    CGFloat myX = host.position.x;
-    CGFloat myY = host.position.y;
+-(CGFloat)getDistanceFromEnemy_LastX:(CGFloat)lastX LastY:(CGFloat)lastY {
+    CGFloat xDiff = lastX - host.position.x;
+    CGFloat yDiff = lastY - host.position.y;
     
-//    enemyTank_lastknown_x
+    return xDiff*xDiff + yDiff*yDiff;
+}
+
+-(void)faceEnemy_LastX:(CGFloat)lastX LastY:(CGFloat)lastY complete:(void (^)() )block{
+    CGFloat faceRotate = [self calculateAngleX1:host.position.x Y1:host.position.y
+                                             X2:lastX Y2:lastY];
     
+    CGFloat degree1 = (M_PI_2-faceRotate) + M_PI_2;
+    
+    CGFloat degree1DiffFromLast = degree1 - host.zRotation;
+    
+    CGFloat degree2 = degree1DiffFromLast-M_PI * 2;
+    CGFloat degree_to_use = degree1DiffFromLast;
+    
+    if (fabs(degree2) < fabs(degree1DiffFromLast)) {
+        degree_to_use=degree2;
+    }
+    
+    [host rotateInDegree:degree_to_use complete:block];
+}
+
+-(void)evade_LastX:(CGFloat)lastX LastY:(CGFloat)lastY Last:(CGFloat)lastRotation{
+    
+}
+
+-(void)attack_LastX:(CGFloat)lastX LastY:(CGFloat)lastY {
+    [self faceEnemy_LastX:lastX LastY:lastY complete:^(void) {
+        [host fire];
+    }];
+    //fire
 }
 
 -(CGFloat) calculateAngleX1:(CGFloat)x1 Y1:(CGFloat)y1 X2:(CGFloat)x2 Y2:(CGFloat)y2 {

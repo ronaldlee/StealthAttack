@@ -68,7 +68,7 @@
 -(void)moveBackward;
 -(void)rotateClockwise;
 -(void)rotateCounterClockwise;
--(void)rotateInDegree:(CGFloat)degree;
+-(void)rotateInDegree:(CGFloat)degree complete:(void (^)() )block;
 -(void)stop;
 
 -(void)toggleFiring;
@@ -98,5 +98,8 @@
 
 -(void)updateLastSelfRotate;
 -(CGFloat)getLastSelfRotate;
+
+-(void)fire;
+-(void) setBattleStage:(STABattleStage*)stage;
 
 @end

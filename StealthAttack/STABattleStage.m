@@ -120,6 +120,7 @@
                                            BodyBaseColor:tankBodyBaseBlue
                                                       AI:[[STAAI alloc] initWithStage:self]
                                            RotationSpeed:3];
+        [self.enemy setBattleStage:self];
         
         stage_start_x = ([[UIScreen mainScreen] bounds].size.width-PLAYER_WIDTH)/2 +
         [self.player getAnchorOffsetX];
@@ -135,6 +136,41 @@
     return self;
 }
 
+-(void) fireBullet:(STATank*)tank {
+    NSLog(@"fire bullet");
+    [tank updateLastPositionData];
+    SKAction* shootBulletAction = [SKAction runBlock:^{
+        CGPoint location = [tank position];
+        STABullet *bullet = [[STABullet alloc]initWithScale:1.0];
+        
+        //need to position at the tip of the tank's turret..
+        
+        //bullet.position = location;
+        bullet.zPosition = 1;
+        
+        //bullet.scale = 0.8;
+        
+        CGFloat velocity_x = cos([tank getAdjRotation])*100;
+        CGFloat velocity_y = sin([tank getAdjRotation])*100;
+        
+        CGFloat radius = PLAYER_WIDTH;
+        CGFloat x = cos([tank getAdjRotation])*radius + tank.position.x;
+        CGFloat y = sin([tank getAdjRotation])*radius + tank.position.y;
+        
+        bullet.position = CGPointMake(x,y);
+        
+        bullet.zRotation = [tank getAdjRotation];
+        
+        bullet.physicsBody.velocity = CGVectorMake(velocity_x, velocity_y);
+        
+        bullet.ownerId = tank.playerId;
+        
+        [self.scene addChild:bullet];
+    }];// queue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
+    
+    [self.scene runAction:shootBulletAction];
+}
+
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     NSLog(@"touch battle stage");
     for (UITouch *touch in touches) {
@@ -144,52 +180,54 @@
         if ([node.name isEqualToString:@"fire_button"]) {
             NSLog(@"fire!!");
             
-            [self.player toggleFiring];
-            
-            if ([self.player isFiring]) {
-                [self.player updateLastPositionData];
-                SKAction* shootBulletAction = [SKAction runBlock:^{
-                    //                    BORDER cur_border = [self.player getCurrentBorder];
-                    CGPoint location = [self.player position];
-                    STABullet *bullet = [[STABullet alloc]initWithScale:1.0];
-                    
-                    //need to position at the tip of the tank's turret..
-                    
-                    //bullet.position = location;
-                    bullet.zPosition = 1;
-                    
-                    //bullet.scale = 0.8;
-                    
-                    CGFloat velocity_x = cos([self.player getAdjRotation])*100;
-                    CGFloat velocity_y = sin([self.player getAdjRotation])*100;
-                    
-                    CGFloat radius = PLAYER_WIDTH;
-                    CGFloat x = cos([self.player getAdjRotation])*radius +
-                    self.player.position.x;
-                    CGFloat y = sin([self.player getAdjRotation])*radius +
-                    self.player.position.y;
-                    
-                    //                    bullet.position = CGPointMake(location.x,location.y+self.player.size.height/2);
-                    bullet.position = CGPointMake(x,y);
-                    
-                    //                    NSLog(@"x: %f, y: %f", x,y);
-                    
-                    bullet.zRotation = [self.player getAdjRotation];
-                    
-                    bullet.physicsBody.velocity = CGVectorMake(velocity_x, velocity_y);
-                    
-                    bullet.ownerId = self.player.playerId;
-                    
-                    [self.scene addChild:bullet];
-                }];// queue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
-                
-                SKAction *wait = [SKAction waitForDuration:0.4];
-                SKAction *sequence = [SKAction sequence:@[shootBulletAction, wait]];
-                [self.scene runAction:[SKAction repeatActionForever:sequence]];
-            }
-            else {
-                [self.scene removeAllActions];
-            }
+            [self fireBullet:self.player];
+//            
+//            [self.player toggleFiring];
+//            
+//            if ([self.player isFiring]) {
+//                [self.player updateLastPositionData];
+//                SKAction* shootBulletAction = [SKAction runBlock:^{
+//                    //                    BORDER cur_border = [self.player getCurrentBorder];
+//                    CGPoint location = [self.player position];
+//                    STABullet *bullet = [[STABullet alloc]initWithScale:1.0];
+//                    
+//                    //need to position at the tip of the tank's turret..
+//                    
+//                    //bullet.position = location;
+//                    bullet.zPosition = 1;
+//                    
+//                    //bullet.scale = 0.8;
+//                    
+//                    CGFloat velocity_x = cos([self.player getAdjRotation])*100;
+//                    CGFloat velocity_y = sin([self.player getAdjRotation])*100;
+//                    
+//                    CGFloat radius = PLAYER_WIDTH;
+//                    CGFloat x = cos([self.player getAdjRotation])*radius +
+//                    self.player.position.x;
+//                    CGFloat y = sin([self.player getAdjRotation])*radius +
+//                    self.player.position.y;
+//                    
+//                    //                    bullet.position = CGPointMake(location.x,location.y+self.player.size.height/2);
+//                    bullet.position = CGPointMake(x,y);
+//                    
+//                    //                    NSLog(@"x: %f, y: %f", x,y);
+//                    
+//                    bullet.zRotation = [self.player getAdjRotation];
+//                    
+//                    bullet.physicsBody.velocity = CGVectorMake(velocity_x, velocity_y);
+//                    
+//                    bullet.ownerId = self.player.playerId;
+//                    
+//                    [self.scene addChild:bullet];
+//                }];// queue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
+//                
+//                SKAction *wait = [SKAction waitForDuration:0.4];
+//                SKAction *sequence = [SKAction sequence:@[shootBulletAction, wait]];
+//                [self.scene runAction:[SKAction repeatActionForever:sequence]];
+//            }
+//            else {
+//                [self.scene removeAllActions];
+//            }
             
             return;
         }
