@@ -96,4 +96,7 @@
 
 -(void)stopBrain;
 
+-(void)updateLastSelfRotate;
+-(CGFloat)getLastSelfRotate;
+
 @end

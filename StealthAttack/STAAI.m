@@ -43,9 +43,6 @@
     CGVector lastDirection = [player lastDirection];
     CGFloat lastRotation = [player lastRotation];
     
-    NSLog(@"last x: %f, y: %f; rotation: %f; vector dx: %f; dy: %f", lastX, lastY, lastRotation,
-          lastDirection.dx, lastDirection.dy);
-    
     if (lastX == -1 && lastY == -1) return;
     
     //if last pos is not the same, act!
@@ -54,22 +51,21 @@
 //        enemyTank_lastknown_rotation != lastRotation) {
     if (enemyTank_lastknown_x != lastX ||
         enemyTank_lastknown_y != lastY) {
-        NSLog(@"**** not same! ****");
+//        NSLog(@"**** not same! ****");
         
         CGFloat faceRotate = [self calculateAngleX1:host.position.x Y1:host.position.y
                                                  X2:lastX Y2:lastY];
         
-        NSLog(@"^^^^ face rotate: %f", faceRotate);
+        CGFloat degree1 = (M_PI_2-faceRotate) + M_PI_2;
         
-//        [host rotateInDegree:faceRotate];
-        CGFloat degree1 = (M_PI_2-faceRotate) + [host getAdjRotation];
-        CGFloat degree2 = degree1-M_PI * 2;
-        CGFloat degree_to_use = degree1;
-        if (fabs(degree2) < fabs(degree1)) {
+        CGFloat degree1DiffFromLast = degree1 - host.zRotation;
+        
+        CGFloat degree2 = degree1DiffFromLast-M_PI * 2;
+        CGFloat degree_to_use = degree1DiffFromLast;
+        
+        if (fabs(degree2) < fabs(degree1DiffFromLast)) {
             degree_to_use=degree2;
         }
-            
-        NSLog(@"degee 1: %f; 2: %f", degree1, degree2);
             
         [host rotateInDegree:degree_to_use];
             
@@ -106,10 +102,7 @@
     CGFloat y = y2-y1;
     CGFloat baseangle = atan2(-x,-y);
     
-    return baseangle; //+M_PI_2;
-    
-//    CGFloat radian = (baseangle + (180/M_PI));
-//    return 180+radian;
+    return baseangle;
 }
 
 @end

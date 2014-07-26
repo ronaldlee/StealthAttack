@@ -26,6 +26,7 @@
     CGVector prevVelocity;
     
     CGFloat lastRotateDiff;
+    CGFloat lastSelfRotate;
 }
 @end
 
@@ -145,7 +146,7 @@
                 [ai think];
             }];
             
-            SKAction *wait = [SKAction waitForDuration:10];
+            SKAction *wait = [SKAction waitForDuration:0.5];
             [self.brainNode runAction:[SKAction repeatActionForever:[SKAction sequence:@[wait,aiAction]]]];
         }
     }
@@ -239,6 +240,7 @@
     [self addChild:self.tankG];
     self.tankG.position = CGPointMake(scaled_width*2-anchoroffset_x,0-anchoroffset_y);
 }
+
 
 -(int)getWidthInPixels {
     return 3;
@@ -603,6 +605,7 @@
         SKAction *rotation = [SKAction rotateByAngle:degree duration:degree/(-M_PI*2)*rotation_speed];
         
         [self runAction:rotation completion:^(void) {
+            [self updateLastSelfRotate];
             [self stop];
         }];
         
@@ -617,6 +620,7 @@
         SKAction *rotation = [SKAction rotateByAngle:degree duration:degree/(M_PI*2)*rotation_speed];
         
         [self runAction:rotation completion:^(void) {
+            [self updateLastSelfRotate];
             [self stop];
         }];
         
@@ -770,6 +774,14 @@
     
     lastRotation = self.zRotation - lastRotateDiff;
     lastRotateDiff = self.zRotation;
+}
+
+-(void)updateLastSelfRotate {
+    lastSelfRotate = self.zRotation;
+}
+
+-(CGFloat)getLastSelfRotate {
+    return lastSelfRotate;
 }
 
 -(void)stopBrain {
