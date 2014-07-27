@@ -28,6 +28,7 @@
 
 @property (nonatomic) SKNode* brainNode;
 @property (nonatomic) SKNode* moveToNode;
+@property (nonatomic) SKNode* attackCooldownNode;
 
 @property (nonatomic) SKSpriteNode * tankA;
 @property (nonatomic) SKSpriteNode * tankB;
@@ -61,6 +62,7 @@
 @property (nonatomic) CGFloat lastRotation;
 
 @property (nonatomic) int fireCount;
+@property (nonatomic) BOOL isExploded;
 
 
 -(void)setBorderBounds:(CGRect)p_bounds;
@@ -69,7 +71,7 @@
      RotationSpeed:(CGFloat)r_speed;
 
 -(void)moveForward;
--(void)moveForwardToX:(CGFloat)x Y:(CGFloat)y;
+-(void)moveForwardToX:(CGFloat)x Y:(CGFloat)y complete:(void (^)() )block;
 -(void)moveBackward;
 -(void)rotateClockwise;
 -(void)rotateCounterClockwise;
@@ -84,7 +86,6 @@
 -(CGFloat)getAnchorOffsetY;
 
 -(void)stopMovement;
--(void)stopMoveToAction;
 
 -(CGFloat)getAdjRotation;
 

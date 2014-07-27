@@ -36,6 +36,8 @@
 
 @synthesize brainNode;
 @synthesize moveToNode;
+@synthesize attackCooldownNode;
+
 @synthesize tankA;
 @synthesize tankB;
 @synthesize tankC;
@@ -81,6 +83,8 @@
 @synthesize lastRotation;
 @synthesize fireCount;
 
+@synthesize isExploded;
+
 - (id)initWithScale:(CGFloat)f_scale Id:(int)t_id BodyColor:(UIColor*)b_color BodyBaseColor:(UIColor*)bb_color  AI:(STAAI*)t_ai RotationSpeed:(CGFloat)r_speed{
     self = [super init];
     if (self) {
@@ -113,6 +117,9 @@
         
         moveToNode = [[SKNode alloc] init];
         [self addChild:moveToNode];
+        
+        attackCooldownNode = [[SKNode alloc] init];
+        [self addChild:attackCooldownNode];
         
         [self buildTankBody];
         
@@ -560,7 +567,7 @@
     [self moveRightWheelsForward];
 }
 
--(void)moveForwardToX:(CGFloat)dest_x Y:(CGFloat)dest_y {
+-(void)moveForwardToX:(CGFloat)dest_x Y:(CGFloat)dest_y complete:(void (^)() )block {
     if (isRotatingClockwise || isRotatingCounterClockwise || isMovingBackward) return;
     isMovingForward= true;
     
@@ -577,6 +584,7 @@
     SKAction* stopAction = [SKAction runBlock:^(void) {
         NSLog(@"I am there!!");
         [self stop];
+        block();
     }];
     
     SKAction *wait = [SKAction waitForDuration:duration];
@@ -673,23 +681,6 @@
     }
 }
 
--(void)stop {
-    isMovingForward = isMovingBackward = false;
-    isRotatingClockwise = isRotatingCounterClockwise = false;
-    
-    self.physicsBody.velocity = CGVectorMake(0, 0);
-    
-    [self removeAllActions];
-    [self.tankl1 removeAllActions];
-    [self.tankl2 removeAllActions];
-    [self.tankl3 removeAllActions];
-    [self.tankl4 removeAllActions];
-    
-    [self.tankr1 removeAllActions];
-    [self.tankr2 removeAllActions];
-    [self.tankr3 removeAllActions];
-    [self.tankr4 removeAllActions];
-}
 
 -(void)explodePart:(SKSpriteNode*)part XDiff:(CGFloat)x_diff YDiff:(CGFloat)y_diff
        FlyDuration:(float)f_duration FadeoutDuration:(float)fo_duration
@@ -715,6 +706,7 @@
 }
 
 -(void)explode {
+    isExploded = true;
     [self removeAllActions];
     
     float f_duration = 2.0;
@@ -792,12 +784,6 @@
 //    [enemy explode];
 }
 
--(void)stopMovement {
-    if (isMovingForward || isMovingBackward) {
-        isMovingForward = isMovingBackward = false;
-        [self removeAllActions];
-    }
-}
 
 -(void)stopVelocity {
     prevVelocity = self.physicsBody.velocity;
@@ -843,8 +829,34 @@
     }
 }
 
--(void)stopMoveToAction {
+//=============================
+//============== STOP functions
+
+-(void)stop {
+    isMovingForward = isMovingBackward = false;
+    isRotatingClockwise = isRotatingCounterClockwise = false;
+    
+    self.physicsBody.velocity = CGVectorMake(0, 0);
+    
+    [self removeAllActions];
+    [self.tankl1 removeAllActions];
+    [self.tankl2 removeAllActions];
+    [self.tankl3 removeAllActions];
+    [self.tankl4 removeAllActions];
+    
+    [self.tankr1 removeAllActions];
+    [self.tankr2 removeAllActions];
+    [self.tankr3 removeAllActions];
+    [self.tankr4 removeAllActions];
+   
     [moveToNode removeAllActions];
-    [self stop];
 }
+
+-(void)stopMovement {
+    if (isMovingForward || isMovingBackward) {
+        isMovingForward = isMovingBackward = false;
+        [self removeAllActions];
+    }
+}
+
 @end
