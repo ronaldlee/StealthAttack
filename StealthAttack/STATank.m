@@ -554,20 +554,6 @@
 //    
 //    [self runAction:[SKAction repeatActionForever:rotation]];
     
-    if (ai != NULL) {
-        CGFloat duration = 0;
-        [moveToNode removeAllActions];
-        
-        SKAction* stopAction = [SKAction runBlock:^(void) {
-            [self stop];
-        }];
-        
-        SKAction *wait = [SKAction waitForDuration:duration];
-        SKAction* sequence=[SKAction sequence:@[wait,stopAction]];
-        
-        [moveToNode runAction:sequence];
-    }
-    
     self.physicsBody.velocity = CGVectorMake(x, y);
     
     [self moveLeftWheelsForward];
@@ -855,5 +841,10 @@
     if (battleStage != NULL) {
         [battleStage fireBullet:self];
     }
+}
+
+-(void)stopMoveToAction {
+    [moveToNode removeAllActions];
+    [self stop];
 }
 @end

@@ -84,6 +84,7 @@
 -(CGFloat)getAnchorOffsetY;
 
 -(void)stopMovement;
+-(void)stopMoveToAction;
 
 -(CGFloat)getAdjRotation;
 

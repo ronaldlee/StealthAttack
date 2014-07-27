@@ -14,6 +14,7 @@
     CGFloat enemyTank_lastknown_rotation;
     CGFloat enemyTank_lastknown_fireCount;
     STATank* host;
+    BOOL isApproaching;
 }
 @end
 
@@ -30,6 +31,7 @@
         enemyTank_lastknown_y=-1;
         
         accuracyInRadian = 5;
+        isApproaching = false;
     }
     return self;
 }
@@ -51,7 +53,7 @@
     //distance from enemy
     CGFloat distance = [self getDistanceFromEnemy_LastX:lastX LastY:lastY];
     
-//    NSLog(@"distance sq: %f" , distance);
+    NSLog(@"distance sq: %f" , distance);
     
     if (lastX == -1 && lastY == -1) return;
     
@@ -59,18 +61,28 @@
     //attack
     if (enemyTank_lastknown_fireCount != player.fireCount) {
         enemyTank_lastknown_fireCount = player.fireCount;
-        if (distance > 30000) {
-            //approach
-            [self approach_LastX:lastX LastY:lastY];
-        }
-        else {
-    //        [self faceEnemy_LastX:lastX LastY:lastY];
-            [self attack_LastX:lastX LastY:lastY];
-            
-        }
+//        if (distance > 30000) {
+//            //approach
+//            [self approach_LastX:lastX LastY:lastY];
+//        }
+//        else {
+//            [host stopMoveToAction];
+//            [self attack_LastX:lastX LastY:lastY];
+//        }
         enemyTank_lastknown_x = lastX;
         enemyTank_lastknown_y = lastY;
         enemyTank_lastknown_rotation = lastRotation;
+    }
+    
+    if (distance > 100000) {
+        //approach
+        NSLog(@"approaching");
+        [self approach_LastX:lastX LastY:lastY];
+    }
+    else {
+        NSLog(@"attacking");
+        [host stopMoveToAction];
+        [self attack_LastX:lastX LastY:lastY];
     }
 
 }
@@ -113,6 +125,9 @@
 }
 
 -(void)approach_LastX:(CGFloat)lastX LastY:(CGFloat)lastY {
+    if (isApproaching) return;
+    
+    isApproaching = true;
     //calculate accuracy value
     //accuracyInRadian
     CGFloat rand = (CGFloat)arc4random_uniform(accuracyInRadian);
