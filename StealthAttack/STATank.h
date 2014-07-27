@@ -27,6 +27,7 @@
 @property (nonatomic) CGFloat rotation_speed;
 
 @property (nonatomic) SKNode* brainNode;
+@property (nonatomic) SKNode* moveToNode;
 
 @property (nonatomic) SKSpriteNode * tankA;
 @property (nonatomic) SKSpriteNode * tankB;
@@ -59,6 +60,8 @@
 @property (nonatomic) CGVector lastDirection;
 @property (nonatomic) CGFloat lastRotation;
 
+@property (nonatomic) int fireCount;
+
 
 -(void)setBorderBounds:(CGRect)p_bounds;
 -(id)initWithScale:(CGFloat)scale Id:(int)t_id BodyColor:(UIColor*)b_color BodyBaseColor:(UIColor*)bb_color
@@ -66,6 +69,7 @@
      RotationSpeed:(CGFloat)r_speed;
 
 -(void)moveForward;
+-(void)moveForwardToX:(CGFloat)x Y:(CGFloat)y;
 -(void)moveBackward;
 -(void)rotateClockwise;
 -(void)rotateCounterClockwise;

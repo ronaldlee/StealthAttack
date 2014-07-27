@@ -167,6 +167,8 @@
         bullet.ownerId = tank.playerId;
         
         [self.scene addChild:bullet];
+        tank.fireCount++;
+        
     }];// queue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
     
     [self.scene runAction:shootBulletAction];

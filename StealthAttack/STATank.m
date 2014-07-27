@@ -35,6 +35,7 @@
 @implementation STATank
 
 @synthesize brainNode;
+@synthesize moveToNode;
 @synthesize tankA;
 @synthesize tankB;
 @synthesize tankC;
@@ -78,6 +79,7 @@
 @synthesize lastY;
 @synthesize lastDirection;
 @synthesize lastRotation;
+@synthesize fireCount;
 
 - (id)initWithScale:(CGFloat)f_scale Id:(int)t_id BodyColor:(UIColor*)b_color BodyBaseColor:(UIColor*)bb_color  AI:(STAAI*)t_ai RotationSpeed:(CGFloat)r_speed{
     self = [super init];
@@ -108,6 +110,9 @@
         
         brainNode = [[SKNode alloc] init];
         [self addChild:brainNode];
+        
+        moveToNode = [[SKNode alloc] init];
+        [self addChild:moveToNode];
         
         [self buildTankBody];
         
@@ -549,11 +554,56 @@
 //    
 //    [self runAction:[SKAction repeatActionForever:rotation]];
     
+    if (ai != NULL) {
+        CGFloat duration = 0;
+        [moveToNode removeAllActions];
+        
+        SKAction* stopAction = [SKAction runBlock:^(void) {
+            [self stop];
+        }];
+        
+        SKAction *wait = [SKAction waitForDuration:duration];
+        SKAction* sequence=[SKAction sequence:@[wait,stopAction]];
+        
+        [moveToNode runAction:sequence];
+    }
+    
     self.physicsBody.velocity = CGVectorMake(x, y);
     
     [self moveLeftWheelsForward];
     [self moveRightWheelsForward];
 }
+
+-(void)moveForwardToX:(CGFloat)dest_x Y:(CGFloat)dest_y {
+    if (isRotatingClockwise || isRotatingCounterClockwise || isMovingBackward) return;
+    isMovingForward= true;
+    
+    CGFloat x = cos([self getAdjRotation])*moveSpeed;//+self.position.x;
+    CGFloat y = sin([self getAdjRotation])*moveSpeed;//+self.position.y;
+    
+    CGFloat xdiff = self.position.x - dest_x;
+    CGFloat ydiff = self.position.y - dest_y;
+    CGFloat distance = sqrt(xdiff*xdiff + ydiff*ydiff);
+    CGFloat duration = distance/moveSpeed;
+    
+    [moveToNode removeAllActions];
+    
+    SKAction* stopAction = [SKAction runBlock:^(void) {
+        NSLog(@"I am there!!");
+        [self stop];
+    }];
+    
+    SKAction *wait = [SKAction waitForDuration:duration];
+    SKAction* sequence=[SKAction sequence:@[wait,stopAction]];
+    
+    [moveToNode runAction:sequence];
+    
+    self.physicsBody.velocity = CGVectorMake(x, y);
+    
+    [self moveLeftWheelsForward];
+    [self moveRightWheelsForward];
+}
+
 -(void)moveBackward {
     if (isRotatingClockwise || isRotatingCounterClockwise || isMovingForward) return;
     isMovingBackward= true;
