@@ -850,6 +850,11 @@
     [self.tankr4 removeAllActions];
    
     [moveToNode removeAllActions];
+    
+    if (ai != NULL) {
+        ai.isApproaching = false;
+        ai.isRotating = false;
+    }
 }
 
 -(void)stopMovement {
