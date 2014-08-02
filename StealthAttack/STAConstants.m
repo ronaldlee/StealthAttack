@@ -52,4 +52,6 @@ const uint32_t REGION_RIGHT_BOTTOM = 7;
 const uint32_t REGION_RIGHT_MIDDLE = 8;
 const uint32_t REGION_RIGHT_TOP = 9;
 
+const BOOL IS_ENABLE_STEALTH = true;
+
 @end

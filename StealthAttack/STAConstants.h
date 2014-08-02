@@ -62,4 +62,6 @@ extern const uint32_t REGION_RIGHT_BOTTOM;
 extern const uint32_t REGION_RIGHT_MIDDLE;
 extern const uint32_t REGION_RIGHT_TOP;
 
+extern const BOOL IS_ENABLE_STEALTH;
+
 @end

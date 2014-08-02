@@ -20,6 +20,9 @@
 @property (nonatomic) STAButton * forward_button;
 @property (nonatomic) STAButton * backward_button;
 
+@property (nonatomic) SKNode* playerFadeNode;
+@property (nonatomic) SKNode* enemyFadeNode;
+
 -(void) fireBullet:(STATank*)tank;
 
 @end

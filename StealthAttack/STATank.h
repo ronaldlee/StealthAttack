@@ -29,6 +29,7 @@
 @property (nonatomic) SKNode* brainNode;
 @property (nonatomic) SKNode* moveToNode;
 @property (nonatomic) SKNode* attackCooldownNode;
+@property (nonatomic) SKNode* fadeInOutNode;
 
 @property (nonatomic) SKSpriteNode * tankA;
 @property (nonatomic) SKSpriteNode * tankB;
@@ -114,5 +115,9 @@
 -(CGRect)getBorderBounds;
 
 -(CGFloat)getMoveSpeed;
+
+-(void)fadeInThenOut;
+-(void)fadeOut;
+-(void)fadeInNow;
 
 @end

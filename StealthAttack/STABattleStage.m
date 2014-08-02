@@ -30,11 +30,18 @@
 @synthesize forward_button;
 @synthesize backward_button;
 
+@synthesize playerFadeNode;
+@synthesize enemyFadeNode;
 
 - (id)initWithScale:(float)sk_scale Bounds:(CGRect)bounds Scene:(SKScene*)sk_scene {
     self = [super initWithScale:sk_scale Bounds:bounds Scene:sk_scene];
     
     if (self) {
+        playerFadeNode = [[SKNode alloc] init];
+        [self.scene addChild:playerFadeNode];
+        enemyFadeNode = [[SKNode alloc] init];
+        [self.scene addChild:enemyFadeNode];
+        
 //        STAMyScene* myScene = (STAMyScene*)self.scene;
 //        [myScene.currStage cleanup];
         tankBodyGreen = [UIColor greenColor];
@@ -132,9 +139,44 @@
         [self.enemy setBorderBounds:bounds];
         
         [self.scene addChild:self.enemy];
+        
+        
+        if (IS_ENABLE_STEALTH) {
+            int start_delay=5;
+            
+            SKAction * playerFadeOutAction = [SKAction runBlock:^(){
+                [self.player fadeOut];
+            }];
+            SKAction* playerActions=[SKAction sequence:@[[SKAction waitForDuration:start_delay],playerFadeOutAction]];
+            
+            //a timer to fade out both tanks!
+            SKAction * enemyFadeOutAction = [SKAction runBlock:^() {
+                [self.enemy fadeOut];
+            }];
+            SKAction* enemyActions=[SKAction sequence:@[[SKAction waitForDuration:start_delay],enemyFadeOutAction]];
+            
+            [self.enemyFadeNode runAction:enemyActions];
+            [self.playerFadeNode runAction:playerActions];
+        }
     }
     
     return self;
+}
+
+-(void) fadeInOutEnemy {
+    SKAction * tankFadeAction = [SKAction runBlock:^(){
+        [self.enemy fadeInThenOut];
+    }];
+    
+    [self.enemyFadeNode runAction:tankFadeAction];
+}
+
+-(void) fadeInOutPlayer {
+    SKAction * tankFadeAction = [SKAction runBlock:^(){
+        [self.player fadeInThenOut];
+    }];
+    
+    [self.playerFadeNode runAction:tankFadeAction];
 }
 
 -(void) fireBullet:(STATank*)tank {
@@ -172,6 +214,13 @@
     }];// queue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
     
     [self.scene runAction:shootBulletAction];
+    
+    if (tank == self.player) {
+        [self fadeInOutPlayer];
+    }
+    else if (tank == self.enemy) {
+        [self fadeInOutEnemy];
+    }
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {

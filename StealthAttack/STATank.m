@@ -37,6 +37,7 @@
 @synthesize brainNode;
 @synthesize moveToNode;
 @synthesize attackCooldownNode;
+@synthesize fadeInOutNode;
 
 @synthesize tankA;
 @synthesize tankB;
@@ -120,6 +121,9 @@
         
         attackCooldownNode = [[SKNode alloc] init];
         [self addChild:attackCooldownNode];
+        
+        fadeInOutNode = [[SKNode alloc] init];
+        [self addChild:fadeInOutNode];
         
         [self buildTankBody];
         
@@ -752,6 +756,8 @@
        RotateDuration:r_duration];
     [self explodePart:tankr4 XDiff:10 YDiff:5 FlyDuration:f_duration FadeoutDuration:fo_duration
        RotateDuration:r_duration];
+    
+    [self fadeInNow];
 }
 
 -(void)toggleFiring {
@@ -875,6 +881,41 @@
 
 -(CGFloat)getMoveSpeed {
     return moveSpeed;
+}
+
+-(void)fadeInThenOut {
+    SKAction* fadeIn=[SKAction fadeInWithDuration:1];
+    [self.tankA runAction:fadeIn];
+    [self.tankB runAction:fadeIn];
+    [self.tankC runAction:fadeIn];
+    [self.tankD runAction:fadeIn];
+    [self.tankE runAction:fadeIn];
+    [self.tankF runAction:fadeIn];
+    [self.tankG runAction:fadeIn completion:^() {
+        [self fadeOut];
+    }];
+}
+
+-(void)fadeOut {
+    SKAction* fadeOut=[SKAction fadeOutWithDuration:1];
+    [self.tankA runAction:fadeOut];
+    [self.tankB runAction:fadeOut];
+    [self.tankC runAction:fadeOut];
+    [self.tankD runAction:fadeOut];
+    [self.tankE runAction:fadeOut];
+    [self.tankF runAction:fadeOut];
+    [self.tankG runAction:fadeOut];
+}
+
+-(void)fadeInNow {
+    SKAction* fadeIn=[SKAction fadeInWithDuration:0];
+    [self.tankA runAction:fadeIn];
+    [self.tankB runAction:fadeIn];
+    [self.tankC runAction:fadeIn];
+    [self.tankD runAction:fadeIn];
+    [self.tankE runAction:fadeIn];
+    [self.tankF runAction:fadeIn];
+    [self.tankG runAction:fadeIn];
 }
 
 @end

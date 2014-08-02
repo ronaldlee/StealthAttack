@@ -329,6 +329,9 @@
             STABullet * bullet = (STABullet*)contact.bodyB.node;
             if (bullet.ownerId != player.playerId) {
                 [player explode];
+                
+                STATank* tank = ((STABattleStage*)currStage).enemy;
+                [tank fadeInNow];
                 [bullet removeFromParent];
             }
         }
@@ -342,6 +345,9 @@
             NSLog(@"missle hit monster");
             if (bullet.ownerId != enemy.playerId) {
                 [enemy explode];
+                
+                STATank* tank = ((STABattleStage*)currStage).player;
+                [tank fadeInNow];
                 [bullet removeFromParent];
             }
         }
@@ -368,6 +374,8 @@
             NSLog(@"missle hit player");
             if (bullet.ownerId != player.playerId) {
                 [player explode];
+                STATank* tank = ((STABattleStage*)currStage).enemy;
+                [tank fadeInNow];
                 [bullet removeFromParent];
             }
         }

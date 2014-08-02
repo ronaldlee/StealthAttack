@@ -163,4 +163,25 @@
     return 4;
 }
 
+-(void)fadeInThenOut {
+    [super fadeInThenOut];
+    SKAction* fadeIn=[SKAction fadeInWithDuration:1];
+    [self.tankH runAction:fadeIn];
+    [self.tankI runAction:fadeIn];
+}
+
+-(void)fadeOut {
+    [super fadeOut];
+    SKAction* fadeOut=[SKAction fadeOutWithDuration:1];
+    [self.tankH runAction:fadeOut];
+    [self.tankI runAction:fadeOut];
+}
+
+-(void)fadeInNow {
+    [super fadeInNow];
+    SKAction* fadeIn=[SKAction fadeInWithDuration:0];
+    [self.tankH runAction:fadeIn];
+    [self.tankI runAction:fadeIn];
+}
+
 @end
