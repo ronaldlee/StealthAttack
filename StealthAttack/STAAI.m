@@ -13,12 +13,10 @@
     CGFloat enemyTank_lastknown_y;
     CGFloat enemyTank_lastknown_rotation;
     CGFloat enemyTank_lastknown_fireCount;
-    STATank* host;
     
-    NSMutableArray* revealedActionProbArray;
-    NSMutableArray* stealthActionProbArrayLong;
-    NSMutableArray* stealthActionProbArrayMid;
-    NSMutableArray* stealthActionProbArrayShort;
+    int enemyTank_lastknown_distance;
+    
+    STATank* host;
 }
 @end
 
@@ -34,35 +32,21 @@
 @synthesize isAttackCoolDown;
 @synthesize attackCoolDownDuration;
 
-@synthesize revealedApproachProbablity;
-@synthesize revealedWarningShotProbablity;
-@synthesize revealedEvadeProbablity;
-@synthesize revealedDontMoveProbablity;
-@synthesize revealedStupidProbablity;
-
-@synthesize stealthApproachProbablityLong;
-@synthesize stealthWarningShotProbablityLong;
-@synthesize stealthEvadeProbablityLong;
-@synthesize stealthDontMoveProbablityLong;
-@synthesize stealthStupidProbablityLong;
-
-@synthesize stealthApproachProbablityMid;
-@synthesize stealthWarningShotProbablityMid;
-@synthesize stealthEvadeProbablityMid;
-@synthesize stealthDontMoveProbablityMid;
-@synthesize stealthStupidProbablityMid;
-
-@synthesize stealthApproachProbablityShort;
-@synthesize stealthWarningShotProbablityShort;
-@synthesize stealthEvadeProbablityShort;
-@synthesize stealthDontMoveProbablityShort;
-@synthesize stealthStupidProbablityShort;
-
 @synthesize midRange;
 @synthesize shortRange;
 
 @synthesize isApproaching;
 @synthesize isRotating;
+
+@synthesize revealedActionProbArrayLong;
+@synthesize revealedActionProbArrayMid;
+@synthesize revealedActionProbArrayShort;
+
+@synthesize stealthActionProbArrayLong;
+@synthesize stealthActionProbArrayMid;
+@synthesize stealthActionProbArrayShort;
+
+@synthesize chancesStopActionDistanceChangeProbArray;
 
 - (id)initWithStage:(STABattleStage*)b_stage {
     self = [super init];
@@ -80,141 +64,24 @@
         isAttackCoolDown = false;
         attackCoolDownDuration = 5;
         
-        //===
-        revealedApproachProbablity = 5;
-        revealedWarningShotProbablity = 5;
-        revealedEvadeProbablity = 5;
-        revealedDontMoveProbablity = 5;
-        revealedStupidProbablity = 5;
+        //=== When player revealed its position
         
-        revealedActionProbArray = [NSMutableArray array];
-        int count = 0;
-        int i=0;
-        count+=revealedApproachProbablity;
-        for (; i < count; i++) {
-            [revealedActionProbArray addObject:[NSNumber numberWithInteger:REVEALED_APPROACH_PROB_KEY]];
-        }
-        count+=revealedWarningShotProbablity;
-        for (; i < count; i++) {
-            [revealedActionProbArray addObject:[NSNumber numberWithInteger:REVEALED_WARNSHOT_PROB_KEY]];
-        }
-        count+=revealedEvadeProbablity;
-        for (; i < count; i++) {
-            [revealedActionProbArray addObject:[NSNumber numberWithInteger:REVEALED_EVADE_PROB_KEY]];
-        }
-        count+=revealedDontMoveProbablity;
-        for (; i < count; i++) {
-            [revealedActionProbArray addObject:[NSNumber numberWithInteger:REVEALED_DONTMOVE_PROB_KEY]];
-        }
-        count+=revealedStupidProbablity;
-        for (; i < count; i++) {
-            [revealedActionProbArray addObject:[NSNumber numberWithInteger:REVEALED_STUPID_PROB_KEY]];
-        }
+        revealedActionProbArrayLong  = [self getProbArrayForApproach:10 WarningShot:1 Evade:5 DontMove:5 Stupid:5];
+        revealedActionProbArrayMid   = [self getProbArrayForApproach:5 WarningShot:4 Evade:0 DontMove:0 Stupid:0];
+        revealedActionProbArrayShort = [self getProbArrayForApproach:0 WarningShot:5 Evade:0 DontMove:0 Stupid:0];
         
-        [self shuffle:revealedActionProbArray];
+        stealthActionProbArrayLong  = [self getProbArrayForApproach:10 WarningShot:2 Evade:0 DontMove:0 Stupid:0];
+        stealthActionProbArrayMid   = [self getProbArrayForApproach:5 WarningShot:5 Evade:1 DontMove:0 Stupid:0];
+        stealthActionProbArrayShort = [self getProbArrayForApproach:0 WarningShot:10 Evade:0 DontMove:0 Stupid:0];
         
-        //==== Long
-        stealthApproachProbablityLong = 10;
-        stealthWarningShotProbablityLong = 2;
-        stealthEvadeProbablityLong = 0;
-        stealthDontMoveProbablityLong = 0;
-        stealthStupidProbablityLong = 0;
-        
-        stealthActionProbArrayLong = [NSMutableArray array];
-        count = 0;
-        i = 0;
-        count+=stealthApproachProbablityLong;
-        for (; i < count; i++) {
-            [stealthActionProbArrayLong addObject:[NSNumber numberWithInteger:REVEALED_APPROACH_PROB_KEY]];
-        }
-        count+=stealthWarningShotProbablityLong;
-        for (; i < count; i++) {
-            [stealthActionProbArrayLong addObject:[NSNumber numberWithInteger:REVEALED_WARNSHOT_PROB_KEY]];
-        }
-        count+=stealthEvadeProbablityLong;
-        for (; i < count; i++) {
-            [stealthActionProbArrayLong addObject:[NSNumber numberWithInteger:REVEALED_EVADE_PROB_KEY]];
-        }
-        count+=stealthDontMoveProbablityLong;
-        for (; i < count; i++) {
-            [stealthActionProbArrayLong addObject:[NSNumber numberWithInteger:REVEALED_DONTMOVE_PROB_KEY]];
-        }
-        count+=stealthStupidProbablityLong;
-        for (; i < count; i++) {
-            [stealthActionProbArrayLong addObject:[NSNumber numberWithInteger:REVEALED_STUPID_PROB_KEY]];
-        }
-        
-        [self shuffle:stealthActionProbArrayLong];
-        
-        //==== Mid
-        stealthApproachProbablityMid = 5;
-        stealthWarningShotProbablityMid = 5;
-        stealthEvadeProbablityMid = 1;
-        stealthDontMoveProbablityMid = 0;
-        stealthStupidProbablityMid = 0;
-        
-        stealthActionProbArrayMid = [NSMutableArray array];
-        count = 0;
-        i = 0;
-        count+=stealthApproachProbablityMid;
-        for (; i < count; i++) {
-            [stealthActionProbArrayMid addObject:[NSNumber numberWithInteger:REVEALED_APPROACH_PROB_KEY]];
-        }
-        count+=stealthWarningShotProbablityMid;
-        for (; i < count; i++) {
-            [stealthActionProbArrayMid addObject:[NSNumber numberWithInteger:REVEALED_WARNSHOT_PROB_KEY]];
-        }
-        count+=stealthEvadeProbablityMid;
-        for (; i < count; i++) {
-            [stealthActionProbArrayMid addObject:[NSNumber numberWithInteger:REVEALED_EVADE_PROB_KEY]];
-        }
-        count+=stealthDontMoveProbablityMid;
-        for (; i < count; i++) {
-            [stealthActionProbArrayMid addObject:[NSNumber numberWithInteger:REVEALED_DONTMOVE_PROB_KEY]];
-        }
-        count+=stealthStupidProbablityMid;
-        for (; i < count; i++) {
-            [stealthActionProbArrayMid addObject:[NSNumber numberWithInteger:REVEALED_STUPID_PROB_KEY]];
-        }
-        
-        [self shuffle:stealthActionProbArrayMid];
-        
-        //==== Short
-        stealthApproachProbablityShort = 0;
-        stealthWarningShotProbablityShort = 10;
-        stealthEvadeProbablityShort = 0;
-        stealthDontMoveProbablityShort = 0;
-        stealthStupidProbablityShort = 0;
-        
-        stealthActionProbArrayShort = [NSMutableArray array];
-        count = 0;
-        i = 0;
-        count+=stealthApproachProbablityShort;
-        for (; i < count; i++) {
-            [stealthActionProbArrayShort addObject:[NSNumber numberWithInteger:REVEALED_APPROACH_PROB_KEY]];
-        }
-        count+=stealthWarningShotProbablityShort;
-        for (; i < count; i++) {
-            [stealthActionProbArrayShort addObject:[NSNumber numberWithInteger:REVEALED_WARNSHOT_PROB_KEY]];
-        }
-        count+=stealthEvadeProbablityShort;
-        for (; i < count; i++) {
-            [stealthActionProbArrayShort addObject:[NSNumber numberWithInteger:REVEALED_EVADE_PROB_KEY]];
-        }
-        count+=stealthDontMoveProbablityShort;
-        for (; i < count; i++) {
-            [stealthActionProbArrayShort addObject:[NSNumber numberWithInteger:REVEALED_DONTMOVE_PROB_KEY]];
-        }
-        count+=stealthStupidProbablityShort;
-        for (; i < count; i++) {
-            [stealthActionProbArrayShort addObject:[NSNumber numberWithInteger:REVEALED_STUPID_PROB_KEY]];
-        }
-        
-        [self shuffle:stealthActionProbArrayShort];
         //====
         
         midRange = 40000;
         shortRange = 10000;
+        
+        //====
+        
+        chancesStopActionDistanceChangeProbArray = [self getProbArrayForYes:5 No:5];
         
         //====
     
@@ -222,6 +89,59 @@
         isRotating = false;
     }
     return self;
+}
+
+-(NSMutableArray*)getProbArrayForYes:(int)yes
+                                  No:(int)no {
+    
+    NSMutableArray* probArrayShort = [NSMutableArray array];
+    int count = 0;
+    int i = 0;
+    count+=yes;
+    for (; i < count; i++) {
+        [probArrayShort addObject:[NSNumber numberWithInteger:YES]];
+    }
+    count+=no;
+    for (; i < count; i++) {
+        [probArrayShort addObject:[NSNumber numberWithInteger:NO]];
+    }
+    
+    return probArrayShort;
+}
+
+-(NSMutableArray*)getProbArrayForApproach:(int)approachProb
+                              WarningShot:(int)warningShot
+                                    Evade:(int)evadeShot
+                                 DontMove:(int)dontMove
+                                   Stupid:(int)stupid {
+    
+    NSMutableArray* probArrayShort = [NSMutableArray array];
+    int count = 0;
+    int i = 0;
+    count+=approachProb;
+    for (; i < count; i++) {
+        [probArrayShort addObject:[NSNumber numberWithInteger:APPROACH_PROB_KEY]];
+    }
+    count+=warningShot;
+    for (; i < count; i++) {
+        [probArrayShort addObject:[NSNumber numberWithInteger:WARNSHOT_PROB_KEY]];
+    }
+    count+=evadeShot;
+    for (; i < count; i++) {
+        [probArrayShort addObject:[NSNumber numberWithInteger:EVADE_PROB_KEY]];
+    }
+    count+=dontMove;
+    for (; i < count; i++) {
+        [probArrayShort addObject:[NSNumber numberWithInteger:DONTMOVE_PROB_KEY]];
+    }
+    count+=stupid;
+    for (; i < count; i++) {
+        [probArrayShort addObject:[NSNumber numberWithInteger:STUPID_PROB_KEY]];
+    }
+    
+    [self shuffle:probArrayShort];
+    
+    return probArrayShort;
 }
 
 -(void)setHost:(STATank*)t_host {
@@ -246,6 +166,34 @@
     
     if (lastX == -1 && lastY == -1) return;
     
+    if (![self isAvailableForAction]) {
+        //depending on certain conditions, stop the current action.
+        int curDistance = 0;
+        if (distance < shortRange) {
+            curDistance = DISTANCE_SHORT;
+        }
+        else if (distance < midRange) {
+            curDistance = DISTANCE_MID;
+        }
+        else {
+            curDistance = DISTANCE_LONG;
+        }
+        
+        if (enemyTank_lastknown_distance != curDistance) {
+            //chances to stop the current action and rethink
+            int rand = (int)arc4random_uniform([chancesStopActionDistanceChangeProbArray count]);
+            
+            NSNumber *prod_action = [chancesStopActionDistanceChangeProbArray objectAtIndex:rand];
+            int prod_act_int = [prod_action intValue];
+            
+            if (prod_act_int == YES) {
+                [host stop];
+            }
+        }
+    }
+    
+    //currently an action is on going
+    if (![self isAvailableForAction]) return;
     
     //attack
     if (enemyTank_lastknown_fireCount != player.fireCount) {
@@ -260,35 +208,107 @@
         //  don't move -
         //  stupid - move like a retarded, simulate human mistakes and hestitations.
         
-        int rand = (int)arc4random_uniform([revealedActionProbArray count]);
-        
-        NSNumber *prod_action = [revealedActionProbArray objectAtIndex:rand];
-        int prod_act_int = [prod_action intValue];
-        
-        if (prod_act_int == REVEALED_APPROACH_PROB_KEY) {
-            NSLog(@"revealed: approaching");
-            [self approach_LastX:lastX LastY:lastY];
-        }
-        else if (prod_act_int == REVEALED_WARNSHOT_PROB_KEY) {
-            NSLog(@"revealed: try warning shot");
-            if (!isAttackCoolDown) {
-                NSLog(@"revealed: warning shot");
+        if (distance < shortRange) {
+            enemyTank_lastknown_distance = DISTANCE_SHORT;
+            
+            int rand = (int)arc4random_uniform([revealedActionProbArrayShort count]);
+            
+            NSNumber *prod_action = [revealedActionProbArrayShort objectAtIndex:rand];
+            int prod_act_int = [prod_action intValue];
+            
+            if (prod_act_int == APPROACH_PROB_KEY) {
+                NSLog(@"revealed: approaching");
+                [self approach_LastX:lastX LastY:lastY];
+            }
+            else if (prod_act_int == WARNSHOT_PROB_KEY) {
+                NSLog(@"revealed: try warning shot");
+                if (!isAttackCoolDown) {
+                    NSLog(@"revealed: warning shot");
+                    [host stop];
+                    [self attack_LastX:lastX LastY:lastY];
+                }
+            }
+            else if (prod_act_int == EVADE_PROB_KEY) {
+                NSLog(@"revealed: evade");
+                [self evadeFrom_LastX:lastX LastY:lastY LastRotation:lastRotation];
+            }
+            else if (prod_act_int == DONTMOVE_PROB_KEY) {
+                NSLog(@"revealed: stop moving");
                 [host stop];
-                [self attack_LastX:lastX LastY:lastY];
+            }
+            else if (prod_act_int == STUPID_PROB_KEY) {
+                NSLog(@"revealed: stupid");
+                [host stop];
+                [self stupid];
             }
         }
-        else if (prod_act_int == REVEALED_EVADE_PROB_KEY) {
-            NSLog(@"revealed: evade");
-            [self evadeFrom_LastX:lastX LastY:lastY LastRotation:lastRotation];
+        else if (distance < midRange) {
+            enemyTank_lastknown_distance = DISTANCE_MID;
+            
+            int rand = (int)arc4random_uniform([revealedActionProbArrayMid count]);
+            
+            NSNumber *prod_action = [revealedActionProbArrayMid objectAtIndex:rand];
+            int prod_act_int = [prod_action intValue];
+            
+            if (prod_act_int == APPROACH_PROB_KEY) {
+                NSLog(@"revealed: approaching");
+                [self approach_LastX:lastX LastY:lastY];
+            }
+            else if (prod_act_int == WARNSHOT_PROB_KEY) {
+                NSLog(@"revealed: try warning shot");
+                if (!isAttackCoolDown) {
+                    NSLog(@"revealed: warning shot");
+                    [host stop];
+                    [self attack_LastX:lastX LastY:lastY];
+                }
+            }
+            else if (prod_act_int == EVADE_PROB_KEY) {
+                NSLog(@"revealed: evade");
+                [self evadeFrom_LastX:lastX LastY:lastY LastRotation:lastRotation];
+            }
+            else if (prod_act_int == DONTMOVE_PROB_KEY) {
+                NSLog(@"revealed: stop moving");
+                [host stop];
+            }
+            else if (prod_act_int == STUPID_PROB_KEY) {
+                NSLog(@"revealed: stupid");
+                [host stop];
+                [self stupid];
+            }
         }
-        else if (prod_act_int == REVEALED_DONTMOVE_PROB_KEY) {
-            NSLog(@"revealed: stop moving");
-            [host stop];
-        }
-        else if (prod_act_int == REVEALED_STUPID_PROB_KEY) {
-            NSLog(@"revealed: stupid");
-            [host stop];
-            [self stupid];
+        else {
+            enemyTank_lastknown_distance = DISTANCE_LONG;
+            
+            int rand = (int)arc4random_uniform([revealedActionProbArrayLong count]);
+            
+            NSNumber *prod_action = [revealedActionProbArrayLong objectAtIndex:rand];
+            int prod_act_int = [prod_action intValue];
+            
+            if (prod_act_int == APPROACH_PROB_KEY) {
+                NSLog(@"revealed: approaching");
+                [self approach_LastX:lastX LastY:lastY];
+            }
+            else if (prod_act_int == WARNSHOT_PROB_KEY) {
+                NSLog(@"revealed: try warning shot");
+                if (!isAttackCoolDown) {
+                    NSLog(@"revealed: warning shot");
+                    [host stop];
+                    [self attack_LastX:lastX LastY:lastY];
+                }
+            }
+            else if (prod_act_int == EVADE_PROB_KEY) {
+                NSLog(@"revealed: evade");
+                [self evadeFrom_LastX:lastX LastY:lastY LastRotation:lastRotation];
+            }
+            else if (prod_act_int == DONTMOVE_PROB_KEY) {
+                NSLog(@"revealed: stop moving");
+                [host stop];
+            }
+            else if (prod_act_int == STUPID_PROB_KEY) {
+                NSLog(@"revealed: stupid");
+                [host stop];
+                [self stupid];
+            }
         }
         
         enemyTank_lastknown_x = lastX;
@@ -299,7 +319,7 @@
         NSLog(@"player go stealth..");
         //if no other actions are in progress
         if (distance < shortRange) {
-//            isApproaching = false;
+            enemyTank_lastknown_distance = DISTANCE_SHORT;
             
             [host stop];
             
@@ -308,11 +328,11 @@
             NSNumber *prod_action = [stealthActionProbArrayShort objectAtIndex:rand];
             int prod_act_int = [prod_action intValue];
             
-            if (prod_act_int == REVEALED_APPROACH_PROB_KEY) {
+            if (prod_act_int == APPROACH_PROB_KEY) {
                 NSLog(@"stealth: approaching");
                 [self approach_LastX:lastX LastY:lastY];
             }
-            else if (prod_act_int == REVEALED_WARNSHOT_PROB_KEY) {
+            else if (prod_act_int == WARNSHOT_PROB_KEY) {
                 NSLog(@"stealth: try warning shot");
                 if (!isAttackCoolDown) {
                     NSLog(@"stealth: warning shot");
@@ -320,15 +340,15 @@
                     [self attack_LastX:lastX LastY:lastY];
                 }
             }
-            else if (prod_act_int == REVEALED_EVADE_PROB_KEY) {
+            else if (prod_act_int == EVADE_PROB_KEY) {
                 NSLog(@"stealth: evade");
                 [self evadeFrom_LastX:lastX LastY:lastY LastRotation:lastRotation];
             }
-            else if (prod_act_int == REVEALED_DONTMOVE_PROB_KEY) {
+            else if (prod_act_int == DONTMOVE_PROB_KEY) {
                 NSLog(@"stealth: stop moving");
                 [host stop];
             }
-            else if (prod_act_int == REVEALED_STUPID_PROB_KEY) {
+            else if (prod_act_int == STUPID_PROB_KEY) {
                 NSLog(@"stealth: stupid");
                 [host stop];
                 [self stupid];
@@ -336,6 +356,7 @@
 
         }
         else if (distance < midRange) {
+            enemyTank_lastknown_distance = DISTANCE_MID;
             NSLog(@"stealh: mid range.. approaching");
             
             int rand = (int)arc4random_uniform([stealthActionProbArrayMid count]);
@@ -343,11 +364,11 @@
             NSNumber *prod_action = [stealthActionProbArrayMid objectAtIndex:rand];
             int prod_act_int = [prod_action intValue];
             
-            if (prod_act_int == REVEALED_APPROACH_PROB_KEY) {
+            if (prod_act_int == APPROACH_PROB_KEY) {
                 NSLog(@"stealth: approaching");
                 [self approach_LastX:lastX LastY:lastY];
             }
-            else if (prod_act_int == REVEALED_WARNSHOT_PROB_KEY) {
+            else if (prod_act_int == WARNSHOT_PROB_KEY) {
                 NSLog(@"stealth: try warning shot");
                 if (!isAttackCoolDown) {
                     NSLog(@"stealth: warning shot");
@@ -355,20 +376,21 @@
                     [self attack_LastX:lastX LastY:lastY];
                 }
             }
-            else if (prod_act_int == REVEALED_EVADE_PROB_KEY) {
+            else if (prod_act_int == EVADE_PROB_KEY) {
                 NSLog(@"stealth: evade");
                 [self evadeFrom_LastX:lastX LastY:lastY LastRotation:lastRotation];
             }
-            else if (prod_act_int == REVEALED_DONTMOVE_PROB_KEY) {
+            else if (prod_act_int == DONTMOVE_PROB_KEY) {
                 NSLog(@"stealth: stop moving");
                 [host stop];
             }
-            else if (prod_act_int == REVEALED_STUPID_PROB_KEY) {
+            else if (prod_act_int == STUPID_PROB_KEY) {
                 NSLog(@"stealth: stupid");
                 [self stupid];
             }
         }
         else { //long range
+            enemyTank_lastknown_distance = DISTANCE_LONG;
             NSLog(@"stealh: long range.. approaching");
             
             int rand = (int)arc4random_uniform([stealthActionProbArrayLong count]);
@@ -376,11 +398,11 @@
             NSNumber *prod_action = [stealthActionProbArrayLong objectAtIndex:rand];
             int prod_act_int = [prod_action intValue];
             
-            if (prod_act_int == REVEALED_APPROACH_PROB_KEY) {
+            if (prod_act_int == APPROACH_PROB_KEY) {
                 NSLog(@"stealth: approaching");
                 [self approach_LastX:lastX LastY:lastY];
             }
-            else if (prod_act_int == REVEALED_WARNSHOT_PROB_KEY) {
+            else if (prod_act_int == WARNSHOT_PROB_KEY) {
                 NSLog(@"stealth: try warning shot");
                 if (!isAttackCoolDown) {
                     [host stop];
@@ -388,15 +410,15 @@
                     [self attack_LastX:lastX LastY:lastY];
                 }
             }
-            else if (prod_act_int == REVEALED_EVADE_PROB_KEY) {
+            else if (prod_act_int == EVADE_PROB_KEY) {
                 NSLog(@"stealth: evade");
                 [self evadeFrom_LastX:lastX LastY:lastY LastRotation:lastRotation];
             }
-            else if (prod_act_int == REVEALED_DONTMOVE_PROB_KEY) {
+            else if (prod_act_int == DONTMOVE_PROB_KEY) {
                 NSLog(@"stealth: stop moving");
                 [host stop];
             }
-            else if (prod_act_int == REVEALED_STUPID_PROB_KEY) {
+            else if (prod_act_int == STUPID_PROB_KEY) {
                 NSLog(@"stealth: stupid");
                 [host stop];
                 [self stupid];

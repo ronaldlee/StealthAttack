@@ -39,11 +39,15 @@ extern const uint32_t PLAYER_CATEGORY;
 extern const uint32_t ENEMY_CATEGORY;
 extern const uint32_t WALL_CATEGORY;
 
-extern const uint32_t REVEALED_APPROACH_PROB_KEY;
-extern const uint32_t REVEALED_WARNSHOT_PROB_KEY;
-extern const uint32_t REVEALED_EVADE_PROB_KEY;
-extern const uint32_t REVEALED_DONTMOVE_PROB_KEY;
-extern const uint32_t REVEALED_STUPID_PROB_KEY;
+extern const uint32_t APPROACH_PROB_KEY;
+extern const uint32_t WARNSHOT_PROB_KEY;
+extern const uint32_t EVADE_PROB_KEY;
+extern const uint32_t DONTMOVE_PROB_KEY;
+extern const uint32_t STUPID_PROB_KEY;
+
+extern const uint32_t DISTANCE_LONG;
+extern const uint32_t DISTANCE_MID;
+extern const uint32_t DISTANCE_SHORT;
 
 
 @end

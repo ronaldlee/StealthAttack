@@ -29,10 +29,14 @@ const uint32_t ENEMY_CATEGORY    =  0x1 << 2;
 const uint32_t WALL_CATEGORY = 0x1 << 3;
 
 
-const uint32_t REVEALED_APPROACH_PROB_KEY = 1;
-const uint32_t REVEALED_WARNSHOT_PROB_KEY = 2;
-const uint32_t REVEALED_EVADE_PROB_KEY = 3;
-const uint32_t REVEALED_DONTMOVE_PROB_KEY = 4;
-const uint32_t REVEALED_STUPID_PROB_KEY = 5;
+const uint32_t APPROACH_PROB_KEY = 1;
+const uint32_t WARNSHOT_PROB_KEY = 2;
+const uint32_t EVADE_PROB_KEY = 3;
+const uint32_t DONTMOVE_PROB_KEY = 4;
+const uint32_t STUPID_PROB_KEY = 5;
+
+const uint32_t DISTANCE_LONG = 1;
+const uint32_t DISTANCE_MID = 2;
+const uint32_t DISTANCE_SHORT = 3;
 
 @end

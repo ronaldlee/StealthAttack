@@ -37,30 +37,6 @@
 //  evade : 3
 //  don't move : 4
 //  stupid: 5
-@property (nonatomic) int revealedApproachProbablity;
-@property (nonatomic) int revealedWarningShotProbablity;
-@property (nonatomic) int revealedEvadeProbablity;
-@property (nonatomic) int revealedDontMoveProbablity;
-@property (nonatomic) int revealedStupidProbablity;
-
-//player is in stealth...
-@property (nonatomic) int stealthApproachProbablityLong;
-@property (nonatomic) int stealthWarningShotProbablityLong;
-@property (nonatomic) int stealthEvadeProbablityLong;
-@property (nonatomic) int stealthDontMoveProbablityLong;
-@property (nonatomic) int stealthStupidProbablityLong;
-
-@property (nonatomic) int stealthApproachProbablityMid;
-@property (nonatomic) int stealthWarningShotProbablityMid;
-@property (nonatomic) int stealthEvadeProbablityMid;
-@property (nonatomic) int stealthDontMoveProbablityMid;
-@property (nonatomic) int stealthStupidProbablityMid;
-
-@property (nonatomic) int stealthApproachProbablityShort;
-@property (nonatomic) int stealthWarningShotProbablityShort;
-@property (nonatomic) int stealthEvadeProbablityShort;
-@property (nonatomic) int stealthDontMoveProbablityShort;
-@property (nonatomic) int stealthStupidProbablityShort;
 
 //ranges
 @property (nonatomic) int shortRange;
@@ -72,9 +48,18 @@
 
 //@property (nonatomic) int
 
+@property (nonatomic) NSMutableArray* revealedActionProbArrayLong;
+@property (nonatomic) NSMutableArray* revealedActionProbArrayMid;
+@property (nonatomic) NSMutableArray* revealedActionProbArrayShort;
+
+@property (nonatomic) NSMutableArray* stealthActionProbArrayLong;
+@property (nonatomic) NSMutableArray* stealthActionProbArrayMid;
+@property (nonatomic) NSMutableArray* stealthActionProbArrayShort;
+
+@property (nonatomic) NSMutableArray* chancesStopActionDistanceChangeProbArray;
 
 
-- (id)initWithStage:(STABattleStage*)stage;
+-(id)initWithStage:(STABattleStage*)stage;
 
 -(void)think;
 
