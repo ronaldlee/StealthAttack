@@ -109,4 +109,10 @@
 -(void)fire;
 -(void) setBattleStage:(STABattleStage*)stage;
 
+-(void)clearLastPositionData;
+
+-(CGRect)getBorderBounds;
+
+-(CGFloat)getMoveSpeed;
+
 @end

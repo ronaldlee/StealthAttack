@@ -284,6 +284,10 @@
     top_border_y = bottom_border_y+bounds.size.height;
 }
 
+-(CGRect)getBorderBounds {
+    return bounds;
+}
+
 -(void) correctLeftWheels {
     SKSpriteNode *first = self.tankl1;
     if (self.tankl2.position.y >= first.position.y) {
@@ -807,6 +811,11 @@
     lastRotation = self.zRotation;
 }
 
+-(void)clearLastPositionData {
+    lastX = -1;
+    lastY = -1;
+}
+
 -(void)updateLastSelfRotate {
     lastSelfRotate = self.zRotation;
 }
@@ -862,6 +871,10 @@
         isMovingForward = isMovingBackward = false;
         [self removeAllActions];
     }
+}
+
+-(CGFloat)getMoveSpeed {
+    return moveSpeed;
 }
 
 @end

@@ -50,4 +50,16 @@ extern const uint32_t DISTANCE_MID;
 extern const uint32_t DISTANCE_SHORT;
 
 
+extern const uint32_t REGION_LEFT_BOTTOM;
+extern const uint32_t REGION_LEFT_MIDDLE;
+extern const uint32_t REGION_LEFT_TOP;
+
+extern const uint32_t REGION_MIDDLE_BOTTOM;
+extern const uint32_t REGION_MIDDLE_MIDDLE;
+extern const uint32_t REGION_MIDDLE_TOP;
+
+extern const uint32_t REGION_RIGHT_BOTTOM;
+extern const uint32_t REGION_RIGHT_MIDDLE;
+extern const uint32_t REGION_RIGHT_TOP;
+
 @end

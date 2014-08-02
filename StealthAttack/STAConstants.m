@@ -39,4 +39,17 @@ const uint32_t DISTANCE_LONG = 1;
 const uint32_t DISTANCE_MID = 2;
 const uint32_t DISTANCE_SHORT = 3;
 
+
+const uint32_t REGION_LEFT_BOTTOM = 1;
+const uint32_t REGION_LEFT_MIDDLE = 2;
+const uint32_t REGION_LEFT_TOP = 3;
+
+const uint32_t REGION_MIDDLE_BOTTOM = 4;
+const uint32_t REGION_MIDDLE_MIDDLE = 5;
+const uint32_t REGION_MIDDLE_TOP = 6;
+
+const uint32_t REGION_RIGHT_BOTTOM = 7;
+const uint32_t REGION_RIGHT_MIDDLE = 8;
+const uint32_t REGION_RIGHT_TOP = 9;
+
 @end

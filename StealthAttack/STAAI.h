@@ -58,6 +58,20 @@
 
 @property (nonatomic) NSMutableArray* chancesStopActionDistanceChangeProbArray;
 
+@property (nonatomic) NSMutableArray* regionsArray;
+
+@property (nonatomic) int numberOfThinkTicksBeforeAdjustLastXY;
+
+@property (nonatomic) NSMutableArray* region1ProbArray;
+@property (nonatomic) NSMutableArray* region2ProbArray;
+@property (nonatomic) NSMutableArray* region3ProbArray;
+@property (nonatomic) NSMutableArray* region4ProbArray;
+@property (nonatomic) NSMutableArray* region5ProbArray;
+@property (nonatomic) NSMutableArray* region6ProbArray;
+@property (nonatomic) NSMutableArray* region7ProbArray;
+@property (nonatomic) NSMutableArray* region8ProbArray;
+@property (nonatomic) NSMutableArray* region9ProbArray;
+
 
 -(id)initWithStage:(STABattleStage*)stage;
 

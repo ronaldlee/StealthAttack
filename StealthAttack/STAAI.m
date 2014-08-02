@@ -11,12 +11,15 @@
 @interface STAAI() {
     CGFloat enemyTank_lastknown_x;
     CGFloat enemyTank_lastknown_y;
+    CGVector enemyTank_lastknown_direction;
     CGFloat enemyTank_lastknown_rotation;
     CGFloat enemyTank_lastknown_fireCount;
     
     int enemyTank_lastknown_distance;
     
     STATank* host;
+    
+    int ticksBeforeAdjustLastXY;
 }
 @end
 
@@ -47,6 +50,21 @@
 @synthesize stealthActionProbArrayShort;
 
 @synthesize chancesStopActionDistanceChangeProbArray;
+
+@synthesize numberOfThinkTicksBeforeAdjustLastXY;
+
+@synthesize regionsArray;
+
+@synthesize region1ProbArray;
+@synthesize region2ProbArray;
+@synthesize region3ProbArray;
+@synthesize region4ProbArray;
+@synthesize region5ProbArray;
+@synthesize region6ProbArray;
+@synthesize region7ProbArray;
+@synthesize region8ProbArray;
+@synthesize region9ProbArray;
+
 
 - (id)initWithStage:(STABattleStage*)b_stage {
     self = [super init];
@@ -87,6 +105,27 @@
     
         isApproaching = false;
         isRotating = false;
+        
+        //====
+        
+        numberOfThinkTicksBeforeAdjustLastXY = 5;
+        
+        //====
+        //3 6 9
+        //2 5 8
+        //1 4 7
+        region1ProbArray = [self getProbArrayForR1:5 R2:5 R3:0 R4:5 R5:0 R6:0 R7:0 R8:0 R9:0];
+        region2ProbArray = [self getProbArrayForR1:5 R2:5 R3:5 R4:0 R5:0 R6:0 R7:0 R8:0 R9:0];
+        region3ProbArray = [self getProbArrayForR1:0 R2:5 R3:5 R4:0 R5:0 R6:5 R7:0 R8:0 R9:0];
+        
+        region4ProbArray = [self getProbArrayForR1:5 R2:0 R3:0 R4:5 R5:5 R6:0 R7:0 R8:0 R9:0];
+        region5ProbArray = [self getProbArrayForR1:0 R2:5 R3:0 R4:5 R5:5 R6:5 R7:0 R8:5 R9:0];
+        region6ProbArray = [self getProbArrayForR1:0 R2:0 R3:5 R4:0 R5:5 R6:5 R7:0 R8:0 R9:5];
+        
+        region7ProbArray = [self getProbArrayForR1:0 R2:0 R3:0 R4:5 R5:0 R6:0 R7:5 R8:5 R9:0];
+        region8ProbArray = [self getProbArrayForR1:0 R2:0 R3:0 R4:0 R5:5 R6:0 R7:5 R8:5 R9:5];
+        region9ProbArray = [self getProbArrayForR1:0 R2:0 R3:0 R4:0 R5:0 R6:5 R7:0 R8:5 R9:5];
+        
     }
     return self;
 }
@@ -105,6 +144,61 @@
     for (; i < count; i++) {
         [probArrayShort addObject:[NSNumber numberWithInteger:NO]];
     }
+    
+    return probArrayShort;
+}
+
+-(NSMutableArray*)getProbArrayForR1:(int)r1 R2:(int)r2 R3:(int)r3 R4:(int)r4
+                                 R5:(int)r5 R6:(int)r6 R7:(int)r7 R8:(int)r8 R9:(int)r9 {
+    NSMutableArray* probArrayShort = [NSMutableArray array];
+    int count = 0;
+    int i = 0;
+    int region = 1;
+    count+=r1;
+    for (; i < count; i++) {
+        [probArrayShort addObject:[NSNumber numberWithInteger:region]];
+    }
+    region++;
+    count+=r2;
+    for (; i < count; i++) {
+        [probArrayShort addObject:[NSNumber numberWithInteger:region]];
+    }
+    region++;
+    count+=r3;
+    for (; i < count; i++) {
+        [probArrayShort addObject:[NSNumber numberWithInteger:region]];
+    }
+    region++;
+    count+=r4;
+    for (; i < count; i++) {
+        [probArrayShort addObject:[NSNumber numberWithInteger:region]];
+    }
+    region++;
+    count+=r5;
+    for (; i < count; i++) {
+        [probArrayShort addObject:[NSNumber numberWithInteger:region]];
+    }
+    region++;
+    count+=r6;
+    for (; i < count; i++) {
+        [probArrayShort addObject:[NSNumber numberWithInteger:region]];
+    }
+    region++;
+    count+=r7;
+    for (; i < count; i++) {
+        [probArrayShort addObject:[NSNumber numberWithInteger:region]];
+    }
+    region++;
+    count+=r8;
+    for (; i < count; i++) {
+        [probArrayShort addObject:[NSNumber numberWithInteger:region]];
+    }
+    region++;
+    count+=r9;
+    for (; i < count; i++) {
+        [probArrayShort addObject:[NSNumber numberWithInteger:region]];
+    }
+    region++;
     
     return probArrayShort;
 }
@@ -146,11 +240,25 @@
 
 -(void)setHost:(STATank*)t_host {
     host = t_host;
+    
+    regionsArray = [NSMutableArray array];
+    CGRect bounds = [host getBorderBounds];
+    int block_width = bounds.size.width/3;
+    int block_height = bounds.size.height/3;
+    int right_x = bounds.origin.x+bounds.size.width;
+    int top_y = bounds.origin.y+bounds.size.height;
+    
+    int region_id=1;
+    for (int x = bounds.origin.x; x < right_x; x+=block_width) {
+        for (int y = bounds.origin.y; y < top_y; y+=block_height) {
+            [regionsArray addObject:[NSNumber numberWithInteger:region_id]];
+            region_id++;
+        }
+    }
 }
 
 -(void)think {
-//    NSLog(@"thinking");
-    
+    NSLog(@"thinking: %d",ticksBeforeAdjustLastXY);
     STATank* player = [stage player];
     if (player.isExploded) return; //player is dead already. yay!
     
@@ -159,12 +267,136 @@
     CGVector lastDirection = [player lastDirection];
     CGFloat lastRotation = [player lastRotation];
     
+    if (lastX != -1 && lastY != -1) {
+        enemyTank_lastknown_x = lastX;
+        enemyTank_lastknown_y = lastY;
+        enemyTank_lastknown_direction = lastDirection;
+        enemyTank_lastknown_rotation = lastRotation;
+    }
+    [player clearLastPositionData];
+    
+    ticksBeforeAdjustLastXY++;
+    if (ticksBeforeAdjustLastXY > numberOfThinkTicksBeforeAdjustLastXY) {
+        NSLog(@"OOO player x: %f, y: %f", player.position.x, player.position.y);
+        
+        //time to estimate where player might go now..
+        //Just divide the map into 9 blocks
+        CGRect bounds = [player getBorderBounds];
+        int block_width = bounds.size.width/3;
+        int block_height = bounds.size.height/3;
+        int right_x = bounds.origin.x+bounds.size.width;
+        int top_y = bounds.origin.y+bounds.size.height;
+        
+        int region_id=1;
+        BOOL isDone = false;
+        for (int x = bounds.origin.x; x < right_x && !isDone; x+=block_width) {
+            for (int y = bounds.origin.y; y < top_y && !isDone; y+=block_height) {
+                if (enemyTank_lastknown_x >= x && enemyTank_lastknown_x <= x+block_width) {
+                    if (enemyTank_lastknown_y >= y && enemyTank_lastknown_y <= y+block_height) {
+                        NSLog(@"++++++++ player in region: %d", region_id);
+                        isDone = true;
+                        break;
+                    }
+                }
+                region_id++;
+            }
+        }
+        
+        //based on player's last region and direction and move speed, predict/guess which region player might be
+        int guess_region_id = -1;
+        if (region_id == REGION_LEFT_BOTTOM) {
+            int rand = (int)arc4random_uniform([region1ProbArray count]);
+            
+            NSNumber *prod_action = [region1ProbArray objectAtIndex:rand];
+            guess_region_id = [prod_action intValue];
+        }
+        else if (region_id == REGION_LEFT_MIDDLE) {
+            int rand = (int)arc4random_uniform([region2ProbArray count]);
+            
+            NSNumber *prod_action = [region2ProbArray objectAtIndex:rand];
+            guess_region_id = [prod_action intValue];
+        }
+        else if (region_id == REGION_LEFT_TOP) {
+            int rand = (int)arc4random_uniform([region3ProbArray count]);
+            
+            NSNumber *prod_action = [region3ProbArray objectAtIndex:rand];
+            guess_region_id = [prod_action intValue];
+        }
+        else if (region_id == REGION_MIDDLE_BOTTOM) {
+            int rand = (int)arc4random_uniform([region4ProbArray count]);
+            
+            NSNumber *prod_action = [region4ProbArray objectAtIndex:rand];
+            guess_region_id = [prod_action intValue];
+        }
+        else if (region_id == REGION_MIDDLE_MIDDLE) {
+            int rand = (int)arc4random_uniform([region5ProbArray count]);
+            
+            NSNumber *prod_action = [region5ProbArray objectAtIndex:rand];
+            guess_region_id = [prod_action intValue];
+        }
+        else if (region_id == REGION_MIDDLE_TOP) {
+            int rand = (int)arc4random_uniform([region6ProbArray count]);
+            
+            NSNumber *prod_action = [region6ProbArray objectAtIndex:rand];
+            guess_region_id = [prod_action intValue];
+        }
+        else if (region_id == REGION_RIGHT_BOTTOM) {
+            int rand = (int)arc4random_uniform([region7ProbArray count]);
+            
+            NSNumber *prod_action = [region7ProbArray objectAtIndex:rand];
+            guess_region_id = [prod_action intValue];
+        }
+        else if (region_id == REGION_RIGHT_MIDDLE) {
+            int rand = (int)arc4random_uniform([region8ProbArray count]);
+            
+            NSNumber *prod_action = [region8ProbArray objectAtIndex:rand];
+            guess_region_id = [prod_action intValue];
+        }
+        else if (region_id == REGION_RIGHT_TOP) {
+            int rand = (int)arc4random_uniform([region9ProbArray count]);
+            
+            NSNumber *prod_action = [region9ProbArray objectAtIndex:rand];
+            guess_region_id = [prod_action intValue];
+        }
+        
+        //based on this new estimated region, modify the enemyTank_lastknown_x and _y
+        region_id=1;
+        isDone = false;
+        for (int x = bounds.origin.x; x < right_x && !isDone; x+=block_width) {
+            for (int y = bounds.origin.y; y < top_y && !isDone; y+=block_height) {
+                if (guess_region_id == region_id) {
+                    //find the mid point of this region, and randomize a point in it
+                    int rand_x = (int)arc4random_uniform(block_width/2);
+                    int rand_y = (int)arc4random_uniform(block_height/2);
+                    
+                    int rand_xdir = arc4random_uniform(1);
+                    if (rand_xdir == 1) {
+                        rand_x *= -1;
+                    }
+                    int rand_ydir = arc4random_uniform(1);
+                    if (rand_ydir == 1) {
+                        rand_y *= -1;
+                    }
+                    
+                    enemyTank_lastknown_x = x + block_width/2 + rand_x;
+                    enemyTank_lastknown_y = y + block_height/2 + rand_y;
+                    
+                    isDone = true;
+                    break;
+                }
+                region_id++;
+            }
+        }
+        
+        ticksBeforeAdjustLastXY = 0;
+    }
+    
     //distance from enemy
-    CGFloat distance = [self getDistanceFromEnemy_LastX:lastX LastY:lastY];
+    CGFloat distance = [self getDistanceFromEnemy_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y];
     
     NSLog(@"distance sq: %f" , distance);
     
-    if (lastX == -1 && lastY == -1) return;
+    if (enemyTank_lastknown_x == -1 && enemyTank_lastknown_y == -1) return;
     
     if (![self isAvailableForAction]) {
         //depending on certain conditions, stop the current action.
@@ -218,19 +450,19 @@
             
             if (prod_act_int == APPROACH_PROB_KEY) {
                 NSLog(@"revealed: approaching");
-                [self approach_LastX:lastX LastY:lastY];
+                [self approach_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y];
             }
             else if (prod_act_int == WARNSHOT_PROB_KEY) {
                 NSLog(@"revealed: try warning shot");
                 if (!isAttackCoolDown) {
                     NSLog(@"revealed: warning shot");
                     [host stop];
-                    [self attack_LastX:lastX LastY:lastY];
+                    [self attack_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y];
                 }
             }
             else if (prod_act_int == EVADE_PROB_KEY) {
                 NSLog(@"revealed: evade");
-                [self evadeFrom_LastX:lastX LastY:lastY LastRotation:lastRotation];
+                [self evadeFrom_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y LastRotation:lastRotation];
             }
             else if (prod_act_int == DONTMOVE_PROB_KEY) {
                 NSLog(@"revealed: stop moving");
@@ -252,19 +484,19 @@
             
             if (prod_act_int == APPROACH_PROB_KEY) {
                 NSLog(@"revealed: approaching");
-                [self approach_LastX:lastX LastY:lastY];
+                [self approach_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y];
             }
             else if (prod_act_int == WARNSHOT_PROB_KEY) {
                 NSLog(@"revealed: try warning shot");
                 if (!isAttackCoolDown) {
                     NSLog(@"revealed: warning shot");
                     [host stop];
-                    [self attack_LastX:lastX LastY:lastY];
+                    [self attack_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y];
                 }
             }
             else if (prod_act_int == EVADE_PROB_KEY) {
                 NSLog(@"revealed: evade");
-                [self evadeFrom_LastX:lastX LastY:lastY LastRotation:lastRotation];
+                [self evadeFrom_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y LastRotation:lastRotation];
             }
             else if (prod_act_int == DONTMOVE_PROB_KEY) {
                 NSLog(@"revealed: stop moving");
@@ -286,19 +518,19 @@
             
             if (prod_act_int == APPROACH_PROB_KEY) {
                 NSLog(@"revealed: approaching");
-                [self approach_LastX:lastX LastY:lastY];
+                [self approach_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y];
             }
             else if (prod_act_int == WARNSHOT_PROB_KEY) {
                 NSLog(@"revealed: try warning shot");
                 if (!isAttackCoolDown) {
                     NSLog(@"revealed: warning shot");
                     [host stop];
-                    [self attack_LastX:lastX LastY:lastY];
+                    [self attack_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y];
                 }
             }
             else if (prod_act_int == EVADE_PROB_KEY) {
                 NSLog(@"revealed: evade");
-                [self evadeFrom_LastX:lastX LastY:lastY LastRotation:lastRotation];
+                [self evadeFrom_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y LastRotation:lastRotation];
             }
             else if (prod_act_int == DONTMOVE_PROB_KEY) {
                 NSLog(@"revealed: stop moving");
@@ -311,9 +543,6 @@
             }
         }
         
-        enemyTank_lastknown_x = lastX;
-        enemyTank_lastknown_y = lastY;
-        enemyTank_lastknown_rotation = lastRotation;
     }
     else {
         NSLog(@"player go stealth..");
@@ -330,19 +559,19 @@
             
             if (prod_act_int == APPROACH_PROB_KEY) {
                 NSLog(@"stealth: approaching");
-                [self approach_LastX:lastX LastY:lastY];
+                [self approach_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y];
             }
             else if (prod_act_int == WARNSHOT_PROB_KEY) {
                 NSLog(@"stealth: try warning shot");
                 if (!isAttackCoolDown) {
                     NSLog(@"stealth: warning shot");
                     [host stop];
-                    [self attack_LastX:lastX LastY:lastY];
+                    [self attack_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y];
                 }
             }
             else if (prod_act_int == EVADE_PROB_KEY) {
                 NSLog(@"stealth: evade");
-                [self evadeFrom_LastX:lastX LastY:lastY LastRotation:lastRotation];
+                [self evadeFrom_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y LastRotation:lastRotation];
             }
             else if (prod_act_int == DONTMOVE_PROB_KEY) {
                 NSLog(@"stealth: stop moving");
@@ -366,19 +595,19 @@
             
             if (prod_act_int == APPROACH_PROB_KEY) {
                 NSLog(@"stealth: approaching");
-                [self approach_LastX:lastX LastY:lastY];
+                [self approach_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y];
             }
             else if (prod_act_int == WARNSHOT_PROB_KEY) {
                 NSLog(@"stealth: try warning shot");
                 if (!isAttackCoolDown) {
                     NSLog(@"stealth: warning shot");
                     [host stop];
-                    [self attack_LastX:lastX LastY:lastY];
+                    [self attack_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y];
                 }
             }
             else if (prod_act_int == EVADE_PROB_KEY) {
                 NSLog(@"stealth: evade");
-                [self evadeFrom_LastX:lastX LastY:lastY LastRotation:lastRotation];
+                [self evadeFrom_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y LastRotation:lastRotation];
             }
             else if (prod_act_int == DONTMOVE_PROB_KEY) {
                 NSLog(@"stealth: stop moving");
@@ -400,19 +629,19 @@
             
             if (prod_act_int == APPROACH_PROB_KEY) {
                 NSLog(@"stealth: approaching");
-                [self approach_LastX:lastX LastY:lastY];
+                [self approach_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y];
             }
             else if (prod_act_int == WARNSHOT_PROB_KEY) {
                 NSLog(@"stealth: try warning shot");
                 if (!isAttackCoolDown) {
                     [host stop];
                     NSLog(@"stealth: warning shot");
-                    [self attack_LastX:lastX LastY:lastY];
+                    [self attack_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y];
                 }
             }
             else if (prod_act_int == EVADE_PROB_KEY) {
                 NSLog(@"stealth: evade");
-                [self evadeFrom_LastX:lastX LastY:lastY LastRotation:lastRotation];
+                [self evadeFrom_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y LastRotation:lastRotation];
             }
             else if (prod_act_int == DONTMOVE_PROB_KEY) {
                 NSLog(@"stealth: stop moving");
