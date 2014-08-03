@@ -143,6 +143,8 @@
         
         [self.scene addChild:self.enemy];
         
+        [self.enemy dance];
+        
         //=== count down and fading out tanks
         NSString * font = @"GridExerciseGaps";
         countdownLabelNode = [SKLabelNode labelNodeWithFontNamed:font];

@@ -382,11 +382,11 @@
                         int rand_x = (int)arc4random_uniform(block_width/2);
                         int rand_y = (int)arc4random_uniform(block_height/2);
                         
-                        int rand_xdir = arc4random_uniform(1);
+                        int rand_xdir = arc4random_uniform(2);
                         if (rand_xdir == 1) {
                             rand_x *= -1;
                         }
-                        int rand_ydir = arc4random_uniform(1);
+                        int rand_ydir = arc4random_uniform(2);
                         if (rand_ydir == 1) {
                             rand_y *= -1;
                         }
@@ -715,7 +715,7 @@
     CGFloat degree1 = (M_PI_2-faceRotate) + M_PI_2;
  
     //accuracyInRadian
-    int rand_dir = arc4random_uniform(1);
+    int rand_dir = arc4random_uniform(2);
     if (accuracy > 0 && rand_dir == 1) {
         accuracy *= -1;
     }

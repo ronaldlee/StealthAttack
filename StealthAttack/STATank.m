@@ -88,6 +88,7 @@
 
 @synthesize isExploded;
 @synthesize isBrakingOn;
+@synthesize danceNode;
 
 - (id)initWithScale:(CGFloat)f_scale Id:(int)t_id BodyColor:(UIColor*)b_color BodyBaseColor:(UIColor*)bb_color  AI:(STAAI*)t_ai RotationSpeed:(CGFloat)r_speed{
     self = [super init];
@@ -129,6 +130,9 @@
         
         fadeInOutNode = [[SKNode alloc] init];
         [self addChild:fadeInOutNode];
+        
+        danceNode = [[SKNode alloc] init];
+        [self addChild:danceNode];
         
         [self buildTankBody];
         
@@ -974,6 +978,30 @@
 //    [self.tankE runAction:fadeIn];
 //    [self.tankF runAction:fadeIn];
 //    [self.tankG runAction:fadeIn];
+}
+
+-(void) dance {
+    
+    SKAction* dance = [SKAction runBlock:^(){
+        CGFloat dance_degree = (CGFloat)arc4random_uniform(314)/(CGFloat)100;
+
+        [self rotateInDegree:dance_degree complete:^(){
+            CGFloat dance_degree = (CGFloat)arc4random_uniform(314)/(CGFloat)100;
+            dance_degree *= -1;
+            
+            [self rotateInDegree:dance_degree complete:^(){
+                CGFloat dance_degree = (CGFloat)arc4random_uniform(314)/(CGFloat)100;
+                
+                [self rotateInDegree:dance_degree complete:^(){
+                    [self stop];
+                }];
+                
+            }];
+            
+        }];
+    }];
+    
+    [self.danceNode runAction:dance];
 }
 
 @end

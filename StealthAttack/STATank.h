@@ -30,6 +30,7 @@
 @property (nonatomic) SKNode* moveToNode;
 @property (nonatomic) SKNode* attackCooldownNode;
 @property (nonatomic) SKNode* fadeInOutNode;
+@property (nonatomic) SKNode* danceNode;
 
 @property (nonatomic) SKSpriteNode * tankA;
 @property (nonatomic) SKSpriteNode * tankB;
@@ -121,5 +122,7 @@
 -(void)fadeInThenOut;
 -(void)fadeOut;
 -(void)fadeInNow;
+
+-(void)dance;
 
 @end
