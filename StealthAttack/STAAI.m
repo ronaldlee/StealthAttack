@@ -108,7 +108,7 @@
         
         //====
         
-        numberOfThinkTicksBeforeAdjustLastXY = 5;
+        numberOfThinkTicksBeforeAdjustLastXY = 15;
         
         //====
         //3 6 9
@@ -288,20 +288,16 @@
         CGFloat right_x = bounds.origin.x+bounds.size.width;
         CGFloat top_y = bounds.origin.y+bounds.size.height;
         
-//NSLog(@"right x: %f, top_y: %f, block width: %f, height: %f", right_x, top_y, block_width, block_height);
-        
         int region_id=1;
         BOOL isFound = false;
         for (CGFloat x = bounds.origin.x; x < right_x && !isFound; x+=block_width) {
-            NSLog(@"-- x: %f", x);
             for (CGFloat y = bounds.origin.y; y < top_y && !isFound; y+=block_height) {
-                NSLog(@"  -- y: %f", y);
                 if (enemyTank_lastknown_x >= x && enemyTank_lastknown_x <= x+block_width) {
                     if (enemyTank_lastknown_y >= y && enemyTank_lastknown_y <= y+block_height) {
-//                        NSLog(@"+++++++++++++++++++++++++++++");
-//                        NSLog(@"++++++++ player in region: %@. last x: %f, y: %f", [self getRegionStr: region_id],
-//                                                                enemyTank_lastknown_x,enemyTank_lastknown_y );
-//                        NSLog(@"+++++++++++++++++++++++++++++");
+                        NSLog(@"+++++++++++++++++++++++++++++");
+                        NSLog(@"++++++++ player in region: %@. last x: %f, y: %f", [self getRegionStr: region_id],
+                                                                enemyTank_lastknown_x,enemyTank_lastknown_y );
+                        NSLog(@"+++++++++++++++++++++++++++++");
                         isFound = true;
                         break;
                     }
@@ -369,9 +365,9 @@
                 guess_region_id = [prod_action intValue];
             }
             
-//            NSLog(@"+++++++++++++++++++++++++++++");
-//            NSLog(@"++++++++ GUESSING player in region: %@", [self getRegionStr: guess_region_id]);
-//            NSLog(@"+++++++++++++++++++++++++++++");
+            NSLog(@"+++++++++++++++++++++++++++++");
+            NSLog(@"++++++++ GUESSING player in region: %@", [self getRegionStr: guess_region_id]);
+            NSLog(@"+++++++++++++++++++++++++++++");
             
             //based on this new estimated region, modify the enemyTank_lastknown_x and _y
             region_id=1;
