@@ -114,10 +114,10 @@
         max_width = scaled_width*[self getWidthInPixels];
         max_height = scaled_height*[self getHeightInPixels];
         
-        anchoroffset_x = scaled_width; //max_width/2;
-        anchoroffset_y = scaled_height+3; //max_height/2;
+        anchoroffset_x = [self setupAnchorOffsetX]; //max_width/2;
+        anchoroffset_y = [self setupAnchorOffsetY]; //max_height/2;
         
-        NSLog(@"max width: %f, %f, ancx/y: %f, %f", max_width, max_height, anchoroffset_x,anchoroffset_y);
+//        NSLog(@"max width: %f, %f, ancx/y: %f, %f", max_width, max_height, anchoroffset_x,anchoroffset_y);
         
         brainNode = [[SKNode alloc] init];
         [self addChild:brainNode];
@@ -178,6 +178,14 @@
         }
     }
     return self;
+}
+
+-(CGFloat)setupAnchorOffsetX {
+    return scaled_width;
+}
+
+-(CGFloat)setupAnchorOffsetY {
+    return scaled_height;
 }
 
 -(void) buildTankWheels {

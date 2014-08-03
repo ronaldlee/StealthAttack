@@ -131,4 +131,7 @@
        FlyDuration:(float)f_duration FadeoutDuration:(float)fo_duration
     RotateDuration:(float)r_duration;
 
+-(CGFloat)setupAnchorOffsetX;
+-(CGFloat)setupAnchorOffsetY;
+
 @end

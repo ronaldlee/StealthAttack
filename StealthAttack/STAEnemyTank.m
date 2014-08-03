@@ -43,6 +43,14 @@
     return self;
 }
 
+-(CGFloat)setupAnchorOffsetX {
+    return self.scaled_width;
+}
+
+-(CGFloat)setupAnchorOffsetY {
+    return self.scaled_height+3;
+}
+
 -(void) buildTankWheels {
     CGFloat wheel_x_offset = 1;
     CGFloat wheel_y_offset = -1;
