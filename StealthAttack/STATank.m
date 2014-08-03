@@ -29,6 +29,8 @@
     CGFloat lastSelfRotate;
     
     STABattleStage* battleStage;
+    
+    BOOL isGameOver;
 }
 @end
 
@@ -85,10 +87,13 @@
 @synthesize fireCount;
 
 @synthesize isExploded;
+@synthesize isBrakingOn;
 
 - (id)initWithScale:(CGFloat)f_scale Id:(int)t_id BodyColor:(UIColor*)b_color BodyBaseColor:(UIColor*)bb_color  AI:(STAAI*)t_ai RotationSpeed:(CGFloat)r_speed{
     self = [super init];
     if (self) {
+        isGameOver = false;
+        isBrakingOn = true;
         lastX = -1;
         lastY = -1;
         rotation_speed = r_speed;
@@ -569,14 +574,16 @@
 //    
 //    [self runAction:[SKAction repeatActionForever:rotation]];
     
-    self.physicsBody.velocity = CGVectorMake(x, y);
+    if (!isBrakingOn) {
+        self.physicsBody.velocity = CGVectorMake(x, y);
+    }
     
     [self moveLeftWheelsForward];
     [self moveRightWheelsForward];
 }
 
 -(void)moveForwardToX:(CGFloat)dest_x Y:(CGFloat)dest_y complete:(void (^)() )block {
-    if (isRotatingClockwise || isRotatingCounterClockwise || isMovingBackward) return;
+    if (isRotatingClockwise || isRotatingCounterClockwise || isMovingBackward || isGameOver) return;
     isMovingForward= true;
     
     CGFloat x = cos([self getAdjRotation])*moveSpeed;//+self.position.x;
@@ -607,7 +614,7 @@
 }
 
 -(void)moveBackward {
-    if (isRotatingClockwise || isRotatingCounterClockwise || isMovingForward) return;
+    if (isRotatingClockwise || isRotatingCounterClockwise || isMovingForward || isGameOver) return;
     isMovingBackward= true;
     
     CGFloat x = cos([self getAdjRotation]+M_PI)*moveSpeed;//+self.position.x;
@@ -620,7 +627,9 @@
 //    
 //    [self runAction:[SKAction repeatActionForever:rotation]];
     
-    self.physicsBody.velocity = CGVectorMake(x, y);
+    if (!isBrakingOn) {
+        self.physicsBody.velocity = CGVectorMake(x, y);
+    }
 //    [self.physicsBody applyImpulse:location];
     
     [self moveLeftWheelsBackward];
@@ -628,7 +637,7 @@
 }
 
 -(void)rotateClockwise {
-    if (isRotatingCounterClockwise || isMovingForward || isMovingBackward) return;
+    if (isRotatingCounterClockwise || isMovingForward || isMovingBackward || isGameOver) return;
     isRotatingClockwise= true;
     
     SKAction *rotation = [SKAction rotateByAngle:-M_PI*2 duration:rotation_speed];
@@ -639,7 +648,7 @@
     [self moveRightWheelsBackward];
 }
 -(void)rotateCounterClockwise {
-    if (isRotatingClockwise || isMovingForward || isMovingBackward) return;
+    if (isRotatingClockwise || isMovingForward || isMovingBackward || isGameOver) return;
     isRotatingCounterClockwise= true;
     
     SKAction *rotation = [SKAction rotateByAngle:M_PI*2 duration:rotation_speed];
@@ -699,7 +708,7 @@
     CGFloat cur_x = part.position.x;
     CGFloat cur_y = part.position.y;
     
-    SKAction *rotate = [SKAction rotateByAngle:360.0 duration:r_duration];
+    SKAction *rotate = [SKAction rotateByAngle:360.0 duration:r_duration];//[SKAction rotateByAngle:360.0 duration:r_duration];
     
     SKAction *fadeout = [SKAction fadeOutWithDuration:fo_duration];
     SKAction *m_hand_1_explode = [SKAction moveTo:CGPointMake(cur_x+x_diff, cur_y+y_diff) duration:f_duration];
@@ -708,9 +717,9 @@
 //    [part runAction:[SKAction repeatActionForever:rotate]];
     [part runAction:rotate];
     
-    SKAction *wait = [SKAction waitForDuration:f_duration-fo_duration];
-    SKAction* sequence=[SKAction sequence:@[wait,fadeout]];
-    [part runAction:sequence];
+//    SKAction *wait = [SKAction waitForDuration:f_duration-fo_duration];
+//    SKAction* sequence=[SKAction sequence:@[wait,fadeout]];
+//    [part runAction:sequence];
 }
 
 -(void)explode {
@@ -718,8 +727,8 @@
     [self removeAllActions];
     
     float f_duration = 2.0;
-    float fo_duration = 0.5;
-    float r_duration = 100.0;
+    float fo_duration = 10;//0.5;
+    float r_duration = 2.0;
     
     //hands and eyes just randomly flies away
     [self explodePart:tankA XDiff:0 YDiff:30 FlyDuration:f_duration FadeoutDuration:fo_duration
@@ -839,6 +848,8 @@
 }
 
 -(void)fire {
+    if (isBrakingOn || isGameOver) return;
+    
     if (battleStage != NULL) {
         [battleStage fireBullet:self];
     }
@@ -884,24 +895,40 @@
 }
 
 -(void)fadeInThenOut {
-    if (!IS_ENABLE_STEALTH) return;
+    if (!IS_ENABLE_STEALTH && !isGameOver) return;
     
     SKAction* fadeIn=[SKAction fadeInWithDuration:1];
+//    [self.tankA runAction:fadeIn withKey:@"fadein"];
+//    [self.tankB runAction:fadeIn withKey:@"fadein"];
+//    [self.tankC runAction:fadeIn withKey:@"fadein"];
+//    [self.tankD runAction:fadeIn withKey:@"fadein"];
+//    [self.tankE runAction:fadeIn withKey:@"fadein"];
+//    [self.tankF runAction:fadeIn withKey:@"fadein"];
+    
     [self.tankA runAction:fadeIn];
     [self.tankB runAction:fadeIn];
     [self.tankC runAction:fadeIn];
     [self.tankD runAction:fadeIn];
     [self.tankE runAction:fadeIn];
     [self.tankF runAction:fadeIn];
+    
     [self.tankG runAction:fadeIn completion:^() {
         [self fadeOut];
     }];
 }
 
 -(void)fadeOut {
-    if (!IS_ENABLE_STEALTH) return;
+    if (!IS_ENABLE_STEALTH && !isGameOver) return;
     
     SKAction* fadeOut=[SKAction fadeOutWithDuration:1];
+//    [self.tankA runAction:fadeOut withKey:@"fadeout"];
+//    [self.tankB runAction:fadeOut withKey:@"fadeout"];
+//    [self.tankC runAction:fadeOut withKey:@"fadeout"];
+//    [self.tankD runAction:fadeOut withKey:@"fadeout"];
+//    [self.tankE runAction:fadeOut withKey:@"fadeout"];
+//    [self.tankF runAction:fadeOut withKey:@"fadeout"];
+//    [self.tankG runAction:fadeOut withKey:@"fadeout"];
+    
     [self.tankA runAction:fadeOut];
     [self.tankB runAction:fadeOut];
     [self.tankC runAction:fadeOut];
@@ -912,16 +939,41 @@
 }
 
 -(void)fadeInNow {
+    isGameOver = true;
+    
     if (!IS_ENABLE_STEALTH) return;
     
-    SKAction* fadeIn=[SKAction fadeInWithDuration:0];
-    [self.tankA runAction:fadeIn];
-    [self.tankB runAction:fadeIn];
-    [self.tankC runAction:fadeIn];
-    [self.tankD runAction:fadeIn];
-    [self.tankE runAction:fadeIn];
-    [self.tankF runAction:fadeIn];
-    [self.tankG runAction:fadeIn];
+//    [self.tankA removeActionForKey:@"fadein"];
+//    [self.tankA removeActionForKey:@"fadeout"];
+//    [self.tankB removeActionForKey:@"fadein"];
+//    [self.tankB removeActionForKey:@"fadeout"];
+//    [self.tankC removeActionForKey:@"fadein"];
+//    [self.tankC removeActionForKey:@"fadeout"];
+//    [self.tankD removeActionForKey:@"fadein"];
+//    [self.tankD removeActionForKey:@"fadeout"];
+//    [self.tankE removeActionForKey:@"fadein"];
+//    [self.tankE removeActionForKey:@"fadeout"];
+//    [self.tankF removeActionForKey:@"fadein"];
+//    [self.tankF removeActionForKey:@"fadeout"];
+//    [self.tankG removeActionForKey:@"fadein"];
+//    [self.tankG removeActionForKey:@"fadeout"];
+    
+    self.tankA.alpha = 1.0;
+    self.tankB.alpha = 1.0;
+    self.tankC.alpha = 1.0;
+    self.tankD.alpha = 1.0;
+    self.tankE.alpha = 1.0;
+    self.tankF.alpha = 1.0;
+    self.tankG.alpha = 1.0;
+    
+//    SKAction* fadeIn=[SKAction fadeInWithDuration:0];
+//    [self.tankA runAction:fadeIn];
+//    [self.tankB runAction:fadeIn];
+//    [self.tankC runAction:fadeIn];
+//    [self.tankD runAction:fadeIn];
+//    [self.tankE runAction:fadeIn];
+//    [self.tankF runAction:fadeIn];
+//    [self.tankG runAction:fadeIn];
 }
 
 @end

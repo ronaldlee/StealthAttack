@@ -260,7 +260,10 @@
 -(void)think {
 //    NSLog(@"thinking: %d",ticksBeforeAdjustLastXY);
     STATank* player = [stage player];
-    if (player.isExploded) return; //player is dead already. yay!
+    if (player.isExploded) {
+        [host stop];
+        return; //player is dead already. yay!
+    }
     if (host.isExploded) return; //host is dead already. BOOO!
     
     CGFloat lastX = [player lastX];

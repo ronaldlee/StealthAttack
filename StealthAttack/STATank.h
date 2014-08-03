@@ -65,6 +65,8 @@
 @property (nonatomic) int fireCount;
 @property (nonatomic) BOOL isExploded;
 
+@property (nonatomic) BOOL isBrakingOn;
+
 
 -(void)setBorderBounds:(CGRect)p_bounds;
 -(id)initWithScale:(CGFloat)scale Id:(int)t_id BodyColor:(UIColor*)b_color BodyBaseColor:(UIColor*)bb_color

@@ -17,6 +17,8 @@
     UIColor* tankBodyBaseYellow;
     UIColor* tankBodyBlue;
     UIColor* tankBodyBaseBlue;
+    
+    SKLabelNode* countdownLabelNode;
 }
 @end
 
@@ -99,6 +101,7 @@
                                        BodyBaseColor:tankBodyBaseYellow
                                                   AI:NULL
                                        RotationSpeed:3];
+        [self.player setBattleStage:self];
 
         CGFloat player_bottom_border_y = bottom_corner_y + [self.player getAnchorOffsetY]+PIXEL_WIDTHHEIGHT+1;//+PIXEL_WIDTHHEIGHT+1;
         CGFloat player_top_border_y = top_corner_y-PIXEL_WIDTHHEIGHT*2*self.scale-3;
@@ -140,23 +143,54 @@
         
         [self.scene addChild:self.enemy];
         
-        //=== fading out tanks
-        int start_delay=5;
+        //=== count down and fading out tanks
+        NSString * font = @"GridExerciseGaps";
+        countdownLabelNode = [SKLabelNode labelNodeWithFontNamed:font];
         
-        SKAction * playerFadeOutAction = [SKAction runBlock:^(){
-            [self.player fadeOut];
+        NSString *cdStr = @"3";
+        countdownLabelNode.text = cdStr;
+        countdownLabelNode.fontSize = 38;
+        countdownLabelNode.fontColor = [SKColor whiteColor];
+        
+        CGFloat countdown_x = ([[UIScreen mainScreen] bounds].size.width)/2;
+        CGFloat countdown_y = [[UIScreen mainScreen] bounds].size.height - 200;
+        
+        countdownLabelNode.position = CGPointMake(countdown_x,countdown_y);
+        
+        int between_countdown_wait = 1;
+        SKAction* displayCountdown3Action = [SKAction runBlock:^() {
+            [self.scene addChild:countdownLabelNode];
         }];
-        SKAction* playerActions=[SKAction sequence:@[[SKAction waitForDuration:start_delay],playerFadeOutAction]];
-        
-        //a timer to fade out both tanks!
-        SKAction * enemyFadeOutAction = [SKAction runBlock:^() {
-            [self.enemy fadeOut];
+        SKAction* displayCountdown2Action = [SKAction runBlock:^() {
+            countdownLabelNode.text = @"2";
         }];
-        SKAction* enemyActions=[SKAction sequence:@[[SKAction waitForDuration:start_delay],enemyFadeOutAction]];
+        SKAction* displayCountdown1Action = [SKAction runBlock:^() {
+            countdownLabelNode.text = @"1";
+        }];
+        SKAction* fadeoutTanksAction = [SKAction runBlock:^() {
+            [countdownLabelNode removeFromParent];
+            
+            SKAction * playerFadeOutAction = [SKAction runBlock:^(){
+                self.player.isBrakingOn = false;
+                [self.player fadeOut];
+            }];
+            
+            //a timer to fade out both tanks!
+            SKAction * enemyFadeOutAction = [SKAction runBlock:^() {
+                self.enemy.isBrakingOn = false;
+                [self.enemy fadeOut];
+            }];
+            
+            [self.playerFadeNode runAction:playerFadeOutAction];
+            [self.enemyFadeNode runAction:enemyFadeOutAction];
+        }];
         
-        [self.enemyFadeNode runAction:enemyActions];
-        [self.playerFadeNode runAction:playerActions];
-    
+        SKAction* countdownActions=[SKAction sequence:@[[SKAction waitForDuration:between_countdown_wait],displayCountdown3Action,
+                                                        [SKAction waitForDuration:between_countdown_wait],displayCountdown2Action,
+                                                        [SKAction waitForDuration:between_countdown_wait],displayCountdown1Action,
+                                                        [SKAction waitForDuration:between_countdown_wait],fadeoutTanksAction]];
+        
+        [self.scene runAction:countdownActions];
     }
     
     return self;
@@ -231,68 +265,24 @@
         if ([node.name isEqualToString:@"fire_button"]) {
             NSLog(@"fire!!");
             
-            [self fireBullet:self.player];
-//            
-//            [self.player toggleFiring];
-//            
-//            if ([self.player isFiring]) {
-//                [self.player updateLastPositionData];
-//                SKAction* shootBulletAction = [SKAction runBlock:^{
-//                    //                    BORDER cur_border = [self.player getCurrentBorder];
-//                    CGPoint location = [self.player position];
-//                    STABullet *bullet = [[STABullet alloc]initWithScale:1.0];
-//                    
-//                    //need to position at the tip of the tank's turret..
-//                    
-//                    //bullet.position = location;
-//                    bullet.zPosition = 1;
-//                    
-//                    //bullet.scale = 0.8;
-//                    
-//                    CGFloat velocity_x = cos([self.player getAdjRotation])*100;
-//                    CGFloat velocity_y = sin([self.player getAdjRotation])*100;
-//                    
-//                    CGFloat radius = PLAYER_WIDTH;
-//                    CGFloat x = cos([self.player getAdjRotation])*radius +
-//                    self.player.position.x;
-//                    CGFloat y = sin([self.player getAdjRotation])*radius +
-//                    self.player.position.y;
-//                    
-//                    //                    bullet.position = CGPointMake(location.x,location.y+self.player.size.height/2);
-//                    bullet.position = CGPointMake(x,y);
-//                    
-//                    //                    NSLog(@"x: %f, y: %f", x,y);
-//                    
-//                    bullet.zRotation = [self.player getAdjRotation];
-//                    
-//                    bullet.physicsBody.velocity = CGVectorMake(velocity_x, velocity_y);
-//                    
-//                    bullet.ownerId = self.player.playerId;
-//                    
-//                    [self.scene addChild:bullet];
-//                }];// queue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
-//                
-//                SKAction *wait = [SKAction waitForDuration:0.4];
-//                SKAction *sequence = [SKAction sequence:@[shootBulletAction, wait]];
-//                [self.scene runAction:[SKAction repeatActionForever:sequence]];
-//            }
-//            else {
-//                [self.scene removeAllActions];
-//            }
-            
+            [self.player fire];
             return;
         }
         else if ([node.name isEqualToString:@"rotate_c_button"]) {
             [self.player rotateClockwise];
+            return;
         }
         else if ([node.name isEqualToString:@"rotate_uc_button"]) {
             [self.player rotateCounterClockwise];
+            return;
         }
         else if ([node.name isEqualToString:@"forward_button"]) {
             [self.player moveForward];
+            return;
         }
         else if ([node.name isEqualToString:@"backward_button"]) {
             [self.player moveBackward];
+            return;
         }
         
     }
