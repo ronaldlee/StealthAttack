@@ -125,4 +125,6 @@
 
 -(void)dance;
 
+-(void)stopFadeOut;
+
 @end

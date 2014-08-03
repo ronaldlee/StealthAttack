@@ -347,7 +347,10 @@
                 [enemy explode];
                 
                 STATank* tank = ((STABattleStage*)currStage).player;
+                [tank stop];
+                [tank stopFadeOut];
                 [tank fadeInNow];
+                [tank dance];
                 [bullet removeFromParent];
             }
         }

@@ -262,6 +262,9 @@
     STATank* player = [stage player];
     if (player.isExploded) {
         [host stop];
+        [host stopFadeOut];
+        [host fadeInNow];
+        [host dance];
         return; //player is dead already. yay!
     }
     if (host.isExploded) return; //host is dead already. BOOO!

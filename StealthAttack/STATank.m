@@ -942,6 +942,16 @@
     [self.tankG runAction:fadeOut];
 }
 
+-(void) stopFadeOut {
+    [self.tankA removeAllActions];
+    [self.tankB removeAllActions];
+    [self.tankC removeAllActions];
+    [self.tankD removeAllActions];
+    [self.tankE removeAllActions];
+    [self.tankF removeAllActions];
+    [self.tankG removeAllActions];
+}
+
 -(void)fadeInNow {
     isGameOver = true;
     
