@@ -386,16 +386,16 @@
 }
 
 -(void)moveLeftWheelsForward {
-    NSLog(@"forward tl1.y: %f, l2: %f, l3: %f, l4: %f",
-          self.tankl1.position.y,self.tankl2.position.y,self.tankl3.position.y,self.tankl4.position.y);
+//    NSLog(@"forward tl1.y: %f, l2: %f, l3: %f, l4: %f",
+//          self.tankl1.position.y,self.tankl2.position.y,self.tankl3.position.y,self.tankl4.position.y);
     
     [self correctLeftWheels];
     
     CGFloat speed = 1;
     CGFloat tank_body_height = scaled_height*3-wheel_height;
     
-    NSLog(@"forward wheel_origin_y: %f, bottom_y: %f, tank_body_height: %f",
-          wheel_origin_y,wheel_bottom_y,tank_body_height);
+//    NSLog(@"forward wheel_origin_y: %f, bottom_y: %f, tank_body_height: %f",
+//          wheel_origin_y,wheel_bottom_y,tank_body_height);
     
     //left
     CGPoint base_location = CGPointMake(self.tankl1.position.x,wheel_bottom_y);
@@ -884,6 +884,8 @@
 }
 
 -(void)fadeInThenOut {
+    if (!IS_ENABLE_STEALTH) return;
+    
     SKAction* fadeIn=[SKAction fadeInWithDuration:1];
     [self.tankA runAction:fadeIn];
     [self.tankB runAction:fadeIn];
@@ -897,6 +899,8 @@
 }
 
 -(void)fadeOut {
+    if (!IS_ENABLE_STEALTH) return;
+    
     SKAction* fadeOut=[SKAction fadeOutWithDuration:1];
     [self.tankA runAction:fadeOut];
     [self.tankB runAction:fadeOut];
@@ -908,6 +912,8 @@
 }
 
 -(void)fadeInNow {
+    if (!IS_ENABLE_STEALTH) return;
+    
     SKAction* fadeIn=[SKAction fadeInWithDuration:0];
     [self.tankA runAction:fadeIn];
     [self.tankB runAction:fadeIn];

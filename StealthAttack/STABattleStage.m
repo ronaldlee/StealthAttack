@@ -140,24 +140,23 @@
         
         [self.scene addChild:self.enemy];
         
+        //=== fading out tanks
+        int start_delay=5;
         
-        if (IS_ENABLE_STEALTH) {
-            int start_delay=5;
-            
-            SKAction * playerFadeOutAction = [SKAction runBlock:^(){
-                [self.player fadeOut];
-            }];
-            SKAction* playerActions=[SKAction sequence:@[[SKAction waitForDuration:start_delay],playerFadeOutAction]];
-            
-            //a timer to fade out both tanks!
-            SKAction * enemyFadeOutAction = [SKAction runBlock:^() {
-                [self.enemy fadeOut];
-            }];
-            SKAction* enemyActions=[SKAction sequence:@[[SKAction waitForDuration:start_delay],enemyFadeOutAction]];
-            
-            [self.enemyFadeNode runAction:enemyActions];
-            [self.playerFadeNode runAction:playerActions];
-        }
+        SKAction * playerFadeOutAction = [SKAction runBlock:^(){
+            [self.player fadeOut];
+        }];
+        SKAction* playerActions=[SKAction sequence:@[[SKAction waitForDuration:start_delay],playerFadeOutAction]];
+        
+        //a timer to fade out both tanks!
+        SKAction * enemyFadeOutAction = [SKAction runBlock:^() {
+            [self.enemy fadeOut];
+        }];
+        SKAction* enemyActions=[SKAction sequence:@[[SKAction waitForDuration:start_delay],enemyFadeOutAction]];
+        
+        [self.enemyFadeNode runAction:enemyActions];
+        [self.playerFadeNode runAction:playerActions];
+    
     }
     
     return self;

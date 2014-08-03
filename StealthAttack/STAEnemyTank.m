@@ -164,6 +164,8 @@
 }
 
 -(void)fadeInThenOut {
+    if (!IS_ENABLE_STEALTH) return;
+    
     [super fadeInThenOut];
     SKAction* fadeIn=[SKAction fadeInWithDuration:1];
     [self.tankH runAction:fadeIn];
@@ -171,6 +173,8 @@
 }
 
 -(void)fadeOut {
+    if (!IS_ENABLE_STEALTH) return;
+    
     [super fadeOut];
     SKAction* fadeOut=[SKAction fadeOutWithDuration:1];
     [self.tankH runAction:fadeOut];
@@ -178,6 +182,8 @@
 }
 
 -(void)fadeInNow {
+    if (!IS_ENABLE_STEALTH) return;
+    
     [super fadeInNow];
     SKAction* fadeIn=[SKAction fadeInWithDuration:0];
     [self.tankH runAction:fadeIn];

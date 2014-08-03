@@ -258,9 +258,10 @@
 }
 
 -(void)think {
-    NSLog(@"thinking: %d",ticksBeforeAdjustLastXY);
+//    NSLog(@"thinking: %d",ticksBeforeAdjustLastXY);
     STATank* player = [stage player];
     if (player.isExploded) return; //player is dead already. yay!
+    if (host.isExploded) return; //host is dead already. BOOO!
     
     CGFloat lastX = [player lastX];
     CGFloat lastY = [player lastY];
@@ -277,24 +278,31 @@
     
     ticksBeforeAdjustLastXY++;
     if (ticksBeforeAdjustLastXY > numberOfThinkTicksBeforeAdjustLastXY) {
-        NSLog(@"OOO player x: %f, y: %f", player.position.x, player.position.y);
+//        NSLog(@"OOO player x: %f, y: %f", player.position.x, player.position.y);
         
         //time to estimate where player might go now..
         //Just divide the map into 9 blocks
         CGRect bounds = [player getBorderBounds];
-        int block_width = bounds.size.width/3;
-        int block_height = bounds.size.height/3;
-        int right_x = bounds.origin.x+bounds.size.width;
-        int top_y = bounds.origin.y+bounds.size.height;
+        CGFloat block_width = bounds.size.width/3;
+        CGFloat block_height = bounds.size.height/3;
+        CGFloat right_x = bounds.origin.x+bounds.size.width;
+        CGFloat top_y = bounds.origin.y+bounds.size.height;
+        
+//NSLog(@"right x: %f, top_y: %f, block width: %f, height: %f", right_x, top_y, block_width, block_height);
         
         int region_id=1;
-        BOOL isDone = false;
-        for (int x = bounds.origin.x; x < right_x && !isDone; x+=block_width) {
-            for (int y = bounds.origin.y; y < top_y && !isDone; y+=block_height) {
+        BOOL isFound = false;
+        for (CGFloat x = bounds.origin.x; x < right_x && !isFound; x+=block_width) {
+            NSLog(@"-- x: %f", x);
+            for (CGFloat y = bounds.origin.y; y < top_y && !isFound; y+=block_height) {
+                NSLog(@"  -- y: %f", y);
                 if (enemyTank_lastknown_x >= x && enemyTank_lastknown_x <= x+block_width) {
                     if (enemyTank_lastknown_y >= y && enemyTank_lastknown_y <= y+block_height) {
-                        NSLog(@"++++++++ player in region: %d", region_id);
-                        isDone = true;
+//                        NSLog(@"+++++++++++++++++++++++++++++");
+//                        NSLog(@"++++++++ player in region: %@. last x: %f, y: %f", [self getRegionStr: region_id],
+//                                                                enemyTank_lastknown_x,enemyTank_lastknown_y );
+//                        NSLog(@"+++++++++++++++++++++++++++++");
+                        isFound = true;
                         break;
                     }
                 }
@@ -302,90 +310,98 @@
             }
         }
         
-        //based on player's last region and direction and move speed, predict/guess which region player might be
-        int guess_region_id = -1;
-        if (region_id == REGION_LEFT_BOTTOM) {
-            int rand = (int)arc4random_uniform([region1ProbArray count]);
+        if (isFound) {
             
-            NSNumber *prod_action = [region1ProbArray objectAtIndex:rand];
-            guess_region_id = [prod_action intValue];
-        }
-        else if (region_id == REGION_LEFT_MIDDLE) {
-            int rand = (int)arc4random_uniform([region2ProbArray count]);
-            
-            NSNumber *prod_action = [region2ProbArray objectAtIndex:rand];
-            guess_region_id = [prod_action intValue];
-        }
-        else if (region_id == REGION_LEFT_TOP) {
-            int rand = (int)arc4random_uniform([region3ProbArray count]);
-            
-            NSNumber *prod_action = [region3ProbArray objectAtIndex:rand];
-            guess_region_id = [prod_action intValue];
-        }
-        else if (region_id == REGION_MIDDLE_BOTTOM) {
-            int rand = (int)arc4random_uniform([region4ProbArray count]);
-            
-            NSNumber *prod_action = [region4ProbArray objectAtIndex:rand];
-            guess_region_id = [prod_action intValue];
-        }
-        else if (region_id == REGION_MIDDLE_MIDDLE) {
-            int rand = (int)arc4random_uniform([region5ProbArray count]);
-            
-            NSNumber *prod_action = [region5ProbArray objectAtIndex:rand];
-            guess_region_id = [prod_action intValue];
-        }
-        else if (region_id == REGION_MIDDLE_TOP) {
-            int rand = (int)arc4random_uniform([region6ProbArray count]);
-            
-            NSNumber *prod_action = [region6ProbArray objectAtIndex:rand];
-            guess_region_id = [prod_action intValue];
-        }
-        else if (region_id == REGION_RIGHT_BOTTOM) {
-            int rand = (int)arc4random_uniform([region7ProbArray count]);
-            
-            NSNumber *prod_action = [region7ProbArray objectAtIndex:rand];
-            guess_region_id = [prod_action intValue];
-        }
-        else if (region_id == REGION_RIGHT_MIDDLE) {
-            int rand = (int)arc4random_uniform([region8ProbArray count]);
-            
-            NSNumber *prod_action = [region8ProbArray objectAtIndex:rand];
-            guess_region_id = [prod_action intValue];
-        }
-        else if (region_id == REGION_RIGHT_TOP) {
-            int rand = (int)arc4random_uniform([region9ProbArray count]);
-            
-            NSNumber *prod_action = [region9ProbArray objectAtIndex:rand];
-            guess_region_id = [prod_action intValue];
-        }
-        
-        //based on this new estimated region, modify the enemyTank_lastknown_x and _y
-        region_id=1;
-        isDone = false;
-        for (int x = bounds.origin.x; x < right_x && !isDone; x+=block_width) {
-            for (int y = bounds.origin.y; y < top_y && !isDone; y+=block_height) {
-                if (guess_region_id == region_id) {
-                    //find the mid point of this region, and randomize a point in it
-                    int rand_x = (int)arc4random_uniform(block_width/2);
-                    int rand_y = (int)arc4random_uniform(block_height/2);
-                    
-                    int rand_xdir = arc4random_uniform(1);
-                    if (rand_xdir == 1) {
-                        rand_x *= -1;
-                    }
-                    int rand_ydir = arc4random_uniform(1);
-                    if (rand_ydir == 1) {
-                        rand_y *= -1;
-                    }
-                    
-                    enemyTank_lastknown_x = x + block_width/2 + rand_x;
-                    enemyTank_lastknown_y = y + block_height/2 + rand_y;
-                    
-                    isDone = true;
-                    break;
-                }
-                region_id++;
+            //based on player's last region and direction and move speed, predict/guess which region player might be
+            int guess_region_id = -1;
+            if (region_id == REGION_LEFT_BOTTOM) {
+                int rand = (int)arc4random_uniform([region1ProbArray count]);
+                
+                NSNumber *prod_action = [region1ProbArray objectAtIndex:rand];
+                guess_region_id = [prod_action intValue];
             }
+            else if (region_id == REGION_LEFT_MIDDLE) {
+                int rand = (int)arc4random_uniform([region2ProbArray count]);
+                
+                NSNumber *prod_action = [region2ProbArray objectAtIndex:rand];
+                guess_region_id = [prod_action intValue];
+            }
+            else if (region_id == REGION_LEFT_TOP) {
+                int rand = (int)arc4random_uniform([region3ProbArray count]);
+                
+                NSNumber *prod_action = [region3ProbArray objectAtIndex:rand];
+                guess_region_id = [prod_action intValue];
+            }
+            else if (region_id == REGION_MIDDLE_BOTTOM) {
+                int rand = (int)arc4random_uniform([region4ProbArray count]);
+                
+                NSNumber *prod_action = [region4ProbArray objectAtIndex:rand];
+                guess_region_id = [prod_action intValue];
+            }
+            else if (region_id == REGION_MIDDLE_MIDDLE) {
+                int rand = (int)arc4random_uniform([region5ProbArray count]);
+                
+                NSNumber *prod_action = [region5ProbArray objectAtIndex:rand];
+                guess_region_id = [prod_action intValue];
+            }
+            else if (region_id == REGION_MIDDLE_TOP) {
+                int rand = (int)arc4random_uniform([region6ProbArray count]);
+                
+                NSNumber *prod_action = [region6ProbArray objectAtIndex:rand];
+                guess_region_id = [prod_action intValue];
+            }
+            else if (region_id == REGION_RIGHT_BOTTOM) {
+                int rand = (int)arc4random_uniform([region7ProbArray count]);
+                
+                NSNumber *prod_action = [region7ProbArray objectAtIndex:rand];
+                guess_region_id = [prod_action intValue];
+            }
+            else if (region_id == REGION_RIGHT_MIDDLE) {
+                int rand = (int)arc4random_uniform([region8ProbArray count]);
+                
+                NSNumber *prod_action = [region8ProbArray objectAtIndex:rand];
+                guess_region_id = [prod_action intValue];
+            }
+            else if (region_id == REGION_RIGHT_TOP) {
+                int rand = (int)arc4random_uniform([region9ProbArray count]);
+                
+                NSNumber *prod_action = [region9ProbArray objectAtIndex:rand];
+                guess_region_id = [prod_action intValue];
+            }
+            
+//            NSLog(@"+++++++++++++++++++++++++++++");
+//            NSLog(@"++++++++ GUESSING player in region: %@", [self getRegionStr: guess_region_id]);
+//            NSLog(@"+++++++++++++++++++++++++++++");
+            
+            //based on this new estimated region, modify the enemyTank_lastknown_x and _y
+            region_id=1;
+            isFound = false;
+            for (CGFloat x = bounds.origin.x; x < right_x && !isFound; x+=block_width) {
+                for (CGFloat y = bounds.origin.y; y < top_y && !isFound; y+=block_height) {
+                    if (guess_region_id == region_id) {
+                        //find the mid point of this region, and randomize a point in it
+                        int rand_x = (int)arc4random_uniform(block_width/2);
+                        int rand_y = (int)arc4random_uniform(block_height/2);
+                        
+                        int rand_xdir = arc4random_uniform(1);
+                        if (rand_xdir == 1) {
+                            rand_x *= -1;
+                        }
+                        int rand_ydir = arc4random_uniform(1);
+                        if (rand_ydir == 1) {
+                            rand_y *= -1;
+                        }
+                        
+                        enemyTank_lastknown_x = x + block_width/2 + rand_x;
+                        enemyTank_lastknown_y = y + block_height/2 + rand_y;
+                        
+                        isFound = true;
+                        break;
+                    }
+                    region_id++;
+                }
+            }
+            
         }
         
         ticksBeforeAdjustLastXY = 0;
@@ -394,12 +410,18 @@
     //distance from enemy
     CGFloat distance = [self getDistanceFromEnemy_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y];
     
-    NSLog(@"distance sq: %f" , distance);
+//    NSLog(@"distance sq: %f" , distance);
     
     if (enemyTank_lastknown_x == -1 && enemyTank_lastknown_y == -1) return;
     
     if (![self isAvailableForAction]) {
         //depending on certain conditions, stop the current action.
+        
+        //==== Condition 1 (critical): Evade bullet(s)
+        //detect bullet(s) and try to avoid them if is close..
+        
+        
+        //==== Condition 2: Distance Change
         int curDistance = 0;
         if (distance < shortRange) {
             curDistance = DISTANCE_SHORT;
@@ -788,6 +810,38 @@
         NSInteger exchangeIndex = i + arc4random_uniform(remainingCount);
         [array exchangeObjectAtIndex:i withObjectAtIndex:exchangeIndex];
     }
+}
+
+-(NSString*)getRegionStr:(int)region_id {
+    if (region_id == 1) {
+        return @"left_bottom";
+    }
+    else if (region_id == 2) {
+        return @"left_middle";
+    }
+    else if (region_id == 3) {
+        return @"left_top";
+    }
+    else if (region_id == 4) {
+        return @"middle_bottom";
+    }
+    else if (region_id == 5) {
+        return @"middle_middle";
+    }
+    else if (region_id == 6) {
+        return @"middle_top";
+    }
+    else if (region_id == 7) {
+        return @"right_bottom";
+    }
+    else if (region_id == 8) {
+        return @"right_middle";
+    }
+    else if (region_id == 9) {
+        return @"right_top";
+    }
+    
+    return @"unknown region";
 }
 
 -(void) stupid {

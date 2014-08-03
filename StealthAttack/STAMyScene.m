@@ -374,6 +374,7 @@
             NSLog(@"missle hit player");
             if (bullet.ownerId != player.playerId) {
                 [player explode];
+                
                 STATank* tank = ((STABattleStage*)currStage).enemy;
                 [tank fadeInNow];
                 [bullet removeFromParent];
