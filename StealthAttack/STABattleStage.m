@@ -100,7 +100,8 @@
                                            BodyColor:tankBodyYellow
                                        BodyBaseColor:tankBodyBaseYellow
                                                   AI:NULL
-                                       RotationSpeed:3];
+                                       RotationSpeed:3
+                                            Category:PLAYER_CATEGORY];
         [self.player setBattleStage:self];
 
         CGFloat player_bottom_border_y = bottom_corner_y + [self.player getAnchorOffsetY]+PIXEL_WIDTHHEIGHT+1;//+PIXEL_WIDTHHEIGHT+1;
@@ -130,7 +131,8 @@
                                                BodyColor:tankBodyBlue
                                            BodyBaseColor:tankBodyBaseBlue
                                                       AI:[[STAAI alloc] initWithStage:self]
-                                           RotationSpeed:3];
+                                           RotationSpeed:3
+                                                Category:ENEMY_CATEGORY];
         [self.enemy setBattleStage:self];
         
 //        stage_start_x = ([[UIScreen mainScreen] bounds].size.width-PLAYER_WIDTH)/2 + [self.player getAnchorOffsetX];

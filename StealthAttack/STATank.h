@@ -72,7 +72,8 @@
 -(void)setBorderBounds:(CGRect)p_bounds;
 -(id)initWithScale:(CGFloat)scale Id:(int)t_id BodyColor:(UIColor*)b_color BodyBaseColor:(UIColor*)bb_color
                 AI:(STAAI*) ai
-     RotationSpeed:(CGFloat)r_speed;
+     RotationSpeed:(CGFloat)r_speed
+          Category:(uint32_t)category;
 
 -(void)moveForward;
 -(void)moveForwardToX:(CGFloat)x Y:(CGFloat)y complete:(void (^)() )block;
@@ -126,5 +127,8 @@
 -(void)dance;
 
 -(void)stopFadeOut;
+-(void)explodePart:(SKSpriteNode*)part XDiff:(CGFloat)x_diff YDiff:(CGFloat)y_diff
+       FlyDuration:(float)f_duration FadeoutDuration:(float)fo_duration
+    RotateDuration:(float)r_duration;
 
 @end

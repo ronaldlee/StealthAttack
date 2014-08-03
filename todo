@@ -1,1 +1,14 @@
-when fading in after the game is done. it should stop fading in immediately (or fadeInNow afterwards)
+X-when fading in after the game is done. it should stop fading in immediately (or fadeInNow afterwards)
+-fix collision area for basic tank
+-starting moves:
+ -aim at player but quickly turn to trick player think it is aiming at it.
+x-Tiger tank explode, H and J not explode
+
+
+
+Boss:
+-Tiger tank: basic enemy similar to your tank.
+-railgun tank: long reload time, long range very accurate, fast bullet, slow movement and turn rate
+-assault helicopter: move and turn fast. tends to stay at one point, can evade bullet really good
+-jeep: move fast and move alot. long range very inaccurate, small bullet.
+-fighter jet: can only shoot from long range, not really that accurate, move really fast.

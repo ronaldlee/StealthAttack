@@ -90,7 +90,7 @@
 @synthesize isBrakingOn;
 @synthesize danceNode;
 
-- (id)initWithScale:(CGFloat)f_scale Id:(int)t_id BodyColor:(UIColor*)b_color BodyBaseColor:(UIColor*)bb_color  AI:(STAAI*)t_ai RotationSpeed:(CGFloat)r_speed{
+- (id)initWithScale:(CGFloat)f_scale Id:(int)t_id BodyColor:(UIColor*)b_color BodyBaseColor:(UIColor*)bb_color  AI:(STAAI*)t_ai RotationSpeed:(CGFloat)r_speed Category:(uint32_t)category{
     self = [super init];
     if (self) {
         isGameOver = false;
@@ -144,7 +144,7 @@
         self.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:CGSizeMake(max_width, max_height)];
         
         self.physicsBody.affectedByGravity = NO;
-        self.physicsBody.categoryBitMask = PLAYER_CATEGORY;
+        self.physicsBody.categoryBitMask = category;
 //        self.physicsBody.contactTestBitMask = 0;
 //        self.physicsBody.collisionBitMask = 0;
         self.physicsBody.contactTestBitMask = ENEMY_CATEGORY | WALL_CATEGORY | PLAYER_CATEGORY;
@@ -566,7 +566,7 @@
 }
 
 -(void)moveForward {
-    if (isRotatingClockwise || isRotatingCounterClockwise || isMovingBackward) return;
+    if (isRotatingClockwise || isRotatingCounterClockwise || isMovingBackward || isGameOver) return;
     isMovingForward= true;
     
     CGFloat x = cos([self getAdjRotation])*moveSpeed;//+self.position.x;
@@ -991,7 +991,7 @@
 }
 
 -(void) dance {
-    
+//    NSLog(@"DANCE!!!!!!!!!");
     SKAction* dance = [SKAction runBlock:^(){
         CGFloat dance_degree = (CGFloat)arc4random_uniform(314)/(CGFloat)100;
 

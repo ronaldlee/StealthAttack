@@ -14,6 +14,8 @@
     float scale;
     float left_corner_x, right_corner_x, top_corner_y, bottom_corner_y;
     float player_bottom_border_y, player_top_border_y, player_left_border_x, player_right_border_x;
+    
+    BOOL isGameOver;
 }
 
 //@property (nonatomic) STATank * player;
@@ -44,6 +46,7 @@
 -(id)initWithSize:(CGSize)size {    
     if (self = [super initWithSize:size]) {
         /* Setup your scene here */
+        isGameOver = false;
         
         [self createSceneContents];
         
@@ -315,7 +318,7 @@
         STATank *player = (STATank*)contact.bodyA.node;
         
         if ((contact.bodyB.categoryBitMask & ENEMY_CATEGORY) != 0) {
-            STAEnemyTank *enemy = (STAEnemyTank*)contact.bodyB.node;
+            STATank *enemy = (STATank*)contact.bodyB.node;
             
             NSLog(@"contact!: player and monster");
 //            [player contactWith:enemy];
@@ -327,7 +330,8 @@
         else if ((contact.bodyB.categoryBitMask & MISSLE_CATEGORY) != 0) {
             NSLog(@"hit missle");
             STABullet * bullet = (STABullet*)contact.bodyB.node;
-            if (bullet.ownerId != player.playerId) {
+            if (bullet.ownerId != player.playerId && !isGameOver) {
+                isGameOver = true;
                 [player explode];
                 
                 STATank* tank = ((STABattleStage*)currStage).enemy;
@@ -337,25 +341,26 @@
         }
     }
     else if ((contact.bodyA.categoryBitMask & ENEMY_CATEGORY) != 0) {
-        STAEnemyTank* enemy = (STAEnemyTank*)contact.bodyA.node;
+        STATank* enemy = (STATank*)contact.bodyA.node;
         
         if ((contact.bodyB.categoryBitMask & MISSLE_CATEGORY) != 0) {
             STABullet* bullet = (STABullet*)contact.bodyB.node;
             
             NSLog(@"missle hit monster");
-            if (bullet.ownerId != enemy.playerId) {
+            if (bullet.ownerId != enemy.playerId && !isGameOver) {
+                isGameOver = true;
                 [enemy explode];
                 
                 STATank* tank = ((STABattleStage*)currStage).player;
                 [tank stop];
                 [tank stopFadeOut];
                 [tank fadeInNow];
-                [tank dance];
+//                [tank dance];
                 [bullet removeFromParent];
             }
         }
         else if ((contact.bodyB.categoryBitMask & ENEMY_CATEGORY) != 0) {
-            STAEnemyTank* enemy2 = (STAEnemyTank*)contact.bodyB.node;
+            STATank* enemy2 = (STATank*)contact.bodyB.node;
             
             SKAction *wait = [SKAction waitForDuration:1];
             SKAction* stop=[SKAction runBlock:^(void) {
@@ -375,7 +380,8 @@
             STATank* player = (STATank*)contact.bodyB.node;
             
             NSLog(@"missle hit player");
-            if (bullet.ownerId != player.playerId) {
+            if (bullet.ownerId != player.playerId && !isGameOver) {
+                isGameOver = true;
                 [player explode];
                 
                 STATank* tank = ((STABattleStage*)currStage).enemy;

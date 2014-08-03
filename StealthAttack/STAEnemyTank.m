@@ -31,15 +31,15 @@
 //@synthesize tankr3;
 //@synthesize tankr4;
 
-- (id)initWithScale:(CGFloat)f_scale Id:(int)t_id BodyColor:tankBodyColor BodyBaseColor:tankBodyBaseColor AI:(STAAI*) ai RotationSpeed:(CGFloat)r_speed {
+- (id)initWithScale:(CGFloat)f_scale Id:(int)t_id BodyColor:tankBodyColor BodyBaseColor:tankBodyBaseColor AI:(STAAI*) ai RotationSpeed:(CGFloat)r_speed Category:(uint32_t)category {
     
     self = [super initWithScale:f_scale Id:t_id BodyColor:tankBodyColor BodyBaseColor:tankBodyBaseColor AI:ai
-                  RotationSpeed:r_speed];
+                  RotationSpeed:r_speed Category:category];
     
-    if (self) {
-        self.physicsBody.categoryBitMask = ENEMY_CATEGORY;
-
-    }
+//    if (self) {
+//        self.physicsBody.categoryBitMask = ENEMY_CATEGORY;
+//
+//    }
     return self;
 }
 
@@ -153,6 +153,65 @@
     [self addChild:self.tankI];
     self.tankI.position = CGPointMake(self.scaled_width*2-self.anchoroffset_x,0-self.anchoroffset_y);
 
+}
+
+-(void)explode {
+//    [super explode];
+    
+    self.isExploded = true;
+    [self removeAllActions];
+    
+    float f_duration = 2.0;
+    float fo_duration = 10;//0.5;
+    float r_duration = 2.0;
+    
+    //hands and eyes just randomly flies away
+    [self explodePart:self.tankA XDiff:0 YDiff:30 FlyDuration:f_duration FadeoutDuration:fo_duration
+       RotateDuration:r_duration];
+    
+    [self explodePart:self.tankB XDiff:20 YDiff:30 FlyDuration:f_duration FadeoutDuration:fo_duration
+       RotateDuration:r_duration];
+    [self explodePart:self.tankC XDiff:-20 YDiff:20 FlyDuration:f_duration FadeoutDuration:fo_duration
+       RotateDuration:r_duration];
+    [self explodePart:self.tankD XDiff:20 YDiff:30 FlyDuration:f_duration FadeoutDuration:fo_duration
+       RotateDuration:r_duration];
+    
+    [self explodePart:self.tankE XDiff:30 YDiff:20 FlyDuration:f_duration FadeoutDuration:fo_duration
+       RotateDuration:r_duration];
+    [self explodePart:self.tankF XDiff:10 YDiff:10 FlyDuration:f_duration FadeoutDuration:fo_duration
+       RotateDuration:r_duration];
+    [self explodePart:self.tankG XDiff:-30 YDiff:20 FlyDuration:f_duration FadeoutDuration:fo_duration
+       RotateDuration:r_duration];
+    
+    [self explodePart:self.tankl1 XDiff:-5 YDiff:5 FlyDuration:f_duration FadeoutDuration:fo_duration
+       RotateDuration:r_duration];
+    [self explodePart:self.tankl2 XDiff:15 YDiff:15 FlyDuration:f_duration FadeoutDuration:fo_duration
+       RotateDuration:r_duration];
+    [self explodePart:self.tankl3 XDiff:5 YDiff:10 FlyDuration:f_duration FadeoutDuration:fo_duration
+       RotateDuration:r_duration];
+    [self explodePart:self.tankl4 XDiff:10 YDiff:5 FlyDuration:f_duration FadeoutDuration:fo_duration
+       RotateDuration:r_duration];
+    
+    [self explodePart:self.tankr1 XDiff:5 YDiff:10 FlyDuration:f_duration FadeoutDuration:fo_duration
+       RotateDuration:r_duration];
+    [self explodePart:self.tankr2 XDiff:20 YDiff:5 FlyDuration:f_duration FadeoutDuration:fo_duration
+       RotateDuration:r_duration];
+    [self explodePart:self.tankr3 XDiff:-10 YDiff:10 FlyDuration:f_duration FadeoutDuration:fo_duration
+       RotateDuration:r_duration];
+    [self explodePart:self.tankr4 XDiff:10 YDiff:5 FlyDuration:f_duration FadeoutDuration:fo_duration
+       RotateDuration:r_duration];
+    
+//    float f_duration = 2.0;
+//    float fo_duration = 10;//0.5;
+//    float r_duration = 2.0;
+    
+    [self explodePart:self.tankH XDiff:10 YDiff:5 FlyDuration:f_duration FadeoutDuration:fo_duration
+       RotateDuration:r_duration];
+    
+    [self explodePart:self.tankI XDiff:10 YDiff:5 FlyDuration:f_duration FadeoutDuration:fo_duration
+       RotateDuration:r_duration];
+    
+    [self fadeInNow];
 }
 
 
