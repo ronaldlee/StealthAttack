@@ -311,4 +311,18 @@
     [self.scene removeChildrenInArray:objs];
 }
 
+-(NSMutableArray*)getAllBullets {
+    NSArray * children = [self.scene children];
+    NSMutableArray* bullets = [NSMutableArray array];
+    NSUInteger numChild = [children count];
+    for (int i=0; i < numChild; i++) {
+        SKNode* child = [children objectAtIndex:i];
+        if ([child class] == [STABullet class]) {
+            [bullets addObject:child];
+        }
+    }
+    
+    return bullets;
+}
+
 @end

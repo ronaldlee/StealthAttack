@@ -20,6 +20,7 @@
     STATank* host;
     
     int ticksBeforeAdjustLastXY;
+    CGRect bounds;
 }
 @end
 
@@ -52,8 +53,6 @@
 @synthesize chancesStopActionDistanceChangeProbArray;
 
 @synthesize numberOfThinkTicksBeforeAdjustLastXY;
-
-@synthesize regionsArray;
 
 @synthesize region1ProbArray;
 @synthesize region2ProbArray;
@@ -125,6 +124,8 @@
         region7ProbArray = [self getProbArrayForR1:0 R2:0 R3:0 R4:5 R5:0 R6:0 R7:5 R8:5 R9:0];
         region8ProbArray = [self getProbArrayForR1:0 R2:0 R3:0 R4:0 R5:5 R6:0 R7:5 R8:5 R9:5];
         region9ProbArray = [self getProbArrayForR1:0 R2:0 R3:0 R4:0 R5:0 R6:5 R7:0 R8:5 R9:5];
+        
+        //=====
         
     }
     return self;
@@ -240,21 +241,32 @@
 
 -(void)setHost:(STATank*)t_host {
     host = t_host;
-    
-    regionsArray = [NSMutableArray array];
-    CGRect bounds = [host getBorderBounds];
-    int block_width = bounds.size.width/3;
-    int block_height = bounds.size.height/3;
-    int right_x = bounds.origin.x+bounds.size.width;
-    int top_y = bounds.origin.y+bounds.size.height;
+}
+
+-(int)getRegionForX:(CGFloat)px Y:(CGFloat)py {
+    bounds = [host getBorderBounds];
+    CGFloat block_width = bounds.size.width/3;
+    CGFloat block_height = bounds.size.height/3;
+    CGFloat right_x = bounds.origin.x+bounds.size.width;
+    CGFloat top_y = bounds.origin.y+bounds.size.height;
     
     int region_id=1;
-    for (int x = bounds.origin.x; x < right_x; x+=block_width) {
-        for (int y = bounds.origin.y; y < top_y; y+=block_height) {
-            [regionsArray addObject:[NSNumber numberWithInteger:region_id]];
+    BOOL isFound = false;
+    for (CGFloat x = bounds.origin.x; x < right_x && !isFound; x+=block_width) {
+        for (CGFloat y = bounds.origin.y; y < top_y && !isFound; y+=block_height) {
+            if (px >= x && px <= x+block_width) {
+                if (py >= y && py <= y+block_height) {
+                    isFound = true;
+                    break;
+                }
+            }
             region_id++;
         }
     }
+    
+    if (!isFound) return -1;
+    
+    return region_id;
 }
 
 -(void)think {
@@ -300,10 +312,10 @@
             for (CGFloat y = bounds.origin.y; y < top_y && !isFound; y+=block_height) {
                 if (enemyTank_lastknown_x >= x && enemyTank_lastknown_x <= x+block_width) {
                     if (enemyTank_lastknown_y >= y && enemyTank_lastknown_y <= y+block_height) {
-                        NSLog(@"+++++++++++++++++++++++++++++");
-                        NSLog(@"++++++++ player in region: %@. last x: %f, y: %f", [self getRegionStr: region_id],
-                                                                enemyTank_lastknown_x,enemyTank_lastknown_y );
-                        NSLog(@"+++++++++++++++++++++++++++++");
+//                        NSLog(@"+++++++++++++++++++++++++++++");
+//                        NSLog(@"++++++++ player in region: %@. last x: %f, y: %f", [self getRegionStr: region_id],
+//                                                                enemyTank_lastknown_x,enemyTank_lastknown_y );
+//                        NSLog(@"+++++++++++++++++++++++++++++");
                         isFound = true;
                         break;
                     }
@@ -410,17 +422,52 @@
     }
     
     //distance from enemy
-    CGFloat distance = [self getDistanceFromEnemy_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y];
+    CGFloat distance = [self getDistanceFromX:enemyTank_lastknown_x Y:enemyTank_lastknown_y];
     
 //    NSLog(@"distance sq: %f" , distance);
     
     if (enemyTank_lastknown_x == -1 && enemyTank_lastknown_y == -1) return;
+    
+    //=== Detect bullet and evade if needed (high priority)
+    BOOL isNeedEvadeBullet = false;
+    
+    NSMutableArray* bullets = [host.battleStage getAllBullets];
+    NSUInteger numBullets = [bullets count];
+    CGFloat closetBulletDistance = 0;
+    STABullet* closetBullet = nil;
+    for (int i=0; i < numBullets; i++) {
+        STABullet* bullet = [bullets objectAtIndex:i];
+        if (bullet.ownerId != host.playerId) {
+            //find the distance, only evade the closest one
+            CGFloat distance = [self getDistanceFromX:bullet.position.x Y:bullet.position.y];
+            if (distance > closetBulletDistance) {
+                closetBulletDistance = distance;
+                closetBullet = bullet;
+            }
+        }
+    }
+    
+    if (closetBullet != nil) {
+        //find out the closet bullet region by its x/y
+        int bullet_region_id = [self getRegionForX:closetBullet.position.x Y:closetBullet.position.y];
+        
+//        NSLog(@"bounds: %f/%f/%f/%f", bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height);
+//        NSLog(@"bullet region: %@, num bullets: %lu, x: %f y: %f" ,
+//              [self getRegionStr:bullet_region_id], (unsigned long)numBullets,
+//              closetBullet.position.x,closetBullet.position.y);
+        
+        int my_region_id = [self getRegionForX:host.position.x Y:host.position.y];
+        NSLog(@"bullet region: %@, my region: %@", [self getRegionStr:bullet_region_id], [self getRegionStr:my_region_id]);
+    }
+    
+    //=========================
     
     if (![self isAvailableForAction]) {
         //depending on certain conditions, stop the current action.
         
         //==== Condition 1 (critical): Evade bullet(s)
         //detect bullet(s) and try to avoid them if is close..
+        
         
         
         //==== Condition 2: Distance Change
@@ -695,7 +742,7 @@
 
 }
 
--(CGFloat)getDistanceFromEnemy_LastX:(CGFloat)lastX LastY:(CGFloat)lastY {
+-(CGFloat)getDistanceFromX:(CGFloat)lastX Y:(CGFloat)lastY {
     CGFloat xDiff = lastX - host.position.x;
     CGFloat yDiff = lastY - host.position.y;
     

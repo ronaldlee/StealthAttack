@@ -25,4 +25,6 @@
 
 -(void) fireBullet:(STATank*)tank;
 
+-(NSMutableArray*)getAllBullets;
+
 @end

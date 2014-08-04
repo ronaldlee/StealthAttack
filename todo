@@ -1,5 +1,6 @@
 X-when fading in after the game is done. it should stop fading in immediately (or fadeInNow afterwards)
 x-fix collision area for basic tank
+-evade bullet
 -starting moves:
  -aim at player but quickly turn to trick player think it is aiming at it.
 x-Tiger tank explode, H and J not explode

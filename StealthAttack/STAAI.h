@@ -58,8 +58,6 @@
 
 @property (nonatomic) NSMutableArray* chancesStopActionDistanceChangeProbArray;
 
-@property (nonatomic) NSMutableArray* regionsArray;
-
 @property (nonatomic) int numberOfThinkTicksBeforeAdjustLastXY;
 
 @property (nonatomic) NSMutableArray* region1ProbArray;

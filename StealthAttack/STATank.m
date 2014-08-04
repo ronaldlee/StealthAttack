@@ -28,7 +28,6 @@
     CGFloat lastRotationDiff;
     CGFloat lastSelfRotate;
     
-    STABattleStage* battleStage;
     
     BOOL isGameOver;
 }
@@ -89,6 +88,8 @@
 @synthesize isExploded;
 @synthesize isBrakingOn;
 @synthesize danceNode;
+
+@synthesize battleStage;
 
 - (id)initWithScale:(CGFloat)f_scale Id:(int)t_id BodyColor:(UIColor*)b_color BodyBaseColor:(UIColor*)bb_color  AI:(STAAI*)t_ai RotationSpeed:(CGFloat)r_speed Category:(uint32_t)category{
     self = [super init];
