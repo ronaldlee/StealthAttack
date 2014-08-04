@@ -447,6 +447,7 @@
         }
     }
     
+    int evade_region_id = -1;
     if (closetBullet != nil) {
         //find out the closet bullet region by its x/y
         int bullet_region_id = [self getRegionForX:closetBullet.position.x Y:closetBullet.position.y];
@@ -458,6 +459,8 @@
         
         int my_region_id = [self getRegionForX:host.position.x Y:host.position.y];
         NSLog(@"bullet region: %@, my region: %@", [self getRegionStr:bullet_region_id], [self getRegionStr:my_region_id]);
+        
+        evade_region_id = [self findEvadeRegionIdByMyRegionId:my_region_id BulletRegionId:bullet_region_id];
     }
     
     //=========================
@@ -899,6 +902,804 @@
 
 -(BOOL) isAvailableForAction {
     return !isApproaching;
+}
+
+//3 6 9
+//2 5 8
+//1 4 7
+-(int)findEvadeRegionIdByMyRegionId:(int)my_region_id BulletRegionId:(int)bullet_region_id {
+    if (bullet_region_id == 1) {
+        if (my_region_id == 1) {
+            int rand = arc4random_uniform(3);
+            if (rand == 0) {
+                return 2;
+            }
+            else if (rand == 1) {
+                return 5;
+            }
+            else if (rand == 2) {
+                return 4;
+            }
+        }
+        else if (my_region_id == 2) {
+            int rand = arc4random_uniform(4);
+            if (rand == 0) {
+                return 3;
+            }
+            else if (rand == 1) {
+                return 6;
+            }
+            else if (rand == 2) {
+                return 5;
+            }
+            else if (rand == 3) {
+                return 4;
+            }
+        }
+        else if (my_region_id == 4) {
+            int rand = arc4random_uniform(4);
+            if (rand == 0) {
+                return 2;
+            }
+            else if (rand == 1) {
+                return 5;
+            }
+            else if (rand == 2) {
+                return 8;
+            }
+            else if (rand == 3) {
+                return 7;
+            }
+        }
+        else if (my_region_id == 5) {
+            int rand = arc4random_uniform(7);
+            if (rand == 0) {
+                return 2;
+            }
+            else if (rand == 1) {
+                return 3;
+            }
+            else if (rand == 2) {
+                return 4;
+            }
+            else if (rand == 3) {
+                return 6;
+            }
+            else if (rand == 4) {
+                return 7;
+            }
+            else if (rand == 5) {
+                return 8;
+            }
+            else if (rand == 6) {
+                return 9;
+            }
+        }
+    }
+    else if (bullet_region_id == 2) {
+        //1,2,3,4,5,6
+        if (my_region_id == 1) {
+            int rand = arc4random_uniform(2);
+            if (rand == 0) {
+                return 4;
+            }
+            else if (rand == 1) {
+                return 5;
+            }
+        }
+        else if (my_region_id == 2) {
+            int rand = arc4random_uniform(5);
+            if (rand == 0) {
+                return 1;
+            }
+            else if (rand == 1) {
+                return 3;
+            }
+            else if (rand == 2) {
+                return 4;
+            }
+            else if (rand == 3) {
+                return 5;
+            }
+            else if (rand == 4) {
+                return 6;
+            }
+        }
+        else if (my_region_id == 3) {
+            int rand = arc4random_uniform(2);
+            if (rand == 0) {
+                return 6;
+            }
+            else if (rand == 1) {
+                return 5;
+            }
+        }
+        else if (my_region_id == 4) {
+            int rand = arc4random_uniform(4);
+            if (rand == 0) {
+                return 1;
+            }
+            else if (rand == 1) {
+                return 5;
+            }
+            else if (rand == 2) {
+                return 8;
+            }
+            else if (rand == 3) {
+                return 7;
+            }
+        }
+        else if (my_region_id == 5) {
+            int rand = arc4random_uniform(7);
+            if (rand == 0) {
+                return 2;
+            }
+            else if (rand == 1) {
+                return 3;
+            }
+            else if (rand == 2) {
+                return 4;
+            }
+            else if (rand == 3) {
+                return 6;
+            }
+            else if (rand == 4) {
+                return 7;
+            }
+            else if (rand == 5) {
+                return 8;
+            }
+            else if (rand == 6) {
+                return 9;
+            }
+        }
+        else if (my_region_id == 6) {
+            int rand = arc4random_uniform(4);
+            if (rand == 0) {
+                return 3;
+            }
+            else if (rand == 1) {
+                return 5;
+            }
+            else if (rand == 2) {
+                return 8;
+            }
+            else if (rand == 3) {
+                return 9;
+            }
+        }
+    }
+    else if (bullet_region_id == 3) {
+        //2,3,5,6
+        if (my_region_id == 2) {
+            int rand = arc4random_uniform(4);
+            if (rand == 0) {
+                return 1;
+            }
+            else if (rand == 1) {
+                return 4;
+            }
+            else if (rand == 2) {
+                return 5;
+            }
+            else if (rand == 3) {
+                return 6;
+            }
+        }
+        else if (my_region_id == 3) {
+            int rand = arc4random_uniform(3);
+            if (rand == 0) {
+                return 2;
+            }
+            else if (rand == 1) {
+                return 5;
+            }
+            else if (rand == 2) {
+                return 6;
+            }
+        }
+        else if (my_region_id == 5) {
+            int rand = arc4random_uniform(7);
+            if (rand == 0) {
+                return 1;
+            }
+            else if (rand == 1) {
+                return 2;
+            }
+            else if (rand == 2) {
+                return 4;
+            }
+            else if (rand == 3) {
+                return 6;
+            }
+            else if (rand == 4) {
+                return 7;
+            }
+            else if (rand == 5) {
+                return 8;
+            }
+            else if (rand == 6) {
+                return 9;
+            }
+        }
+        else if (my_region_id == 6) {
+            int rand = arc4random_uniform(4);
+            if (rand == 0) {
+                return 2;
+            }
+            else if (rand == 1) {
+                return 5;
+            }
+            else if (rand == 2) {
+                return 8;
+            }
+            else if (rand == 3) {
+                return 9;
+            }
+        }
+    }
+    //3 6 9
+    //2 5 8
+    //1 4 7
+    else if (bullet_region_id == 4) {
+        if (my_region_id == 1) {
+            int rand = arc4random_uniform(2);
+            if (rand == 0) {
+                return 2;
+            }
+            else if (rand == 1) {
+                return 5;
+            }
+        }
+        else if (my_region_id == 2) {
+            int rand = arc4random_uniform(4);
+            if (rand == 0) {
+                return 1;
+            }
+            else if (rand == 1) {
+                return 3;
+            }
+            else if (rand == 2) {
+                return 5;
+            }
+            else if (rand == 3) {
+                return 6;
+            }
+        }
+        else if (my_region_id == 4) {
+            int rand = arc4random_uniform(5);
+            if (rand == 0) {
+                return 1;
+            }
+            else if (rand == 1) {
+                return 2;
+            }
+            else if (rand == 2) {
+                return 5;
+            }
+            else if (rand == 3) {
+                return 7;
+            }
+            else if (rand == 4) {
+                return 8;
+            }
+        }
+        else if (my_region_id == 5) {
+            int rand = arc4random_uniform(7);
+            if (rand == 0) {
+                return 1;
+            }
+            else if (rand == 1) {
+                return 2;
+            }
+            else if (rand == 2) {
+                return 3;
+            }
+            else if (rand == 3) {
+                return 6;
+            }
+            else if (rand == 4) {
+                return 7;
+            }
+            else if (rand == 5) {
+                return 8;
+            }
+            else if (rand == 6) {
+                return 9;
+            }
+        }
+        else if (my_region_id == 7) {
+            int rand = arc4random_uniform(2);
+            if (rand == 0) {
+                return 5;
+            }
+            else if (rand == 1) {
+                return 8;
+            }
+        }
+        else if (my_region_id == 8) {
+            int rand = arc4random_uniform(4);
+            if (rand == 0) {
+                return 6;
+            }
+            else if (rand == 1) {
+                return 9;
+            }
+            else if (rand == 2) {
+                return 5;
+            }
+            else if (rand == 3) {
+                return 7;
+            }
+        }
+    }
+    //3 6 9
+    //2 5 8
+    //1 4 7
+    else if (bullet_region_id == 5) {
+        //1,2,3,4,5,6,7,8,9
+        if (my_region_id == 1) {
+            int rand = arc4random_uniform(2);
+            if (rand == 0) {
+                return 2;
+            }
+            else if (rand == 1) {
+                return 4;
+            }
+        }
+        else if (my_region_id == 2) {
+            int rand = arc4random_uniform(4);
+            if (rand == 0) {
+                return 1;
+            }
+            else if (rand == 1) {
+                return 3;
+            }
+            else if (rand == 2) {
+                return 4;
+            }
+            else if (rand == 3) {
+                return 6;
+            }
+        }
+        else if (my_region_id == 3) {
+            int rand = arc4random_uniform(2);
+            if (rand == 0) {
+                return 2;
+            }
+            else if (rand == 1) {
+                return 6;
+            }
+        }
+        else if (my_region_id == 4) {
+            int rand = arc4random_uniform(4);
+            if (rand == 0) {
+                return 1;
+            }
+            else if (rand == 1) {
+                return 2;
+            }
+            else if (rand == 2) {
+                return 7;
+            }
+            else if (rand == 3) {
+                return 8;
+            }
+        }
+        else if (my_region_id == 5) {
+            int rand = arc4random_uniform(8);
+            if (rand == 0) {
+                return 1;
+            }
+            else if (rand == 1) {
+                return 2;
+            }
+            else if (rand == 2) {
+                return 3;
+            }
+            else if (rand == 3) {
+                return 4;
+            }
+            else if (rand == 4) {
+                return 6;
+            }
+            else if (rand == 5) {
+                return 7;
+            }
+            else if (rand == 6) {
+                return 8;
+            }
+            else if (rand == 7) {
+                return 9;
+            }
+        }
+        else if (my_region_id == 6) {
+            int rand = arc4random_uniform(4);
+            if (rand == 0) {
+                return 3;
+            }
+            else if (rand == 1) {
+                return 2;
+            }
+            else if (rand == 2) {
+                return 8;
+            }
+            else if (rand == 3) {
+                return 9;
+            }
+        }
+        else if (my_region_id == 7) {
+            int rand = arc4random_uniform(2);
+            if (rand == 0) {
+                return 4;
+            }
+            else if (rand == 1) {
+                return 8;
+            }
+        }
+        else if (my_region_id == 8) {
+            int rand = arc4random_uniform(4);
+            if (rand == 0) {
+                return 4;
+            }
+            else if (rand == 1) {
+                return 7;
+            }
+            else if (rand == 2) {
+                return 6;
+            }
+            else if (rand == 3) {
+                return 9;
+            }
+        }
+        else if (my_region_id == 9) {
+            int rand = arc4random_uniform(2);
+            if (rand == 0) {
+                return 6;
+            }
+            else if (rand == 1) {
+                return 8;
+            }
+        }
+    }
+    //3 6 9
+    //2 5 8
+    //1 4 7
+    else if (bullet_region_id == 6) {
+        //2,3,5,6,8,9
+        if (my_region_id == 2) {
+            int rand = arc4random_uniform(4);
+            if (rand == 0) {
+                return 1;
+            }
+            else if (rand == 1) {
+                return 4;
+            }
+            else if (rand == 2) {
+                return 5;
+            }
+            else if (rand == 3) {
+                return 3;
+            }
+        }
+        else if (my_region_id == 3) {
+            int rand = arc4random_uniform(2);
+            if (rand == 0) {
+                return 2;
+            }
+            else if (rand == 1) {
+                return 5;
+            }
+        }
+        else if (my_region_id == 5) {
+            int rand = arc4random_uniform(7);
+            if (rand == 0) {
+                return 1;
+            }
+            else if (rand == 1) {
+                return 2;
+            }
+            else if (rand == 2) {
+                return 3;
+            }
+            else if (rand == 3) {
+                return 4;
+            }
+            else if (rand == 4) {
+                return 7;
+            }
+            else if (rand == 5) {
+                return 8;
+            }
+            else if (rand == 6) {
+                return 9;
+            }
+        }
+        else if (my_region_id == 6) {
+            int rand = arc4random_uniform(5);
+            if (rand == 0) {
+                return 3;
+            }
+            else if (rand == 1) {
+                return 2;
+            }
+            else if (rand == 2) {
+                return 5;
+            }
+            else if (rand == 3) {
+                return 8;
+            }
+            else if (rand == 4) {
+                return 9;
+            }
+        }
+        else if (my_region_id == 8) {
+            int rand = arc4random_uniform(4);
+            if (rand == 0) {
+                return 9;
+            }
+            else if (rand == 1) {
+                return 4;
+            }
+            else if (rand == 2) {
+                return 5;
+            }
+            else if (rand == 3) {
+                return 7;
+            }
+        }
+        else if (my_region_id == 9) {
+            int rand = arc4random_uniform(2);
+            if (rand == 0) {
+                return 5;
+            }
+            else if (rand == 1) {
+                return 8;
+            }
+        }
+    }
+    //3 6 9
+    //2 5 8
+    //1 4 7
+    else if (bullet_region_id == 7) {
+        //4,5,7,8
+        if (my_region_id == 4) {
+            int rand = arc4random_uniform(4);
+            if (rand == 0) {
+                return 1;
+            }
+            else if (rand == 1) {
+                return 2;
+            }
+            else if (rand == 2) {
+                return 5;
+            }
+            else if (rand == 3) {
+                return 8;
+            }
+        }
+        else if (my_region_id == 5) {
+            int rand = arc4random_uniform(7);
+            if (rand == 0) {
+                return 1;
+            }
+            else if (rand == 1) {
+                return 2;
+            }
+            else if (rand == 2) {
+                return 3;
+            }
+            else if (rand == 3) {
+                return 4;
+            }
+            else if (rand == 4) {
+                return 6;
+            }
+            else if (rand == 5) {
+                return 8;
+            }
+            else if (rand == 6) {
+                return 9;
+            }
+        }
+        else if (my_region_id == 7) {
+            int rand = arc4random_uniform(3);
+            if (rand == 0) {
+                return 4;
+            }
+            else if (rand == 1) {
+                return 5;
+            }
+            else if (rand == 2) {
+                return 8;
+            }
+        }
+        else if (my_region_id == 8) {
+            int rand = arc4random_uniform(4);
+            if (rand == 0) {
+                return 4;
+            }
+            else if (rand == 1) {
+                return 5;
+            }
+            else if (rand == 2) {
+                return 6;
+            }
+            else if (rand == 3) {
+                return 9;
+            }
+        }
+    }
+    //3 6 9
+    //2 5 8
+    //1 4 7
+    else if (bullet_region_id == 8) {
+        //4,5,6,7,8,9
+        if (my_region_id == 4) {
+            int rand = arc4random_uniform(4);
+            if (rand == 0) {
+                return 1;
+            }
+            else if (rand == 1) {
+                return 2;
+            }
+            else if (rand == 2) {
+                return 5;
+            }
+            else if (rand == 3) {
+                return 7;
+            }
+        }
+        else if (my_region_id == 5) {
+            int rand = arc4random_uniform(7);
+            if (rand == 0) {
+                return 1;
+            }
+            else if (rand == 1) {
+                return 2;
+            }
+            else if (rand == 2) {
+                return 3;
+            }
+            else if (rand == 3) {
+                return 4;
+            }
+            else if (rand == 4) {
+                return 6;
+            }
+            else if (rand == 5) {
+                return 7;
+            }
+            else if (rand == 6) {
+                return 9;
+            }
+        }
+        else if (my_region_id == 6) {
+            int rand = arc4random_uniform(4);
+            if (rand == 0) {
+                return 3;
+            }
+            else if (rand == 1) {
+                return 2;
+            }
+            else if (rand == 2) {
+                return 5;
+            }
+            else if (rand == 3) {
+                return 9;
+            }
+        }
+        else if (my_region_id == 7) {
+            int rand = arc4random_uniform(2);
+            if (rand == 0) {
+                return 4;
+            }
+            else if (rand == 1) {
+                return 5;
+            }
+        }
+        else if (my_region_id == 8) {
+            int rand = arc4random_uniform(5);
+            if (rand == 0) {
+                return 4;
+            }
+            else if (rand == 1) {
+                return 5;
+            }
+            else if (rand == 2) {
+                return 6;
+            }
+            else if (rand == 3) {
+                return 7;
+            }
+            else if (rand == 4) {
+                return 9;
+            }
+        }
+        else if (my_region_id == 9) {
+            int rand = arc4random_uniform(2);
+            if (rand == 0) {
+                return 6;
+            }
+            else if (rand == 1) {
+                return 5;
+            }
+        }
+    }
+    //3 6 9
+    //2 5 8
+    //1 4 7
+    else if (bullet_region_id == 9) {
+        //5,6,8,9
+        if (my_region_id == 5) {
+            int rand = arc4random_uniform(7);
+            if (rand == 0) {
+                return 1;
+            }
+            else if (rand == 1) {
+                return 2;
+            }
+            else if (rand == 2) {
+                return 3;
+            }
+            else if (rand == 3) {
+                return 4;
+            }
+            else if (rand == 4) {
+                return 6;
+            }
+            else if (rand == 5) {
+                return 7;
+            }
+            else if (rand == 6) {
+                return 8;
+            }
+        }
+        else if (my_region_id == 6) {
+            int rand = arc4random_uniform(4);
+            if (rand == 0) {
+                return 3;
+            }
+            else if (rand == 1) {
+                return 2;
+            }
+            else if (rand == 2) {
+                return 5;
+            }
+            else if (rand == 3) {
+                return 8;
+            }
+        }
+        else if (my_region_id == 8) {
+            int rand = arc4random_uniform(4);
+            if (rand == 0) {
+                return 4;
+            }
+            else if (rand == 1) {
+                return 5;
+            }
+            else if (rand == 2) {
+                return 6;
+            }
+            else if (rand == 3) {
+                return 7;
+            }
+        }
+        else if (my_region_id == 9) {
+            int rand = arc4random_uniform(3);
+            if (rand == 0) {
+                return 6;
+            }
+            else if (rand == 1) {
+                return 5;
+            }
+            else if (rand == 2) {
+                return 8;
+            }
+        }
+    }
+    
+    return -1;
 }
 
 @end
