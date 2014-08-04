@@ -453,23 +453,26 @@
     NSMutableArray* bullets = [host.battleStage getAllBullets];
     NSUInteger numBullets = [bullets count];
     CGFloat closetBulletDistance = 0;
+    int closet_bullet_region_id = -1;
     STABullet* closetBullet = nil;
     for (int i=0; i < numBullets; i++) {
         STABullet* bullet = [bullets objectAtIndex:i];
         if (bullet.ownerId != host.playerId) {
+            int bullet_region_id = [self getRegionForX:bullet.position.x Y:bullet.position.y];
+            if (bullet_region_id == -1) continue;
+            
             //find the distance, only evade the closest one
             CGFloat distance = [self getDistanceFromX:bullet.position.x Y:bullet.position.y];
             if (distance > closetBulletDistance) {
                 closetBulletDistance = distance;
                 closetBullet = bullet;
+                closet_bullet_region_id = bullet_region_id;
             }
         }
     }
     
     int evade_region_id = -1;
     if (closetBullet != nil) {
-        //find out the closet bullet region by its x/y
-        int bullet_region_id = [self getRegionForX:closetBullet.position.x Y:closetBullet.position.y];
         
 //        NSLog(@"bounds: %f/%f/%f/%f", bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height);
 //        NSLog(@"bullet region: %@, num bullets: %lu, x: %f y: %f" ,
@@ -478,10 +481,10 @@
         
         int my_region_id = [self getRegionForX:host.position.x Y:host.position.y];
         
-        evade_region_id = [self findEvadeRegionIdByMyRegionId:my_region_id BulletRegionId:bullet_region_id];
+        evade_region_id = [self findEvadeRegionIdByMyRegionId:my_region_id BulletRegionId:closet_bullet_region_id];
         
         NSLog(@"bullet region: %@, my region: %@, evade region: %@",
-              [self getRegionStr:bullet_region_id],
+              [self getRegionStr:closet_bullet_region_id],
               [self getRegionStr:my_region_id],
               [self getRegionStr:evade_region_id]);
         

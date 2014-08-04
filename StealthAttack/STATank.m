@@ -591,8 +591,8 @@
         self.physicsBody.velocity = CGVectorMake(x, y);
     }
     
-    [self moveLeftWheelsForward];
-    [self moveRightWheelsForward];
+    [self moveLeftWheelsBackward];
+    [self moveRightWheelsBackward];
 }
 
 -(void)moveForwardToX:(CGFloat)dest_x Y:(CGFloat)dest_y complete:(void (^)() )block {
@@ -645,8 +645,8 @@
     }
 //    [self.physicsBody applyImpulse:location];
     
-    [self moveLeftWheelsBackward];
-    [self moveRightWheelsBackward];
+    [self moveLeftWheelsForward];
+    [self moveRightWheelsForward];
 }
 
 -(void)rotateClockwise {
@@ -657,8 +657,8 @@
     
     [self runAction:[SKAction repeatActionForever:rotation]];
     
-    [self moveLeftWheelsForward];
-    [self moveRightWheelsBackward];
+    [self moveLeftWheelsBackward];
+    [self moveRightWheelsForward];
 }
 -(void)rotateCounterClockwise {
     if (isRotatingClockwise || isMovingForward || isMovingBackward || isGameOver) return;
@@ -668,8 +668,8 @@
     
     [self runAction:[SKAction repeatActionForever:rotation]];
     
-    [self moveLeftWheelsBackward];
-    [self moveRightWheelsForward];
+    [self moveLeftWheelsForward];
+    [self moveRightWheelsBackward];
 }
 
 -(void)rotateInDegree:(CGFloat)degree complete:(void (^)() )block{
@@ -688,8 +688,8 @@
             }
         }];
         
-        [self moveLeftWheelsForward];
-        [self moveRightWheelsBackward];
+        [self moveLeftWheelsBackward];
+        [self moveRightWheelsForward];
     }
     else {
         //rotate counter clockwise
@@ -706,8 +706,8 @@
             }
         }];
         
-        [self moveLeftWheelsBackward];
-        [self moveRightWheelsForward];
+        [self moveLeftWheelsForward];
+        [self moveRightWheelsBackward];
     }
 }
 
