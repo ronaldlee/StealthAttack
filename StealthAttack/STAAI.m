@@ -21,6 +21,8 @@
     
     int ticksBeforeAdjustLastXY;
     CGRect bounds;
+    
+    int evadingTicks;
 }
 @end
 
@@ -77,6 +79,8 @@
         numShots = 2;
         betweenShotsDuration = 0.5;
         betweenShotsAccuracyInRadian = 25;
+        
+        evadingTicks = 0;
         
         isAttackCoolDown = false;
         attackCoolDownDuration = 5;
@@ -281,6 +285,14 @@
     }
     if (host.isExploded) return; //host is dead already. BOOO!
     
+    if (evadingTicks > 0) {
+        evadingTicks--;
+        return;
+    }
+//    else {
+//        [host stop];
+//    }
+    
     CGFloat lastX = [player lastX];
     CGFloat lastY = [player lastY];
     CGVector lastDirection = [player lastDirection];
@@ -388,32 +400,39 @@
             NSLog(@"+++++++++++++++++++++++++++++");
             
             //based on this new estimated region, modify the enemyTank_lastknown_x and _y
-            region_id=1;
-            isFound = false;
-            for (CGFloat x = bounds.origin.x; x < right_x && !isFound; x+=block_width) {
-                for (CGFloat y = bounds.origin.y; y < top_y && !isFound; y+=block_height) {
-                    if (guess_region_id == region_id) {
-                        //find the mid point of this region, and randomize a point in it
-                        int rand_x = (int)arc4random_uniform(block_width/2);
-                        int rand_y = (int)arc4random_uniform(block_height/2);
-                        
-                        int rand_xdir = arc4random_uniform(2);
-                        if (rand_xdir == 1) {
-                            rand_x *= -1;
-                        }
-                        int rand_ydir = arc4random_uniform(2);
-                        if (rand_ydir == 1) {
-                            rand_y *= -1;
-                        }
-                        
-                        enemyTank_lastknown_x = x + block_width/2 + rand_x;
-                        enemyTank_lastknown_y = y + block_height/2 + rand_y;
-                        
-                        isFound = true;
-                        break;
-                    }
-                    region_id++;
-                }
+//            region_id=1;
+//            isFound = false;
+//            for (CGFloat x = bounds.origin.x; x < right_x && !isFound; x+=block_width) {
+//                for (CGFloat y = bounds.origin.y; y < top_y && !isFound; y+=block_height) {
+//                    if (guess_region_id == region_id) {
+//                        //find the mid point of this region, and randomize a point in it
+//                        int rand_x = (int)arc4random_uniform(block_width/2);
+//                        int rand_y = (int)arc4random_uniform(block_height/2);
+//                        
+//                        int rand_xdir = arc4random_uniform(2);
+//                        if (rand_xdir == 1) {
+//                            rand_x *= -1;
+//                        }
+//                        int rand_ydir = arc4random_uniform(2);
+//                        if (rand_ydir == 1) {
+//                            rand_y *= -1;
+//                        }
+//                        
+//                        enemyTank_lastknown_x = x + block_width/2 + rand_x;
+//                        enemyTank_lastknown_y = y + block_height/2 + rand_y;
+//                        
+//                        isFound = true;
+//                        break;
+//                    }
+//                    region_id++;
+//                }
+//            }
+            
+            CGPoint guess_xy = [self getXYByRegionId:guess_region_id Bounds:bounds];
+            
+            if (guess_xy.x != -1 && guess_xy.y != -1) {
+                enemyTank_lastknown_x = guess_xy.x;
+                enemyTank_lastknown_y = guess_xy.y;
             }
             
         }
@@ -458,9 +477,25 @@
 //              closetBullet.position.x,closetBullet.position.y);
         
         int my_region_id = [self getRegionForX:host.position.x Y:host.position.y];
-        NSLog(@"bullet region: %@, my region: %@", [self getRegionStr:bullet_region_id], [self getRegionStr:my_region_id]);
         
         evade_region_id = [self findEvadeRegionIdByMyRegionId:my_region_id BulletRegionId:bullet_region_id];
+        
+        NSLog(@"bullet region: %@, my region: %@, evade region: %@",
+              [self getRegionStr:bullet_region_id],
+              [self getRegionStr:my_region_id],
+              [self getRegionStr:evade_region_id]);
+        
+        CGPoint evade_xy = [self getXYByRegionId:(int)evade_region_id Bounds:bounds];
+        
+        if (evade_xy.x != -1 && evade_xy.y != -1) {
+            NSLog(@"\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
+            NSLog(@"\\\\\\\\\\\\\\\\ EVADINGGGGGG \\\\\\\\\\\\");
+            NSLog(@"\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
+            [host stop];
+            [self approach_LastX:evade_xy.x LastY:evade_xy.y];
+            evadingTicks = 10;  //todo: <= this kind of related to the movespeed
+            return;
+        }
     }
     
     //=========================
@@ -1700,6 +1735,47 @@
     }
     
     return -1;
+}
+
+-(CGPoint) getXYByRegionId:(int)p_region_id Bounds:(CGRect)p_bounds {
+    
+    CGFloat block_width = p_bounds.size.width/3;
+    CGFloat block_height = p_bounds.size.height/3;
+    CGFloat right_x = p_bounds.origin.x+bounds.size.width;
+    CGFloat top_y = p_bounds.origin.y+bounds.size.height;
+    
+    CGFloat new_x = -1;
+    CGFloat new_y = -1;
+    
+    int region_id=1;
+    BOOL isFound = false;
+    for (CGFloat x = p_bounds.origin.x; x < right_x && !isFound; x+=block_width) {
+        for (CGFloat y = p_bounds.origin.y; y < top_y && !isFound; y+=block_height) {
+            if (p_region_id == region_id) {
+                //find the mid point of this region, and randomize a point in it
+                int rand_x = (int)arc4random_uniform(block_width/2);
+                int rand_y = (int)arc4random_uniform(block_height/2);
+                
+                int rand_xdir = arc4random_uniform(2);
+                if (rand_xdir == 1) {
+                    rand_x *= -1;
+                }
+                int rand_ydir = arc4random_uniform(2);
+                if (rand_ydir == 1) {
+                    rand_y *= -1;
+                }
+                
+                new_x = x + block_width/2 + rand_x;
+                new_y = y + block_height/2 + rand_y;
+                
+                isFound = true;
+                break;
+            }
+            region_id++;
+        }
+    }
+    
+    return CGPointMake(new_x, new_y);
 }
 
 @end
