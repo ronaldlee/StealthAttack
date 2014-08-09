@@ -507,14 +507,32 @@
                 
                 //degree depends on the distance too. the shorter the distance, the degree can have bigger margin to hit!
                 
-                //t_r above 0' : slope = 0.082085, arc_slope_radian = 0.081901(4.692596'), closetBullet.zRotation: 0.000891(0.051060')
-                //t_r below 0' : slope = 0.086186, arc_slope_radian = 0.085973(4.925899'), closetBullet.zRotation: -0.00115(-0.065627')
+                //y+, x+: arc_slope_real_degree = arc_slope_degree
+                //t_r about 0' : slope = 0.082085, arc_slope_radian = 0.081901(4.692596'), closetBullet.zRotation: 0.000891(0.051060')
                 //t_r about 30': slope = 0.599615, arc_slope_radian = 0.540136(30.94753'), closetBullet.zRotation: 0.314156(17.999835')
                 //t_r about 45': slope = 0.905726, arc_slope_radian = 0.735969(42.16794'), closetBullet.zRotation: 0.489273(28.033253')
                 //t_r about 60': slope = 1.840613, arc_slope_radian = 1.073114(61.48489'), closetBullet.zRotation: 0.837726(47.998147')
                 //t_r about 90': slope = 186.4628, arc_slope_radian = 1.565433(89.69272'), closetBullet.zRotation: 1.570811(90.000843')
+                
+                //y+, x-: arc_slope_real_degree = 180+arc_slope_degree
                 //t_l about 90': slope = -18.9304, arc_slope_radian = -1.518020(-86.976'), closetBullet.zRotation: 1.606076(92.021390')
-                //t_l about 60': slope = -2.04753, arc_slope_radian = -1.116477(-63.969'), closetBullet.zRotation: 1.919280(109.966667')
+                //t_l about 60': slope = -2.04753, arc_slope_radian = -1.116477(-63.969'), closetBullet.zRotation: 1.919280(109.96667')
+                //t_l about 45': slope = -0.85460, arc_slope_radian = -0.707161(-40.517'), closetBullet.zRotation: 2.514082(144.04631')
+//180degree     //t_l about 0' : slope = 0.052224, arc_slope_radian = 0.052177(2.989513'), closetBullet.zRotation: 3.141517(179.99565')
+                
+                //y-, x-: arc_slope_real_degree = 180+arc_slope_degree
+                //b_l about 0' : slope = 0.024342, arc_slope_radian = 0.024337(1.394409'), closetBullet.zRotation: -3.106715(-178.001683')
+                //b_l about 30': slope = 0.444857, arc_slope_radian = 0.418569(23.98224'), closetBullet.zRotation: -2.652930(-152.001666')
+                //b_l about 45': slope = 0.900370, arc_slope_radian = 0.733020(41.99892'), closetBullet.zRotation: -2.443871(-140.023495')
+                //b_l about 60': slope = 4.026196, arc_slope_radian = 1.327349(76.05150'), closetBullet.zRotation: -1.918819(-109.940214')
+                //b_l about 90': slope = 27.86663, arc_slope_radian = 1.534927(87.94481'), closetBullet.zRotation: -1.570325(-89.973023')
+                
+                //y-, x+: arc_slope_real_degree = 360+arc_slope_degree
+                //b_r about 90': slope = -12.1642, arc_slope_radian = -1.48877(-85.3003'), closetBullet.zRotation: -1.569170(-89.906811')
+                //b_r about 60': slope = -2.52964, arc_slope_radian = -1.194336(-68.430'), closetBullet.zRotation: -1.117934(-64.052906')
+                //b_r about 45': slope = -1.19715, arc_slope_radian = -0.874887(-50.127'), closetBullet.zRotation: -0.697137(-39.943011')
+                //b_r about 30': slope = -0.82220, arc_slope_radian = -0.688132(-39.427'), closetBullet.zRotation: -0.454643(-26.049107')
+                //b_r about 0' : slope = -0.00593, arc_slope_radian = -0.005925(-0.3394'), closetBullet.zRotation: -0.069028(-3.955030')
                 
                 
                 CGFloat y_diff = host.position.y - closetBullet.position.y;
@@ -525,7 +543,55 @@
                 CGFloat arc_slope_radian = atan(slope);
                 CGFloat arc_slope_degree = arc_slope_radian * 180/ M_PI;
                 
-                NSLog(@"slope = %f, arc_slope_radian = %f(%f'), closetBullet.zRotation: %f(%f')",slope,arc_slope_radian,arc_slope_degree,closetBullet.zRotation,closetBullet.zRotation*180/M_PI);
+//                NSLog(@"slope = %f, arc_slope_radian = %f(%f'), closetBullet.zRotation: %f(%f')",slope,arc_slope_radian,arc_slope_degree,closetBullet.zRotation,closetBullet.zRotation*180/M_PI);
+//                NSLog(@"y_diff= %f, x_diff = %f", y_diff, x_diff);
+                
+                BOOL isUnknown = false;
+                CGFloat arc_slope_real_degree = arc_slope_degree;
+                if (y_diff > 0) {
+                    if (x_diff > 0) {
+                        arc_slope_real_degree = arc_slope_degree;
+                    }
+                    else if (x_diff < 0) {
+                        arc_slope_real_degree = 180+arc_slope_degree;
+                    }
+                    else if (x_diff == 0) {
+                        arc_slope_real_degree = 90;
+                    }
+                }
+                else if (y_diff < 0) {
+                    if (x_diff > 0) {
+                        arc_slope_real_degree = 360+arc_slope_degree;
+                    }
+                    else if (x_diff < 0) {
+                        arc_slope_real_degree = 180+arc_slope_degree;
+                    }
+                    else if (x_diff == 0) {
+                        arc_slope_real_degree = 270;
+                    }
+                }
+                else if (y_diff == 0) {
+                    if (x_diff > 0) {
+                        arc_slope_real_degree = 0;
+                    }
+                    else if (x_diff < 0) {
+                        arc_slope_real_degree = 180;
+                    }
+                    else if (x_diff == 0) {
+                        isUnknown = true;
+                    }
+                }
+                
+                CGFloat closest_bullet_real_degree = closetBullet.zRotation*180/M_PI;
+                if (closest_bullet_real_degree < 0) {
+                    closest_bullet_real_degree = 360 + closest_bullet_real_degree;
+                }
+                
+                if (!isUnknown) {
+                    
+                }
+                
+                
                 
                 //arc_slope == closetBullet.zRotation?
                 CGFloat bullet_slope = tan(closetBullet.zRotation);
