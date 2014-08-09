@@ -8,7 +8,7 @@
 
 #import <SpriteKit/SpriteKit.h>
 
-@interface STATank : SKNode<STAGameObject>
+@interface STATank : SKSpriteNode<STAGameObject>
 
 @property int playerId;
 

@@ -107,9 +107,9 @@
         stealthActionProbArrayMid   = [self getProbArrayForApproach:0 WarningShot:0 Evade:0 DontMove:1 Stupid:0];
         stealthActionProbArrayShort = [self getProbArrayForApproach:0 WarningShot:0 Evade:0 DontMove:1 Stupid:0];
         
-        evadeBulletProbArrayLong  = [self getProbArrayForYes:0 No:1];
-        evadeBulletProbArrayMid   = [self getProbArrayForYes:0 No:1];
-        evadeBulletProbArrayShort = [self getProbArrayForYes:0 No:1];
+        evadeBulletProbArrayLong  = [self getProbArrayForYes:1 No:0];
+        evadeBulletProbArrayMid   = [self getProbArrayForYes:1 No:0];
+        evadeBulletProbArrayShort = [self getProbArrayForYes:1 No:0];
         
         //====
         
@@ -493,6 +493,49 @@
             int prod_act_int = [prod_action intValue];
             
             if (prod_act_int == YES) {
+                //evade base on the bullet's own rotation radian
+                //also the bullet is actually aimming at the tank!
+                
+                //y-y1 = m(x-x1)
+                //m is the slope (y/x)
+                //y/x = tan(radian)
+                //(y-y1)/(x-x1) = tan(radian)
+                //randian = arctan(y_diff/x_diff)
+                
+                //slope = -2.7723966927368662
+                //bullet_slope = -2.0506427100254951
+                
+                //degree depends on the distance too. the shorter the distance, the degree can have bigger margin to hit!
+                
+                //t_r above 0' : slope = 0.082085, arc_slope_radian = 0.081901(4.692596'), closetBullet.zRotation: 0.000891(0.051060')
+                //t_r below 0' : slope = 0.086186, arc_slope_radian = 0.085973(4.925899'), closetBullet.zRotation: -0.00115(-0.065627')
+                //t_r about 30': slope = 0.599615, arc_slope_radian = 0.540136(30.94753'), closetBullet.zRotation: 0.314156(17.999835')
+                //t_r about 45': slope = 0.905726, arc_slope_radian = 0.735969(42.16794'), closetBullet.zRotation: 0.489273(28.033253')
+                //t_r about 60': slope = 1.840613, arc_slope_radian = 1.073114(61.48489'), closetBullet.zRotation: 0.837726(47.998147')
+                //t_r about 90': slope = 186.4628, arc_slope_radian = 1.565433(89.69272'), closetBullet.zRotation: 1.570811(90.000843')
+                //t_l about 90': slope = -18.9304, arc_slope_radian = -1.518020(-86.976'), closetBullet.zRotation: 1.606076(92.021390')
+                //t_l about 60': slope = -2.04753, arc_slope_radian = -1.116477(-63.969'), closetBullet.zRotation: 1.919280(109.966667')
+                
+                
+                CGFloat y_diff = host.position.y - closetBullet.position.y;
+                CGFloat x_diff = host.position.x - closetBullet.position.x;
+
+                CGFloat slope = y_diff/x_diff;
+                
+                CGFloat arc_slope_radian = atan(slope);
+                CGFloat arc_slope_degree = arc_slope_radian * 180/ M_PI;
+                
+                NSLog(@"slope = %f, arc_slope_radian = %f(%f'), closetBullet.zRotation: %f(%f')",slope,arc_slope_radian,arc_slope_degree,closetBullet.zRotation,closetBullet.zRotation*180/M_PI);
+                
+                //arc_slope == closetBullet.zRotation?
+                CGFloat bullet_slope = tan(closetBullet.zRotation);
+                
+                CGFloat evade_radian = closetBullet.zRotation + M_PI/2;
+                
+                [host rotateInDegree:evade_radian complete:NULL];
+                evadingTicks = 1000;
+                /*
+                
                 int my_region_id = [self getRegionForX:host.position.x Y:host.position.y];
                 
                 evade_region_id = [self findEvadeRegionIdByMyRegionId:my_region_id BulletRegionId:closet_bullet_region_id];
@@ -513,6 +556,7 @@
                     evadingTicks = 10;  //todo: <= this kind of related to the movespeed
                     return;
                 }
+                 */
             }
         }
     }
