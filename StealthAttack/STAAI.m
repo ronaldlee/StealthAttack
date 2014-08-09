@@ -70,6 +70,9 @@
 @synthesize evadeBulletProbArrayMid;
 @synthesize evadeBulletProbArrayShort;
 
+@synthesize evadeDegreeMarginShort;
+@synthesize evadeDegreeMarginMid;
+@synthesize evadeDegreeMarginLong;
 
 - (id)initWithStage:(STABattleStage*)b_stage {
     self = [super init];
@@ -158,6 +161,10 @@
         region9ProbArray = [self getProbArrayForR1:0 R2:0 R3:0 R4:0 R5:0 R6:0 R7:0 R8:0 R9:0];
         
         //=====
+        
+        evadeDegreeMarginShort = 10;
+        evadeDegreeMarginMid = 1;
+        evadeDegreeMarginLong = 0.01;
         
     }
     return self;
@@ -470,136 +477,174 @@
     int evade_region_id = -1;
     if (closetBullet != nil) {
         
+        BOOL isNeedEvade = false;
+        
+        
 //        NSLog(@"bounds: %f/%f/%f/%f", bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height);
 //        NSLog(@"bullet region: %@, num bullets: %lu, x: %f y: %f" ,
 //              [self getRegionStr:bullet_region_id], (unsigned long)numBullets,
 //              closetBullet.position.x,closetBullet.position.y);
         
-        NSMutableArray* evadeBulletProbArray;
-        if (distance < shortRange) {
-            evadeBulletProbArray = evadeBulletProbArrayShort;
+//        NSMutableArray* evadeBulletProbArray;
+//        if (distance < shortRange) {
+//            evadeBulletProbArray = evadeBulletProbArrayShort;
+//        }
+//        else if (distance < midRange) {
+//            evadeBulletProbArray = evadeBulletProbArrayMid;
+//        }
+//        else {
+//            evadeBulletProbArray = evadeBulletProbArrayLong;
+//        }
+//        
+//        if ([evadeBulletProbArray count] > 0) {
+//            int rand = (int)arc4random_uniform((unsigned int)[evadeBulletProbArray count]);
+//            
+//            NSNumber *prod_action = [evadeBulletProbArray objectAtIndex:rand];
+//            int prod_act_int = [prod_action intValue];
+//            
+//            if (prod_act_int == YES) {
+//                
+//                
+        
+        //evade base on the bullet's own rotation radian
+        //also the bullet is actually aimming at the tank!
+        
+        //y-y1 = m(x-x1)
+        //m is the slope (y/x)
+        //y/x = tan(radian)
+        //(y-y1)/(x-x1) = tan(radian)
+        //randian = arctan(y_diff/x_diff)
+        
+        //slope = -2.7723966927368662
+        //bullet_slope = -2.0506427100254951
+        
+        //degree depends on the distance too. the shorter the distance, the degree can have bigger margin to hit!
+        
+        //y+, x+: arc_slope_real_degree = arc_slope_degree
+        //t_r about 0' : slope = 0.082085, arc_slope_radian = 0.081901(4.692596'), closetBullet.zRotation: 0.000891(0.051060')
+        //t_r about 30': slope = 0.599615, arc_slope_radian = 0.540136(30.94753'), closetBullet.zRotation: 0.314156(17.999835')
+        //t_r about 45': slope = 0.905726, arc_slope_radian = 0.735969(42.16794'), closetBullet.zRotation: 0.489273(28.033253')
+        //t_r about 60': slope = 1.840613, arc_slope_radian = 1.073114(61.48489'), closetBullet.zRotation: 0.837726(47.998147')
+        //t_r about 90': slope = 186.4628, arc_slope_radian = 1.565433(89.69272'), closetBullet.zRotation: 1.570811(90.000843')
+        
+        //y+, x-: arc_slope_real_degree = 180+arc_slope_degree
+        //t_l about 90': slope = -18.9304, arc_slope_radian = -1.518020(-86.976'), closetBullet.zRotation: 1.606076(92.021390')
+        //t_l about 60': slope = -2.04753, arc_slope_radian = -1.116477(-63.969'), closetBullet.zRotation: 1.919280(109.96667')
+        //t_l about 45': slope = -0.85460, arc_slope_radian = -0.707161(-40.517'), closetBullet.zRotation: 2.514082(144.04631')
+//180degree     //t_l about 0' : slope = 0.052224, arc_slope_radian = 0.052177(2.989513'), closetBullet.zRotation: 3.141517(179.99565')
+        
+        //y-, x-: arc_slope_real_degree = 180+arc_slope_degree
+        //b_l about 0' : slope = 0.024342, arc_slope_radian = 0.024337(1.394409'), closetBullet.zRotation: -3.106715(-178.001683')
+        //b_l about 30': slope = 0.444857, arc_slope_radian = 0.418569(23.98224'), closetBullet.zRotation: -2.652930(-152.001666')
+        //b_l about 45': slope = 0.900370, arc_slope_radian = 0.733020(41.99892'), closetBullet.zRotation: -2.443871(-140.023495')
+        //b_l about 60': slope = 4.026196, arc_slope_radian = 1.327349(76.05150'), closetBullet.zRotation: -1.918819(-109.940214')
+        //b_l about 90': slope = 27.86663, arc_slope_radian = 1.534927(87.94481'), closetBullet.zRotation: -1.570325(-89.973023')
+        
+        //y-, x+: arc_slope_real_degree = 360+arc_slope_degree
+        //b_r about 90': slope = -12.1642, arc_slope_radian = -1.48877(-85.3003'), closetBullet.zRotation: -1.569170(-89.906811')
+        //b_r about 60': slope = -2.52964, arc_slope_radian = -1.194336(-68.430'), closetBullet.zRotation: -1.117934(-64.052906')
+        //b_r about 45': slope = -1.19715, arc_slope_radian = -0.874887(-50.127'), closetBullet.zRotation: -0.697137(-39.943011')
+        //b_r about 30': slope = -0.82220, arc_slope_radian = -0.688132(-39.427'), closetBullet.zRotation: -0.454643(-26.049107')
+        //b_r about 0' : slope = -0.00593, arc_slope_radian = -0.005925(-0.3394'), closetBullet.zRotation: -0.069028(-3.955030')
+        
+        
+        CGFloat y_diff = host.position.y - closetBullet.position.y;
+        CGFloat x_diff = host.position.x - closetBullet.position.x;
+
+        CGFloat slope = y_diff/x_diff;
+        
+        CGFloat arc_slope_radian = atan(slope);
+        CGFloat arc_slope_degree = arc_slope_radian * 180/ M_PI;
+        
+        NSLog(@"slope = %f, arc_slope_radian = %f(%f'), closetBullet.zRotation: %f(%f')",slope,arc_slope_radian,arc_slope_degree,closetBullet.zRotation,closetBullet.zRotation*180/M_PI);
+        NSLog(@"y_diff= %f, x_diff = %f", y_diff, x_diff);
+        
+        BOOL isUnknown = false;
+        CGFloat arc_slope_real_degree = arc_slope_degree;
+        if (y_diff > 0) {
+            if (x_diff > 0) {
+                arc_slope_real_degree = arc_slope_degree;
+            }
+            else if (x_diff < 0) {
+                arc_slope_real_degree = 180+arc_slope_degree;
+            }
+            else if (x_diff == 0) {
+                arc_slope_real_degree = 90;
+            }
         }
-        else if (distance < midRange) {
-            evadeBulletProbArray = evadeBulletProbArrayMid;
+        else if (y_diff < 0) {
+            if (x_diff > 0) {
+                arc_slope_real_degree = 360+arc_slope_degree;
+            }
+            else if (x_diff < 0) {
+                arc_slope_real_degree = 180+arc_slope_degree;
+            }
+            else if (x_diff == 0) {
+                arc_slope_real_degree = 270;
+            }
         }
-        else {
-            evadeBulletProbArray = evadeBulletProbArrayLong;
+        else if (y_diff == 0) {
+            if (x_diff > 0) {
+                arc_slope_real_degree = 0;
+            }
+            else if (x_diff < 0) {
+                arc_slope_real_degree = 180;
+            }
+            else if (x_diff == 0) {
+                isUnknown = true;
+            }
         }
         
-        if ([evadeBulletProbArray count] > 0) {
-            int rand = (int)arc4random_uniform((unsigned int)[evadeBulletProbArray count]);
+        CGFloat closest_bullet_real_degree = closetBullet.zRotation*180/M_PI;
+        if (closest_bullet_real_degree < 0) {
+            closest_bullet_real_degree = 360 + closest_bullet_real_degree;
+        }
+        
+        if (!isUnknown) {
+            CGFloat bullet_distance = [self getDistanceFromX:closetBullet.position.x Y:closetBullet.position.y];
             
-            NSNumber *prod_action = [evadeBulletProbArray objectAtIndex:rand];
-            int prod_act_int = [prod_action intValue];
+            CGFloat degree_margin = evadeDegreeMarginLong; //long range: needs to be really accurate
+            if (bullet_distance < shortRange) {
+                degree_margin = evadeDegreeMarginShort;
+            }
+            else if (bullet_distance < midRange) {
+                degree_margin = evadeDegreeMarginMid;
+            }
             
-            if (prod_act_int == YES) {
-                //evade base on the bullet's own rotation radian
-                //also the bullet is actually aimming at the tank!
-                
-                //y-y1 = m(x-x1)
-                //m is the slope (y/x)
-                //y/x = tan(radian)
-                //(y-y1)/(x-x1) = tan(radian)
-                //randian = arctan(y_diff/x_diff)
-                
-                //slope = -2.7723966927368662
-                //bullet_slope = -2.0506427100254951
-                
-                //degree depends on the distance too. the shorter the distance, the degree can have bigger margin to hit!
-                
-                //y+, x+: arc_slope_real_degree = arc_slope_degree
-                //t_r about 0' : slope = 0.082085, arc_slope_radian = 0.081901(4.692596'), closetBullet.zRotation: 0.000891(0.051060')
-                //t_r about 30': slope = 0.599615, arc_slope_radian = 0.540136(30.94753'), closetBullet.zRotation: 0.314156(17.999835')
-                //t_r about 45': slope = 0.905726, arc_slope_radian = 0.735969(42.16794'), closetBullet.zRotation: 0.489273(28.033253')
-                //t_r about 60': slope = 1.840613, arc_slope_radian = 1.073114(61.48489'), closetBullet.zRotation: 0.837726(47.998147')
-                //t_r about 90': slope = 186.4628, arc_slope_radian = 1.565433(89.69272'), closetBullet.zRotation: 1.570811(90.000843')
-                
-                //y+, x-: arc_slope_real_degree = 180+arc_slope_degree
-                //t_l about 90': slope = -18.9304, arc_slope_radian = -1.518020(-86.976'), closetBullet.zRotation: 1.606076(92.021390')
-                //t_l about 60': slope = -2.04753, arc_slope_radian = -1.116477(-63.969'), closetBullet.zRotation: 1.919280(109.96667')
-                //t_l about 45': slope = -0.85460, arc_slope_radian = -0.707161(-40.517'), closetBullet.zRotation: 2.514082(144.04631')
-//180degree     //t_l about 0' : slope = 0.052224, arc_slope_radian = 0.052177(2.989513'), closetBullet.zRotation: 3.141517(179.99565')
-                
-                //y-, x-: arc_slope_real_degree = 180+arc_slope_degree
-                //b_l about 0' : slope = 0.024342, arc_slope_radian = 0.024337(1.394409'), closetBullet.zRotation: -3.106715(-178.001683')
-                //b_l about 30': slope = 0.444857, arc_slope_radian = 0.418569(23.98224'), closetBullet.zRotation: -2.652930(-152.001666')
-                //b_l about 45': slope = 0.900370, arc_slope_radian = 0.733020(41.99892'), closetBullet.zRotation: -2.443871(-140.023495')
-                //b_l about 60': slope = 4.026196, arc_slope_radian = 1.327349(76.05150'), closetBullet.zRotation: -1.918819(-109.940214')
-                //b_l about 90': slope = 27.86663, arc_slope_radian = 1.534927(87.94481'), closetBullet.zRotation: -1.570325(-89.973023')
-                
-                //y-, x+: arc_slope_real_degree = 360+arc_slope_degree
-                //b_r about 90': slope = -12.1642, arc_slope_radian = -1.48877(-85.3003'), closetBullet.zRotation: -1.569170(-89.906811')
-                //b_r about 60': slope = -2.52964, arc_slope_radian = -1.194336(-68.430'), closetBullet.zRotation: -1.117934(-64.052906')
-                //b_r about 45': slope = -1.19715, arc_slope_radian = -0.874887(-50.127'), closetBullet.zRotation: -0.697137(-39.943011')
-                //b_r about 30': slope = -0.82220, arc_slope_radian = -0.688132(-39.427'), closetBullet.zRotation: -0.454643(-26.049107')
-                //b_r about 0' : slope = -0.00593, arc_slope_radian = -0.005925(-0.3394'), closetBullet.zRotation: -0.069028(-3.955030')
-                
-                
-                CGFloat y_diff = host.position.y - closetBullet.position.y;
-                CGFloat x_diff = host.position.x - closetBullet.position.x;
-
-                CGFloat slope = y_diff/x_diff;
-                
-                CGFloat arc_slope_radian = atan(slope);
-                CGFloat arc_slope_degree = arc_slope_radian * 180/ M_PI;
-                
-//                NSLog(@"slope = %f, arc_slope_radian = %f(%f'), closetBullet.zRotation: %f(%f')",slope,arc_slope_radian,arc_slope_degree,closetBullet.zRotation,closetBullet.zRotation*180/M_PI);
-//                NSLog(@"y_diff= %f, x_diff = %f", y_diff, x_diff);
-                
-                BOOL isUnknown = false;
-                CGFloat arc_slope_real_degree = arc_slope_degree;
-                if (y_diff > 0) {
-                    if (x_diff > 0) {
-                        arc_slope_real_degree = arc_slope_degree;
-                    }
-                    else if (x_diff < 0) {
-                        arc_slope_real_degree = 180+arc_slope_degree;
-                    }
-                    else if (x_diff == 0) {
-                        arc_slope_real_degree = 90;
-                    }
+            CGFloat arc_slope_real_degree_min = arc_slope_real_degree - degree_margin;
+            CGFloat arc_slope_real_degree_max = arc_slope_real_degree + degree_margin;
+            
+            if (arc_slope_real_degree_min < 0) {
+                arc_slope_real_degree_min = 360 + arc_slope_real_degree_min;
+            }
+            else if (arc_slope_real_degree_max > 360) {
+                arc_slope_real_degree_max = arc_slope_real_degree_max - 360;
+            }
+            
+            if (arc_slope_real_degree_min > arc_slope_real_degree_max) {
+                if ((closest_bullet_real_degree <= 360 && closest_bullet_real_degree >= arc_slope_real_degree_min) ||
+                    (closest_bullet_real_degree > 0 && closest_bullet_real_degree <= arc_slope_real_degree_max )) {
+                    isNeedEvade = true;
                 }
-                else if (y_diff < 0) {
-                    if (x_diff > 0) {
-                        arc_slope_real_degree = 360+arc_slope_degree;
-                    }
-                    else if (x_diff < 0) {
-                        arc_slope_real_degree = 180+arc_slope_degree;
-                    }
-                    else if (x_diff == 0) {
-                        arc_slope_real_degree = 270;
-                    }
-                }
-                else if (y_diff == 0) {
-                    if (x_diff > 0) {
-                        arc_slope_real_degree = 0;
-                    }
-                    else if (x_diff < 0) {
-                        arc_slope_real_degree = 180;
-                    }
-                    else if (x_diff == 0) {
-                        isUnknown = true;
-                    }
-                }
-                
-                CGFloat closest_bullet_real_degree = closetBullet.zRotation*180/M_PI;
-                if (closest_bullet_real_degree < 0) {
-                    closest_bullet_real_degree = 360 + closest_bullet_real_degree;
-                }
-                
-                if (!isUnknown) {
-                    
-                }
-                
-                
-                
-                //arc_slope == closetBullet.zRotation?
-                CGFloat bullet_slope = tan(closetBullet.zRotation);
-                
-                CGFloat evade_radian = closetBullet.zRotation + M_PI/2;
-                
-                [host rotateInDegree:evade_radian complete:NULL];
-                evadingTicks = 1000;
+            }
+            else if (closest_bullet_real_degree <= arc_slope_real_degree_max &&
+                     closest_bullet_real_degree >= arc_slope_real_degree_min) { //normal cases
+                isNeedEvade = true;
+            }
+        }
+        
+        if (isNeedEvade) {
+            //based on the bullet's direction, add around 90degree
+            
+            //arc_slope == closetBullet.zRotation?
+//            CGFloat bullet_slope = tan(closetBullet.zRotation);
+            
+            CGFloat evade_radian = closetBullet.zRotation + M_PI/2;
+            
+            [host rotateInDegree:evade_radian complete:NULL];
+            evadingTicks = 1000;
+        }
+        
                 /*
                 
                 int my_region_id = [self getRegionForX:host.position.x Y:host.position.y];
@@ -623,9 +668,12 @@
                     return;
                 }
                  */
-            }
-        }
-    }
+        
+        
+//            }
+//        }
+        
+    } //closeBullet == null
     
     //=========================
     

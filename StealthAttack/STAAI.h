@@ -74,6 +74,10 @@
 @property (nonatomic) NSMutableArray* evadeBulletProbArrayMid;
 @property (nonatomic) NSMutableArray* evadeBulletProbArrayShort;
 
+@property (nonatomic) CGFloat evadeDegreeMarginShort;
+@property (nonatomic) CGFloat evadeDegreeMarginMid;
+@property (nonatomic) CGFloat evadeDegreeMarginLong;
+
 
 -(id)initWithStage:(STABattleStage*)stage;
 
