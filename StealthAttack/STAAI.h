@@ -70,6 +70,10 @@
 @property (nonatomic) NSMutableArray* region8ProbArray;
 @property (nonatomic) NSMutableArray* region9ProbArray;
 
+@property (nonatomic) NSMutableArray* evadeBulletProbArrayLong;
+@property (nonatomic) NSMutableArray* evadeBulletProbArrayMid;
+@property (nonatomic) NSMutableArray* evadeBulletProbArrayShort;
+
 
 -(id)initWithStage:(STABattleStage*)stage;
 

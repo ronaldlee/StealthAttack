@@ -1,10 +1,14 @@
 X-when fading in after the game is done. it should stop fading in immediately (or fadeInNow afterwards)
 x-fix collision area for basic tank
--evade bullet
+x-evade bullet
+  -evade too aggressive, should account for the actual distance from the bullet
+    -> faster tank can response later, slower tank might want to evade earlier.
 -starting moves:
  -aim at player but quickly turn to trick player think it is aiming at it.
+-why if i don't shoot, enemy never shoot 
 x-Tiger tank explode, H and J not explode
 
+Multiplayer!
 
 
 Boss:
