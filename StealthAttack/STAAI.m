@@ -11,8 +11,8 @@
 @interface STAAI() {
     CGFloat enemyTank_lastknown_x;
     CGFloat enemyTank_lastknown_y;
-    CGVector enemyTank_lastknown_direction;
-    CGFloat enemyTank_lastknown_rotation;
+//    CGVector enemyTank_lastknown_direction;
+//    CGFloat enemyTank_lastknown_rotation;
     CGFloat enemyTank_lastknown_fireCount;
     
     int enemyTank_lastknown_distance;
@@ -74,6 +74,8 @@
 @synthesize evadeDirectionProbArray;
 @synthesize thinkSpeed;
 
+@synthesize startMovesProbArray;
+
 - (id)initWithStage:(STABattleStage*)b_stage {
     self = [super init];
     if (self) {
@@ -115,6 +117,8 @@
         
         evadeDirectionProbArray = [self getProbArrayForYes:1 No:0];
         
+        startMovesProbArray = [self getProbArrayForApproach:5 WarningShot:5 Evade:5 DontMove:1 Stupid:0];
+        
         //====
         
         midRange = 40000;
@@ -128,6 +132,7 @@
     
         isApproaching = false;
         isRotating = false;
+        isEvading = false;
         
         //====
         
@@ -282,10 +287,10 @@
 
 -(void)setHost:(STATank*)t_host {
     host = t_host;
+    bounds = [host getBorderBounds];
 }
 
 -(int)getRegionForX:(CGFloat)px Y:(CGFloat)py {
-    bounds = [host getBorderBounds];
     CGFloat block_width = bounds.size.width/3;
     CGFloat block_height = bounds.size.height/3;
     CGFloat right_x = bounds.origin.x+bounds.size.width;
@@ -311,6 +316,8 @@
 }
 
 -(void)think {
+    if (!stage.isGameStart) return;
+    
 //    NSLog(@"thinking: %d",ticksBeforeAdjustLastXY);
     STATank* player = [stage player];
     if (player.isExploded) {
@@ -341,8 +348,15 @@
     if (lastX != -1 && lastY != -1) {
         enemyTank_lastknown_x = lastX;
         enemyTank_lastknown_y = lastY;
-        enemyTank_lastknown_direction = lastDirection;
-        enemyTank_lastknown_rotation = lastRotation;
+//        enemyTank_lastknown_direction = lastDirection;
+//        enemyTank_lastknown_rotation = lastRotation;
+    }
+    else if (lastX == -1 && lastY == -1) {
+        BOOL isAvailableForActionFlag = [self isAvailableForAction];
+        if (enemyTank_lastknown_x == -1 && enemyTank_lastknown_y == -1 && isAvailableForActionFlag) {
+            [self performStartingMoves];
+            return;
+        }
     }
     [player clearLastPositionData];
     
@@ -733,7 +747,7 @@
                     if (!isAttackCoolDown) {
                         NSLog(@"revealed: warning shot");
                         [host stop];
-                        [self attack_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y];
+                        [self attack_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y complete:NULL];
                     }
                 }
                 else if (prod_act_int == EVADE_PROB_KEY) {
@@ -769,7 +783,7 @@
                     if (!isAttackCoolDown) {
                         NSLog(@"revealed: warning shot");
                         [host stop];
-                        [self attack_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y];
+                        [self attack_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y complete:NULL];
                     }
                 }
                 else if (prod_act_int == EVADE_PROB_KEY) {
@@ -805,7 +819,7 @@
                     if (!isAttackCoolDown) {
                         NSLog(@"revealed: warning shot");
                         [host stop];
-                        [self attack_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y];
+                        [self attack_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y complete:NULL];
                     }
                 }
                 else if (prod_act_int == EVADE_PROB_KEY) {
@@ -846,7 +860,7 @@
                     if (!isAttackCoolDown) {
                         NSLog(@"stealth: warning shot");
                         [host stop];
-                        [self attack_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y];
+                        [self attack_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y complete:NULL];
                     }
                 }
                 else if (prod_act_int == EVADE_PROB_KEY) {
@@ -884,7 +898,7 @@
                     if (!isAttackCoolDown) {
                         NSLog(@"stealth: warning shot");
                         [host stop];
-                        [self attack_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y];
+                        [self attack_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y complete:NULL];
                     }
                 }
                 else if (prod_act_int == EVADE_PROB_KEY) {
@@ -920,7 +934,7 @@
                     if (!isAttackCoolDown) {
                         [host stop];
                         NSLog(@"stealth: warning shot");
-                        [self attack_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y];
+                        [self attack_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y complete:NULL];
                     }
                 }
                 else if (prod_act_int == EVADE_PROB_KEY) {
@@ -1019,7 +1033,7 @@
     }];
 }
 
--(void)attack_LastX:(CGFloat)lastX LastY:(CGFloat)lastY {
+-(void)attack_LastX:(CGFloat)lastX LastY:(CGFloat)lastY complete:(void (^)() )block{
     isAttackCoolDown = true;
     
     //calculate accuracy value
@@ -1038,6 +1052,10 @@
                 
                 [self faceEnemy_LastX:lastX LastY:lastY Accuracy:r complete:^(void) {
                     [host fire];
+                    
+                    if (block != NULL) {
+                        block();
+                    }
                 }];
             }];
             
@@ -1952,6 +1970,119 @@
     }
     
     return CGPointMake(new_x, new_y);
+}
+
+//by default, starting moves either:
+//-move directly to where player position (lower right corner)
+//-fire at the lower right corner
+//-move to one of the closest regions (by guessing enemy last know position)
+//
+-(void)performStartingMoves {
+    int rand = (int)arc4random_uniform((unsigned int)[startMovesProbArray count]);
+    
+    NSNumber *prod_action = [startMovesProbArray objectAtIndex:rand];
+    int start_moves_id = [prod_action intValue];
+    
+    if (start_moves_id == APPROACH_PROB_KEY) {
+        CGPoint guess_xy = [self getXYByRegionId:REGION_RIGHT_BOTTOM Bounds:bounds];
+        
+        if (guess_xy.x != -1 && guess_xy.y != -1) {
+            enemyTank_lastknown_x = guess_xy.x;
+            enemyTank_lastknown_y = guess_xy.y;
+            [self approach_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y];
+        }
+
+    } else if (start_moves_id == WARNSHOT_PROB_KEY) {
+        CGPoint guess_xy = [self getXYByRegionId:REGION_RIGHT_BOTTOM Bounds:bounds];
+        
+        if (guess_xy.x != -1 && guess_xy.y != -1) {
+            [self attack_LastX:guess_xy.x LastY:guess_xy.y complete:^() {
+                //pick a randome region to go to. At the beginning is either:
+                //region 3 (stay), region 2, 5, or 6.
+                
+                int rand = arc4random_uniform(4);
+                if (rand == 0) {
+                    CGPoint guess_xy = [self getXYByRegionId:REGION_LEFT_TOP Bounds:bounds];
+                    
+                    if (guess_xy.x != -1 && guess_xy.y != -1) {
+                        enemyTank_lastknown_x = guess_xy.x;
+                        enemyTank_lastknown_y = guess_xy.y;
+                        [self approach_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y];
+                    }
+                }
+                else if (rand == 1) {
+                    CGPoint guess_xy = [self getXYByRegionId:REGION_LEFT_MIDDLE Bounds:bounds];
+                    
+                    if (guess_xy.x != -1 && guess_xy.y != -1) {
+                        enemyTank_lastknown_x = guess_xy.x;
+                        enemyTank_lastknown_y = guess_xy.y;
+                        [self approach_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y];
+                    }
+                }
+                else if (rand == 2) {
+                    CGPoint guess_xy = [self getXYByRegionId:REGION_MIDDLE_MIDDLE Bounds:bounds];
+                    
+                    if (guess_xy.x != -1 && guess_xy.y != -1) {
+                        enemyTank_lastknown_x = guess_xy.x;
+                        enemyTank_lastknown_y = guess_xy.y;
+                        [self approach_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y];
+                    }
+                }
+                else if (rand == 3) {
+                    CGPoint guess_xy = [self getXYByRegionId:REGION_MIDDLE_TOP Bounds:bounds];
+                    
+                    if (guess_xy.x != -1 && guess_xy.y != -1) {
+                        enemyTank_lastknown_x = guess_xy.x;
+                        enemyTank_lastknown_y = guess_xy.y;
+                        [self approach_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y];
+                    }
+                }
+            }];
+        }
+        
+    } else if (start_moves_id == EVADE_PROB_KEY) {
+        //pick a randome region to go to. At the beginning is either:
+        //region 3 (stay), region 2, 5, or 6.
+        
+        int rand = arc4random_uniform(4);
+        if (rand == 0) {
+            CGPoint guess_xy = [self getXYByRegionId:REGION_LEFT_TOP Bounds:bounds];
+            
+            if (guess_xy.x != -1 && guess_xy.y != -1) {
+                enemyTank_lastknown_x = guess_xy.x;
+                enemyTank_lastknown_y = guess_xy.y;
+                [self approach_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y];
+            }
+        }
+        else if (rand == 1) {
+            CGPoint guess_xy = [self getXYByRegionId:REGION_LEFT_MIDDLE Bounds:bounds];
+            
+            if (guess_xy.x != -1 && guess_xy.y != -1) {
+                enemyTank_lastknown_x = guess_xy.x;
+                enemyTank_lastknown_y = guess_xy.y;
+                [self approach_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y];
+            }
+        }
+        else if (rand == 2) {
+            CGPoint guess_xy = [self getXYByRegionId:REGION_MIDDLE_MIDDLE Bounds:bounds];
+            
+            if (guess_xy.x != -1 && guess_xy.y != -1) {
+                enemyTank_lastknown_x = guess_xy.x;
+                enemyTank_lastknown_y = guess_xy.y;
+                [self approach_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y];
+            }
+        }
+        else if (rand == 3) {
+            CGPoint guess_xy = [self getXYByRegionId:REGION_MIDDLE_TOP Bounds:bounds];
+            
+            if (guess_xy.x != -1 && guess_xy.y != -1) {
+                enemyTank_lastknown_x = guess_xy.x;
+                enemyTank_lastknown_y = guess_xy.y;
+                [self approach_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y];
+            }
+        }
+    }
+
 }
 
 @end

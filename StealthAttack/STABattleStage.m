@@ -36,11 +36,13 @@
 @synthesize enemyFadeNode;
 
 @synthesize isGameOver;
+@synthesize isGameStart;
 
 - (id)initWithScale:(float)sk_scale Bounds:(CGRect)bounds Scene:(SKScene*)sk_scene {
     self = [super initWithScale:sk_scale Bounds:bounds Scene:sk_scene];
     
     if (self) {
+        isGameStart= false;
         isGameOver = false;
         playerFadeNode = [[SKNode alloc] init];
         [self.scene addChild:playerFadeNode];
@@ -104,7 +106,8 @@
                                        BodyBaseColor:tankBodyBaseYellow
                                                   AI:NULL
                                        RotationSpeed:3
-                                            Category:PLAYER_CATEGORY];
+                                            Category:PLAYER_CATEGORY
+                                            Bounds:bounds];
         [self.player setBattleStage:self];
 
         CGFloat player_bottom_border_y = bottom_corner_y + [self.player getAnchorOffsetY]+PIXEL_WIDTHHEIGHT+1;//+PIXEL_WIDTHHEIGHT+1;
@@ -125,8 +128,6 @@
         self.player.position = CGPointMake(stage_start_x,stage_start_y);
 //        [self.player updateLastPositionData];
         
-        [self.player setBorderBounds:bounds];
-        
         [self.scene addChild:self.player];
         
         //==enemy
@@ -135,7 +136,8 @@
                                            BodyBaseColor:tankBodyBaseBlue
                                                       AI:[[STAAI alloc] initWithStage:self]
                                            RotationSpeed:3
-                                                Category:ENEMY_CATEGORY];
+                                                Category:ENEMY_CATEGORY
+                                                  Bounds:bounds];
         [self.enemy setBattleStage:self];
         
 //        stage_start_x = ([[UIScreen mainScreen] bounds].size.width-PLAYER_WIDTH)/2 + [self.player getAnchorOffsetX];
@@ -146,8 +148,6 @@
         stage_start_y = player_top_border_y-20;
         
         self.enemy.position = CGPointMake(stage_start_x,stage_start_y);
-        
-        [self.enemy setBorderBounds:bounds];
         
         [self.scene addChild:self.enemy];
         
@@ -193,6 +193,8 @@
             
             [self.playerFadeNode runAction:playerFadeOutAction];
             [self.enemyFadeNode runAction:enemyFadeOutAction];
+            
+            isGameStart = true;
         }];
         
         SKAction* countdownActions=[SKAction sequence:@[[SKAction waitForDuration:between_countdown_wait],displayCountdown3Action,

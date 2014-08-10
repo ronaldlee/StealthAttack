@@ -74,11 +74,12 @@
 @property (nonatomic) CGFloat evadeSpeed;
 
 
--(void)setBorderBounds:(CGRect)p_bounds;
+//-(void)setBorderBounds:(CGRect)p_bounds;
 -(id)initWithScale:(CGFloat)scale Id:(int)t_id BodyColor:(UIColor*)b_color BodyBaseColor:(UIColor*)bb_color
                 AI:(STAAI*) ai
      RotationSpeed:(CGFloat)r_speed
-          Category:(uint32_t)category;
+          Category:(uint32_t)category
+            Bounds:(CGRect)p_bounds;
 
 -(void)moveForward;
 -(void)moveForwardToX:(CGFloat)x Y:(CGFloat)y complete:(void (^)() )block;

@@ -31,10 +31,10 @@
 //@synthesize tankr3;
 //@synthesize tankr4;
 
-- (id)initWithScale:(CGFloat)f_scale Id:(int)t_id BodyColor:tankBodyColor BodyBaseColor:tankBodyBaseColor AI:(STAAI*) ai RotationSpeed:(CGFloat)r_speed Category:(uint32_t)category {
+- (id)initWithScale:(CGFloat)f_scale Id:(int)t_id BodyColor:tankBodyColor BodyBaseColor:tankBodyBaseColor AI:(STAAI*) ai RotationSpeed:(CGFloat)r_speed Category:(uint32_t)category Bounds:(CGRect)p_bounds {
     
     self = [super initWithScale:f_scale Id:t_id BodyColor:tankBodyColor BodyBaseColor:tankBodyBaseColor AI:ai
-                  RotationSpeed:r_speed Category:category];
+                  RotationSpeed:r_speed Category:category Bounds:p_bounds];
     
 //    if (self) {
 //        self.physicsBody.categoryBitMask = ENEMY_CATEGORY;

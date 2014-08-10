@@ -79,12 +79,16 @@
 
 @property (nonatomic) CGFloat thinkSpeed;
 
+@property (nonatomic) NSMutableArray* startMovesProbArray;
+
 
 -(id)initWithStage:(STABattleStage*)stage;
 
 -(void)think;
 
 -(void)setHost:(STATank*)host;
+
+-(void)performStartingMoves;
 
 
 @end

@@ -23,6 +23,7 @@
 @property (nonatomic) SKNode* playerFadeNode;
 @property (nonatomic) SKNode* enemyFadeNode;
 
+@property (nonatomic) BOOL isGameStart;
 @property (nonatomic) BOOL isGameOver;
 
 

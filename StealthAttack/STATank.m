@@ -93,9 +93,17 @@
 @synthesize moveSpeed;
 @synthesize evadeSpeed;
 
-- (id)initWithScale:(CGFloat)f_scale Id:(int)t_id BodyColor:(UIColor*)b_color BodyBaseColor:(UIColor*)bb_color  AI:(STAAI*)t_ai RotationSpeed:(CGFloat)r_speed Category:(uint32_t)category{
+- (id)initWithScale:(CGFloat)f_scale Id:(int)t_id BodyColor:(UIColor*)b_color BodyBaseColor:(UIColor*)bb_color  AI:(STAAI*)t_ai RotationSpeed:(CGFloat)r_speed Category:(uint32_t)category Bounds:(CGRect)p_bounds{
     self = [super init];
     if (self) {
+        bounds = p_bounds;
+        
+        left_border_x = bounds.origin.x;
+        right_border_x = left_border_x+bounds.size.width;
+        bottom_border_y = bounds.origin.y;
+        top_border_y = bottom_border_y+bounds.size.height;
+        
+        //
         isGameOver = false;
         isBrakingOn = true;
         lastX = -1;
@@ -300,14 +308,14 @@
     return anchoroffset_y;
 }
 
--(void)setBorderBounds:(CGRect)p_bounds {
-    bounds = p_bounds;
-    
-    left_border_x = bounds.origin.x;
-    right_border_x = left_border_x+bounds.size.width;
-    bottom_border_y = bounds.origin.y;
-    top_border_y = bottom_border_y+bounds.size.height;
-}
+//-(void)setBorderBounds:(CGRect)p_bounds {
+//    bounds = p_bounds;
+//    
+//    left_border_x = bounds.origin.x;
+//    right_border_x = left_border_x+bounds.size.width;
+//    bottom_border_y = bounds.origin.y;
+//    top_border_y = bottom_border_y+bounds.size.height;
+//}
 
 -(CGRect)getBorderBounds {
     return bounds;
