@@ -77,11 +77,14 @@
 
 @property (nonatomic) NSMutableArray* evadeDirectionProbArray;
 
+@property (nonatomic) CGFloat thinkSpeed;
+
 
 -(id)initWithStage:(STABattleStage*)stage;
 
 -(void)think;
 
 -(void)setHost:(STATank*)host;
+
 
 @end

@@ -177,7 +177,7 @@
                 [ai think];
             }];
             
-            SKAction *wait = [SKAction waitForDuration:0.5];
+            SKAction *wait = [SKAction waitForDuration:ai.thinkSpeed];
             [self.brainNode runAction:[SKAction repeatActionForever:[SKAction sequence:@[wait,aiAction]]]];
         }
     }

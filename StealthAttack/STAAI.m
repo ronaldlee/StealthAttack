@@ -72,6 +72,7 @@
 @synthesize evadeDegreeMarginLong;
 
 @synthesize evadeDirectionProbArray;
+@synthesize thinkSpeed;
 
 - (id)initWithStage:(STABattleStage*)b_stage {
     self = [super init];
@@ -91,23 +92,26 @@
         isAttackCoolDown = false;
         attackCoolDownDuration = 5;
         
+        thinkSpeed = 0.5;
+        
         //=== When player revealed its position
         
-//        revealedActionProbArrayLong  = [self getProbArrayForApproach:10 WarningShot:1 Evade:5 DontMove:5 Stupid:5];
-//        revealedActionProbArrayMid   = [self getProbArrayForApproach:5 WarningShot:4 Evade:0 DontMove:0 Stupid:0];
-//        revealedActionProbArrayShort = [self getProbArrayForApproach:0 WarningShot:5 Evade:0 DontMove:0 Stupid:0];
+        revealedActionProbArrayLong  = [self getProbArrayForApproach:10 WarningShot:5 Evade:5 DontMove:5 Stupid:5];
+        revealedActionProbArrayMid   = [self getProbArrayForApproach:3 WarningShot:5 Evade:0 DontMove:0 Stupid:0];
+        revealedActionProbArrayShort = [self getProbArrayForApproach:0 WarningShot:1 Evade:0 DontMove:0 Stupid:0];
+        
+        stealthActionProbArrayLong  = [self getProbArrayForApproach:10 WarningShot:5 Evade:0 DontMove:0 Stupid:0];
+        stealthActionProbArrayMid   = [self getProbArrayForApproach:5 WarningShot:5 Evade:1 DontMove:0 Stupid:0];
+        stealthActionProbArrayShort = [self getProbArrayForApproach:0 WarningShot:1 Evade:0 DontMove:0 Stupid:0];
+        
+        //testing
+//        revealedActionProbArrayLong  = [self getProbArrayForApproach:0 WarningShot:0 Evade:0 DontMove:1 Stupid:0];
+//        revealedActionProbArrayMid   = [self getProbArrayForApproach:0 WarningShot:0 Evade:0 DontMove:1 Stupid:0];
+//        revealedActionProbArrayShort = [self getProbArrayForApproach:0 WarningShot:0 Evade:0 DontMove:1 Stupid:0];
 //        
-//        stealthActionProbArrayLong  = [self getProbArrayForApproach:10 WarningShot:2 Evade:0 DontMove:0 Stupid:0];
-//        stealthActionProbArrayMid   = [self getProbArrayForApproach:5 WarningShot:5 Evade:1 DontMove:0 Stupid:0];
-//        stealthActionProbArrayShort = [self getProbArrayForApproach:0 WarningShot:10 Evade:0 DontMove:0 Stupid:0];
-        
-        revealedActionProbArrayLong  = [self getProbArrayForApproach:0 WarningShot:0 Evade:0 DontMove:1 Stupid:0];
-        revealedActionProbArrayMid   = [self getProbArrayForApproach:0 WarningShot:0 Evade:0 DontMove:1 Stupid:0];
-        revealedActionProbArrayShort = [self getProbArrayForApproach:0 WarningShot:0 Evade:0 DontMove:1 Stupid:0];
-        
-        stealthActionProbArrayLong  = [self getProbArrayForApproach:0 WarningShot:0 Evade:0 DontMove:1 Stupid:0];
-        stealthActionProbArrayMid   = [self getProbArrayForApproach:0 WarningShot:0 Evade:0 DontMove:1 Stupid:0];
-        stealthActionProbArrayShort = [self getProbArrayForApproach:0 WarningShot:0 Evade:0 DontMove:1 Stupid:0];
+//        stealthActionProbArrayLong  = [self getProbArrayForApproach:0 WarningShot:0 Evade:0 DontMove:1 Stupid:0];
+//        stealthActionProbArrayMid   = [self getProbArrayForApproach:0 WarningShot:0 Evade:0 DontMove:1 Stupid:0];
+//        stealthActionProbArrayShort = [self getProbArrayForApproach:0 WarningShot:0 Evade:0 DontMove:1 Stupid:0];
         
         evadeDirectionProbArray = [self getProbArrayForYes:1 No:0];
         
@@ -133,29 +137,30 @@
         //3 6 9
         //2 5 8
         //1 4 7
-//        region1ProbArray = [self getProbArrayForR1:5 R2:5 R3:0 R4:5 R5:0 R6:0 R7:0 R8:0 R9:0];
-//        region2ProbArray = [self getProbArrayForR1:5 R2:5 R3:5 R4:0 R5:0 R6:0 R7:0 R8:0 R9:0];
-//        region3ProbArray = [self getProbArrayForR1:0 R2:5 R3:5 R4:0 R5:0 R6:5 R7:0 R8:0 R9:0];
+        region1ProbArray = [self getProbArrayForR1:5 R2:5 R3:0 R4:5 R5:0 R6:0 R7:0 R8:0 R9:0];
+        region2ProbArray = [self getProbArrayForR1:5 R2:5 R3:5 R4:0 R5:0 R6:0 R7:0 R8:0 R9:0];
+        region3ProbArray = [self getProbArrayForR1:0 R2:5 R3:5 R4:0 R5:0 R6:5 R7:0 R8:0 R9:0];
+        
+        region4ProbArray = [self getProbArrayForR1:5 R2:0 R3:0 R4:5 R5:5 R6:0 R7:0 R8:0 R9:0];
+        region5ProbArray = [self getProbArrayForR1:0 R2:5 R3:0 R4:5 R5:5 R6:5 R7:0 R8:5 R9:0];
+        region6ProbArray = [self getProbArrayForR1:0 R2:0 R3:5 R4:0 R5:5 R6:5 R7:0 R8:0 R9:5];
+        
+        region7ProbArray = [self getProbArrayForR1:0 R2:0 R3:0 R4:5 R5:0 R6:0 R7:5 R8:5 R9:0];
+        region8ProbArray = [self getProbArrayForR1:0 R2:0 R3:0 R4:0 R5:5 R6:0 R7:5 R8:5 R9:5];
+        region9ProbArray = [self getProbArrayForR1:0 R2:0 R3:0 R4:0 R5:0 R6:5 R7:0 R8:5 R9:5];
+        
+        //test
+//        region1ProbArray = [self getProbArrayForR1:0 R2:0 R3:0 R4:0 R5:0 R6:0 R7:0 R8:0 R9:0];
+//        region2ProbArray = [self getProbArrayForR1:0 R2:0 R3:0 R4:0 R5:0 R6:0 R7:0 R8:0 R9:0];
+//        region3ProbArray = [self getProbArrayForR1:0 R2:0 R3:0 R4:0 R5:0 R6:0 R7:0 R8:0 R9:0];
 //        
-//        region4ProbArray = [self getProbArrayForR1:5 R2:0 R3:0 R4:5 R5:5 R6:0 R7:0 R8:0 R9:0];
-//        region5ProbArray = [self getProbArrayForR1:0 R2:5 R3:0 R4:5 R5:5 R6:5 R7:0 R8:5 R9:0];
-//        region6ProbArray = [self getProbArrayForR1:0 R2:0 R3:5 R4:0 R5:5 R6:5 R7:0 R8:0 R9:5];
+//        region4ProbArray = [self getProbArrayForR1:0 R2:0 R3:0 R4:0 R5:0 R6:0 R7:0 R8:0 R9:0];
+//        region5ProbArray = [self getProbArrayForR1:0 R2:0 R3:0 R4:0 R5:0 R6:0 R7:0 R8:0 R9:0];
+//        region6ProbArray = [self getProbArrayForR1:0 R2:0 R3:0 R4:0 R5:0 R6:0 R7:0 R8:0 R9:0];
 //        
-//        region7ProbArray = [self getProbArrayForR1:0 R2:0 R3:0 R4:5 R5:0 R6:0 R7:5 R8:5 R9:0];
-//        region8ProbArray = [self getProbArrayForR1:0 R2:0 R3:0 R4:0 R5:5 R6:0 R7:5 R8:5 R9:5];
-//        region9ProbArray = [self getProbArrayForR1:0 R2:0 R3:0 R4:0 R5:0 R6:5 R7:0 R8:5 R9:5];
-        
-        region1ProbArray = [self getProbArrayForR1:0 R2:0 R3:0 R4:0 R5:0 R6:0 R7:0 R8:0 R9:0];
-        region2ProbArray = [self getProbArrayForR1:0 R2:0 R3:0 R4:0 R5:0 R6:0 R7:0 R8:0 R9:0];
-        region3ProbArray = [self getProbArrayForR1:0 R2:0 R3:0 R4:0 R5:0 R6:0 R7:0 R8:0 R9:0];
-        
-        region4ProbArray = [self getProbArrayForR1:0 R2:0 R3:0 R4:0 R5:0 R6:0 R7:0 R8:0 R9:0];
-        region5ProbArray = [self getProbArrayForR1:0 R2:0 R3:0 R4:0 R5:0 R6:0 R7:0 R8:0 R9:0];
-        region6ProbArray = [self getProbArrayForR1:0 R2:0 R3:0 R4:0 R5:0 R6:0 R7:0 R8:0 R9:0];
-        
-        region7ProbArray = [self getProbArrayForR1:0 R2:0 R3:0 R4:0 R5:0 R6:0 R7:0 R8:0 R9:0];
-        region8ProbArray = [self getProbArrayForR1:0 R2:0 R3:0 R4:0 R5:0 R6:0 R7:0 R8:0 R9:0];
-        region9ProbArray = [self getProbArrayForR1:0 R2:0 R3:0 R4:0 R5:0 R6:0 R7:0 R8:0 R9:0];
+//        region7ProbArray = [self getProbArrayForR1:0 R2:0 R3:0 R4:0 R5:0 R6:0 R7:0 R8:0 R9:0];
+//        region8ProbArray = [self getProbArrayForR1:0 R2:0 R3:0 R4:0 R5:0 R6:0 R7:0 R8:0 R9:0];
+//        region9ProbArray = [self getProbArrayForR1:0 R2:0 R3:0 R4:0 R5:0 R6:0 R7:0 R8:0 R9:0];
         
         //=====
         
@@ -607,6 +612,7 @@
         }
         
         if (isNeedEvade) {
+            [host stop];
             //based on the bullet's direction, add around 90degree
             
             CGFloat evade_radian = closetBullet.zRotation + M_PI/2;
@@ -665,11 +671,6 @@
     
     if (![self isAvailableForAction]) {
         //depending on certain conditions, stop the current action.
-        
-        //==== Condition 1 (critical): Evade bullet(s)
-        //detect bullet(s) and try to avoid them if is close..
-        
-        
         
         //==== Condition 2: Distance Change
         int curDistance = 0;

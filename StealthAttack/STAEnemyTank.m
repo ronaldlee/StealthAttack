@@ -251,14 +251,10 @@
 -(void)fadeInNow {
     if (!IS_ENABLE_STEALTH) return;
     
-    [super fadeInNow];
-    
     self.tankH.alpha = 1.0;
     self.tankI.alpha = 1.0;
     
-//    SKAction* fadeIn=[SKAction fadeInWithDuration:0];
-//    [self.tankH runAction:fadeIn];
-//    [self.tankI runAction:fadeIn];
+    [super fadeInNow];
 }
 
 @end
