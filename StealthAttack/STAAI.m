@@ -496,7 +496,6 @@
         }
     }
     
-    int evade_region_id = -1;
     if (closetBullet != nil) {
         
         BOOL isNeedEvade = false;
@@ -683,7 +682,7 @@
     
     //=========================
     
-    if (![self isAvailableForAction]) {
+    if (![self isAvailableForAction] && lastX != -1 && lastY != -1) {
         //depending on certain conditions, stop the current action.
         
         //==== Condition 2: Distance Change
@@ -1029,6 +1028,9 @@
     [self faceEnemy_LastX:lastX LastY:lastY Accuracy:r complete:^(void) {
         [host moveForwardToX:lastX Y:lastY complete:^(void) {
             isApproaching=false;
+            
+             //make sure it gets there and can reconsider next region
+            ticksBeforeAdjustLastXY = numberOfThinkTicksBeforeAdjustLastXY+1;
         }];
     }];
 }
