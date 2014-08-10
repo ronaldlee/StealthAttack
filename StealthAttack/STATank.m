@@ -815,21 +815,6 @@
     return is_firing;
 }
 
--(void)toggleVisibilty {
-    UIColor* color = [UIColor blackColor];
-    if (isVisible) {
-       color = [UIColor whiteColor];
-    }
-    self.tankA.color = color;
-    self.tankB.color = color;
-    self.tankC.color = color;
-    self.tankD.color = color;
-    self.tankE.color = color;
-    self.tankF.color = color;
-    self.tankG.color = color;
-    isVisible = !isVisible;
-}
-
 -(void)contactWith:(id<STAGameObject>)gameObj {
     //player can only contact with monster
     

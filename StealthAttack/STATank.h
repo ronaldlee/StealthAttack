@@ -92,7 +92,6 @@
 
 -(void)toggleFiring;
 -(BOOL)isFiring;
--(void)toggleVisibilty;
 
 -(CGFloat)getAnchorOffsetX;
 -(CGFloat)getAnchorOffsetY;

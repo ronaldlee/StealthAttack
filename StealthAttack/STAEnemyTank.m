@@ -248,6 +248,12 @@
     [self.tankI runAction:fadeOut];
 }
 
+-(void) stopFadeOut {
+    [super stopFadeOut];
+    [self.tankH removeAllActions];
+    [self.tankI removeAllActions];
+}
+
 -(void)fadeInNow {
     if (!IS_ENABLE_STEALTH) return;
     
