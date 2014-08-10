@@ -35,10 +35,13 @@
 @synthesize playerFadeNode;
 @synthesize enemyFadeNode;
 
+@synthesize isGameOver;
+
 - (id)initWithScale:(float)sk_scale Bounds:(CGRect)bounds Scene:(SKScene*)sk_scene {
     self = [super initWithScale:sk_scale Bounds:bounds Scene:sk_scene];
     
     if (self) {
+        isGameOver = false;
         playerFadeNode = [[SKNode alloc] init];
         [self.scene addChild:playerFadeNode];
         enemyFadeNode = [[SKNode alloc] init];
@@ -264,6 +267,8 @@
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    if (isGameOver) return;
+    
     NSLog(@"touch battle stage");
     for (UITouch *touch in touches) {
         CGPoint location = [touch locationInNode:self.scene];
@@ -279,18 +284,26 @@
             return;
         }
         else if ([node.name isEqualToString:@"rotate_c_button"]) {
+            
+            [rotate_c_button flashText];
             [self.player rotateClockwise];
             return;
         }
         else if ([node.name isEqualToString:@"rotate_uc_button"]) {
+            
+            [rotate_uc_button flashText];
             [self.player rotateCounterClockwise];
             return;
         }
         else if ([node.name isEqualToString:@"forward_button"]) {
+            
+            [forward_button flashText];
             [self.player moveForward];
             return;
         }
         else if ([node.name isEqualToString:@"backward_button"]) {
+            
+            [backward_button flashText];
             [self.player moveBackward];
             return;
         }
@@ -300,6 +313,11 @@
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     [self.player stop];
+    
+    [rotate_c_button stopFlashText];
+    [rotate_uc_button stopFlashText];
+    [forward_button stopFlashText];
+    [backward_button stopFlashText];
 }
 
 -(void)cleanup {

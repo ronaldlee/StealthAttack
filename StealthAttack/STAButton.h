@@ -19,4 +19,8 @@
 
 -(void)recharge;
 
+-(void)flashText;
+
+-(void)stopFlashText;
+
 @end

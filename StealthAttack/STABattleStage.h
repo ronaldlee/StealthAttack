@@ -23,6 +23,9 @@
 @property (nonatomic) SKNode* playerFadeNode;
 @property (nonatomic) SKNode* enemyFadeNode;
 
+@property (nonatomic) BOOL isGameOver;
+
+
 -(void) fireBullet:(STATank*)tank;
 
 -(NSMutableArray*)getAllBullets;

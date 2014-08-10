@@ -131,11 +131,36 @@
     SKAction* fadeIn = [SKAction fadeInWithDuration:5];
     [button runAction:fadeIn completion:^() {
         
-        button.alpha = 0.0;
-        button.alpha = 1.0;
+        labelNode.alpha = 0.0;
+        SKAction* flash = [SKAction runBlock:^() {
+            labelNode.alpha = 1.0;
+            isDoneRecharge = true;
+        }];
         
-        isDoneRecharge = true;
+        SKAction *wait = [SKAction waitForDuration:0.1];
+        [button runAction:[SKAction sequence:@[wait,flash]]];
+        
     }];
+}
+
+-(void)flashText {
+    SKAction *wait = [SKAction waitForDuration:0.05];
+    SKAction* showText = [SKAction runBlock:^() {
+        labelNode.alpha = 1.0;
+    }];
+    SKAction* hideText = [SKAction runBlock:^() {
+        labelNode.alpha = 0.0;
+    }];
+    
+//    SKAction *wait = [SKAction waitForDuration:ai.thinkSpeed];
+//    [self.brainNode runAction:[SKAction repeatActionForever:[SKAction sequence:@[wait,aiAction]]]];
+    
+    [button runAction:[SKAction repeatActionForever:[SKAction sequence:@[hideText,wait,showText,wait]]]];
+}
+
+-(void)stopFlashText {
+    [button removeAllActions];
+    labelNode.alpha = 1.0;
 }
 
 

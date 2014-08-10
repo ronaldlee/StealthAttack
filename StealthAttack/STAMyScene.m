@@ -14,8 +14,6 @@
     float scale;
     float left_corner_x, right_corner_x, top_corner_y, bottom_corner_y;
     float player_bottom_border_y, player_top_border_y, player_left_border_x, player_right_border_x;
-    
-    BOOL isGameOver;
 }
 
 //@property (nonatomic) STATank * player;
@@ -46,7 +44,6 @@
 -(id)initWithSize:(CGSize)size {    
     if (self = [super initWithSize:size]) {
         /* Setup your scene here */
-        isGameOver = false;
         
         [self createSceneContents];
         
@@ -312,7 +309,7 @@
 {
     NSLog(@"did contact");
     
-    
+    STABattleStage* battleStage = (STABattleStage*)currStage;
     if ((contact.bodyA.categoryBitMask & PLAYER_CATEGORY)!=0) {
         
         STATank *player = (STATank*)contact.bodyA.node;
@@ -330,8 +327,8 @@
         else if ((contact.bodyB.categoryBitMask & MISSLE_CATEGORY) != 0) {
             NSLog(@"hit missle");
             STABullet * bullet = (STABullet*)contact.bodyB.node;
-            if (bullet.ownerId != player.playerId && !isGameOver) {
-                isGameOver = true;
+            if (bullet.ownerId != player.playerId && !battleStage.isGameOver) {
+                battleStage.isGameOver = true;
                 [player explode];
                 
                 STATank* tank = ((STABattleStage*)currStage).enemy;
@@ -347,8 +344,8 @@
             STABullet* bullet = (STABullet*)contact.bodyB.node;
             
             NSLog(@"missle hit monster");
-            if (bullet.ownerId != enemy.playerId && !isGameOver) {
-                isGameOver = true;
+            if (bullet.ownerId != enemy.playerId && !battleStage.isGameOver) {
+                battleStage.isGameOver = true;
                 [enemy explode];
                 
                 STATank* tank = ((STABattleStage*)currStage).player;
@@ -380,8 +377,8 @@
             STATank* player = (STATank*)contact.bodyB.node;
             
             NSLog(@"missle hit player");
-            if (bullet.ownerId != player.playerId && !isGameOver) {
-                isGameOver = true;
+            if (bullet.ownerId != player.playerId && !battleStage.isGameOver) {
+                battleStage.isGameOver = true;
                 [player explode];
                 
                 STATank* tank = ((STABattleStage*)currStage).enemy;
