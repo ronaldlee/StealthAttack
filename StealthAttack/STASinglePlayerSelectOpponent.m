@@ -71,7 +71,7 @@
         //
         CGSize button_size = CGSizeMake(30,20);
         
-        backButton = [[STAButton alloc] initWithSize:button_size Name:@"back_button" Alpha:0];
+        backButton = [[STAButton alloc] initWithSize:button_size Name:@"back_button" Alpha:0 BGAlpha:0.0 ButtonText:NULL ButtonTextColor:NULL];
         backButton.userInteractionEnabled = NO;
         backButton.position = CGPointMake(back_button_orig_x-10,backLabel.position.y-5);
         [self.scene addChild:backButton];
@@ -102,7 +102,7 @@
         
         //
         
-        startButton = [[STAButton alloc] initWithSize:button_size Name:@"start_button" Alpha:0];
+        startButton = [[STAButton alloc] initWithSize:button_size Name:@"start_button" Alpha:0 BGAlpha:0.0 ButtonText:NULL ButtonTextColor:NULL];
         startButton.userInteractionEnabled = NO;
         startButton.position = CGPointMake(start_button_orig_x-15,startLabel.position.y-5);
         [self.scene addChild:startButton];

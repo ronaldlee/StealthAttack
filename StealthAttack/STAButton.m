@@ -10,15 +10,22 @@
 
 @interface STAButton() {
     float left_corner_x, right_corner_x, top_corner_y, bottom_corner_y;
+    
+    SKLabelNode* labelNode;
 }
 @end
 
 @implementation STAButton
-@synthesize button;
 
-- (id)initWithSize:(CGSize)b_size  Name:(NSString*)b_name Alpha:(CGFloat)alpha {
+@synthesize button;
+@synthesize isDoneRecharge;
+
+
+- (id)initWithSize:(CGSize)b_size  Name:(NSString*)b_name Alpha:(CGFloat)alpha BGAlpha:(CGFloat)bg_alpha
+        ButtonText:(NSString*)button_text ButtonTextColor:(SKColor*)bt_color {
     self = [super init];
     if (self) {
+        isDoneRecharge= true;
         self.anchorPoint = CGPointMake(0,0);
         
         // Initialize self.
@@ -89,15 +96,46 @@
         
         //==
         
-        button = [SKSpriteNode spriteNodeWithColor:[[UIColor whiteColor] colorWithAlphaComponent:0.0] size:b_size];
+        button = [SKSpriteNode spriteNodeWithColor:[[UIColor whiteColor] colorWithAlphaComponent:bg_alpha] size:b_size];
         button.name=b_name;
         button.userInteractionEnabled = NO;
         //        button.position = CGPointMake(0,0);
         button.anchorPoint = CGPointMake(0,0);
         [self addChild:button];
         
+        //==
+        if (button_text != NULL) {
+            NSString * font = @"GridExerciseGaps";
+            labelNode = [SKLabelNode labelNodeWithFontNamed:font];
+            
+            NSString *cdStr = button_text;
+            labelNode.text = cdStr;
+            labelNode.fontSize = 10;
+            labelNode.fontColor = bt_color;
+            
+            CGFloat label_x = self.size.width/2;
+            CGFloat label_y = self.size.height-10;
+            
+            labelNode.position = CGPointMake(label_x,label_y);
+            
+            [self addChild:labelNode];
+        }
+        
     }
     return self;
+}
+
+-(void)recharge {
+    isDoneRecharge = false;
+    button.alpha = 0.0;
+    SKAction* fadeIn = [SKAction fadeInWithDuration:5];
+    [button runAction:fadeIn completion:^() {
+        
+        button.alpha = 0.0;
+        button.alpha = 1.0;
+        
+        isDoneRecharge = true;
+    }];
 }
 
 
