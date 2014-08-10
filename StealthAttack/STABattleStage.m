@@ -79,25 +79,25 @@
         button_size = CGSizeMake(50,50);
         rotate_uc_button = [[STAButton alloc] initWithSize:button_size Name:@"rotate_uc_button" Alpha:1 BGAlpha:0.0 ButtonText:@"L" ButtonTextColor:[SKColor whiteColor]];
         rotate_uc_button.userInteractionEnabled = NO;
-        rotate_uc_button.position = CGPointMake(left_corner_x+100, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
+        rotate_uc_button.position = CGPointMake(right_corner_x-50*4, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
         [self.scene addChild:rotate_uc_button];
         
         button_size = CGSizeMake(50,50);
         rotate_c_button = [[STAButton alloc] initWithSize:button_size Name:@"rotate_c_button" Alpha:1 BGAlpha:0.0 ButtonText:@"R"ButtonTextColor:[SKColor whiteColor]];
         rotate_c_button.userInteractionEnabled = NO;
-        rotate_c_button.position = CGPointMake(left_corner_x+150, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
+        rotate_c_button.position = CGPointMake(right_corner_x-50*3, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
         [self.scene addChild:rotate_c_button];
         
         button_size = CGSizeMake(50,50);
         forward_button = [[STAButton alloc] initWithSize:button_size Name:@"forward_button" Alpha:1 BGAlpha:0.0 ButtonText:@"F"ButtonTextColor:[SKColor whiteColor]];
         forward_button.userInteractionEnabled = NO;
-        forward_button.position = CGPointMake(left_corner_x+200, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
+        forward_button.position = CGPointMake(right_corner_x-50*2, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
         [self.scene addChild:forward_button];
         
         button_size = CGSizeMake(50,50);
         backward_button = [[STAButton alloc] initWithSize:button_size Name:@"backward_button" Alpha:1 BGAlpha:0.0 ButtonText:@"B"ButtonTextColor:[SKColor whiteColor]];
         backward_button.userInteractionEnabled = NO;
-        backward_button.position = CGPointMake(left_corner_x+250, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
+        backward_button.position = CGPointMake(right_corner_x-50, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
         [self.scene addChild:backward_button];
 
 //        //==

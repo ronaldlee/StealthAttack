@@ -1018,27 +1018,32 @@
 }
 
 -(void) dance {
-//    NSLog(@"DANCE!!!!!!!!!");
-    SKAction* dance = [SKAction runBlock:^(){
-        CGFloat dance_degree = (CGFloat)arc4random_uniform(314)/(CGFloat)100;
-
-        [self rotateInDegree:dance_degree complete:^(){
+    
+    if (ai != NULL) {
+        [ai dance];
+    }
+    else {
+        SKAction* dance = [SKAction runBlock:^(){
             CGFloat dance_degree = (CGFloat)arc4random_uniform(314)/(CGFloat)100;
-            dance_degree *= -1;
-            
+
             [self rotateInDegree:dance_degree complete:^(){
                 CGFloat dance_degree = (CGFloat)arc4random_uniform(314)/(CGFloat)100;
+                dance_degree *= -1;
                 
                 [self rotateInDegree:dance_degree complete:^(){
-                    [self stop];
+                    CGFloat dance_degree = (CGFloat)arc4random_uniform(314)/(CGFloat)100;
+                    
+                    [self rotateInDegree:dance_degree complete:^(){
+                        [self stop];
+                    }];
+                    
                 }];
                 
             }];
-            
         }];
-    }];
-    
-    [self.danceNode runAction:dance];
+        
+        [self.danceNode runAction:dance];
+    }
 }
 
 @end

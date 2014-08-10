@@ -6,11 +6,18 @@ x-evade bullet
 x-Tiger tank explode, H and J not explode
 x-player shot reload logic 
 
--bug: explode keep invisible
--starting moves:
+x-starting moves:
  -aim at player but quickly turn to trick player think it is aiming at it.
  -why if i don't shoot, enemy never shoot 
 
+x- after dance, face player!
+
+-approach should not try to get to player's exact position, but is keep a distance away and start shoot!
+
+
+-bug: explode keep invisible
+
+-Game Over/Got you!: add replay or go back to previous screen
 
 Multiplayer!
 -https://developers.google.com/games/services/ios/realtimeMultiplayer

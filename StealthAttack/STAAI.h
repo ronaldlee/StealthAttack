@@ -90,5 +90,6 @@
 
 -(void)performStartingMoves;
 
+-(void)dance;
 
 @end
