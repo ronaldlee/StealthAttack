@@ -45,6 +45,7 @@
 
 @property (nonatomic) BOOL isApproaching;
 @property (nonatomic) BOOL isRotating;
+@property (nonatomic) BOOL isEvading;
 
 //@property (nonatomic) int
 
@@ -69,10 +70,6 @@
 @property (nonatomic) NSMutableArray* region7ProbArray;
 @property (nonatomic) NSMutableArray* region8ProbArray;
 @property (nonatomic) NSMutableArray* region9ProbArray;
-
-//@property (nonatomic) NSMutableArray* evadeBulletProbArrayLong;
-//@property (nonatomic) NSMutableArray* evadeBulletProbArrayMid;
-//@property (nonatomic) NSMutableArray* evadeBulletProbArrayShort;
 
 @property (nonatomic) CGFloat evadeDegreeMarginShort;
 @property (nonatomic) CGFloat evadeDegreeMarginMid;

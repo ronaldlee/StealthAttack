@@ -43,6 +43,7 @@
 
 @synthesize isApproaching;
 @synthesize isRotating;
+@synthesize isEvading;
 
 @synthesize revealedActionProbArrayLong;
 @synthesize revealedActionProbArrayMid;
@@ -65,10 +66,6 @@
 @synthesize region7ProbArray;
 @synthesize region8ProbArray;
 @synthesize region9ProbArray;
-//
-//@synthesize evadeBulletProbArrayLong;
-//@synthesize evadeBulletProbArrayMid;
-//@synthesize evadeBulletProbArrayShort;
 
 @synthesize evadeDegreeMarginShort;
 @synthesize evadeDegreeMarginMid;
@@ -111,10 +108,6 @@
         stealthActionProbArrayLong  = [self getProbArrayForApproach:0 WarningShot:0 Evade:0 DontMove:1 Stupid:0];
         stealthActionProbArrayMid   = [self getProbArrayForApproach:0 WarningShot:0 Evade:0 DontMove:1 Stupid:0];
         stealthActionProbArrayShort = [self getProbArrayForApproach:0 WarningShot:0 Evade:0 DontMove:1 Stupid:0];
-        
-//        evadeBulletProbArrayLong  = [self getProbArrayForYes:1 No:0];
-//        evadeBulletProbArrayMid   = [self getProbArrayForYes:1 No:0];
-//        evadeBulletProbArrayShort = [self getProbArrayForYes:1 No:0];
         
         evadeDirectionProbArray = [self getProbArrayForYes:1 No:0];
         
@@ -328,6 +321,12 @@
         evadingTicks--;
         return;
     }
+    else {
+        if (isEvading) {
+            isEvading = false;
+            [host stop];
+        }
+    }
     
     CGFloat lastX = [player lastX];
     CGFloat lastY = [player lastY];
@@ -483,33 +482,6 @@
         
         BOOL isNeedEvade = false;
         
-        
-//        NSLog(@"bounds: %f/%f/%f/%f", bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height);
-//        NSLog(@"bullet region: %@, num bullets: %lu, x: %f y: %f" ,
-//              [self getRegionStr:bullet_region_id], (unsigned long)numBullets,
-//              closetBullet.position.x,closetBullet.position.y);
-        
-//        NSMutableArray* evadeBulletProbArray;
-//        if (distance < shortRange) {
-//            evadeBulletProbArray = evadeBulletProbArrayShort;
-//        }
-//        else if (distance < midRange) {
-//            evadeBulletProbArray = evadeBulletProbArrayMid;
-//        }
-//        else {
-//            evadeBulletProbArray = evadeBulletProbArrayLong;
-//        }
-//        
-//        if ([evadeBulletProbArray count] > 0) {
-//            int rand = (int)arc4random_uniform((unsigned int)[evadeBulletProbArray count]);
-//            
-//            NSNumber *prod_action = [evadeBulletProbArray objectAtIndex:rand];
-//            int prod_act_int = [prod_action intValue];
-//            
-//            if (prod_act_int == YES) {
-//                
-//                
-        
         //evade base on the bullet's own rotation radian
         //also the bullet is actually aimming at the tank!
         
@@ -518,9 +490,6 @@
         //y/x = tan(radian)
         //(y-y1)/(x-x1) = tan(radian)
         //randian = arctan(y_diff/x_diff)
-        
-        //slope = -2.7723966927368662
-        //bullet_slope = -2.0506427100254951
         
         //degree depends on the distance too. the shorter the distance, the degree can have bigger margin to hit!
         
@@ -640,9 +609,6 @@
         if (isNeedEvade) {
             //based on the bullet's direction, add around 90degree
             
-            //arc_slope == closetBullet.zRotation?
-//            CGFloat bullet_slope = tan(closetBullet.zRotation);
-            
             CGFloat evade_radian = closetBullet.zRotation + M_PI/2;
             
             CGFloat degree1DiffFromLast = evade_radian - (host.zRotation + M_PI/2);
@@ -672,6 +638,7 @@
             }
             
             isRotating = true;
+            isEvading = true;
             [host rotateInDegree:real_degree_to_use  complete:^(void) {
                 isRotating = false;
                 
@@ -689,36 +656,8 @@
                 }
             }];
             
-            evadingTicks = 1000;
+            evadingTicks = 5;
         }
-        
-                /*
-                
-                int my_region_id = [self getRegionForX:host.position.x Y:host.position.y];
-                
-                evade_region_id = [self findEvadeRegionIdByMyRegionId:my_region_id BulletRegionId:closet_bullet_region_id];
-                
-                NSLog(@"bullet region: %@, my region: %@, evade region: %@",
-                      [self getRegionStr:closet_bullet_region_id],
-                      [self getRegionStr:my_region_id],
-                      [self getRegionStr:evade_region_id]);
-                
-                CGPoint evade_xy = [self getXYByRegionId:(int)evade_region_id Bounds:bounds];
-                
-                if (evade_xy.x != -1 && evade_xy.y != -1) {
-                    NSLog(@"\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
-                    NSLog(@"\\\\\\\\\\\\\\\\ EVADINGGGGGG \\\\\\\\\\\\");
-                    NSLog(@"\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
-                    [host stop];
-                    [self approach_LastX:evade_xy.x LastY:evade_xy.y];
-                    evadingTicks = 10;  //todo: <= this kind of related to the movespeed
-                    return;
-                }
-                 */
-        
-        
-//            }
-//        }
         
     } //closeBullet == null
     
@@ -1172,7 +1111,7 @@
 }
 
 -(BOOL) isAvailableForAction {
-    return !isApproaching;
+    return !isApproaching && !isRotating && !isEvading;
 }
 
 //3 6 9
