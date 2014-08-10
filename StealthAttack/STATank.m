@@ -22,7 +22,6 @@
     BOOL isRotatingClockwise;
     BOOL isRotatingCounterClockwise;
     
-    CGFloat moveSpeed;
     CGVector prevVelocity;
     
     CGFloat lastRotationDiff;
@@ -91,6 +90,9 @@
 
 @synthesize battleStage;
 
+@synthesize moveSpeed;
+@synthesize evadeSpeed;
+
 - (id)initWithScale:(CGFloat)f_scale Id:(int)t_id BodyColor:(UIColor*)b_color BodyBaseColor:(UIColor*)bb_color  AI:(STAAI*)t_ai RotationSpeed:(CGFloat)r_speed Category:(uint32_t)category{
     self = [super init];
     if (self) {
@@ -106,6 +108,7 @@
         
         playerId = t_id;
         moveSpeed = 20;
+        evadeSpeed= 20;
         isVisible = TRUE;
         scale = f_scale;
         
@@ -595,6 +598,21 @@
     [self moveRightWheelsBackward];
 }
 
+-(void)evadeForward {
+    if (isRotatingClockwise || isRotatingCounterClockwise || isMovingBackward || isGameOver) return;
+    isMovingForward= true;
+    
+    CGFloat x = cos([self getAdjRotation])*evadeSpeed;//+self.position.x;
+    CGFloat y = sin([self getAdjRotation])*evadeSpeed;//+self.position.y;
+    
+    if (!isBrakingOn) {
+        self.physicsBody.velocity = CGVectorMake(x, y);
+    }
+    
+    [self moveLeftWheelsBackward];
+    [self moveRightWheelsBackward];
+}
+
 -(void)moveForwardToX:(CGFloat)dest_x Y:(CGFloat)dest_y complete:(void (^)() )block {
     if (isRotatingClockwise || isRotatingCounterClockwise || isMovingBackward || isGameOver) return;
     isMovingForward= true;
@@ -633,17 +651,24 @@
     CGFloat x = cos([self getAdjRotation]+M_PI)*moveSpeed;//+self.position.x;
     CGFloat y = sin([self getAdjRotation]+M_PI)*moveSpeed;//+self.position.y;
     
-//    
-//    CGPoint location = CGPointMake(x,y);
-//    
-//    SKAction *rotation = [SKAction moveTo:location duration:300];
-//    
-//    [self runAction:[SKAction repeatActionForever:rotation]];
+    if (!isBrakingOn) {
+        self.physicsBody.velocity = CGVectorMake(x, y);
+    }
+    
+    [self moveLeftWheelsForward];
+    [self moveRightWheelsForward];
+}
+
+-(void)evadeBackward {
+    if (isRotatingClockwise || isRotatingCounterClockwise || isMovingForward || isGameOver) return;
+    isMovingBackward= true;
+    
+    CGFloat x = cos([self getAdjRotation]+M_PI)*evadeSpeed;//+self.position.x;
+    CGFloat y = sin([self getAdjRotation]+M_PI)*evadeSpeed;//+self.position.y;
     
     if (!isBrakingOn) {
         self.physicsBody.velocity = CGVectorMake(x, y);
     }
-//    [self.physicsBody applyImpulse:location];
     
     [self moveLeftWheelsForward];
     [self moveRightWheelsForward];

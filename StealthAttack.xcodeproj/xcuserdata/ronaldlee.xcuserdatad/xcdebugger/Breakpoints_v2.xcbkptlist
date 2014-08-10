@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StealthAttack/STATank.m"
-            timestampString = "428802479.629781"
+            timestampString = "429324682.7148"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "864"
-            endingLineNumber = "864"
+            startingLineNumber = "889"
+            endingLineNumber = "889"
             landmarkName = "-fire"
             landmarkType = "5">
          </BreakpointContent>

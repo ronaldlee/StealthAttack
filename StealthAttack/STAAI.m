@@ -649,10 +649,10 @@
                 
                 //determine to move forward or backward..
                 if (evade_dir_id == YES) {
-                    [host moveForward];
+                    [host evadeForward];
                 }
                 else {
-                    [host moveBackward];
+                    [host evadeBackward];
                 }
             }];
             

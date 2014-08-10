@@ -70,6 +70,9 @@
 
 @property (nonatomic) STABattleStage* battleStage;
 
+@property (nonatomic) CGFloat moveSpeed;
+@property (nonatomic) CGFloat evadeSpeed;
+
 
 -(void)setBorderBounds:(CGRect)p_bounds;
 -(id)initWithScale:(CGFloat)scale Id:(int)t_id BodyColor:(UIColor*)b_color BodyBaseColor:(UIColor*)bb_color
@@ -80,6 +83,8 @@
 -(void)moveForward;
 -(void)moveForwardToX:(CGFloat)x Y:(CGFloat)y complete:(void (^)() )block;
 -(void)moveBackward;
+-(void)evadeForward;
+-(void)evadeBackward;
 -(void)rotateClockwise;
 -(void)rotateCounterClockwise;
 -(void)rotateInDegree:(CGFloat)degree complete:(void (^)() )block;
