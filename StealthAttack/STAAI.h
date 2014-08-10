@@ -70,13 +70,15 @@
 @property (nonatomic) NSMutableArray* region8ProbArray;
 @property (nonatomic) NSMutableArray* region9ProbArray;
 
-@property (nonatomic) NSMutableArray* evadeBulletProbArrayLong;
-@property (nonatomic) NSMutableArray* evadeBulletProbArrayMid;
-@property (nonatomic) NSMutableArray* evadeBulletProbArrayShort;
+//@property (nonatomic) NSMutableArray* evadeBulletProbArrayLong;
+//@property (nonatomic) NSMutableArray* evadeBulletProbArrayMid;
+//@property (nonatomic) NSMutableArray* evadeBulletProbArrayShort;
 
 @property (nonatomic) CGFloat evadeDegreeMarginShort;
 @property (nonatomic) CGFloat evadeDegreeMarginMid;
 @property (nonatomic) CGFloat evadeDegreeMarginLong;
+
+@property (nonatomic) NSMutableArray* evadeDirectionProbArray;
 
 
 -(id)initWithStage:(STABattleStage*)stage;

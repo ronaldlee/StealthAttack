@@ -65,14 +65,16 @@
 @synthesize region7ProbArray;
 @synthesize region8ProbArray;
 @synthesize region9ProbArray;
-
-@synthesize evadeBulletProbArrayLong;
-@synthesize evadeBulletProbArrayMid;
-@synthesize evadeBulletProbArrayShort;
+//
+//@synthesize evadeBulletProbArrayLong;
+//@synthesize evadeBulletProbArrayMid;
+//@synthesize evadeBulletProbArrayShort;
 
 @synthesize evadeDegreeMarginShort;
 @synthesize evadeDegreeMarginMid;
 @synthesize evadeDegreeMarginLong;
+
+@synthesize evadeDirectionProbArray;
 
 - (id)initWithStage:(STABattleStage*)b_stage {
     self = [super init];
@@ -110,9 +112,11 @@
         stealthActionProbArrayMid   = [self getProbArrayForApproach:0 WarningShot:0 Evade:0 DontMove:1 Stupid:0];
         stealthActionProbArrayShort = [self getProbArrayForApproach:0 WarningShot:0 Evade:0 DontMove:1 Stupid:0];
         
-        evadeBulletProbArrayLong  = [self getProbArrayForYes:1 No:0];
-        evadeBulletProbArrayMid   = [self getProbArrayForYes:1 No:0];
-        evadeBulletProbArrayShort = [self getProbArrayForYes:1 No:0];
+//        evadeBulletProbArrayLong  = [self getProbArrayForYes:1 No:0];
+//        evadeBulletProbArrayMid   = [self getProbArrayForYes:1 No:0];
+//        evadeBulletProbArrayShort = [self getProbArrayForYes:1 No:0];
+        
+        evadeDirectionProbArray = [self getProbArrayForYes:1 No:0];
         
         //====
         
@@ -163,7 +167,7 @@
         //=====
         
         evadeDegreeMarginShort = 10;
-        evadeDegreeMarginMid = 1;
+        evadeDegreeMarginMid = 5;
         evadeDegreeMarginLong = 0.01;
         
     }
@@ -641,7 +645,50 @@
             
             CGFloat evade_radian = closetBullet.zRotation + M_PI/2;
             
-            [host rotateInDegree:evade_radian complete:NULL];
+            CGFloat degree1DiffFromLast = evade_radian - (host.zRotation + M_PI/2);
+            
+            CGFloat degree2 = degree1DiffFromLast-M_PI * 2;
+            CGFloat degree_to_use = degree1DiffFromLast;
+            
+            if (fabs(degree2) < fabs(degree1DiffFromLast)) {
+                degree_to_use=degree2;
+            }
+            
+            //
+            CGFloat evade_radian_2 = closetBullet.zRotation - M_PI/2;
+            
+            CGFloat degree1DiffFromLast_2 = evade_radian_2 - (host.zRotation + M_PI/2);
+            
+            CGFloat degree2_2 = degree1DiffFromLast_2-M_PI * 2;
+            CGFloat degree_to_use_2 = degree1DiffFromLast_2;
+            
+            if (fabs(degree2_2) < fabs(degree1DiffFromLast_2)) {
+                degree_to_use_2=degree2_2;
+            }
+            
+            CGFloat real_degree_to_use = degree_to_use;
+            if (fabs(degree_to_use_2) < fabs(degree_to_use)) {
+                real_degree_to_use = degree_to_use_2;
+            }
+            
+            isRotating = true;
+            [host rotateInDegree:real_degree_to_use  complete:^(void) {
+                isRotating = false;
+                
+                int rand = (int)arc4random_uniform((unsigned int)[evadeDirectionProbArray count]);
+                
+                NSNumber *prod_action = [evadeDirectionProbArray objectAtIndex:rand];
+                int evade_dir_id = [prod_action intValue];
+                
+                //determine to move forward or backward..
+                if (evade_dir_id == YES) {
+                    [host moveForward];
+                }
+                else {
+                    [host moveBackward];
+                }
+            }];
+            
             evadingTicks = 1000;
         }
         
