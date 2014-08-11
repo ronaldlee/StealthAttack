@@ -34,6 +34,6 @@
 -(void) fireBullet:(STATank*)tank;
 
 -(NSMutableArray*)getAllBullets;
--(void)showGameOver;
+-(void)showGameOverPlayerWin:(BOOL)isPlayerWin;
 
 @end

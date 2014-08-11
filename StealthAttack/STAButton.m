@@ -23,7 +23,8 @@
 
 
 - (id)initWithSize:(CGSize)b_size  Name:(NSString*)b_name Alpha:(CGFloat)alpha BGAlpha:(CGFloat)bg_alpha
-        ButtonText:(NSString*)button_text ButtonTextColor:(SKColor*)bt_color ButtonTextFontSize:(int)font_size
+        ButtonText:(NSString*)button_text ButtonTextColor:(SKColor*)bt_color ButtonTextFont:(NSString*)bt_font
+ButtonTextFontSize:(int)font_size
       isShowBorder:(BOOL)p_isShowBorder{
     self = [super init];
     if (self) {
@@ -109,7 +110,7 @@
         
         //==
         if (button_text != NULL) {
-            NSString * font = @"GridExerciseGaps";
+            NSString * font = bt_font;//@"GridExerciseGaps";
             labelNode = [SKLabelNode labelNodeWithFontNamed:font];
             
             NSString *cdStr = button_text;
@@ -166,6 +167,12 @@
 -(void)stopFlashText {
     [button removeAllActions];
     labelNode.alpha = 1.0;
+}
+
+-(void)setText:(NSString*)text {
+    if (labelNode == nil) return;
+    
+    labelNode.text = text;
 }
 
 

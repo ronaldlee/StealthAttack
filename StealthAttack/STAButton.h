@@ -15,7 +15,8 @@
 @property (nonatomic) BOOL isDoneRecharge;
 
 - (id)initWithSize:(CGSize)size Name:(NSString*)name Alpha:(CGFloat)alpha BGAlpha:(CGFloat)bg_alpha
-        ButtonText:(NSString*)button_text ButtonTextColor:(SKColor*)bt_color ButtonTextFontSize:(int)font_size
+        ButtonText:(NSString*)button_text ButtonTextColor:(SKColor*)bt_color ButtonTextFont:(NSString*)bt_font
+ButtonTextFontSize:(int)font_size
       isShowBorder:(BOOL)isShowBorder;
 
 -(void)recharge;
@@ -23,5 +24,7 @@
 -(void)flashText;
 
 -(void)stopFlashText;
+
+-(void)setText:(NSString*)text;
 
 @end

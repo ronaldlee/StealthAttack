@@ -75,31 +75,31 @@
         CGFloat right_corner_x = self.bounds.origin.x+self.bounds.size.width;
         CGFloat bottom_corner_y = self.bounds.origin.y;
         
-        fire_button = [[STAButton alloc] initWithSize:button_size Name:@"fire_button" Alpha:1 BGAlpha:1.0 ButtonText:@"FIRE" ButtonTextColor:[SKColor blackColor] ButtonTextFontSize:10 isShowBorder:true];
+        fire_button = [[STAButton alloc] initWithSize:button_size Name:@"fire_button" Alpha:1 BGAlpha:1.0 ButtonText:@"FIRE" ButtonTextColor:[SKColor blackColor] ButtonTextFont:@"GridExerciseGaps" ButtonTextFontSize:10 isShowBorder:true];
         fire_button.userInteractionEnabled = NO;
         fire_button.position = CGPointMake(left_corner_x, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
         [self.scene addChild:fire_button];
 
         button_size = CGSizeMake(50,50);
-        rotate_uc_button = [[STAButton alloc] initWithSize:button_size Name:@"rotate_uc_button" Alpha:1 BGAlpha:0.0 ButtonText:@"L" ButtonTextColor:[SKColor whiteColor] ButtonTextFontSize:10 isShowBorder:true];
+        rotate_uc_button = [[STAButton alloc] initWithSize:button_size Name:@"rotate_uc_button" Alpha:1 BGAlpha:0.0 ButtonText:@"L" ButtonTextColor:[SKColor whiteColor] ButtonTextFont:@"GridExerciseGaps" ButtonTextFontSize:10 isShowBorder:true];
         rotate_uc_button.userInteractionEnabled = NO;
         rotate_uc_button.position = CGPointMake(right_corner_x-50*4, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
         [self.scene addChild:rotate_uc_button];
         
         button_size = CGSizeMake(50,50);
-        rotate_c_button = [[STAButton alloc] initWithSize:button_size Name:@"rotate_c_button" Alpha:1 BGAlpha:0.0 ButtonText:@"R"ButtonTextColor:[SKColor whiteColor] ButtonTextFontSize:10 isShowBorder:true];
+        rotate_c_button = [[STAButton alloc] initWithSize:button_size Name:@"rotate_c_button" Alpha:1 BGAlpha:0.0 ButtonText:@"R"ButtonTextColor:[SKColor whiteColor] ButtonTextFont:@"GridExerciseGaps" ButtonTextFontSize:10 isShowBorder:true];
         rotate_c_button.userInteractionEnabled = NO;
         rotate_c_button.position = CGPointMake(right_corner_x-50*3, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
         [self.scene addChild:rotate_c_button];
         
         button_size = CGSizeMake(50,50);
-        forward_button = [[STAButton alloc] initWithSize:button_size Name:@"forward_button" Alpha:1 BGAlpha:0.0 ButtonText:@"F"ButtonTextColor:[SKColor whiteColor] ButtonTextFontSize:10 isShowBorder:true];
+        forward_button = [[STAButton alloc] initWithSize:button_size Name:@"forward_button" Alpha:1 BGAlpha:0.0 ButtonText:@"F"ButtonTextColor:[SKColor whiteColor] ButtonTextFont:@"GridExerciseGaps" ButtonTextFontSize:10 isShowBorder:true];
         forward_button.userInteractionEnabled = NO;
         forward_button.position = CGPointMake(right_corner_x-50*2, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
         [self.scene addChild:forward_button];
         
         button_size = CGSizeMake(50,50);
-        backward_button = [[STAButton alloc] initWithSize:button_size Name:@"backward_button" Alpha:1 BGAlpha:0.0 ButtonText:@"B"ButtonTextColor:[SKColor whiteColor] ButtonTextFontSize:10 isShowBorder:true];
+        backward_button = [[STAButton alloc] initWithSize:button_size Name:@"backward_button" Alpha:1 BGAlpha:0.0 ButtonText:@"B"ButtonTextColor:[SKColor whiteColor] ButtonTextFont:@"GridExerciseGaps" ButtonTextFontSize:10 isShowBorder:true];
         backward_button.userInteractionEnabled = NO;
         backward_button.position = CGPointMake(right_corner_x-50, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
         [self.scene addChild:backward_button];
@@ -107,19 +107,20 @@
         //
         
         button_size = CGSizeMake(50,10);
-        game_over_label = [[STAButton alloc] initWithSize:button_size Name:@"game_over_label" Alpha:1 BGAlpha:0.0 ButtonText:@"GAME OVER" ButtonTextColor:[SKColor whiteColor] ButtonTextFontSize:30 isShowBorder:false];
+        NSString* game_over_font = @"GridExerciseGaps";
+        game_over_label = [[STAButton alloc] initWithSize:button_size Name:@"game_over_label" Alpha:1 BGAlpha:0.0 ButtonText:@"GAME OVER" ButtonTextColor:[SKColor whiteColor] ButtonTextFont:game_over_font ButtonTextFontSize:30 isShowBorder:false];
         game_over_label.userInteractionEnabled = NO;
         game_over_label.position = CGPointMake((([[UIScreen mainScreen] bounds].size.width-50))/2,
                                                ([[UIScreen mainScreen] bounds].size.height/2) +30);
         
         button_size = CGSizeMake(50,10);
-        replay_button = [[STAButton alloc] initWithSize:button_size Name:@"replay_button" Alpha:1 BGAlpha:0.0 ButtonText:@"RELAY" ButtonTextColor:[SKColor whiteColor] ButtonTextFontSize:15 isShowBorder:false];
+        replay_button = [[STAButton alloc] initWithSize:button_size Name:@"replay_button" Alpha:1 BGAlpha:0.0 ButtonText:@"RELAY" ButtonTextColor:[SKColor whiteColor] ButtonTextFont:game_over_font ButtonTextFontSize:15 isShowBorder:false];
         replay_button.userInteractionEnabled = NO;
         replay_button.position = CGPointMake((([[UIScreen mainScreen] bounds].size.width-50))/2,
                                              game_over_label.position.y - 100);
         
         button_size = CGSizeMake(50,10);
-        back_button = [[STAButton alloc] initWithSize:button_size Name:@"back_button" Alpha:1 BGAlpha:0.0 ButtonText:@"BACK" ButtonTextColor:[SKColor whiteColor] ButtonTextFontSize:15 isShowBorder:false];
+        back_button = [[STAButton alloc] initWithSize:button_size Name:@"back_button" Alpha:1 BGAlpha:0.0 ButtonText:@"BACK" ButtonTextColor:[SKColor whiteColor] ButtonTextFont:game_over_font ButtonTextFontSize:15 isShowBorder:false];
         back_button.userInteractionEnabled = NO;
         back_button.position = CGPointMake((([[UIScreen mainScreen] bounds].size.width-50))/2,
                                              replay_button.position.y - 50);
@@ -401,8 +402,11 @@
     return bullets;
 }
 
--(void)showGameOver {
+-(void)showGameOverPlayerWin:(BOOL)isPlayerWin {
     isGameOver = true;
+    if (isPlayerWin) {
+        [game_over_label setText:@"Got you!"];
+    }
     [self.scene addChild:game_over_label];
     [self.scene addChild:replay_button];
     [self.scene addChild:back_button];
