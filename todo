@@ -12,12 +12,13 @@ x-starting moves:
 
 x- after dance, face player!
 
--approach should not try to get to player's exact position, but is keep a distance away and start shoot!
-
 
 -bug: explode keep invisible
 
 -Game Over/Got you!: add replay or go back to previous screen
+
+-(minor)approach should not try to get to player's exact position, but is keep a distance away and start shoot!
+
 
 Multiplayer!
 -https://developers.google.com/games/services/ios/realtimeMultiplayer

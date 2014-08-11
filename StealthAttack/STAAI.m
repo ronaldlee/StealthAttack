@@ -23,6 +23,7 @@
     CGRect bounds;
     
     int evadingTicks;
+    BOOL player_has_revealed;
 }
 @end
 
@@ -95,6 +96,8 @@
         attackCoolDownDuration = 5;
         
         thinkSpeed = 0.5;
+        
+        player_has_revealed = false;
         
         //=== When player revealed its position
         
@@ -346,6 +349,7 @@
     CGFloat lastRotation = [player lastRotation];
     
     if (lastX != -1 && lastY != -1) {
+        player_has_revealed = true;
         enemyTank_lastknown_x = lastX;
         enemyTank_lastknown_y = lastY;
 //        enemyTank_lastknown_direction = lastDirection;
@@ -682,7 +686,7 @@
     
     //=========================
     
-    if (![self isAvailableForAction] && lastX != -1 && lastY != -1) {
+    if (![self isAvailableForAction] && player_has_revealed) {  //lastX != -1 && lastY != -1) {
         //depending on certain conditions, stop the current action.
         
         //==== Condition 2: Distance Change
@@ -737,6 +741,10 @@
                 NSNumber *prod_action = [revealedActionProbArrayShort objectAtIndex:rand];
                 int prod_act_int = [prod_action intValue];
                 
+                if (!player_has_revealed && prod_act_int == WARNSHOT_PROB_KEY) {
+                    prod_act_int = APPROACH_PROB_KEY;
+                }
+                
                 if (prod_act_int == APPROACH_PROB_KEY) {
                     NSLog(@"revealed: approaching");
                     [self approach_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y];
@@ -773,6 +781,10 @@
                 NSNumber *prod_action = [revealedActionProbArrayMid objectAtIndex:rand];
                 int prod_act_int = [prod_action intValue];
                 
+                if (!player_has_revealed && prod_act_int == WARNSHOT_PROB_KEY) {
+                    prod_act_int = APPROACH_PROB_KEY;
+                }
+                
                 if (prod_act_int == APPROACH_PROB_KEY) {
                     NSLog(@"revealed: approaching");
                     [self approach_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y];
@@ -808,6 +820,10 @@
                 
                 NSNumber *prod_action = [revealedActionProbArrayLong objectAtIndex:rand];
                 int prod_act_int = [prod_action intValue];
+                
+                if (!player_has_revealed && prod_act_int == WARNSHOT_PROB_KEY) {
+                    prod_act_int = APPROACH_PROB_KEY;
+                }
                 
                 if (prod_act_int == APPROACH_PROB_KEY) {
                     NSLog(@"revealed: approaching");
@@ -850,6 +866,10 @@
                 NSNumber *prod_action = [stealthActionProbArrayShort objectAtIndex:rand];
                 int prod_act_int = [prod_action intValue];
                 
+                if (!player_has_revealed && prod_act_int == WARNSHOT_PROB_KEY) {
+                    prod_act_int = APPROACH_PROB_KEY;
+                }
+                
                 if (prod_act_int == APPROACH_PROB_KEY) {
                     NSLog(@"stealth: approaching");
                     [self approach_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y];
@@ -888,6 +908,10 @@
                 NSNumber *prod_action = [stealthActionProbArrayMid objectAtIndex:rand];
                 int prod_act_int = [prod_action intValue];
                 
+                if (!player_has_revealed && prod_act_int == WARNSHOT_PROB_KEY) {
+                    prod_act_int = APPROACH_PROB_KEY;
+                }
+                
                 if (prod_act_int == APPROACH_PROB_KEY) {
                     NSLog(@"stealth: approaching");
                     [self approach_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y];
@@ -923,6 +947,10 @@
                 
                 NSNumber *prod_action = [stealthActionProbArrayLong objectAtIndex:rand];
                 int prod_act_int = [prod_action intValue];
+                
+                if (!player_has_revealed && prod_act_int == WARNSHOT_PROB_KEY) {
+                    prod_act_int = APPROACH_PROB_KEY;
+                }
                 
                 if (prod_act_int == APPROACH_PROB_KEY) {
                     NSLog(@"stealth: approaching");
@@ -1974,7 +2002,7 @@
     int start_moves_id = [prod_action intValue];
     
     if (start_moves_id == APPROACH_PROB_KEY) {
-        CGPoint guess_xy = [self getXYByRegionId:REGION_RIGHT_BOTTOM];
+        CGPoint guess_xy = [self getXYByRegionId:REGION_MIDDLE_MIDDLE];
         
         if (guess_xy.x != -1 && guess_xy.y != -1) {
             enemyTank_lastknown_x = guess_xy.x;

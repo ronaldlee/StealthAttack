@@ -27,8 +27,6 @@
     CGFloat lastRotationDiff;
     CGFloat lastSelfRotate;
     
-    
-    BOOL isGameOver;
 }
 @end
 
@@ -92,6 +90,8 @@
 
 @synthesize moveSpeed;
 @synthesize evadeSpeed;
+
+@synthesize isGameOver;
 
 - (id)initWithScale:(CGFloat)f_scale Id:(int)t_id BodyColor:(UIColor*)b_color BodyBaseColor:(UIColor*)bb_color  AI:(STAAI*)t_ai RotationSpeed:(CGFloat)r_speed Category:(uint32_t)category Bounds:(CGRect)p_bounds{
     self = [super init];
@@ -960,13 +960,41 @@
 //    [self.tankF runAction:fadeOut withKey:@"fadeout"];
 //    [self.tankG runAction:fadeOut withKey:@"fadeout"];
     
-    [self.tankA runAction:fadeOut];
-    [self.tankB runAction:fadeOut];
-    [self.tankC runAction:fadeOut];
-    [self.tankD runAction:fadeOut];
-    [self.tankE runAction:fadeOut];
-    [self.tankF runAction:fadeOut];
-    [self.tankG runAction:fadeOut];
+    [self.tankA runAction:fadeOut completion:^() {
+        if (isGameOver) {
+            self.tankA.alpha = 1.0;
+        }
+    }];
+    [self.tankB runAction:fadeOut completion:^() {
+        if (isGameOver) {
+            self.tankB.alpha = 1.0;
+        }
+    }];
+    [self.tankC runAction:fadeOut completion:^() {
+        if (isGameOver) {
+            self.tankC.alpha = 1.0;
+        }
+    }];
+    [self.tankD runAction:fadeOut completion:^() {
+        if (isGameOver) {
+            self.tankD.alpha = 1.0;
+        }
+    }];
+    [self.tankE runAction:fadeOut completion:^() {
+        if (isGameOver) {
+            self.tankE.alpha = 1.0;
+        }
+    }];
+    [self.tankF runAction:fadeOut completion:^() {
+        if (isGameOver) {
+            self.tankF.alpha = 1.0;
+        }
+    }];
+    [self.tankG runAction:fadeOut completion:^() {
+        if (isGameOver) {
+            self.tankG.alpha = 1.0;
+        }
+    }];
 }
 
 -(void) stopFadeOut {
@@ -977,6 +1005,10 @@
     [self.tankE removeAllActions];
     [self.tankF removeAllActions];
     [self.tankG removeAllActions];
+    
+    if (isGameOver) {
+        [self fadeInNow];
+    }
 }
 
 -(void)fadeInNow {

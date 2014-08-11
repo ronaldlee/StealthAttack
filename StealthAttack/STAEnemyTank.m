@@ -244,8 +244,16 @@
     
     [super fadeOut];
     SKAction* fadeOut=[SKAction fadeOutWithDuration:1];
-    [self.tankH runAction:fadeOut];
-    [self.tankI runAction:fadeOut];
+    [self.tankH runAction:fadeOut completion:^() {
+        if (self.isGameOver) {
+            self.tankH.alpha = 1.0;
+        }
+    }];
+    [self.tankI runAction:fadeOut completion:^() {
+        if (self.isGameOver) {
+            self.tankI.alpha = 1.0;
+        }
+    }];
 }
 
 -(void) stopFadeOut {
