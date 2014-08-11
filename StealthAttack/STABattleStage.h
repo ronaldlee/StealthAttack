@@ -20,6 +20,10 @@
 @property (nonatomic) STAButton * forward_button;
 @property (nonatomic) STAButton * backward_button;
 
+@property (nonatomic) STAButton * replay_button;
+@property (nonatomic) STAButton * back_button;
+@property (nonatomic) STAButton * game_over_label;
+
 @property (nonatomic) SKNode* playerFadeNode;
 @property (nonatomic) SKNode* enemyFadeNode;
 
@@ -30,5 +34,6 @@
 -(void) fireBullet:(STATank*)tank;
 
 -(NSMutableArray*)getAllBullets;
+-(void)showGameOver;
 
 @end

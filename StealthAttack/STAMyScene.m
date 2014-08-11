@@ -328,7 +328,7 @@
             NSLog(@"hit missle");
             STABullet * bullet = (STABullet*)contact.bodyB.node;
             if (bullet.ownerId != player.playerId && !battleStage.isGameOver) {
-                battleStage.isGameOver = true;
+                [battleStage showGameOver];
                 [player explode];
                 
                 STATank* tank = ((STABattleStage*)currStage).enemy;
@@ -345,7 +345,7 @@
             
             NSLog(@"missle hit monster");
             if (bullet.ownerId != enemy.playerId && !battleStage.isGameOver) {
-                battleStage.isGameOver = true;
+                [battleStage showGameOver];
                 [enemy explode];
                 
                 STATank* tank = ((STABattleStage*)currStage).player;
@@ -378,7 +378,7 @@
             
             NSLog(@"missle hit player");
             if (bullet.ownerId != player.playerId && !battleStage.isGameOver) {
-                battleStage.isGameOver = true;
+                [battleStage showGameOver];
                 [player explode];
                 
                 STATank* tank = ((STABattleStage*)currStage).enemy;

@@ -11,11 +11,14 @@ x-starting moves:
  -why if i don't shoot, enemy never shoot 
 
 x- after dance, face player!
-
-
--bug: explode keep invisible
+x-bug: explode keep invisible
 
 -Game Over/Got you!: add replay or go back to previous screen
+
+- guessing should consider player's tank current rotation..
+ - where the tank point to is more likely go there.
+
+-when exploded, stop tank wheels movement.
 
 -(minor)approach should not try to get to player's exact position, but is keep a distance away and start shoot!
 

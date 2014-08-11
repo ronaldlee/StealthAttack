@@ -32,6 +32,10 @@
 @synthesize forward_button;
 @synthesize backward_button;
 
+@synthesize replay_button;
+@synthesize back_button;
+@synthesize game_over_label;
+
 @synthesize playerFadeNode;
 @synthesize enemyFadeNode;
 
@@ -71,35 +75,56 @@
         CGFloat right_corner_x = self.bounds.origin.x+self.bounds.size.width;
         CGFloat bottom_corner_y = self.bounds.origin.y;
         
-        fire_button = [[STAButton alloc] initWithSize:button_size Name:@"fire_button" Alpha:1 BGAlpha:1.0 ButtonText:@"FIRE" ButtonTextColor:[SKColor blackColor]];
+        fire_button = [[STAButton alloc] initWithSize:button_size Name:@"fire_button" Alpha:1 BGAlpha:1.0 ButtonText:@"FIRE" ButtonTextColor:[SKColor blackColor] ButtonTextFontSize:10 isShowBorder:true];
         fire_button.userInteractionEnabled = NO;
         fire_button.position = CGPointMake(left_corner_x, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
         [self.scene addChild:fire_button];
 
         button_size = CGSizeMake(50,50);
-        rotate_uc_button = [[STAButton alloc] initWithSize:button_size Name:@"rotate_uc_button" Alpha:1 BGAlpha:0.0 ButtonText:@"L" ButtonTextColor:[SKColor whiteColor]];
+        rotate_uc_button = [[STAButton alloc] initWithSize:button_size Name:@"rotate_uc_button" Alpha:1 BGAlpha:0.0 ButtonText:@"L" ButtonTextColor:[SKColor whiteColor] ButtonTextFontSize:10 isShowBorder:true];
         rotate_uc_button.userInteractionEnabled = NO;
         rotate_uc_button.position = CGPointMake(right_corner_x-50*4, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
         [self.scene addChild:rotate_uc_button];
         
         button_size = CGSizeMake(50,50);
-        rotate_c_button = [[STAButton alloc] initWithSize:button_size Name:@"rotate_c_button" Alpha:1 BGAlpha:0.0 ButtonText:@"R"ButtonTextColor:[SKColor whiteColor]];
+        rotate_c_button = [[STAButton alloc] initWithSize:button_size Name:@"rotate_c_button" Alpha:1 BGAlpha:0.0 ButtonText:@"R"ButtonTextColor:[SKColor whiteColor] ButtonTextFontSize:10 isShowBorder:true];
         rotate_c_button.userInteractionEnabled = NO;
         rotate_c_button.position = CGPointMake(right_corner_x-50*3, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
         [self.scene addChild:rotate_c_button];
         
         button_size = CGSizeMake(50,50);
-        forward_button = [[STAButton alloc] initWithSize:button_size Name:@"forward_button" Alpha:1 BGAlpha:0.0 ButtonText:@"F"ButtonTextColor:[SKColor whiteColor]];
+        forward_button = [[STAButton alloc] initWithSize:button_size Name:@"forward_button" Alpha:1 BGAlpha:0.0 ButtonText:@"F"ButtonTextColor:[SKColor whiteColor] ButtonTextFontSize:10 isShowBorder:true];
         forward_button.userInteractionEnabled = NO;
         forward_button.position = CGPointMake(right_corner_x-50*2, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
         [self.scene addChild:forward_button];
         
         button_size = CGSizeMake(50,50);
-        backward_button = [[STAButton alloc] initWithSize:button_size Name:@"backward_button" Alpha:1 BGAlpha:0.0 ButtonText:@"B"ButtonTextColor:[SKColor whiteColor]];
+        backward_button = [[STAButton alloc] initWithSize:button_size Name:@"backward_button" Alpha:1 BGAlpha:0.0 ButtonText:@"B"ButtonTextColor:[SKColor whiteColor] ButtonTextFontSize:10 isShowBorder:true];
         backward_button.userInteractionEnabled = NO;
         backward_button.position = CGPointMake(right_corner_x-50, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
         [self.scene addChild:backward_button];
-
+        
+        //
+        
+        button_size = CGSizeMake(50,10);
+        game_over_label = [[STAButton alloc] initWithSize:button_size Name:@"game_over_label" Alpha:1 BGAlpha:0.0 ButtonText:@"GAME OVER" ButtonTextColor:[SKColor whiteColor] ButtonTextFontSize:30 isShowBorder:false];
+        game_over_label.userInteractionEnabled = NO;
+        game_over_label.position = CGPointMake((([[UIScreen mainScreen] bounds].size.width-50))/2,
+                                               ([[UIScreen mainScreen] bounds].size.height/2) +30);
+        
+        button_size = CGSizeMake(50,10);
+        replay_button = [[STAButton alloc] initWithSize:button_size Name:@"replay_button" Alpha:1 BGAlpha:0.0 ButtonText:@"RELAY" ButtonTextColor:[SKColor whiteColor] ButtonTextFontSize:15 isShowBorder:false];
+        replay_button.userInteractionEnabled = NO;
+        replay_button.position = CGPointMake((([[UIScreen mainScreen] bounds].size.width-50))/2,
+                                             game_over_label.position.y - 100);
+        
+        button_size = CGSizeMake(50,10);
+        back_button = [[STAButton alloc] initWithSize:button_size Name:@"back_button" Alpha:1 BGAlpha:0.0 ButtonText:@"BACK" ButtonTextColor:[SKColor whiteColor] ButtonTextFontSize:15 isShowBorder:false];
+        back_button.userInteractionEnabled = NO;
+        back_button.position = CGPointMake((([[UIScreen mainScreen] bounds].size.width-50))/2,
+                                             replay_button.position.y - 50);
+        
+        
 //        //==
         self.player = [[STATank alloc] initWithScale:self.scale Id:1
                                            BodyColor:tankBodyYellow
@@ -269,47 +294,65 @@
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    if (isGameOver) return;
-    
-    NSLog(@"touch battle stage");
-    for (UITouch *touch in touches) {
-        CGPoint location = [touch locationInNode:self.scene];
-        SKNode *node = [self.scene nodeAtPoint:location];
-        
-        if ([node.name isEqualToString:@"fire_button"]) {
-            NSLog(@"fire!!");
+    if (isGameOver) {
+        for (UITouch *touch in touches) {
+            CGPoint location = [touch locationInNode:self.scene];
+            SKNode *node = [self.scene nodeAtPoint:location];
             
-            if (fire_button.isDoneRecharge) {
-                [self.player fire];
-                [fire_button recharge];
+            if ([node.name isEqualToString:@"replay_button"]) {
+                
+                return;
             }
-            return;
+            else if ([node.name isEqualToString:@"back_button"]) {
+                STAMyScene* myScene = (STAMyScene*)self.scene;
+                
+                [myScene.currStage cleanup];
+                
+                myScene.currStage = [[STASinglePlayerSelectOpponent alloc ] initWithScale:self.scale Bounds:self.bounds Scene:self.scene];
+                return;
+            }
         }
-        else if ([node.name isEqualToString:@"rotate_c_button"]) {
+    }
+    else {
+        NSLog(@"touch battle stage");
+        for (UITouch *touch in touches) {
+            CGPoint location = [touch locationInNode:self.scene];
+            SKNode *node = [self.scene nodeAtPoint:location];
             
-            [rotate_c_button flashText];
-            [self.player rotateClockwise];
-            return;
+            if ([node.name isEqualToString:@"fire_button"]) {
+                NSLog(@"fire!!");
+                
+                if (fire_button.isDoneRecharge) {
+                    [self.player fire];
+                    [fire_button recharge];
+                }
+                return;
+            }
+            else if ([node.name isEqualToString:@"rotate_c_button"]) {
+                
+                [rotate_c_button flashText];
+                [self.player rotateClockwise];
+                return;
+            }
+            else if ([node.name isEqualToString:@"rotate_uc_button"]) {
+                
+                [rotate_uc_button flashText];
+                [self.player rotateCounterClockwise];
+                return;
+            }
+            else if ([node.name isEqualToString:@"forward_button"]) {
+                
+                [forward_button flashText];
+                [self.player moveForward];
+                return;
+            }
+            else if ([node.name isEqualToString:@"backward_button"]) {
+                
+                [backward_button flashText];
+                [self.player moveBackward];
+                return;
+            }
         }
-        else if ([node.name isEqualToString:@"rotate_uc_button"]) {
-            
-            [rotate_uc_button flashText];
-            [self.player rotateCounterClockwise];
-            return;
-        }
-        else if ([node.name isEqualToString:@"forward_button"]) {
-            
-            [forward_button flashText];
-            [self.player moveForward];
-            return;
-        }
-        else if ([node.name isEqualToString:@"backward_button"]) {
-            
-            [backward_button flashText];
-            [self.player moveBackward];
-            return;
-        }
-        
     }
 }
 
@@ -331,8 +374,15 @@
     [rotate_uc_button removeAllActions];
     [forward_button removeAllActions];
     [backward_button removeAllActions];
+    [replay_button removeAllActions];
+    [back_button removeAllActions];
+    [playerFadeNode removeAllActions];
+    [enemyFadeNode removeAllActions];
+    [countdownLabelNode removeAllActions];
+    [game_over_label removeAllActions];
     
-    NSArray* objs = [NSArray arrayWithObjects:player,enemy,fire_button,rotate_c_button,rotate_uc_button,forward_button,backward_button,nil];
+    NSArray* objs = [NSArray arrayWithObjects:player,enemy,fire_button,rotate_c_button,rotate_uc_button,forward_button,backward_button,
+                     replay_button, back_button, playerFadeNode, enemyFadeNode, countdownLabelNode, game_over_label, nil];
     
     [self.scene removeChildrenInArray:objs];
 }
@@ -349,6 +399,13 @@
     }
     
     return bullets;
+}
+
+-(void)showGameOver {
+    isGameOver = true;
+    [self.scene addChild:game_over_label];
+    [self.scene addChild:replay_button];
+    [self.scene addChild:back_button];
 }
 
 @end
