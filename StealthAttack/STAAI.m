@@ -23,7 +23,7 @@
     CGRect bounds;
     
     int evadingTicks;
-    BOOL player_has_revealed;
+    BOOL player_has_first_revealed;
 }
 @end
 
@@ -97,7 +97,7 @@
         
         thinkSpeed = 0.5;
         
-        player_has_revealed = false;
+        player_has_first_revealed = false;
         
         //=== When player revealed its position
         
@@ -349,7 +349,7 @@
     CGFloat lastRotation = [player lastRotation];
     
     if (lastX != -1 && lastY != -1) {
-        player_has_revealed = true;
+        player_has_first_revealed = true;
         enemyTank_lastknown_x = lastX;
         enemyTank_lastknown_y = lastY;
 //        enemyTank_lastknown_direction = lastDirection;
@@ -686,7 +686,7 @@
     
     //=========================
     
-    if (![self isAvailableForAction] && player_has_revealed) {  //lastX != -1 && lastY != -1) {
+    if (![self isAvailableForAction] && player_has_first_revealed) {  //lastX != -1 && lastY != -1) {
         //depending on certain conditions, stop the current action.
         
         //==== Condition 2: Distance Change
@@ -719,7 +719,7 @@
     //currently an action is on going
     if (![self isAvailableForAction]) return;
     
-    //attack
+    //player has just revealed itself
     if (enemyTank_lastknown_fireCount != player.fireCount) {
         enemyTank_lastknown_fireCount = player.fireCount;
 
@@ -741,7 +741,7 @@
                 NSNumber *prod_action = [revealedActionProbArrayShort objectAtIndex:rand];
                 int prod_act_int = [prod_action intValue];
                 
-                if (!player_has_revealed && prod_act_int == WARNSHOT_PROB_KEY) {
+                if (!player_has_first_revealed && prod_act_int == WARNSHOT_PROB_KEY) {
                     prod_act_int = APPROACH_PROB_KEY;
                 }
                 
@@ -781,7 +781,7 @@
                 NSNumber *prod_action = [revealedActionProbArrayMid objectAtIndex:rand];
                 int prod_act_int = [prod_action intValue];
                 
-                if (!player_has_revealed && prod_act_int == WARNSHOT_PROB_KEY) {
+                if (!player_has_first_revealed && prod_act_int == WARNSHOT_PROB_KEY) {
                     prod_act_int = APPROACH_PROB_KEY;
                 }
                 
@@ -821,7 +821,7 @@
                 NSNumber *prod_action = [revealedActionProbArrayLong objectAtIndex:rand];
                 int prod_act_int = [prod_action intValue];
                 
-                if (!player_has_revealed && prod_act_int == WARNSHOT_PROB_KEY) {
+                if (!player_has_first_revealed && prod_act_int == WARNSHOT_PROB_KEY) {
                     prod_act_int = APPROACH_PROB_KEY;
                 }
                 
@@ -866,7 +866,7 @@
                 NSNumber *prod_action = [stealthActionProbArrayShort objectAtIndex:rand];
                 int prod_act_int = [prod_action intValue];
                 
-                if (!player_has_revealed && prod_act_int == WARNSHOT_PROB_KEY) {
+                if (!player_has_first_revealed && prod_act_int == WARNSHOT_PROB_KEY) {
                     prod_act_int = APPROACH_PROB_KEY;
                 }
                 
@@ -908,7 +908,7 @@
                 NSNumber *prod_action = [stealthActionProbArrayMid objectAtIndex:rand];
                 int prod_act_int = [prod_action intValue];
                 
-                if (!player_has_revealed && prod_act_int == WARNSHOT_PROB_KEY) {
+                if (!player_has_first_revealed && prod_act_int == WARNSHOT_PROB_KEY) {
                     prod_act_int = APPROACH_PROB_KEY;
                 }
                 
@@ -948,7 +948,7 @@
                 NSNumber *prod_action = [stealthActionProbArrayLong objectAtIndex:rand];
                 int prod_act_int = [prod_action intValue];
                 
-                if (!player_has_revealed && prod_act_int == WARNSHOT_PROB_KEY) {
+                if (!player_has_first_revealed && prod_act_int == WARNSHOT_PROB_KEY) {
                     prod_act_int = APPROACH_PROB_KEY;
                 }
                 
