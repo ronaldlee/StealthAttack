@@ -9,14 +9,14 @@
 #import "STABattleStage.h"
 @interface STABattleStage () {
 
-    UIColor* tankBodyGreen;
-    UIColor* tankBodyBaseGreen;
-    UIColor* tankBodyRed;
-    UIColor* tankBodyBaseRed;
-    UIColor* tankBodyYellow;
-    UIColor* tankBodyBaseYellow;
-    UIColor* tankBodyBlue;
-    UIColor* tankBodyBaseBlue;
+//    UIColor* tankBodyGreen;
+//    UIColor* tankBodyBaseGreen;
+//    UIColor* tankBodyRed;
+//    UIColor* tankBodyBaseRed;
+//    UIColor* tankBodyYellow;
+//    UIColor* tankBodyBaseYellow;
+//    UIColor* tankBodyBlue;
+//    UIColor* tankBodyBaseBlue;
     
     SKLabelNode* countdownLabelNode;
 }
@@ -55,17 +55,18 @@
         
 //        STAMyScene* myScene = (STAMyScene*)self.scene;
 //        [myScene.currStage cleanup];
-        tankBodyGreen = [UIColor greenColor];
-        tankBodyBaseGreen = [UIColor colorWithRed:(70.0f/255.0f) green:(130.0f/255.0f) blue:(17.0f/255.0f) alpha:1.0];
         
-        tankBodyRed = [UIColor redColor];
-        tankBodyBaseRed = [UIColor colorWithRed:(157.0f/255.0f) green:(28.0f/255.0f) blue:(28.0f/255.0f) alpha:1.0];
-        
-        tankBodyYellow = [UIColor yellowColor];
-        tankBodyBaseYellow = [UIColor colorWithRed:(186.0f/255.0f) green:(184.0f/255.0f) blue:(4.0f/255.0f) alpha:1.0];
-        
-        tankBodyBlue = [UIColor blueColor];
-        tankBodyBaseBlue = [UIColor colorWithRed:(4.0f/255.0f) green:(45.0f/255.0f) blue:(144.0f/255.0f) alpha:1.0];
+//        tankBodyGreen = [UIColor greenColor];
+//        tankBodyBaseGreen = [UIColor colorWithRed:(70.0f/255.0f) green:(130.0f/255.0f) blue:(17.0f/255.0f) alpha:1.0];
+//        
+//        tankBodyRed = [UIColor redColor];
+//        tankBodyBaseRed = [UIColor colorWithRed:(157.0f/255.0f) green:(28.0f/255.0f) blue:(28.0f/255.0f) alpha:1.0];
+//        
+//        tankBodyYellow = [UIColor yellowColor];
+//        tankBodyBaseYellow = [UIColor colorWithRed:(186.0f/255.0f) green:(184.0f/255.0f) blue:(4.0f/255.0f) alpha:1.0];
+//        
+//        tankBodyBlue = [UIColor blueColor];
+//        tankBodyBaseBlue = [UIColor colorWithRed:(4.0f/255.0f) green:(45.0f/255.0f) blue:(144.0f/255.0f) alpha:1.0];
         //==
         
         CGSize button_size = CGSizeMake(50,50);
@@ -128,8 +129,8 @@
         
 //        //==
         self.player = [[STATank alloc] initWithScale:self.scale Id:1
-                                           BodyColor:tankBodyYellow
-                                       BodyBaseColor:tankBodyBaseYellow
+                                           BodyColor:TANK_BODY_YELLOW
+                                       BodyBaseColor:TANK_BODY_BASE_YELLOW
                                                   AI:NULL
                                        RotationSpeed:3
                                             Category:PLAYER_CATEGORY
@@ -158,8 +159,8 @@
         
         //==enemy
         self.enemy = [[STAEnemyTank alloc] initWithScale:self.scale Id:2
-                                               BodyColor:tankBodyBlue
-                                           BodyBaseColor:tankBodyBaseBlue
+                                               BodyColor:TANK_BODY_BLUE
+                                           BodyBaseColor:TANK_BODY_BASE_BLUE
                                                       AI:[[STAAI alloc] initWithStage:self]
                                            RotationSpeed:3
                                                 Category:ENEMY_CATEGORY

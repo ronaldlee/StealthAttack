@@ -7,14 +7,22 @@
 //
 
 #import "STASinglePlayerSelectOpponent.h"
-
 @implementation STASinglePlayerSelectOpponent
 
 @synthesize selectOppTitle;
 @synthesize backLabel;
-@synthesize startLabel;
+//@synthesize startLabel;
 @synthesize backButton;
-@synthesize startButton;
+//@synthesize startButton;
+
+@synthesize enemy1;
+@synthesize enemy2;
+@synthesize enemy3;
+@synthesize enemy4;
+@synthesize enemy5;
+@synthesize enemy6;
+
+@synthesize enemy1Button;
 
 - (id)initWithScale:(float)sk_scale Bounds:(CGRect)bounds Scene:(SKScene*)sk_scene {
     self = [super initWithScale:sk_scale Bounds:bounds Scene:sk_scene];
@@ -78,35 +86,75 @@
         [self.scene addChild:backButton];
         
         //
-        startLabel = [SKLabelNode labelNodeWithFontNamed:font];
-        
-        NSString *start = @">>";
-        startLabel.text = start;
-        startLabel.fontSize = 8;
-        startLabel.fontColor = [SKColor whiteColor];
-        startLabel.name = @"start_label";
-        startLabel.alpha = 0;
-        
-        title_x = [[UIScreen mainScreen] bounds].size.width-20;
-        
-        startLabel.position = CGPointMake(title_x,title_y);
-        
-        [self.scene addChild:startLabel];
-        [startLabel runAction:fadein];
-        
-        CGFloat start_button_orig_x =startLabel.position.x;
-        
-        SKAction * startLabelMoveRight = [SKAction moveToX:start_button_orig_x-5 duration:0.5];
-        SKAction * startLabelMoveLeft = [SKAction moveToX:start_button_orig_x duration:0.2];
-        
-        [startLabel runAction:[SKAction repeatActionForever:[SKAction sequence:@[startLabelMoveRight,startLabelMoveLeft]]]];
+//        startLabel = [SKLabelNode labelNodeWithFontNamed:font];
+//        
+//        NSString *start = @">>";
+//        startLabel.text = start;
+//        startLabel.fontSize = 8;
+//        startLabel.fontColor = [SKColor whiteColor];
+//        startLabel.name = @"start_label";
+//        startLabel.alpha = 0;
+//        
+//        title_x = [[UIScreen mainScreen] bounds].size.width-20;
+//        
+//        startLabel.position = CGPointMake(title_x,title_y);
+//        
+//        [self.scene addChild:startLabel];
+//        [startLabel runAction:fadein];
+//        
+//        CGFloat start_button_orig_x =startLabel.position.x;
+//        
+//        SKAction * startLabelMoveRight = [SKAction moveToX:start_button_orig_x-5 duration:0.5];
+//        SKAction * startLabelMoveLeft = [SKAction moveToX:start_button_orig_x duration:0.2];
+//        
+//        [startLabel runAction:[SKAction repeatActionForever:[SKAction sequence:@[startLabelMoveRight,startLabelMoveLeft]]]];
         
         //
         
-        startButton = [[STAButton alloc] initWithSize:button_size Name:@"start_button" Alpha:0 BGAlpha:0.0 ButtonText:NULL ButtonTextColor:NULL ButtonTextFont:@"Press Start 2P" ButtonTextFontSize:10 isShowBorder:false];
-        startButton.userInteractionEnabled = NO;
-        startButton.position = CGPointMake(start_button_orig_x-15,startLabel.position.y-5);
-        [self.scene addChild:startButton];
+//        startButton = [[STAButton alloc] initWithSize:button_size Name:@"start_button" Alpha:0 BGAlpha:0.0 ButtonText:NULL ButtonTextColor:NULL ButtonTextFont:@"Press Start 2P" ButtonTextFontSize:10 isShowBorder:false];
+//        startButton.userInteractionEnabled = NO;
+//        startButton.position = CGPointMake(start_button_orig_x-15,startLabel.position.y-5);
+//        [self.scene addChild:startButton];
+        
+        //enemies to choose from
+        CGFloat left_corner_x = self.bounds.origin.x;
+        CGFloat top_corner_y = self.bounds.origin.y+self.bounds.size.height;
+        CGFloat right_corner_x = self.bounds.origin.x+self.bounds.size.width;
+        CGFloat bottom_corner_y = self.bounds.origin.y;
+        
+        CGRect bounds = CGRectMake(left_corner_x, bottom_corner_y,
+                                   right_corner_x-left_corner_x,
+                                   top_corner_y-bottom_corner_y);
+        //==enemies
+        //4 enemies per row, 2 rows (total 8 enemies)
+        //locked => question mark?
+        enemy1 = [[STAEnemyTank alloc] initWithScale:self.scale Id:2
+                                               BodyColor:TANK_BODY_BLUE
+                                           BodyBaseColor:TANK_BODY_BASE_BLUE
+                                                      AI:NULL
+                                           RotationSpeed:3
+                                                Category:ENEMY_CATEGORY
+                                                  Bounds:bounds];
+        
+        CGFloat stage_start_x = 50;
+        CGFloat stage_start_y = [[UIScreen mainScreen] bounds].size.height-150;
+        
+        enemy1.position = CGPointMake(stage_start_x,stage_start_y);
+        
+        [self.scene addChild:enemy1];
+        
+        [enemy1 dance];
+        
+        //=== enemy selection button
+        
+        button_size = CGSizeMake(40,40);
+        enemy1Button = [[STAButton alloc] initWithSize:button_size Name:@"enemy1_button" Alpha:1.0 BGAlpha:0.0 ButtonText:NULL
+                                     ButtonTextColor:NULL ButtonTextFont:@"Press Start 2P" ButtonTextFontSize:10 isShowBorder:false];
+        enemy1Button.userInteractionEnabled = NO;
+        enemy1Button.position = CGPointMake(enemy1.position.x - (enemy1.max_width/2) - (button_size.width-enemy1.max_width)/2,
+                                            enemy1.position.y - (enemy1.max_height/2) - (button_size.height-enemy1.max_height)/2);
+        [self.scene addChild:enemy1Button];
+        
     }
     
     return self;
@@ -137,8 +185,17 @@
             myScene.currStage = [[STAMainMenu alloc ]
                                  initWithScale:self.scale Bounds:self.bounds Scene:self.scene];
         }
-        else if ([node.name isEqualToString:@"start_button"]) {
-            NSLog(@"start_button");
+//        else if ([node.name isEqualToString:@"start_button"]) {
+//            NSLog(@"start_button");
+//            
+//            STAMyScene* myScene = (STAMyScene*)self.scene;
+//            
+//            [myScene.currStage cleanup];
+//            
+//            myScene.currStage = [[STABattleStage alloc ] initWithScale:self.scale Bounds:self.bounds Scene:self.scene];
+//        }
+        else if ([node.name isEqualToString:@"enemy1_button"]) {
+            NSLog(@"enemy1_button");
             
             STAMyScene* myScene = (STAMyScene*)self.scene;
             
@@ -146,6 +203,7 @@
             
             myScene.currStage = [[STABattleStage alloc ] initWithScale:self.scale Bounds:self.bounds Scene:self.scene];
         }
+        
     }
 }
 
@@ -157,12 +215,14 @@
     
     [selectOppTitle removeAllActions];
     [backLabel removeAllActions];
-    [startLabel removeAllActions];
+//    [startLabel removeAllActions];
     [backButton removeAllActions];
-    [startButton removeAllActions];
+//    [startButton removeAllActions];
+    [enemy1Button removeAllActions];
+    [enemy1 stop];
     
     
-    NSArray* objs = [NSArray arrayWithObjects:selectOppTitle,backLabel,startLabel,backButton,startButton,nil];
+    NSArray* objs = [NSArray arrayWithObjects:selectOppTitle,backLabel,backButton,enemy1Button,enemy1,nil];
     
     [self.scene removeChildrenInArray:objs];
     

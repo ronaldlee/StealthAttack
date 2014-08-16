@@ -24,6 +24,22 @@
     
     if (self) {
         
+        //init colors:
+        
+        TANK_BODY_GREEN = [UIColor greenColor];
+        TANK_BODY_BASE_GREEN = [UIColor colorWithRed:(70.0f/255.0f) green:(130.0f/255.0f) blue:(17.0f/255.0f) alpha:1.0];
+        
+        TANK_BODY_RED = [UIColor redColor];
+        TANK_BODY_BASE_RED = [UIColor colorWithRed:(157.0f/255.0f) green:(28.0f/255.0f) blue:(28.0f/255.0f) alpha:1.0];
+        
+        TANK_BODY_YELLOW = [UIColor yellowColor];
+        TANK_BODY_BASE_YELLOW = [UIColor colorWithRed:(186.0f/255.0f) green:(184.0f/255.0f) blue:(4.0f/255.0f) alpha:1.0];
+        
+        TANK_BODY_BLUE = [UIColor blueColor];
+        TANK_BODY_BASE_BLUE = [UIColor colorWithRed:(4.0f/255.0f) green:(45.0f/255.0f) blue:(144.0f/255.0f) alpha:1.0];
+        
+        //
+        
         NSString * titleFont = @"GridExerciseGaps";
         //NSString * titleFont = @"Phaser Bank";
 //        NSString * titleFont = @"TRON";

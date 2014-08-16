@@ -53,6 +53,10 @@
 @property (nonatomic) UIColor *tankBodyColor;
 @property (nonatomic) UIColor *tankBodyBaseColor;
 
+
+@property (nonatomic) CGFloat max_width;
+@property (nonatomic) CGFloat max_height;
+
 @property (nonatomic) STAAI* ai;
 
 

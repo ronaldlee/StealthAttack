@@ -10,7 +10,6 @@
 
 @interface STATank() {
     float scale;
-    float max_width, max_height;
     CGRect bounds;
     float bottom_border_y, top_border_y, left_border_x, right_border_x;
     BOOL isVisible;
@@ -92,6 +91,10 @@
 @synthesize evadeSpeed;
 
 @synthesize isGameOver;
+
+@synthesize max_width;
+@synthesize max_height;
+
 
 - (id)initWithScale:(CGFloat)f_scale Id:(int)t_id BodyColor:(UIColor*)b_color BodyBaseColor:(UIColor*)bb_color  AI:(STAAI*)t_ai RotationSpeed:(CGFloat)r_speed Category:(uint32_t)category Bounds:(CGRect)p_bounds{
     self = [super init];

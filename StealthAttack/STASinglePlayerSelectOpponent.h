@@ -12,13 +12,22 @@
 
 @property (nonatomic) SKLabelNode * selectOppTitle;
 @property (nonatomic) SKLabelNode * backLabel;
-@property (nonatomic) SKLabelNode * startLabel;
+//@property (nonatomic) SKLabelNode * startLabel;
 
 
 @property (nonatomic) STAButton * backButton;
-@property (nonatomic) STAButton * startButton;
+//@property (nonatomic) STAButton * startButton;
+
+@property (nonatomic) STAButton * enemy1Button;
 
 @property (nonatomic) STATank * playerTank;
-@property (nonatomic) STATank * enemyTank1;
+
+
+@property (nonatomic) STATank * enemy1;
+@property (nonatomic) STATank * enemy2;
+@property (nonatomic) STATank * enemy3;
+@property (nonatomic) STATank * enemy4;
+@property (nonatomic) STATank * enemy5;
+@property (nonatomic) STATank * enemy6;
 
 @end
