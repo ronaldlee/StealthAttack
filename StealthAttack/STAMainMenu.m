@@ -25,6 +25,8 @@
     if (self) {
         
         //init colors:
+        TANK_BODY_WHITE = [UIColor whiteColor];
+        TANK_BODY_BASE_WHITE = [UIColor whiteColor];
         
         TANK_BODY_GREEN = [UIColor greenColor];
         TANK_BODY_BASE_GREEN = [UIColor colorWithRed:(70.0f/255.0f) green:(130.0f/255.0f) blue:(17.0f/255.0f) alpha:1.0];

@@ -30,6 +30,7 @@
 @property (nonatomic) BOOL isGameStart;
 @property (nonatomic) BOOL isGameOver;
 
+- (id)initWithScale:(float)scale Bounds:(CGRect)bounds Scene:(SKScene*)scene EnemyId:(int)enemyId;
 
 -(void) fireBullet:(STATank*)tank;
 

@@ -42,7 +42,7 @@
 @synthesize isGameOver;
 @synthesize isGameStart;
 
-- (id)initWithScale:(float)sk_scale Bounds:(CGRect)bounds Scene:(SKScene*)sk_scene {
+- (id)initWithScale:(float)sk_scale Bounds:(CGRect)bounds Scene:(SKScene*)sk_scene EnemyId:(int)enemyId {
     self = [super initWithScale:sk_scale Bounds:bounds Scene:sk_scene];
     
     if (self) {
@@ -128,9 +128,9 @@
         
         
 //        //==
-        self.player = [[STAJeep alloc] initWithScale:self.scale Id:1
-                                           BodyColor:TANK_BODY_YELLOW
-                                       BodyBaseColor:TANK_BODY_BASE_YELLOW
+        self.player = [[STATank alloc] initWithScale:self.scale Id:1
+                                           BodyColor:TANK_BODY_WHITE
+                                       BodyBaseColor:TANK_BODY_BASE_WHITE
                                                   AI:NULL
                                             Category:PLAYER_CATEGORY
                                             Bounds:bounds];
@@ -157,13 +157,22 @@
         [self.scene addChild:self.player];
         
         //==enemy
-        self.enemy = [[STAEnemyTank alloc] initWithScale:self.scale Id:2
-                                               BodyColor:TANK_BODY_BLUE
-                                           BodyBaseColor:TANK_BODY_BASE_BLUE
-//                                                      AI:[[STAAI alloc] initWithStage:self]
-                                                      AI:NULL
-                                                Category:ENEMY_CATEGORY
-                                                  Bounds:bounds];
+        if (enemyId == 1) {
+            self.enemy = [[STAEnemyTank alloc] initWithScale:self.scale Id:2
+                                                   BodyColor:TANK_BODY_BLUE
+                                               BodyBaseColor:TANK_BODY_BASE_BLUE
+                                                      AI:[[STAAI alloc] initWithStage:self]
+                                                    Category:ENEMY_CATEGORY
+                                                      Bounds:bounds];
+        }
+        else if (enemyId == 2) {
+            self.enemy = [[STAJeep alloc] initWithScale:self.scale Id:2
+                                                   BodyColor:TANK_BODY_GREEN
+                                               BodyBaseColor:TANK_BODY_BASE_GREEN
+                                                     AI:[[STAAI alloc] initWithStage:self]
+                                                    Category:ENEMY_CATEGORY
+                                                      Bounds:bounds];
+        }
         [self.enemy setBattleStage:self];
         
 //        stage_start_x = ([[UIScreen mainScreen] bounds].size.width-PLAYER_WIDTH)/2 + [self.player getAnchorOffsetX];

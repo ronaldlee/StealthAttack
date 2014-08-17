@@ -64,6 +64,8 @@ extern const uint32_t REGION_RIGHT_TOP;
 
 extern const BOOL IS_ENABLE_STEALTH;
 
+extern UIColor* TANK_BODY_WHITE;
+extern UIColor* TANK_BODY_BASE_WHITE;
 extern UIColor* TANK_BODY_GREEN;
 extern UIColor* TANK_BODY_BASE_GREEN;
 extern UIColor* TANK_BODY_RED;

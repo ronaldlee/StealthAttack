@@ -19,6 +19,10 @@
 //@property (nonatomic) STAButton * startButton;
 
 @property (nonatomic) STAButton * enemy1Button;
+@property (nonatomic) STAButton * enemy2Button;
+@property (nonatomic) STAButton * enemy3Button;
+@property (nonatomic) STAButton * enemy4Button;
+
 
 @property (nonatomic) STATank * playerTank;
 
