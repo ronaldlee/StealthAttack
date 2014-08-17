@@ -21,6 +21,7 @@
 @synthesize enemy4;
 @synthesize enemy5;
 @synthesize enemy6;
+@synthesize enemy7;
 
 @synthesize enemy1Button;
 

@@ -128,7 +128,7 @@
         
         
 //        //==
-        self.player = [[STATank alloc] initWithScale:self.scale Id:1
+        self.player = [[STAJeep alloc] initWithScale:self.scale Id:1
                                            BodyColor:TANK_BODY_YELLOW
                                        BodyBaseColor:TANK_BODY_BASE_YELLOW
                                                   AI:NULL
@@ -161,7 +161,8 @@
         self.enemy = [[STAEnemyTank alloc] initWithScale:self.scale Id:2
                                                BodyColor:TANK_BODY_BLUE
                                            BodyBaseColor:TANK_BODY_BASE_BLUE
-                                                      AI:[[STAAI alloc] initWithStage:self]
+//                                                      AI:[[STAAI alloc] initWithStage:self]
+                                                      AI:NULL
                                            RotationSpeed:3
                                                 Category:ENEMY_CATEGORY
                                                   Bounds:bounds];

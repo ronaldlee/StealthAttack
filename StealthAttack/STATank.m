@@ -174,9 +174,9 @@
         self.physicsBody.linearDamping = 0;
         self.physicsBody.angularDamping = 0;
         
-        NSLog(@"tb.top.y: %f, y: %f", self.tankB.position.y+self.tankB.size.height, self.tankB.position.y);
-        NSLog(@"start tl1.y: %f, l2: %f, l3: %f, l4: %f",self.tankl1.position.y,self.tankl2.position.y,self.tankl3.position.y,self.tankl4.position.y);
-        NSLog(@"start wheel origin y: %f, bottom y: %f",wheel_origin_y,wheel_bottom_y);
+//        NSLog(@"tb.top.y: %f, y: %f", self.tankB.position.y+self.tankB.size.height, self.tankB.position.y);
+//        NSLog(@"start tl1.y: %f, l2: %f, l3: %f, l4: %f",self.tankl1.position.y,self.tankl2.position.y,self.tankl3.position.y,self.tankl4.position.y);
+//        NSLog(@"start wheel origin y: %f, bottom y: %f",wheel_origin_y,wheel_bottom_y);
         
 //        lastX = self.position.x;
 //        lastY = self.position.y;

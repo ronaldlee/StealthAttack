@@ -30,4 +30,7 @@
 @property (nonatomic) STATank * enemy5;
 @property (nonatomic) STATank * enemy6;
 
+@property (nonatomic) STATank * enemy7; //green battery bar, unlocked when get all 3 stars
+
+
 @end
