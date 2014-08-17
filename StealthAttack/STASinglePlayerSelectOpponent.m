@@ -133,7 +133,6 @@
                                                BodyColor:TANK_BODY_BLUE
                                            BodyBaseColor:TANK_BODY_BASE_BLUE
                                                       AI:NULL
-                                           RotationSpeed:3
                                                 Category:ENEMY_CATEGORY
                                                   Bounds:bounds];
         

@@ -132,7 +132,6 @@
                                            BodyColor:TANK_BODY_YELLOW
                                        BodyBaseColor:TANK_BODY_BASE_YELLOW
                                                   AI:NULL
-                                       RotationSpeed:3
                                             Category:PLAYER_CATEGORY
                                             Bounds:bounds];
         [self.player setBattleStage:self];
@@ -163,7 +162,6 @@
                                            BodyBaseColor:TANK_BODY_BASE_BLUE
 //                                                      AI:[[STAAI alloc] initWithStage:self]
                                                       AI:NULL
-                                           RotationSpeed:3
                                                 Category:ENEMY_CATEGORY
                                                   Bounds:bounds];
         [self.enemy setBattleStage:self];

@@ -25,6 +25,7 @@
 @property (nonatomic) CGFloat wheel_diff;
 
 @property (nonatomic) CGFloat rotation_speed;
+@property (nonatomic) CGFloat wheel_rotate_speed;
 
 @property (nonatomic) SKNode* brainNode;
 @property (nonatomic) SKNode* moveToNode;
@@ -83,7 +84,6 @@
 //-(void)setBorderBounds:(CGRect)p_bounds;
 -(id)initWithScale:(CGFloat)scale Id:(int)t_id BodyColor:(UIColor*)b_color BodyBaseColor:(UIColor*)bb_color
                 AI:(STAAI*) ai
-     RotationSpeed:(CGFloat)r_speed
           Category:(uint32_t)category
             Bounds:(CGRect)p_bounds;
 
