@@ -15,7 +15,12 @@
 @property (nonatomic) SKSpriteNode * tankFl2;
 
 @property (nonatomic) SKSpriteNode * tankFr;
+@property (nonatomic) SKSpriteNode * tankFr2;
+
 @property (nonatomic) SKSpriteNode * tankBl;
+@property (nonatomic) SKSpriteNode * tankBl2;
+
 @property (nonatomic) SKSpriteNode * tankBr;
+@property (nonatomic) SKSpriteNode * tankBr2;
 
 @end
