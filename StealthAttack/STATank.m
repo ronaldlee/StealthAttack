@@ -96,6 +96,8 @@
 @synthesize max_width;
 @synthesize max_height;
 
+@synthesize numShots;
+
 
 - (id)initWithScale:(CGFloat)f_scale Id:(int)t_id BodyColor:(UIColor*)b_color BodyBaseColor:(UIColor*)bb_color
                  AI:(STAAI*)t_ai Category:(uint32_t)category Bounds:(CGRect)p_bounds{
@@ -125,6 +127,7 @@
         evadeSpeed= 20;
         isVisible = TRUE;
         scale = f_scale;
+        numShots = 1;
         
         scaled_width = PIXEL_WIDTHHEIGHT*scale; //6
         scaled_height = PIXEL_WIDTHHEIGHT*scale; //6

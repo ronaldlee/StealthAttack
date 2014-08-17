@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StealthAttack/STATank.m"
-            timestampString = "429998776.280621"
+            timestampString = "430000289.645787"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "884"
-            endingLineNumber = "884"
+            startingLineNumber = "887"
+            endingLineNumber = "887"
             landmarkName = "-fire"
             landmarkType = "5">
          </BreakpointContent>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StealthAttack/STAAI.m"
-            timestampString = "429406741.864164"
+            timestampString = "430000289.645787"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "720"
-            endingLineNumber = "720"
+            startingLineNumber = "721"
+            endingLineNumber = "721"
             landmarkName = "-think"
             landmarkType = "5">
          </BreakpointContent>
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StealthAttack/STAAI.m"
-            timestampString = "429406741.864164"
+            timestampString = "430000289.645787"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "358"
-            endingLineNumber = "358"
+            startingLineNumber = "359"
+            endingLineNumber = "359"
             landmarkName = "-think"
             landmarkType = "5">
          </BreakpointContent>
@@ -106,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StealthAttack/STAAI.m"
-            timestampString = "429406741.864164"
+            timestampString = "430000289.645787"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "368"
-            endingLineNumber = "368"
+            startingLineNumber = "369"
+            endingLineNumber = "369"
             landmarkName = "-think"
             landmarkType = "5">
          </BreakpointContent>

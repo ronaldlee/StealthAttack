@@ -80,6 +80,8 @@
 
 @property (nonatomic) BOOL isGameOver;
 
+@property (nonatomic) int numShots;
+
 
 //-(void)setBorderBounds:(CGRect)p_bounds;
 -(id)initWithScale:(CGFloat)scale Id:(int)t_id BodyColor:(UIColor*)b_color BodyBaseColor:(UIColor*)bb_color

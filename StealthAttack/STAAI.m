@@ -86,7 +86,7 @@
         
         accuracyInRadian = 5;
         
-        numShots = 2;
+        numShots = 1;
         betweenShotsDuration = 0.5;
         betweenShotsAccuracyInRadian = 25;
         
@@ -291,6 +291,7 @@
 -(void)setHost:(STATank*)t_host {
     host = t_host;
     bounds = [host getBorderBounds];
+    numShots = host.numShots;
 }
 
 -(int)getRegionForX:(CGFloat)px Y:(CGFloat)py {
