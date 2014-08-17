@@ -29,6 +29,7 @@
 
 @property (nonatomic) SKNode* brainNode;
 @property (nonatomic) SKNode* moveToNode;
+@property (nonatomic) SKNode* attackNode;
 @property (nonatomic) SKNode* attackCooldownNode;
 @property (nonatomic) SKNode* fadeInOutNode;
 @property (nonatomic) SKNode* danceNode;
@@ -81,6 +82,8 @@
 @property (nonatomic) BOOL isGameOver;
 
 @property (nonatomic) int numShots;
+@property (nonatomic) CGFloat betweenShotsAccuracyInRadian;
+@property (nonatomic) CGFloat accuracyInRadian;
 
 
 //-(void)setBorderBounds:(CGRect)p_bounds;
@@ -148,5 +151,7 @@
 
 -(CGFloat)setupAnchorOffsetX;
 -(CGFloat)setupAnchorOffsetY;
+
+-(void)preAiConfig;
 
 @end

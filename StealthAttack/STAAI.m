@@ -292,6 +292,8 @@
     host = t_host;
     bounds = [host getBorderBounds];
     numShots = host.numShots;
+    betweenShotsAccuracyInRadian = host.betweenShotsAccuracyInRadian;
+    accuracyInRadian = host.accuracyInRadian;
 }
 
 -(int)getRegionForX:(CGFloat)px Y:(CGFloat)py {
@@ -1060,11 +1062,14 @@
     CGFloat rand = (CGFloat)arc4random_uniform(accuracyInRadian);
     CGFloat r = rand / (CGFloat)100.0;
     
+    __block int localNumShots = numShots;
+    
     [self faceEnemy_LastX:lastX LastY:lastY Accuracy:r complete:^(void) {
         [host fire];
+        localNumShots--;
         
         //if numShots > 1
-        if (numShots > 1) {
+        if (localNumShots > 0) {
             SKAction * individualShot = [SKAction runBlock:^(void) {
                 CGFloat rand = (CGFloat)arc4random_uniform(betweenShotsAccuracyInRadian);
                 CGFloat r = rand / (CGFloat)100.0;
@@ -1072,14 +1077,18 @@
                 [self faceEnemy_LastX:lastX LastY:lastY Accuracy:r complete:^(void) {
                     [host fire];
                     
-                    if (block != NULL) {
-                        block();
+                    localNumShots--;
+                    
+                    if (localNumShots == 0) {
+                        if (block != NULL) {
+                            block();
+                        }
                     }
                 }];
             }];
             
             SKAction *wait = [SKAction waitForDuration:betweenShotsDuration];
-            [host runAction:[SKAction repeatAction:[SKAction sequence:@[wait,individualShot]] count:numShots]];
+            [host.attackNode runAction:[SKAction repeatAction:[SKAction sequence:@[wait,individualShot]] count:numShots-1]];
         }
     }];
     

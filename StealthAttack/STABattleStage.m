@@ -173,6 +173,14 @@
                                                     Category:ENEMY_CATEGORY
                                                       Bounds:bounds];
         }
+        else if (enemyId == 3) {
+            self.enemy = [[STAShotgunTank alloc] initWithScale:self.scale Id:2
+                                              BodyColor:TANK_BODY_RED
+                                          BodyBaseColor:TANK_BODY_BASE_RED
+                                                     AI:[[STAAI alloc] initWithStage:self]
+                                               Category:ENEMY_CATEGORY
+                                                 Bounds:bounds];
+        }
         [self.enemy setBattleStage:self];
         
 //        stage_start_x = ([[UIScreen mainScreen] bounds].size.width-PLAYER_WIDTH)/2 + [self.player getAnchorOffsetX];

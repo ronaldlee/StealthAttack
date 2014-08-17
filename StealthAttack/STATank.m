@@ -34,6 +34,7 @@
 @synthesize brainNode;
 @synthesize moveToNode;
 @synthesize attackCooldownNode;
+@synthesize attackNode;
 @synthesize fadeInOutNode;
 
 @synthesize tankA;
@@ -97,6 +98,8 @@
 @synthesize max_height;
 
 @synthesize numShots;
+@synthesize betweenShotsAccuracyInRadian;
+@synthesize accuracyInRadian;
 
 
 - (id)initWithScale:(CGFloat)f_scale Id:(int)t_id BodyColor:(UIColor*)b_color BodyBaseColor:(UIColor*)bb_color
@@ -128,6 +131,8 @@
         isVisible = TRUE;
         scale = f_scale;
         numShots = 1;
+        betweenShotsAccuracyInRadian=0;
+        accuracyInRadian=5;
         
         scaled_width = PIXEL_WIDTHHEIGHT*scale; //6
         scaled_height = PIXEL_WIDTHHEIGHT*scale; //6
@@ -145,6 +150,9 @@
         
         moveToNode = [[SKNode alloc] init];
         [self addChild:moveToNode];
+        
+        attackNode =[[SKNode alloc] init];
+        [self addChild:attackNode];
         
         attackCooldownNode = [[SKNode alloc] init];
         [self addChild:attackCooldownNode];
@@ -189,6 +197,7 @@
 //        lastDirection = self.physicsBody.velocity;
         
         if (ai != NULL) {
+            [self preAiConfig];
             [ai setHost:self];
             SKAction* aiAction = [SKAction runBlock:^(void) {
                 [ai think];
@@ -199,6 +208,10 @@
         }
     }
     return self;
+}
+
+-(void)preAiConfig {
+    
 }
 
 -(CGFloat)setupAnchorOffsetX {
