@@ -15,6 +15,7 @@ x-bug: explode keep invisible
 
 -bug: shoot multiple times at beginning!
 -disable status bar
+x-disable landscape
 
 -Game Over/Got you!: add replay or go back to previous screen
 
