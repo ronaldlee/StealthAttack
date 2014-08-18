@@ -91,6 +91,6 @@
 
 -(void)performStartingMoves;
 
--(void)dance;
+-(void)dance:(int)regionId;
 
 @end

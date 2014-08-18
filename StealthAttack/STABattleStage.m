@@ -202,7 +202,7 @@
         
         [self.scene addChild:self.enemy];
         
-        [self.enemy dance];
+        [self.enemy dance:REGION_RIGHT_BOTTOM];
         
         //=== count down and fading out tanks
         NSString * font = @"GridExerciseGaps";

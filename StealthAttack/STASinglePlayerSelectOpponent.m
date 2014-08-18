@@ -129,6 +129,8 @@
         CGRect bounds = CGRectMake(left_corner_x, bottom_corner_y,
                                    right_corner_x-left_corner_x,
                                    top_corner_y-bottom_corner_y);
+        
+        
         //==enemies
         //4 enemies per row, 2 rows (total 8 enemies)
         //locked => question mark?
@@ -139,12 +141,11 @@
                                                 Category:ENEMY_CATEGORY
                                                   Bounds:bounds];
         
-        CGFloat stage_start_x = 50;
         CGFloat stage_start_y = [[UIScreen mainScreen] bounds].size.height-150;
         
-        enemy1.position = CGPointMake(stage_start_x,stage_start_y);
+        
         [self.scene addChild:enemy1];
-        [enemy1 dance];
+        [enemy1 dance:REGION_MIDDLE_BOTTOM];
         
         //
         enemy2 = [[STAJeep alloc] initWithScale:self.scale Id:2
@@ -154,11 +155,8 @@
                                             Category:ENEMY_CATEGORY
                                               Bounds:bounds];
         
-        stage_start_x = enemy1.position.x + enemy1.max_width + 50;
-        
-        enemy2.position = CGPointMake(stage_start_x,stage_start_y);
         [self.scene addChild:enemy2];
-        [enemy2 dance];
+        [enemy2 dance:REGION_MIDDLE_BOTTOM];
         
         //
         enemy3 = [[STAShotgunTank alloc] initWithScale:self.scale Id:2
@@ -168,11 +166,8 @@
                                        Category:ENEMY_CATEGORY
                                          Bounds:bounds];
         
-        stage_start_x = enemy2.position.x + enemy2.max_width + 50;
-        
-        enemy3.position = CGPointMake(stage_start_x,stage_start_y);
         [self.scene addChild:enemy3];
-        [enemy3 dance];
+        [enemy3 dance:REGION_MIDDLE_BOTTOM];
         
         //
         enemy4 = [[STASniperTank alloc] initWithScale:self.scale Id:2
@@ -182,11 +177,27 @@
                                               Category:ENEMY_CATEGORY
                                                 Bounds:bounds];
         
+        [self.scene addChild:enemy4];
+        [enemy4 dance:REGION_MIDDLE_BOTTOM];
+        
+        //
+        CGFloat total_width = enemy1.max_width + enemy2.max_width + enemy3.max_width + enemy4.max_width + 50*3-10;
+        
+        CGFloat stage_start_x = ([[UIScreen mainScreen] bounds].size.width - total_width)/2;
+        
+        enemy1.position = CGPointMake(stage_start_x,stage_start_y);
+        
+        stage_start_x = enemy1.position.x + enemy1.max_width + 50;
+        
+        enemy2.position = CGPointMake(stage_start_x,stage_start_y);
+        
+        stage_start_x = enemy2.position.x + enemy2.max_width + 50;
+        
+        enemy3.position = CGPointMake(stage_start_x,stage_start_y);
+        
         stage_start_x = enemy3.position.x + enemy3.max_width + 50;
         
         enemy4.position = CGPointMake(stage_start_x,stage_start_y);
-        [self.scene addChild:enemy4];
-        [enemy4 dance];
         
         //=== enemy selection button
         

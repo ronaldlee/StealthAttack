@@ -1074,10 +1074,10 @@
 //    [self.tankG runAction:fadeIn];
 }
 
--(void) dance {
+-(void) dance:(int)regionId {
     
     if (ai != NULL) {
-        [ai dance];
+        [ai dance:regionId];
     }
     else {
         SKAction* dance = [SKAction runBlock:^(){
@@ -1090,9 +1090,18 @@
                 [self rotateInDegree:dance_degree complete:^(){
                     CGFloat dance_degree = (CGFloat)arc4random_uniform(314)/(CGFloat)100;
                     
-                    [self rotateInDegree:dance_degree complete:^(){
-                        [self stop];
-                    }];
+                    if (regionId != -1) {
+                        CGPoint guess_xy = [self getXYByRegionId:regionId];
+                        
+                        if (guess_xy.x != -1 && guess_xy.y != -1) {
+                            [self faceEnemy_LastX:guess_xy.x LastY:guess_xy.y];
+                        }
+                    }
+                    else {
+                        [self rotateInDegree:dance_degree complete:^(){
+                            [self stop];
+                        }];
+                    }
                     
                 }];
                 
@@ -1102,5 +1111,76 @@
         [self.danceNode runAction:dance];
     }
 }
+
+-(void)faceEnemy_LastX:(CGFloat)p_lastX LastY:(CGFloat)p_lastY {
+    
+    CGFloat faceRotate = [self calculateAngleX1:self.position.x Y1:self.position.y
+                                             X2:p_lastX Y2:p_lastY];
+    
+    CGFloat degree1 = (M_PI_2-faceRotate) + M_PI_2;
+    
+    CGFloat degree1DiffFromLast = degree1 - self.zRotation;
+    
+    CGFloat degree2 = degree1DiffFromLast-M_PI * 2;
+    CGFloat degree_to_use = degree1DiffFromLast;
+    
+    if (fabs(degree2) < fabs(degree1DiffFromLast)) {
+        degree_to_use=degree2;
+    }
+    
+    [self rotateInDegree:degree_to_use complete:NULL];
+}
+
+
+-(CGFloat) calculateAngleX1:(CGFloat)x1 Y1:(CGFloat)y1 X2:(CGFloat)x2 Y2:(CGFloat)y2 {
+    
+    CGFloat x = x2-x1;
+    CGFloat y = y2-y1;
+    CGFloat baseangle = atan2(-x,-y);
+    
+    return baseangle;
+}
+
+-(CGPoint) getXYByRegionId:(int)p_region_id {
+    
+    CGFloat block_width = bounds.size.width/3;
+    CGFloat block_height = bounds.size.height/3;
+    CGFloat right_x = bounds.origin.x+bounds.size.width;
+    CGFloat top_y = bounds.origin.y+bounds.size.height;
+    
+    CGFloat new_x = -1;
+    CGFloat new_y = -1;
+    
+    int region_id=1;
+    BOOL isFound = false;
+    for (CGFloat x = bounds.origin.x; x < right_x && !isFound; x+=block_width) {
+        for (CGFloat y = bounds.origin.y; y < top_y && !isFound; y+=block_height) {
+            if (p_region_id == region_id) {
+                //find the mid point of this region, and randomize a point in it
+                int rand_x = (int)arc4random_uniform(block_width/2);
+                int rand_y = (int)arc4random_uniform(block_height/2);
+                
+                int rand_xdir = arc4random_uniform(2);
+                if (rand_xdir == 1) {
+                    rand_x *= -1;
+                }
+                int rand_ydir = arc4random_uniform(2);
+                if (rand_ydir == 1) {
+                    rand_y *= -1;
+                }
+                
+                new_x = x + block_width/2 + rand_x;
+                new_y = y + block_height/2 + rand_y;
+                
+                isFound = true;
+                break;
+            }
+            region_id++;
+        }
+    }
+    
+    return CGPointMake(new_x, new_y);
+}
+
 
 @end

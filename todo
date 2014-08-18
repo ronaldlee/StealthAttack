@@ -13,6 +13,9 @@ x-starting moves:
 x- after dance, face player!
 x-bug: explode keep invisible
 
+-bug: shoot multiple times at beginning!
+-disable status bar
+
 -Game Over/Got you!: add replay or go back to previous screen
 
 - guessing should consider player's tank current rotation..

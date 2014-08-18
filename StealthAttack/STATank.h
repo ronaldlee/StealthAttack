@@ -146,7 +146,7 @@
 -(void)fadeOut;
 -(void)fadeInNow;
 
--(void)dance;
+-(void)dance:(int)regionId;
 
 -(void)stopFadeOut;
 -(void)explodePart:(SKSpriteNode*)part XDiff:(CGFloat)x_diff YDiff:(CGFloat)y_diff

@@ -333,7 +333,7 @@
         [host stop];
         [host stopFadeOut];
         [host fadeInNow];
-        [host dance];
+        [host dance:-1];
         return; //player is dead already. yay!
     }
     if (host.isExploded) return; //host is dead already. BOOO!
@@ -464,7 +464,7 @@
             
             //based on this new estimated region, modify the enemyTank_lastknown_x and _y
             
-            CGPoint guess_xy = [self getXYByRegionId:guess_region_id];
+            CGPoint guess_xy = [self getXYByRegionId:guess_region_id IsRandomize:TRUE];
             
             if (guess_xy.x != -1 && guess_xy.y != -1) {
                 enemyTank_lastknown_x = guess_xy.x;
@@ -1962,7 +1962,7 @@
     return -1;
 }
 
--(CGPoint) getXYByRegionId:(int)p_region_id {
+-(CGPoint) getXYByRegionId:(int)p_region_id IsRandomize:(BOOL)is_randomize {
     
     CGFloat block_width = bounds.size.width/3;
     CGFloat block_height = bounds.size.height/3;
@@ -1990,6 +1990,10 @@
                     rand_y *= -1;
                 }
                 
+                if (!is_randomize) {
+                    rand_x = rand_y = 0;
+                }
+                
                 new_x = x + block_width/2 + rand_x;
                 new_y = y + block_height/2 + rand_y;
                 
@@ -2015,7 +2019,7 @@
     int start_moves_id = [prod_action intValue];
     
     if (start_moves_id == APPROACH_PROB_KEY) {
-        CGPoint guess_xy = [self getXYByRegionId:REGION_MIDDLE_MIDDLE];
+        CGPoint guess_xy = [self getXYByRegionId:REGION_MIDDLE_MIDDLE IsRandomize:TRUE];
         
         if (guess_xy.x != -1 && guess_xy.y != -1) {
             enemyTank_lastknown_x = guess_xy.x;
@@ -2024,7 +2028,7 @@
         }
 
     } else if (start_moves_id == WARNSHOT_PROB_KEY) {
-        CGPoint guess_xy = [self getXYByRegionId:REGION_RIGHT_BOTTOM];
+        CGPoint guess_xy = [self getXYByRegionId:REGION_RIGHT_BOTTOM IsRandomize:TRUE];
         
         if (guess_xy.x != -1 && guess_xy.y != -1) {
             [self attack_LastX:guess_xy.x LastY:guess_xy.y complete:^() {
@@ -2033,7 +2037,7 @@
                 
                 int rand = arc4random_uniform(4);
                 if (rand == 0) {
-                    CGPoint guess_xy = [self getXYByRegionId:REGION_LEFT_TOP];
+                    CGPoint guess_xy = [self getXYByRegionId:REGION_LEFT_TOP IsRandomize:TRUE];
                     
                     if (guess_xy.x != -1 && guess_xy.y != -1) {
                         enemyTank_lastknown_x = guess_xy.x;
@@ -2042,7 +2046,7 @@
                     }
                 }
                 else if (rand == 1) {
-                    CGPoint guess_xy = [self getXYByRegionId:REGION_LEFT_MIDDLE];
+                    CGPoint guess_xy = [self getXYByRegionId:REGION_LEFT_MIDDLE IsRandomize:TRUE];
                     
                     if (guess_xy.x != -1 && guess_xy.y != -1) {
                         enemyTank_lastknown_x = guess_xy.x;
@@ -2051,7 +2055,7 @@
                     }
                 }
                 else if (rand == 2) {
-                    CGPoint guess_xy = [self getXYByRegionId:REGION_MIDDLE_MIDDLE];
+                    CGPoint guess_xy = [self getXYByRegionId:REGION_MIDDLE_MIDDLE IsRandomize:TRUE];
                     
                     if (guess_xy.x != -1 && guess_xy.y != -1) {
                         enemyTank_lastknown_x = guess_xy.x;
@@ -2060,7 +2064,7 @@
                     }
                 }
                 else if (rand == 3) {
-                    CGPoint guess_xy = [self getXYByRegionId:REGION_MIDDLE_TOP];
+                    CGPoint guess_xy = [self getXYByRegionId:REGION_MIDDLE_TOP IsRandomize:TRUE];
                     
                     if (guess_xy.x != -1 && guess_xy.y != -1) {
                         enemyTank_lastknown_x = guess_xy.x;
@@ -2077,7 +2081,7 @@
         
         int rand = arc4random_uniform(4);
         if (rand == 0) {
-            CGPoint guess_xy = [self getXYByRegionId:REGION_LEFT_TOP];
+            CGPoint guess_xy = [self getXYByRegionId:REGION_LEFT_TOP IsRandomize:TRUE];
             
             if (guess_xy.x != -1 && guess_xy.y != -1) {
                 enemyTank_lastknown_x = guess_xy.x;
@@ -2086,7 +2090,7 @@
             }
         }
         else if (rand == 1) {
-            CGPoint guess_xy = [self getXYByRegionId:REGION_LEFT_MIDDLE];
+            CGPoint guess_xy = [self getXYByRegionId:REGION_LEFT_MIDDLE IsRandomize:TRUE];
             
             if (guess_xy.x != -1 && guess_xy.y != -1) {
                 enemyTank_lastknown_x = guess_xy.x;
@@ -2095,7 +2099,7 @@
             }
         }
         else if (rand == 2) {
-            CGPoint guess_xy = [self getXYByRegionId:REGION_MIDDLE_MIDDLE];
+            CGPoint guess_xy = [self getXYByRegionId:REGION_MIDDLE_MIDDLE IsRandomize:TRUE];
             
             if (guess_xy.x != -1 && guess_xy.y != -1) {
                 enemyTank_lastknown_x = guess_xy.x;
@@ -2104,7 +2108,7 @@
             }
         }
         else if (rand == 3) {
-            CGPoint guess_xy = [self getXYByRegionId:REGION_MIDDLE_TOP];
+            CGPoint guess_xy = [self getXYByRegionId:REGION_MIDDLE_TOP IsRandomize:TRUE];
             
             if (guess_xy.x != -1 && guess_xy.y != -1) {
                 enemyTank_lastknown_x = guess_xy.x;
@@ -2116,7 +2120,7 @@
 
 }
 
--(void) dance {
+-(void) dance:(int)regionId {
     //    NSLog(@"DANCE!!!!!!!!!");
     SKAction* dance = [SKAction runBlock:^(){
         CGFloat dance_degree = (CGFloat)arc4random_uniform(314)/(CGFloat)100;
@@ -2129,7 +2133,7 @@
                 CGFloat dance_degree = (CGFloat)arc4random_uniform(314)/(CGFloat)100;
                 
                 [host rotateInDegree:dance_degree complete:^(){
-                    CGPoint guess_xy = [self getXYByRegionId:REGION_RIGHT_BOTTOM];
+                    CGPoint guess_xy = [self getXYByRegionId:regionId IsRandomize:FALSE];
                     
                     if (guess_xy.x != -1 && guess_xy.y != -1) {
                         [self faceEnemy_LastX:guess_xy.x LastY:guess_xy.y Accuracy:0 complete:NULL];

@@ -186,11 +186,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StealthAttack/STASinglePlayerSelectOpponent.m"
-            timestampString = "430028303.336829"
+            timestampString = "430031102.103617"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "178"
-            endingLineNumber = "178"
+            startingLineNumber = "173"
+            endingLineNumber = "173"
             landmarkName = "-initWithScale:Bounds:Scene:"
             landmarkType = "5">
          </BreakpointContent>
