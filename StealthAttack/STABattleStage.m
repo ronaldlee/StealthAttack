@@ -181,6 +181,14 @@
                                                Category:ENEMY_CATEGORY
                                                  Bounds:bounds];
         }
+        else if (enemyId == 4) {
+            self.enemy = [[STASniperTank alloc] initWithScale:self.scale Id:2
+                                                     BodyColor:TANK_BODY_YELLOW
+                                                 BodyBaseColor:TANK_BODY_BASE_YELLOW
+                                                            AI:[[STAAI alloc] initWithStage:self]
+                                                      Category:ENEMY_CATEGORY
+                                                        Bounds:bounds];
+        }
         [self.enemy setBattleStage:self];
         
 //        stage_start_x = ([[UIScreen mainScreen] bounds].size.width-PLAYER_WIDTH)/2 + [self.player getAnchorOffsetX];
@@ -281,8 +289,8 @@
         
         //bullet.scale = 0.8;
         
-        CGFloat velocity_x = cos([tank getAdjRotation])*100;
-        CGFloat velocity_y = sin([tank getAdjRotation])*100;
+        CGFloat velocity_x = cos([tank getAdjRotation])*tank.bulletSpeed;
+        CGFloat velocity_y = sin([tank getAdjRotation])*tank.bulletSpeed;
         
         CGFloat radius = PLAYER_WIDTH;
         CGFloat x = cos([tank getAdjRotation])*radius + tank.position.x;

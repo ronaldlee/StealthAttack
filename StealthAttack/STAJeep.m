@@ -40,6 +40,8 @@
     
     self.wheel_rotate_speed = 0.3;
     
+    self.fadeOutDuration = 5;
+    
     return self;
 }
 

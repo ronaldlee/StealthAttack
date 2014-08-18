@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		B44452A619A045E1009D0787 /* STAJeep.m in Sources */ = {isa = PBXBuildFile; fileRef = B44452A519A045E1009D0787 /* STAJeep.m */; };
 		B44452A919A14B0E009D0787 /* STAShotgunTank.m in Sources */ = {isa = PBXBuildFile; fileRef = B44452A819A14B0E009D0787 /* STAShotgunTank.m */; };
+		B44452AD19A1694F009D0787 /* STASniperTank.m in Sources */ = {isa = PBXBuildFile; fileRef = B44452AC19A1694F009D0787 /* STASniperTank.m */; };
 		B4B12F93195F5A5A005DBFF4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4B12F92195F5A5A005DBFF4 /* Foundation.framework */; };
 		B4B12F95195F5A5A005DBFF4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4B12F94195F5A5A005DBFF4 /* CoreGraphics.framework */; };
 		B4B12F97195F5A5A005DBFF4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4B12F96195F5A5A005DBFF4 /* UIKit.framework */; };
@@ -58,6 +59,8 @@
 		B44452A519A045E1009D0787 /* STAJeep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STAJeep.m; sourceTree = "<group>"; };
 		B44452A719A14B0E009D0787 /* STAShotgunTank.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STAShotgunTank.h; sourceTree = "<group>"; };
 		B44452A819A14B0E009D0787 /* STAShotgunTank.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STAShotgunTank.m; sourceTree = "<group>"; };
+		B44452AB19A1694F009D0787 /* STASniperTank.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STASniperTank.h; sourceTree = "<group>"; };
+		B44452AC19A1694F009D0787 /* STASniperTank.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STASniperTank.m; sourceTree = "<group>"; };
 		B4B12F8F195F5A5A005DBFF4 /* StealthAttack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StealthAttack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4B12F92195F5A5A005DBFF4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B4B12F94195F5A5A005DBFF4 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -197,6 +200,8 @@
 				B44452A519A045E1009D0787 /* STAJeep.m */,
 				B44452A719A14B0E009D0787 /* STAShotgunTank.h */,
 				B44452A819A14B0E009D0787 /* STAShotgunTank.m */,
+				B44452AB19A1694F009D0787 /* STASniperTank.h */,
+				B44452AC19A1694F009D0787 /* STASniperTank.m */,
 			);
 			path = StealthAttack;
 			sourceTree = "<group>";
@@ -371,6 +376,7 @@
 				B4B12FE0195F6813005DBFF4 /* STAButton.m in Sources */,
 				B4B12FDC195F645F005DBFF4 /* STABullet.m in Sources */,
 				B4B12FB1195F5A5A005DBFF4 /* STAMyScene.m in Sources */,
+				B44452AD19A1694F009D0787 /* STASniperTank.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

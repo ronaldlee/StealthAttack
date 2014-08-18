@@ -174,6 +174,20 @@
         [self.scene addChild:enemy3];
         [enemy3 dance];
         
+        //
+        enemy4 = [[STASniperTank alloc] initWithScale:self.scale Id:2
+                                             BodyColor:TANK_BODY_YELLOW
+                                         BodyBaseColor:TANK_BODY_BASE_YELLOW
+                                                    AI:NULL
+                                              Category:ENEMY_CATEGORY
+                                                Bounds:bounds];
+        
+        stage_start_x = enemy3.position.x + enemy3.max_width + 50;
+        
+        enemy4.position = CGPointMake(stage_start_x,stage_start_y);
+        [self.scene addChild:enemy4];
+        [enemy4 dance];
+        
         //=== enemy selection button
         
         button_size = CGSizeMake(40,40);
@@ -197,6 +211,13 @@
         enemy3Button.position = CGPointMake(enemy3.position.x - (enemy3.max_width/2) - (button_size.width-enemy3.max_width)/2,
                                             enemy3.position.y - (enemy3.max_height/2) - (button_size.height-enemy3.max_height)/2);
         [self.scene addChild:enemy3Button];
+        
+        enemy4Button = [[STAButton alloc] initWithSize:button_size Name:@"enemy4_button" Alpha:1.0 BGAlpha:0.0 ButtonText:NULL
+                                       ButtonTextColor:NULL ButtonTextFont:@"Press Start 2P" ButtonTextFontSize:10 isShowBorder:false];
+        enemy4Button.userInteractionEnabled = NO;
+        enemy4Button.position = CGPointMake(enemy4.position.x - (enemy4.max_width/2) - (button_size.width-enemy4.max_width)/2,
+                                            enemy4.position.y - (enemy4.max_height/2) - (button_size.height-enemy4.max_height)/2);
+        [self.scene addChild:enemy4Button];
         
     }
     
@@ -264,6 +285,15 @@
             
             myScene.currStage = [[STABattleStage alloc ] initWithScale:self.scale Bounds:self.bounds Scene:self.scene EnemyId:3];
         }
+        else if ([node.name isEqualToString:@"enemy4_button"]) {
+            NSLog(@"enemy4_button");
+            
+            STAMyScene* myScene = (STAMyScene*)self.scene;
+            
+            [myScene.currStage cleanup];
+            
+            myScene.currStage = [[STABattleStage alloc ] initWithScale:self.scale Bounds:self.bounds Scene:self.scene EnemyId:4];
+        }
         
     }
 }
@@ -285,10 +315,12 @@
     [enemy2 stop];
     [enemy3Button removeAllActions];
     [enemy3 stop];
+    [enemy4Button removeAllActions];
+    [enemy4 stop];
     
     
     NSArray* objs = [NSArray arrayWithObjects:selectOppTitle,backLabel,backButton,enemy1Button,enemy1,enemy2Button,enemy2,
-                     enemy3Button,enemy3,nil];
+                     enemy3Button,enemy3,enemy4Button,enemy4,nil];
     
     [self.scene removeChildrenInArray:objs];
     

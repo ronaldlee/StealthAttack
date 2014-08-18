@@ -100,7 +100,10 @@
 @synthesize numShots;
 @synthesize betweenShotsAccuracyInRadian;
 @synthesize accuracyInRadian;
-
+@synthesize attackAccuracyInRadian;
+@synthesize bulletSpeed;
+@synthesize attackCoolDownDuration;
+@synthesize fadeOutDuration;
 
 - (id)initWithScale:(CGFloat)f_scale Id:(int)t_id BodyColor:(UIColor*)b_color BodyBaseColor:(UIColor*)bb_color
                  AI:(STAAI*)t_ai Category:(uint32_t)category Bounds:(CGRect)p_bounds{
@@ -133,6 +136,10 @@
         numShots = 1;
         betweenShotsAccuracyInRadian=0;
         accuracyInRadian=5;
+        attackAccuracyInRadian=5;
+        bulletSpeed = 100;
+        fadeOutDuration = 1;
+        attackCoolDownDuration = 5;
         
         scaled_width = PIXEL_WIDTHHEIGHT*scale; //6
         scaled_height = PIXEL_WIDTHHEIGHT*scale; //6
@@ -969,7 +976,7 @@
 -(void)fadeOut {
     if (!IS_ENABLE_STEALTH && !isGameOver) return;
     
-    SKAction* fadeOut=[SKAction fadeOutWithDuration:1];
+    SKAction* fadeOut=[SKAction fadeOutWithDuration:self.fadeOutDuration];
 //    [self.tankA runAction:fadeOut withKey:@"fadeout"];
 //    [self.tankB runAction:fadeOut withKey:@"fadeout"];
 //    [self.tankC runAction:fadeOut withKey:@"fadeout"];

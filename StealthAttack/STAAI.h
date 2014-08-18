@@ -18,6 +18,7 @@
 //should be a value between +/- 0 to 10 divided by 100 (max 0.1 radian)
 //otherwise it is going to be really inaccurate.
 @property (nonatomic) CGFloat accuracyInRadian;
+@property (nonatomic) CGFloat attackAccuracyInRadian;
 
 //each time when it decides to shoot, how many of them
 @property (nonatomic) int numShots;
@@ -29,7 +30,7 @@
 
 //once attacked and should cool down before next attack
 @property (nonatomic) BOOL isAttackCoolDown;
-@property (nonatomic) CGFloat attackCoolDownDuration;
+@property (nonatomic) int attackCoolDownDuration;
 
 //player reveal actions probability
 //  approach : 1

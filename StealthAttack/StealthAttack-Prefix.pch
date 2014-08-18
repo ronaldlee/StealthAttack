@@ -22,6 +22,7 @@
 #import "STAEnemyTank.h"
 #import "STAJeep.h"
 #import "STAShotgunTank.h"
+#import "STASniperTank.h"
 #import "STABullet.h"
 #import "STAButton.h"
 #import "STAStageObject.h"

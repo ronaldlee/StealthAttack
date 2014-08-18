@@ -244,7 +244,7 @@
     if (!IS_ENABLE_STEALTH) return;
     
     [super fadeOut];
-    SKAction* fadeOut=[SKAction fadeOutWithDuration:1];
+    SKAction* fadeOut=[SKAction fadeOutWithDuration:self.fadeOutDuration];
     [self.tankH runAction:fadeOut completion:^() {
         if (self.isGameOver) {
             self.tankH.alpha = 1.0;

@@ -76,6 +76,7 @@
 @synthesize thinkSpeed;
 
 @synthesize startMovesProbArray;
+@synthesize attackAccuracyInRadian;
 
 - (id)initWithStage:(STABattleStage*)b_stage {
     self = [super init];
@@ -85,6 +86,7 @@
         enemyTank_lastknown_y=-1;
         
         accuracyInRadian = 5;
+        attackAccuracyInRadian = 5;
         
         numShots = 1;
         betweenShotsDuration = 0.5;
@@ -294,6 +296,7 @@
     numShots = host.numShots;
     betweenShotsAccuracyInRadian = host.betweenShotsAccuracyInRadian;
     accuracyInRadian = host.accuracyInRadian;
+    attackCoolDownDuration = host.attackCoolDownDuration;
 }
 
 -(int)getRegionForX:(CGFloat)px Y:(CGFloat)py {
@@ -1059,7 +1062,7 @@
     
     //calculate accuracy value
     //accuracyInRadian
-    CGFloat rand = (CGFloat)arc4random_uniform(accuracyInRadian);
+    CGFloat rand = (CGFloat)arc4random_uniform(attackAccuracyInRadian);
     CGFloat r = rand / (CGFloat)100.0;
     
     __block int localNumShots = numShots;
@@ -1094,7 +1097,7 @@
     
     SKAction* attackCooldown = [SKAction waitForDuration:attackCoolDownDuration];
     SKAction* clearAttackCooldown = [SKAction runBlock:^() {
-        NSLog(@"!!!!!!!!!! attack cool down over!!! CAN ATTACK AGAIN!!!!!!!!!");
+//        NSLog(@"!!!!!!!!!! attack cool down over!!! CAN ATTACK AGAIN!!!!!!!!!");
         host.ai.isAttackCoolDown = false;
     }];
     [host.attackCooldownNode runAction:[SKAction sequence:@[attackCooldown,clearAttackCooldown]]];

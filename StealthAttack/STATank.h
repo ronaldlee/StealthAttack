@@ -84,6 +84,10 @@
 @property (nonatomic) int numShots;
 @property (nonatomic) CGFloat betweenShotsAccuracyInRadian;
 @property (nonatomic) CGFloat accuracyInRadian;
+@property (nonatomic) CGFloat attackAccuracyInRadian;
+@property (nonatomic) int bulletSpeed;
+@property (nonatomic) int attackCoolDownDuration;
+@property (nonatomic) int fadeOutDuration;
 
 
 //-(void)setBorderBounds:(CGRect)p_bounds;
