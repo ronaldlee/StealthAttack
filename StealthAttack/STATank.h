@@ -143,6 +143,7 @@
 -(CGFloat)getMoveSpeed;
 
 -(void)fadeInThenOut;
+-(void)fadeInThenOutPreFadeOut;
 -(void)fadeOut;
 -(void)fadeInNow;
 

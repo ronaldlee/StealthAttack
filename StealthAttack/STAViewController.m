@@ -15,6 +15,8 @@
 {
     [super viewDidLoad];
 
+    self.navigationController.navigationBar.hidden = YES;
+    
     // Configure the view.
     SKView * skView = (SKView *)self.view;
     skView.showsFPS = YES;

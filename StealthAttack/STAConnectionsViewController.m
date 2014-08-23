@@ -104,7 +104,7 @@
 //    [self presentViewController:viewController animated:NO completion:NULL];
     
 //    [self dismissModalViewControllerAnimated:NO];
-    [self.navigationController popViewControllerAnimated:NO];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)browserViewControllerDidFinish:(MCBrowserViewController *)browserViewController{

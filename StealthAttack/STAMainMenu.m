@@ -154,12 +154,15 @@
         }
         else if ([node.name isEqualToString:@"multi_player"]) {
             
-            UIStoryboard *storyboard = [STAAppUtil getStoryboard];
-            UIViewController* viewController = [storyboard instantiateViewControllerWithIdentifier:@"STAConnectionsViewController"];
+            STAMyScene* myScene = (STAMyScene*)self.scene;
+            
+            //UIStoryboard *storyboard = [STAAppUtil getStoryboard];
+            //UIViewController* viewController = [storyboard instantiateViewControllerWithIdentifier:@"STAConnectionsViewController"];
             
             // Present Log In View Controller
-            STAMyScene* myScene = (STAMyScene*)self.scene;
-            [myScene.viewController presentViewController:viewController animated:NO completion:NULL];
+            //[myScene.viewController presentViewController:viewController animated:NO completion:NULL];
+            
+            [myScene.viewController performSegueWithIdentifier:@"MultiPlayerModal" sender:self];
         }
     }
 }

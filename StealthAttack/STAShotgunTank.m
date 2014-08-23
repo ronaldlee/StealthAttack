@@ -95,18 +95,16 @@
     
 }
 
-
--(void)fadeInThenOut {
-    if (!IS_ENABLE_STEALTH) return;
+-(void) fadeInThenOutPreFadeOut {
+    [super fadeInThenOutPreFadeOut];
     
-    [super fadeInThenOut];
     SKAction* fadeIn=[SKAction fadeInWithDuration:1];
     [self.tankAl runAction:fadeIn];
     [self.tankAr runAction:fadeIn];
 }
 
 -(void)fadeOut {
-    if (!IS_ENABLE_STEALTH) return;
+    if (!IS_ENABLE_STEALTH && !self.isGameOver) return;
     
     [super fadeOut];
     SKAction* fadeOut=[SKAction fadeOutWithDuration:1];

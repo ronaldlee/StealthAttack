@@ -950,16 +950,13 @@
     return moveSpeed;
 }
 
+-(void)fadeInThenOutPreFadeOut {
+}
+
 -(void)fadeInThenOut {
     if (!IS_ENABLE_STEALTH && !isGameOver) return;
     
     SKAction* fadeIn=[SKAction fadeInWithDuration:1];
-//    [self.tankA runAction:fadeIn withKey:@"fadein"];
-//    [self.tankB runAction:fadeIn withKey:@"fadein"];
-//    [self.tankC runAction:fadeIn withKey:@"fadein"];
-//    [self.tankD runAction:fadeIn withKey:@"fadein"];
-//    [self.tankE runAction:fadeIn withKey:@"fadein"];
-//    [self.tankF runAction:fadeIn withKey:@"fadein"];
     
     [self.tankA runAction:fadeIn];
     [self.tankB runAction:fadeIn];
@@ -968,6 +965,7 @@
     [self.tankE runAction:fadeIn];
     [self.tankF runAction:fadeIn];
     
+    [self fadeInThenOutPreFadeOut];
     [self.tankG runAction:fadeIn completion:^() {
         [self fadeOut];
     }];
@@ -977,13 +975,6 @@
     if (!IS_ENABLE_STEALTH && !isGameOver) return;
     
     SKAction* fadeOut=[SKAction fadeOutWithDuration:self.fadeOutDuration];
-//    [self.tankA runAction:fadeOut withKey:@"fadeout"];
-//    [self.tankB runAction:fadeOut withKey:@"fadeout"];
-//    [self.tankC runAction:fadeOut withKey:@"fadeout"];
-//    [self.tankD runAction:fadeOut withKey:@"fadeout"];
-//    [self.tankE runAction:fadeOut withKey:@"fadeout"];
-//    [self.tankF runAction:fadeOut withKey:@"fadeout"];
-//    [self.tankG runAction:fadeOut withKey:@"fadeout"];
     
     [self.tankA runAction:fadeOut completion:^() {
         if (isGameOver) {
@@ -1041,21 +1032,6 @@
     
     if (!IS_ENABLE_STEALTH) return;
     
-//    [self.tankA removeActionForKey:@"fadein"];
-//    [self.tankA removeActionForKey:@"fadeout"];
-//    [self.tankB removeActionForKey:@"fadein"];
-//    [self.tankB removeActionForKey:@"fadeout"];
-//    [self.tankC removeActionForKey:@"fadein"];
-//    [self.tankC removeActionForKey:@"fadeout"];
-//    [self.tankD removeActionForKey:@"fadein"];
-//    [self.tankD removeActionForKey:@"fadeout"];
-//    [self.tankE removeActionForKey:@"fadein"];
-//    [self.tankE removeActionForKey:@"fadeout"];
-//    [self.tankF removeActionForKey:@"fadein"];
-//    [self.tankF removeActionForKey:@"fadeout"];
-//    [self.tankG removeActionForKey:@"fadein"];
-//    [self.tankG removeActionForKey:@"fadeout"];
-    
     self.tankA.alpha = 1.0;
     self.tankB.alpha = 1.0;
     self.tankC.alpha = 1.0;
@@ -1064,14 +1040,6 @@
     self.tankF.alpha = 1.0;
     self.tankG.alpha = 1.0;
     
-//    SKAction* fadeIn=[SKAction fadeInWithDuration:0];
-//    [self.tankA runAction:fadeIn];
-//    [self.tankB runAction:fadeIn];
-//    [self.tankC runAction:fadeIn];
-//    [self.tankD runAction:fadeIn];
-//    [self.tankE runAction:fadeIn];
-//    [self.tankF runAction:fadeIn];
-//    [self.tankG runAction:fadeIn];
 }
 
 -(void) dance:(int)regionId {
