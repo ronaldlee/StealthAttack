@@ -18,6 +18,7 @@
 @synthesize title2;
 
 @synthesize singlePlayer;
+@synthesize multiPlayer;
 
 - (id)initWithScale:(float)sk_scale Bounds:(CGRect)bounds Scene:(SKScene*)sk_scene {
     self = [super initWithScale:sk_scale Bounds:bounds Scene:sk_scene];
@@ -101,6 +102,23 @@
         
         [self.scene addChild:singlePlayer];
         
+        //
+        multiPlayer = [SKLabelNode labelNodeWithFontNamed:playFont];
+        
+        NSString *multiPlay = @"multi player";
+        multiPlayer.text = multiPlay;
+        multiPlayer.fontSize = 8;
+        multiPlayer.fontColor = [SKColor whiteColor];
+        multiPlayer.name = @"multi_player";
+        
+        title_y = BOTTOM_HUD_HEIGHT + 100;
+        
+        multiPlayer.position = CGPointMake(title_x,title_y);
+        
+        [self.scene addChild:multiPlayer];
+        
+        //
+        
         SKAction * hideSinglePlayer = [SKAction runBlock:^(void) {
             singlePlayer.alpha = 0;
         }];
@@ -124,7 +142,6 @@
         
         if ([node.name isEqualToString:@"single_player"]) {
             NSLog(@"single player!!");
-            
             //go to single player menu: select opponents:
             //beat the first 3 and unlock more
             
@@ -134,6 +151,15 @@
             
             myScene.currStage = [[STASinglePlayerSelectOpponent alloc ]
                                  initWithScale:self.scale Bounds:self.bounds Scene:self.scene];
+        }
+        else if ([node.name isEqualToString:@"multi_player"]) {
+            
+            UIStoryboard *storyboard = [STAAppUtil getStoryboard];
+            UIViewController* viewController = [storyboard instantiateViewControllerWithIdentifier:@"STAConnectionsViewController"];
+            
+            // Present Log In View Controller
+            STAMyScene* myScene = (STAMyScene*)self.scene;
+            [myScene.viewController presentViewController:viewController animated:NO completion:NULL];
         }
     }
 }
@@ -145,8 +171,9 @@
 -(void)cleanup {
     
     [singlePlayer removeAllActions];
+    [multiPlayer removeAllActions];
     
-    NSArray* objs = [NSArray arrayWithObjects:title1,title2,singlePlayer,nil];
+    NSArray* objs = [NSArray arrayWithObjects:title1,title2,singlePlayer,multiPlayer,nil];
     
     [self.scene removeChildrenInArray:objs];
 }

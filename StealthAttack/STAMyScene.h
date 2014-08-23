@@ -18,5 +18,6 @@
 //@property (nonatomic) STAButton * backward_button;
 
 @property (nonatomic) STAStage * currStage;
+@property (nonatomic) UIViewController* viewController;
 
 @end

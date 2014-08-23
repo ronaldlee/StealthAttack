@@ -15,4 +15,6 @@
 
 @property (nonatomic) SKLabelNode * singlePlayer;
 
+@property (nonatomic) SKLabelNode * multiPlayer;
+
 @end

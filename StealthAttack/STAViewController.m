@@ -21,8 +21,9 @@
     skView.showsNodeCount = YES;
     
     // Create and configure the scene.
-    SKScene * scene = [STAMyScene sceneWithSize:skView.bounds.size];
+    STAMyScene * scene = [STAMyScene sceneWithSize:skView.bounds.size];
     scene.scaleMode = SKSceneScaleModeAspectFill;
+    scene.viewController = self;
     
     // Present the scene.
     [skView presentScene:scene];
