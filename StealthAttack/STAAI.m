@@ -757,11 +757,11 @@
                 }
                 else if (prod_act_int == WARNSHOT_PROB_KEY) {
                     NSLog(@"revealed: try warning shot");
-                    if (!isAttackCoolDown) {
+//                    if (!isAttackCoolDown) {
                         NSLog(@"revealed: warning shot");
-                        [host stop];
+//                        [host stop];
                         [self attack_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y complete:NULL];
-                    }
+//                    }
                 }
                 else if (prod_act_int == EVADE_PROB_KEY) {
                     NSLog(@"revealed: evade");
@@ -797,11 +797,11 @@
                 }
                 else if (prod_act_int == WARNSHOT_PROB_KEY) {
                     NSLog(@"revealed: try warning shot");
-                    if (!isAttackCoolDown) {
+//                    if (!isAttackCoolDown) {
                         NSLog(@"revealed: warning shot");
-                        [host stop];
+//                        [host stop];
                         [self attack_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y complete:NULL];
-                    }
+//                    }
                 }
                 else if (prod_act_int == EVADE_PROB_KEY) {
                     NSLog(@"revealed: evade");
@@ -837,11 +837,11 @@
                 }
                 else if (prod_act_int == WARNSHOT_PROB_KEY) {
                     NSLog(@"revealed: try warning shot");
-                    if (!isAttackCoolDown) {
+//                    if (!isAttackCoolDown) {
                         NSLog(@"revealed: warning shot");
-                        [host stop];
+//                        [host stop];
                         [self attack_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y complete:NULL];
-                    }
+//                    }
                 }
                 else if (prod_act_int == EVADE_PROB_KEY) {
                     NSLog(@"revealed: evade");
@@ -882,11 +882,11 @@
                 }
                 else if (prod_act_int == WARNSHOT_PROB_KEY) {
                     NSLog(@"stealth: try warning shot");
-                    if (!isAttackCoolDown) {
+//                    if (!isAttackCoolDown) {
                         NSLog(@"stealth: warning shot");
-                        [host stop];
+//                        [host stop];
                         [self attack_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y complete:NULL];
-                    }
+//                    }
                 }
                 else if (prod_act_int == EVADE_PROB_KEY) {
                     NSLog(@"stealth: evade");
@@ -924,11 +924,11 @@
                 }
                 else if (prod_act_int == WARNSHOT_PROB_KEY) {
                     NSLog(@"stealth: try warning shot");
-                    if (!isAttackCoolDown) {
+//                    if (!isAttackCoolDown) {
                         NSLog(@"stealth: warning shot");
-                        [host stop];
+//                        [host stop];
                         [self attack_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y complete:NULL];
-                    }
+//                    }
                 }
                 else if (prod_act_int == EVADE_PROB_KEY) {
                     NSLog(@"stealth: evade");
@@ -964,11 +964,11 @@
                 }
                 else if (prod_act_int == WARNSHOT_PROB_KEY) {
                     NSLog(@"stealth: try warning shot");
-                    if (!isAttackCoolDown) {
-                        [host stop];
+//                    if (!isAttackCoolDown) {
+//                        [host stop];
                         NSLog(@"stealth: warning shot");
                         [self attack_LastX:enemyTank_lastknown_x LastY:enemyTank_lastknown_y complete:NULL];
-                    }
+//                    }
                 }
                 else if (prod_act_int == EVADE_PROB_KEY) {
                     NSLog(@"stealth: evade");
@@ -1058,6 +1058,9 @@
 }
 
 -(void)attack_LastX:(CGFloat)lastX LastY:(CGFloat)lastY complete:(void (^)() )block{
+    if (isAttackCoolDown) return;
+    
+    [host stop];
     isAttackCoolDown = true;
     
     //calculate accuracy value
@@ -1098,7 +1101,7 @@
     SKAction* attackCooldown = [SKAction waitForDuration:attackCoolDownDuration];
     SKAction* clearAttackCooldown = [SKAction runBlock:^() {
 //        NSLog(@"!!!!!!!!!! attack cool down over!!! CAN ATTACK AGAIN!!!!!!!!!");
-        host.ai.isAttackCoolDown = false;
+        isAttackCoolDown = false;
     }];
     [host.attackCooldownNode runAction:[SKAction sequence:@[attackCooldown,clearAttackCooldown]]];
     
