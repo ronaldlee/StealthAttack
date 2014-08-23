@@ -13,8 +13,8 @@
 @property (nonatomic) SKLabelNode * title1;
 @property (nonatomic) SKLabelNode * title2;
 
-@property (nonatomic) SKLabelNode * singlePlayer;
+@property (nonatomic, strong) SKLabelNode * singlePlayer;
 
-@property (nonatomic) SKLabelNode * multiPlayer;
+@property (nonatomic, strong) SKLabelNode * multiPlayer;
 
 @end

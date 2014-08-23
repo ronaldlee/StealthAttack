@@ -236,7 +236,7 @@
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    NSLog(@"touch single play");
+    NSLog(@"single opponent screen touched");
     for (UITouch *touch in touches) {
         CGPoint location = [touch locationInNode:self.scene];
         SKNode *node = [self.scene nodeAtPoint:location];
