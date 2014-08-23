@@ -974,6 +974,8 @@
 -(void)fadeOut {
     if (!IS_ENABLE_STEALTH && !isGameOver) return;
     
+    [self stopFadeOut];
+    
     SKAction* fadeOut=[SKAction fadeOutWithDuration:self.fadeOutDuration];
     
     [self.tankA runAction:fadeOut completion:^() {

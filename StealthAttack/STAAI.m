@@ -104,10 +104,12 @@
         //=== When player revealed its position
         
         revealedActionProbArrayLong  = [self getProbArrayForApproach:10 WarningShot:5 Evade:5 DontMove:5 Stupid:5];
+//        revealedActionProbArrayLong  = [self getProbArrayForApproach:0 WarningShot:1 Evade:0 DontMove:0 Stupid:0]; //test shot
         revealedActionProbArrayMid   = [self getProbArrayForApproach:3 WarningShot:5 Evade:0 DontMove:0 Stupid:0];
         revealedActionProbArrayShort = [self getProbArrayForApproach:0 WarningShot:1 Evade:0 DontMove:0 Stupid:0];
         
         stealthActionProbArrayLong  = [self getProbArrayForApproach:10 WarningShot:5 Evade:0 DontMove:0 Stupid:0];
+//        stealthActionProbArrayLong  = [self getProbArrayForApproach:0 WarningShot:1 Evade:0 DontMove:0 Stupid:0];
         stealthActionProbArrayMid   = [self getProbArrayForApproach:5 WarningShot:5 Evade:1 DontMove:0 Stupid:0];
         stealthActionProbArrayShort = [self getProbArrayForApproach:0 WarningShot:1 Evade:0 DontMove:0 Stupid:0];
         
