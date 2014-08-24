@@ -119,16 +119,16 @@
         
         //
         
-        SKAction * hideSinglePlayer = [SKAction runBlock:^(void) {
-            singlePlayer.alpha = 0;
-        }];
-        SKAction * showSinglePlayer = [SKAction runBlock:^(void) {
-            singlePlayer.alpha = 1;
-        }];
-        
-        SKAction *wait = [SKAction waitForDuration:0.7];
-        SKAction *wait_longer = [SKAction waitForDuration:5];
-        [singlePlayer runAction:[SKAction sequence:@[wait_longer,[SKAction repeatActionForever:[SKAction sequence:@[wait,hideSinglePlayer,wait,showSinglePlayer]]]]]];
+//        SKAction * hideSinglePlayer = [SKAction runBlock:^(void) {
+//            singlePlayer.alpha = 0;
+//        }];
+//        SKAction * showSinglePlayer = [SKAction runBlock:^(void) {
+//            singlePlayer.alpha = 1;
+//        }];
+//        
+//        SKAction *wait = [SKAction waitForDuration:0.7];
+//        SKAction *wait_longer = [SKAction waitForDuration:5];
+//        [singlePlayer runAction:[SKAction sequence:@[wait_longer,[SKAction repeatActionForever:[SKAction sequence:@[wait,hideSinglePlayer,wait,showSinglePlayer]]]]]];
 
     }
     

@@ -13,6 +13,7 @@
 		B44452B819A315FD009D0787 /* STAMCManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B44452B719A315FD009D0787 /* STAMCManager.m */; };
 		B44452BB19A8F7C9009D0787 /* STAConnectionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B44452BA19A8F7C9009D0787 /* STAConnectionsViewController.m */; };
 		B44452C419A8FA66009D0787 /* STAAppUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B44452C319A8FA66009D0787 /* STAAppUtil.m */; };
+		B4A9CE4819A981600097AAF0 /* STAMultiPlayerSelect.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A9CE4719A981600097AAF0 /* STAMultiPlayerSelect.m */; };
 		B4B12F93195F5A5A005DBFF4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4B12F92195F5A5A005DBFF4 /* Foundation.framework */; };
 		B4B12F95195F5A5A005DBFF4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4B12F94195F5A5A005DBFF4 /* CoreGraphics.framework */; };
 		B4B12F97195F5A5A005DBFF4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4B12F96195F5A5A005DBFF4 /* UIKit.framework */; };
@@ -70,6 +71,8 @@
 		B44452BA19A8F7C9009D0787 /* STAConnectionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STAConnectionsViewController.m; sourceTree = "<group>"; };
 		B44452C219A8FA66009D0787 /* STAAppUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STAAppUtil.h; sourceTree = "<group>"; };
 		B44452C319A8FA66009D0787 /* STAAppUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STAAppUtil.m; sourceTree = "<group>"; };
+		B4A9CE4619A981600097AAF0 /* STAMultiPlayerSelect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STAMultiPlayerSelect.h; sourceTree = "<group>"; };
+		B4A9CE4719A981600097AAF0 /* STAMultiPlayerSelect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STAMultiPlayerSelect.m; sourceTree = "<group>"; };
 		B4B12F8F195F5A5A005DBFF4 /* StealthAttack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StealthAttack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4B12F92195F5A5A005DBFF4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B4B12F94195F5A5A005DBFF4 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -275,6 +278,8 @@
 				B4B12FFA1971A3E7005DBFF4 /* STASinglePlayerSelectOpponent.m */,
 				B4B12FFD1971F73C005DBFF4 /* STABattleStage.h */,
 				B4B12FFE1971F73C005DBFF4 /* STABattleStage.m */,
+				B4A9CE4619A981600097AAF0 /* STAMultiPlayerSelect.h */,
+				B4A9CE4719A981600097AAF0 /* STAMultiPlayerSelect.m */,
 			);
 			name = stages;
 			sourceTree = "<group>";
@@ -403,6 +408,7 @@
 				B4B12FDC195F645F005DBFF4 /* STABullet.m in Sources */,
 				B4B12FB1195F5A5A005DBFF4 /* STAMyScene.m in Sources */,
 				B44452AD19A1694F009D0787 /* STASniperTank.m in Sources */,
+				B4A9CE4819A981600097AAF0 /* STAMultiPlayerSelect.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

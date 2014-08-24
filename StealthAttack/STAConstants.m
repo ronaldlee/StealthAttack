@@ -65,4 +65,8 @@ UIColor* TANK_BODY_BASE_YELLOW;
 UIColor* TANK_BODY_BLUE;
 UIColor* TANK_BODY_BASE_BLUE;
 
+const int ACTION_CHOOSE_COLOR = 11;
+
+const NSString* ENCODE_KEY = @"wooowowowos";
+
 @end

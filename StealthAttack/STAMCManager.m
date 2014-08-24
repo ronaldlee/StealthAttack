@@ -59,7 +59,12 @@
 
 
 -(void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID{
+    NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    NSDictionary *myDictionary = [unarchiver decodeObjectForKey:ENCODE_KEY];
+    [unarchiver finishDecoding];
     
+    NSLog(@"got data; action: %@", [myDictionary objectForKey:@"action"]);
+    NSLog(@"got data; value: %@", [myDictionary objectForKey:@"value"]);
 }
 
 
@@ -77,5 +82,28 @@
     
 }
 
+//===
+
+-(void)chooseColor:(int)color {
+    
+    NSDictionary* colorData = @{@"action" : [NSNumber numberWithInt:ACTION_CHOOSE_COLOR],
+                                @"value" : [NSNumber numberWithInt:color],};
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [archiver encodeObject:colorData forKey:ENCODE_KEY];
+    [archiver finishEncoding];
+    
+    NSArray *allPeers = self.session.connectedPeers;
+    NSError *error;
+    
+    [self.session sendData:data
+                   toPeers:allPeers
+                  withMode:MCSessionSendDataReliable
+                     error:&error];
+    
+    if (error) {
+        NSLog(@"%@", [error localizedDescription]);
+    }
+}
 
 @end

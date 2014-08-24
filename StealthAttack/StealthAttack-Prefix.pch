@@ -15,6 +15,7 @@
     #import <Foundation/Foundation.h>
 #import <math.h>
 
+#import "STAAppDelegate.h"
 #import "STAGameObject.h"
 #import "STAConstants.h"
 #import "STAAppUtil.h"
@@ -32,5 +33,6 @@
 #import "STAMyScene.h"
 #import "STASinglePlayerSelectOpponent.h"
 #import "STABattleStage.h"
+#import "STAMultiPlayerSelect.h"
 
 #endif

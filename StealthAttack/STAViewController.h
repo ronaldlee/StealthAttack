@@ -11,4 +11,6 @@
 
 @interface STAViewController : UIViewController
 
+@property (nonatomic, strong) STAMyScene * scene;
+
 @end

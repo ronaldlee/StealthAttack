@@ -15,8 +15,12 @@
 @property (nonatomic,strong)MCSession*session;
 @property (nonatomic,strong)MCBrowserViewController *browser;
 @property (nonatomic,strong)MCAdvertiserAssistant *advertiser;
+@property (nonatomic)BOOL isServer;
 
 -(void)setupPeerAndSessionWithDisplayName:(NSString*)displayName;
 -(void)setupMCBrowser;
 -(void)advertiseSelf:(BOOL)shouldAdvertise;
+
+-(void)chooseColor:(int)color;
+
 @end

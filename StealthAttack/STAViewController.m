@@ -11,6 +11,33 @@
 
 @implementation STAViewController
 
+@synthesize scene;
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
+    BOOL isPeersExist = ([[appDelegate.mcManager.session connectedPeers] count] > 0);
+    
+    if (isPeersExist && scene != NULL) {
+        
+        STAMyScene* myScene = (STAMyScene*) scene;
+        [myScene.currStage cleanup];
+        
+        CGFloat left_corner_x = BORDER_SIDE_MARGIN;
+        CGFloat top_corner_y = [[UIScreen mainScreen] bounds].size.height - TOP_HUD_HEIGHT;
+        CGFloat right_corner_x = [[UIScreen mainScreen] bounds].size.width - BORDER_SIDE_MARGIN;
+        CGFloat bottom_corner_y = BOTTOM_HUD_HEIGHT;
+        
+        myScene.currStage = [[STAMultiPlayerSelect alloc ]
+                             initWithScale:[UIScreen mainScreen].scale
+                             Bounds:CGRectMake(left_corner_x,bottom_corner_y,
+                                               right_corner_x-left_corner_x,
+                                               top_corner_y-bottom_corner_y)
+                             Scene:self.scene];
+    }
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -23,7 +50,7 @@
     skView.showsNodeCount = YES;
     
     // Create and configure the scene.
-    STAMyScene * scene = [STAMyScene sceneWithSize:skView.bounds.size];
+    scene = [STAMyScene sceneWithSize:skView.bounds.size];
     scene.scaleMode = SKSceneScaleModeAspectFill;
     scene.viewController = self;
     

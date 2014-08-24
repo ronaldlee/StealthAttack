@@ -75,5 +75,9 @@ extern UIColor* TANK_BODY_BASE_YELLOW;
 extern UIColor* TANK_BODY_BLUE;
 extern UIColor* TANK_BODY_BASE_BLUE;
 
+extern const int ACTION_CHOOSE_COLOR;
+
+extern const NSString* ENCODE_KEY;
+
 
 @end

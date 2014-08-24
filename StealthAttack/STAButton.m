@@ -21,11 +21,20 @@
 @synthesize button;
 @synthesize isDoneRecharge;
 
+- (id)initWithSize:(CGSize)b_size  Name:(NSString*)b_name Alpha:(CGFloat)alpha BGAlpha:(CGFloat)bg_alpha
+        ButtonText:(NSString*)button_text ButtonTextColor:(SKColor*)bt_color ButtonTextFont:(NSString*)bt_font
+ButtonTextFontSize:(int)font_size
+      isShowBorder:(BOOL)p_isShowBorder {
+    return [self initWithSize:b_size Name:b_name Alpha:alpha BGAlpha:bg_alpha ButtonText:button_text
+       ButtonTextColor:bt_color ButtonTextFont:bt_font ButtonTextFontSize:font_size isShowBorder:p_isShowBorder
+               BGColor:[UIColor whiteColor]];
+}
 
 - (id)initWithSize:(CGSize)b_size  Name:(NSString*)b_name Alpha:(CGFloat)alpha BGAlpha:(CGFloat)bg_alpha
         ButtonText:(NSString*)button_text ButtonTextColor:(SKColor*)bt_color ButtonTextFont:(NSString*)bt_font
 ButtonTextFontSize:(int)font_size
-      isShowBorder:(BOOL)p_isShowBorder{
+      isShowBorder:(BOOL)p_isShowBorder
+           BGColor:(UIColor*)bg_color{
     self = [super init];
     if (self) {
         isShowBorder = p_isShowBorder;
@@ -101,7 +110,7 @@ ButtonTextFontSize:(int)font_size
         
         //==
         
-        button = [SKSpriteNode spriteNodeWithColor:[[UIColor whiteColor] colorWithAlphaComponent:bg_alpha] size:b_size];
+        button = [SKSpriteNode spriteNodeWithColor:[bg_color colorWithAlphaComponent:bg_alpha] size:b_size];
         button.name=b_name;
         button.userInteractionEnabled = NO;
         //        button.position = CGPointMake(0,0);

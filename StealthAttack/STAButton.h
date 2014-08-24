@@ -14,6 +14,12 @@
 @property (nonatomic) SKSpriteNode * button;
 @property (nonatomic) BOOL isDoneRecharge;
 
+- (id)initWithSize:(CGSize)b_size  Name:(NSString*)b_name Alpha:(CGFloat)alpha BGAlpha:(CGFloat)bg_alpha
+        ButtonText:(NSString*)button_text ButtonTextColor:(SKColor*)bt_color ButtonTextFont:(NSString*)bt_font
+ButtonTextFontSize:(int)font_size
+      isShowBorder:(BOOL)p_isShowBorder
+           BGColor:(UIColor*)bg_color;
+
 - (id)initWithSize:(CGSize)size Name:(NSString*)name Alpha:(CGFloat)alpha BGAlpha:(CGFloat)bg_alpha
         ButtonText:(NSString*)button_text ButtonTextColor:(SKColor*)bt_color ButtonTextFont:(NSString*)bt_font
 ButtonTextFontSize:(int)font_size

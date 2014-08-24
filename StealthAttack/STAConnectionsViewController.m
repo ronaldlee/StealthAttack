@@ -144,6 +144,7 @@
     if (state != MCSessionStateConnecting) {
         if (state == MCSessionStateConnected) {
             [_arrConnectedDevices addObject:peerDisplayName];
+            
         }
         else if (state == MCSessionStateNotConnected){
             if ([_arrConnectedDevices count] > 0) {
@@ -152,12 +153,11 @@
             }
         }
         
-        
         [_tblConnectedDevices reloadData];
         
-        BOOL peersExist = ([[_appDelegate.mcManager.session connectedPeers] count] == 0);
-        [_btnDisconnect setEnabled:!peersExist];
-        [_txtName setEnabled:peersExist];
+        BOOL isPeersExist = ([[_appDelegate.mcManager.session connectedPeers] count] > 0);
+        [_btnDisconnect setEnabled:isPeersExist];
+        [_txtName setEnabled:!isPeersExist];
     }
 }
 
