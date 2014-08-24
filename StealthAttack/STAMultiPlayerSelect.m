@@ -254,8 +254,13 @@
         readyButton = [[STAButton alloc] initWithSize:button_size Name:@"ready_button" Alpha:0 BGAlpha:0.0 ButtonText:@"Ready"
                                       ButtonTextColor:[UIColor whiteColor] ButtonTextFont:@"Press Start 2P" ButtonTextFontSize:10 isShowBorder:false];
         readyButton.userInteractionEnabled = NO;
-        readyButton.position = CGPointMake(color1Button.position.x,color1Button.position.y - 50);
+        readyButton.position = CGPointMake(color1Button.position.x,color1Button.position.y - 100);
         [self.scene addChild:readyButton];
+        
+        //
+        STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
+        [appDelegate.mcManager setStage:MULTIPLAY_STAGE_CHOOSE_TANK];
+        [appDelegate.mcManager setStageObj:self];
     }
     
     return self;
@@ -301,17 +306,6 @@
             NSLog(@"enemy5_button");
             
             myTankId = 5;
-//            if (oppTankId != -1) {
-//                STAMyScene* myScene = (STAMyScene*)self.scene;
-//                
-//                [myScene.currStage cleanup];
-//                
-//                myScene.currStage = [[STAP2PBattleStage alloc ] initWithScale:self.scale
-//                                                                       Bounds:self.bounds
-//                                                                        Scene:self.scene
-//                                                                     MyTankId:tankId
-//                                                                    OppTankId:oppTankId];
-//            }
         }
         else if ([node.name isEqualToString:@"color1_button"]) {
             myColorId = 1;
@@ -329,6 +323,8 @@
             myColorId = 5;
         }
         else if ([node.name isEqualToString:@"ready_button"]) {
+            NSLog(@"Hit ready!: my tankId: %d, myColorId: %d",myTankId,myColorId);
+            
             STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
             [appDelegate.mcManager submitPlayerChoiceTank:myTankId Color:myColorId];
         }
@@ -358,15 +354,31 @@
     [enemy5Button removeAllActions];
     [enemy5 stop];
     
+    [color1Button removeAllActions];
+    [color2Button removeAllActions];
+    [color3Button removeAllActions];
+    [color4Button removeAllActions];
+    [color5Button removeAllActions];
+    
     
     NSArray* objs = [NSArray arrayWithObjects:selectOppTitle,backLabel,backButton,
                      enemy1Button,enemy1,enemy2Button,enemy2,
                      enemy3Button,enemy3,enemy4Button,enemy4,
-                     enemy5Button,enemy5,nil];
+                     enemy5Button,enemy5,
+                     color1Button,color2Button,color3Button,color4Button,color5Button,nil];
     
     [self.scene removeChildrenInArray:objs];
     
 }
 
+-(void)goToBattleStageMyTank:(int)myTankId MyColor:(int)myColorId OppTankId:(int)oppTankId OppColor:(int)oppColorId {
+    STAMyScene* myScene = (STAMyScene*)self.scene;
+    
+    [myScene.currStage cleanup];
+    
+    myScene.currStage = [[STAMultiPlayBattleStage alloc ]
+                         initWithScale:self.scale Bounds:self.bounds Scene:self.scene
+                         MyTank:myTankId MyColor:myColorId OppTankId:oppTankId OppColor:oppColorId];
+}
 
 @end

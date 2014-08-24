@@ -31,6 +31,8 @@
     
     STATank* oppTank;
     
+    STAStage* curStage;
+    
 }
 @end
 
@@ -43,9 +45,6 @@
         _session = nil;
         _browser = nil;
         _advertiser = nil;
-        
-        isAckColor = false;
-        isAckTank = false;
         
         [self reset];
     }
@@ -124,45 +123,53 @@
 
 
 -(void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID{
+    NSLog(@"didReceiveData");
+    
     NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
     NSDictionary *myDictionary = [unarchiver decodeObjectForKey:ENCODE_KEY];
     [unarchiver finishDecoding];
     
     NSNumber* actionId = (NSNumber*)[myDictionary objectForKey:@"action"];
     int actionIdInt = [actionId intValue];
+    NSLog(@"didReceiveData: stage: %d, actionId: %d",stage,actionIdInt);
     
     if (stage == MULTIPLAY_STAGE_CHOOSE_TANK) {
         if (actionIdInt == ACTION_SUBMIT_CHOICE) {
+            NSLog(@"action submit choice");
             NSNumber* oppColorIdNum = (NSNumber*)[myDictionary objectForKey:@"color"];
             oppColorId = [oppColorIdNum intValue];
             
             NSNumber* oppTankIdNum = (NSNumber*)[myDictionary objectForKey:@"tank"];
             oppTankId = [oppTankIdNum intValue];
             
-            NSNumber* oppMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
-            int oppMsgId = [oppTankIdNum intValue];
+//            NSNumber* oppMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
+//            int oppMsgId = [oppMsgIdNum intValue];
             
-            [self ackPlayerChoiceTank:oppTankId Color:oppColorId MsgId:oppMsgId];
+            [self ackPlayerChoiceTank:oppTankId Color:oppColorId MsgId:[[myDictionary objectForKey:@"id"] intValue]];
             
             if ([self isStageChooseTankReady]) {
                 [self sendReadyBattleStage];
             }
         }
         else if (actionIdInt == ACTION_ACK_CHOICE) {
+            NSLog(@"action ack choice");
             NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
             int ackMsgId = [ackMsgIdNum intValue];
             
             if (ackMsgId == msgId) {
+                NSLog(@"action ack choice: ackMsgId match");
                 NSNumber* ackColorIdNum = (NSNumber*)[myDictionary objectForKey:@"color"];
                 int ackColorId = [ackColorIdNum intValue];
                 
                 if (ackColorId == myColorId) {
+                    NSLog(@"action ack choice: isAckColor");
                     isAckColor = TRUE;
                 }
                 NSNumber* ackTankIdNum = (NSNumber*)[myDictionary objectForKey:@"tank"];
                 int ackTankId = [ackTankIdNum intValue];
                 
                 if (ackTankId == myTankId) {
+                    NSLog(@"action ack choice: isAckTank");
                     isAckTank = TRUE;
                 }
                 
@@ -175,6 +182,8 @@
             }
         }
         else if (actionIdInt == ACTION_SEND_READY_BATTLE_STAGE) {
+            NSLog(@"action send ready battle stage");
+            
             NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
             int ackMsgId = [ackMsgIdNum intValue];
             
@@ -182,8 +191,13 @@
             [self ackReadyBattleStage:ackMsgId];
             
             if ([self isStageBattleReady]) {
+                NSLog(@"action send ready battle stage: battle ready");
+                
                 //go to Battle Stage
                 stage = MULTIPLAY_STAGE_BATTLE;
+                
+                STAMultiPlayerSelect* mstage = (STAMultiPlayerSelect*)curStage;
+                [mstage goToBattleStageMyTank:myTankId MyColor:myColorId OppTankId:oppTankId OppColor:oppColorId];
             }
         }
         else if (actionIdInt == ACTION_ACK_READY_BATTLE_STAGE) {
@@ -197,6 +211,8 @@
             if ([self isStageBattleReady]) {
                 //go to Battle Stage
                 stage = MULTIPLAY_STAGE_BATTLE;
+                STAMultiPlayerSelect* mstage = (STAMultiPlayerSelect*)curStage;
+                [mstage goToBattleStageMyTank:myTankId MyColor:myColorId OppTankId:oppTankId OppColor:oppColorId];
             }
         }
     }
@@ -211,6 +227,8 @@
             
             if ([self isStageBattleStageUIReady]) {
                 stage = MULTIPLAY_STAGE_BATTLE_START;
+                STAMultiPlayBattleStage* mstage = (STAMultiPlayBattleStage*)curStage;
+                [mstage startCountDown];
             }
         }
         else if (actionIdInt == ACTION_ACK_BATTLE_STAGE_UI_READY) {
@@ -223,6 +241,8 @@
             
             if ([self isStageBattleStageUIReady]) {
                 stage = MULTIPLAY_STAGE_BATTLE_START;
+                STAMultiPlayBattleStage* mstage = (STAMultiPlayBattleStage*)curStage;
+                [mstage startCountDown];
             }
         }
     }
@@ -267,6 +287,7 @@
     myColorId = colorId;
     msgId++;
     
+    NSLog(@"submitPlayerChoiceTank");
     NSDictionary* choiceData = @{@"action" : [NSNumber numberWithInt:ACTION_SUBMIT_CHOICE],
                                 @"tank" : [NSNumber numberWithInt:myTankId],
                                 @"color" : [NSNumber numberWithInt:myColorId],
@@ -292,8 +313,8 @@
 -(void)ackPlayerChoiceTank:(int)tankId Color:(int)colorId MsgId:(int)p_msgId {
     
     NSDictionary* choiceData = @{@"action" : [NSNumber numberWithInt:ACTION_ACK_CHOICE],
-                                 @"tank" : [NSNumber numberWithInt:myTankId],
-                                 @"color" : [NSNumber numberWithInt:myColorId],
+                                 @"tank" : [NSNumber numberWithInt:tankId],
+                                 @"color" : [NSNumber numberWithInt:colorId],
                                  @"id" : [NSNumber numberWithInt:p_msgId]};
     NSMutableData *data = [[NSMutableData alloc] init];
     NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
@@ -314,6 +335,8 @@
 }
 
 -(void)sendReadyBattleStage {
+    NSLog(@"sendReadyBattleStage");
+    
     msgId++;
     isReadyBattleStage = TRUE;
     NSDictionary* choiceData = @{@"action" : [NSNumber numberWithInt:ACTION_SEND_READY_BATTLE_STAGE],
@@ -400,5 +423,11 @@
         NSLog(@"%@", [error localizedDescription]);
     }
 }
+
+//
+-(void)setStageObj:(STAStage*)stage {
+    curStage = stage;
+}
+
 
 @end

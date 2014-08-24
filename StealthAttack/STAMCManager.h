@@ -35,4 +35,6 @@
 
 -(void)sendBattleStageUIReady;
 
+-(void)setStageObj:(STAStage*)stage;
+
 @end

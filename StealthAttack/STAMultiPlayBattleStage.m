@@ -1,20 +1,20 @@
 //
-//  STABattleStage.m
+//  STAMultiPlayBattleStage.m
 //  StealthAttack
 //
-//  Created by Ronald Lee on 7/12/14.
+//  Created by Ronald Lee on 8/24/14.
 //  Copyright (c) 2014 noisysubmarine. All rights reserved.
 //
 
-#import "STABattleStage.h"
-@interface STABattleStage () {
+#import "STAMultiPlayBattleStage.h"
+
+@interface STAMultiPlayBattleStage () {
     
     SKLabelNode* countdownLabelNode;
 }
 @end
 
-@implementation STABattleStage
-
+@implementation STAMultiPlayBattleStage
 @synthesize player;
 @synthesize enemy;
 @synthesize fire_button;
@@ -33,10 +33,13 @@
 @synthesize isGameOver;
 @synthesize isGameStart;
 
-- (id)initWithScale:(float)sk_scale Bounds:(CGRect)bounds Scene:(SKScene*)sk_scene EnemyId:(int)enemyId {
+- (id)initWithScale:(float)sk_scale Bounds:(CGRect)bounds Scene:(SKScene*)sk_scene
+             MyTank:(int)myTankId MyColor:(int)myColorId OppTankId:(int)oppTankId OppColor:(int)oppColorId {
+    
     self = [super initWithScale:sk_scale Bounds:bounds Scene:sk_scene];
     
     if (self) {
+        
         isGameStart= false;
         isGameOver = false;
         playerFadeNode = [[SKNode alloc] init];
@@ -44,20 +47,6 @@
         enemyFadeNode = [[SKNode alloc] init];
         [self.scene addChild:enemyFadeNode];
         
-//        STAMyScene* myScene = (STAMyScene*)self.scene;
-//        [myScene.currStage cleanup];
-        
-//        tankBodyGreen = [UIColor greenColor];
-//        tankBodyBaseGreen = [UIColor colorWithRed:(70.0f/255.0f) green:(130.0f/255.0f) blue:(17.0f/255.0f) alpha:1.0];
-//        
-//        tankBodyRed = [UIColor redColor];
-//        tankBodyBaseRed = [UIColor colorWithRed:(157.0f/255.0f) green:(28.0f/255.0f) blue:(28.0f/255.0f) alpha:1.0];
-//        
-//        tankBodyYellow = [UIColor yellowColor];
-//        tankBodyBaseYellow = [UIColor colorWithRed:(186.0f/255.0f) green:(184.0f/255.0f) blue:(4.0f/255.0f) alpha:1.0];
-//        
-//        tankBodyBlue = [UIColor blueColor];
-//        tankBodyBaseBlue = [UIColor colorWithRed:(4.0f/255.0f) green:(45.0f/255.0f) blue:(144.0f/255.0f) alpha:1.0];
         //==
         
         CGSize button_size = CGSizeMake(50,50);
@@ -71,7 +60,7 @@
         fire_button.userInteractionEnabled = NO;
         fire_button.position = CGPointMake(left_corner_x, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
         [self.scene addChild:fire_button];
-
+        
         button_size = CGSizeMake(50,50);
         rotate_uc_button = [[STAButton alloc] initWithSize:button_size Name:@"rotate_uc_button" Alpha:1 BGAlpha:0.0 ButtonText:@"L" ButtonTextColor:[SKColor whiteColor] ButtonTextFont:@"GridExerciseGaps" ButtonTextFontSize:10 isShowBorder:true];
         rotate_uc_button.userInteractionEnabled = NO;
@@ -115,18 +104,73 @@
         back_button = [[STAButton alloc] initWithSize:button_size Name:@"back_button" Alpha:1 BGAlpha:0.0 ButtonText:@"BACK" ButtonTextColor:[SKColor whiteColor] ButtonTextFont:game_over_font ButtonTextFontSize:15 isShowBorder:false];
         back_button.userInteractionEnabled = NO;
         back_button.position = CGPointMake((([[UIScreen mainScreen] bounds].size.width-50))/2,
-                                             replay_button.position.y - 50);
+                                           replay_button.position.y - 50);
         
         
-//        //==
-        self.player = [[STATank alloc] initWithScale:self.scale Id:1
-                                           BodyColor:TANK_BODY_WHITE
-                                       BodyBaseColor:TANK_BODY_BASE_WHITE
-                                                  AI:NULL
-                                            Category:PLAYER_CATEGORY
-                                            Bounds:bounds];
+        //
+        UIColor* tank_color = TANK_BODY_WHITE;
+        UIColor* tank_base_color = TANK_BODY_BASE_WHITE;
+        
+        if (myColorId == 2) {
+            tank_color = TANK_BODY_BLUE;
+            tank_base_color = TANK_BODY_BASE_BLUE;
+        }
+        else if (myColorId == 3) {
+            tank_color = TANK_BODY_GREEN;
+            tank_base_color = TANK_BODY_BASE_GREEN;
+        }
+        else if (myColorId == 4) {
+            tank_color = TANK_BODY_RED;
+            tank_base_color = TANK_BODY_BASE_RED;
+        }
+        else if (myColorId == 5) {
+            tank_color = TANK_BODY_YELLOW;
+            tank_base_color = TANK_BODY_BASE_YELLOW;
+        }
+        
+        if (myTankId == 1) {
+            self.player = [[STATank alloc] initWithScale:self.scale Id:1
+                                               BodyColor:tank_color
+                                           BodyBaseColor:tank_base_color
+                                                      AI:NULL
+                                                Category:PLAYER_CATEGORY
+                                                  Bounds:bounds];
+        }
+        else if (myTankId == 2) {
+            self.player = [[STAEnemyTank alloc] initWithScale:self.scale Id:1
+                                               BodyColor:tank_color
+                                           BodyBaseColor:tank_base_color
+                                                      AI:NULL
+                                                Category:PLAYER_CATEGORY
+                                                  Bounds:bounds];
+        }
+        else if (myTankId == 3) {
+            self.player = [[STAJeep alloc] initWithScale:self.scale Id:1
+                                               BodyColor:tank_color
+                                           BodyBaseColor:tank_base_color
+                                                      AI:NULL
+                                                Category:PLAYER_CATEGORY
+                                                  Bounds:bounds];
+        }
+        else if (myTankId == 4) {
+            self.player = [[STAShotgunTank alloc] initWithScale:self.scale Id:1
+                                               BodyColor:tank_color
+                                           BodyBaseColor:tank_base_color
+                                                      AI:NULL
+                                                Category:PLAYER_CATEGORY
+                                                  Bounds:bounds];
+        }
+        else if (myTankId == 5) {
+            self.player = [[STASniperTank alloc] initWithScale:self.scale Id:1
+                                               BodyColor:tank_color
+                                           BodyBaseColor:tank_base_color
+                                                      AI:NULL
+                                                Category:PLAYER_CATEGORY
+                                                  Bounds:bounds];
+        }
+        
         [self.player setBattleStage:self];
-
+        
         CGFloat player_bottom_border_y = bottom_corner_y + [self.player getAnchorOffsetY]+PIXEL_WIDTHHEIGHT+1;//+PIXEL_WIDTHHEIGHT+1;
         CGFloat player_top_border_y = top_corner_y-PIXEL_WIDTHHEIGHT*2*self.scale-3;
         CGFloat player_left_border_x = left_corner_x+3;
@@ -135,56 +179,83 @@
         CGRect bounds = CGRectMake(player_left_border_x, player_bottom_border_y,
                                    player_right_border_x-player_left_border_x,
                                    player_top_border_y-player_bottom_border_y);
-
         
-//        CGFloat stage_start_x = ([[UIScreen mainScreen] bounds].size.width-PLAYER_WIDTH)/2 + [self.player getAnchorOffsetX];
-//        CGFloat stage_start_y = player_bottom_border_y+20;
+        
+        //        CGFloat stage_start_x = ([[UIScreen mainScreen] bounds].size.width-PLAYER_WIDTH)/2 + [self.player getAnchorOffsetX];
+        //        CGFloat stage_start_y = player_bottom_border_y+20;
         CGFloat stage_start_x = player_right_border_x - 20;
         CGFloat stage_start_y = player_bottom_border_y+20;
         
         self.player.position = CGPointMake(stage_start_x,stage_start_y);
-//        [self.player updateLastPositionData];
+        //        [self.player updateLastPositionData];
         
         [self.scene addChild:self.player];
         
         //==enemy
-        if (enemyId == 1) {
+        tank_color = TANK_BODY_WHITE;
+        tank_base_color = TANK_BODY_BASE_WHITE;
+        
+        if (oppColorId == 2) {
+            tank_color = TANK_BODY_BLUE;
+            tank_base_color = TANK_BODY_BASE_BLUE;
+        }
+        else if (oppColorId == 3) {
+            tank_color = TANK_BODY_GREEN;
+            tank_base_color = TANK_BODY_BASE_GREEN;
+        }
+        else if (oppColorId == 4) {
+            tank_color = TANK_BODY_RED;
+            tank_base_color = TANK_BODY_BASE_RED;
+        }
+        else if (oppColorId == 5) {
+            tank_color = TANK_BODY_YELLOW;
+            tank_base_color = TANK_BODY_BASE_YELLOW;
+        }
+        
+        //
+        
+        if (oppTankId == 2) {
+            self.enemy = [[STATank alloc] initWithScale:self.scale Id:2
+                                                   BodyColor:tank_color
+                                               BodyBaseColor:tank_base_color
+                                                          AI:NULL
+                                                    Category:ENEMY_CATEGORY
+                                                      Bounds:bounds];
+        }
+        else if (oppTankId == 2) {
             self.enemy = [[STAEnemyTank alloc] initWithScale:self.scale Id:2
-                                                   BodyColor:TANK_BODY_BLUE
-                                               BodyBaseColor:TANK_BODY_BASE_BLUE
-                                                      AI:[[STAAI alloc] initWithStage:self]
+                                                   BodyColor:tank_color
+                                               BodyBaseColor:tank_base_color
+                                                          AI:NULL
                                                     Category:ENEMY_CATEGORY
                                                       Bounds:bounds];
         }
-        else if (enemyId == 2) {
+        else if (oppTankId == 3) {
             self.enemy = [[STAJeep alloc] initWithScale:self.scale Id:2
-                                                   BodyColor:TANK_BODY_GREEN
-                                               BodyBaseColor:TANK_BODY_BASE_GREEN
-                                                     AI:[[STAAI alloc] initWithStage:self]
-                                                    Category:ENEMY_CATEGORY
-                                                      Bounds:bounds];
-        }
-        else if (enemyId == 3) {
-            self.enemy = [[STAShotgunTank alloc] initWithScale:self.scale Id:2
-                                              BodyColor:TANK_BODY_RED
-                                          BodyBaseColor:TANK_BODY_BASE_RED
-                                                     AI:[[STAAI alloc] initWithStage:self]
+                                              BodyColor:tank_color
+                                          BodyBaseColor:tank_base_color
+                                                     AI:NULL
                                                Category:ENEMY_CATEGORY
                                                  Bounds:bounds];
         }
-        else if (enemyId == 4) {
-            self.enemy = [[STASniperTank alloc] initWithScale:self.scale Id:2
-                                                     BodyColor:TANK_BODY_YELLOW
-                                                 BodyBaseColor:TANK_BODY_BASE_YELLOW
-                                                            AI:[[STAAI alloc] initWithStage:self]
+        else if (oppTankId == 4) {
+            self.enemy = [[STAShotgunTank alloc] initWithScale:self.scale Id:2
+                                                     BodyColor:tank_color
+                                                 BodyBaseColor:tank_base_color
+                                                            AI:NULL
                                                       Category:ENEMY_CATEGORY
                                                         Bounds:bounds];
         }
+        else if (oppTankId == 5) {
+            self.enemy = [[STASniperTank alloc] initWithScale:self.scale Id:2
+                                                    BodyColor:tank_color
+                                                BodyBaseColor:tank_base_color
+                                                           AI:NULL
+                                                     Category:ENEMY_CATEGORY
+                                                       Bounds:bounds];
+        }
         [self.enemy setBattleStage:self];
         
-//        stage_start_x = ([[UIScreen mainScreen] bounds].size.width-PLAYER_WIDTH)/2 + [self.player getAnchorOffsetX];
-//        stage_start_x = 200;
-//        stage_start_y = player_top_border_y-200;
         
         stage_start_x = player_left_border_x + 20;
         stage_start_y = player_top_border_y-20;
@@ -193,61 +264,66 @@
         
         [self.scene addChild:self.enemy];
         
-        [self.enemy dance:REGION_RIGHT_BOTTOM];
+        //tell opp battle stage UI is ready
         
-        //=== count down and fading out tanks
-        NSString * font = @"GridExerciseGaps";
-        countdownLabelNode = [SKLabelNode labelNodeWithFontNamed:font];
-        
-        NSString *cdStr = @"3";
-        countdownLabelNode.text = cdStr;
-        countdownLabelNode.fontSize = 38;
-        countdownLabelNode.fontColor = [SKColor whiteColor];
-        
-        CGFloat countdown_x = ([[UIScreen mainScreen] bounds].size.width)/2;
-        CGFloat countdown_y = [[UIScreen mainScreen] bounds].size.height - 200;
-        
-        countdownLabelNode.position = CGPointMake(countdown_x,countdown_y);
-        
-        int between_countdown_wait = 1;
-        SKAction* displayCountdown3Action = [SKAction runBlock:^() {
-            [self.scene addChild:countdownLabelNode];
-        }];
-        SKAction* displayCountdown2Action = [SKAction runBlock:^() {
-            countdownLabelNode.text = @"2";
-        }];
-        SKAction* displayCountdown1Action = [SKAction runBlock:^() {
-            countdownLabelNode.text = @"1";
-        }];
-        SKAction* fadeoutTanksAction = [SKAction runBlock:^() {
-            [countdownLabelNode removeFromParent];
-            
-            SKAction * playerFadeOutAction = [SKAction runBlock:^(){
-                self.player.isBrakingOn = false;
-                [self.player fadeOut];
-            }];
-            
-            //a timer to fade out both tanks!
-            SKAction * enemyFadeOutAction = [SKAction runBlock:^() {
-                self.enemy.isBrakingOn = false;
-                [self.enemy fadeOut];
-            }];
-            
-            [self.playerFadeNode runAction:playerFadeOutAction];
-            [self.enemyFadeNode runAction:enemyFadeOutAction];
-            
-            isGameStart = true;
-        }];
-        
-        SKAction* countdownActions=[SKAction sequence:@[[SKAction waitForDuration:between_countdown_wait],displayCountdown3Action,
-                                                        [SKAction waitForDuration:between_countdown_wait],displayCountdown2Action,
-                                                        [SKAction waitForDuration:between_countdown_wait],displayCountdown1Action,
-                                                        [SKAction waitForDuration:between_countdown_wait],fadeoutTanksAction]];
-        
-        [self.scene runAction:countdownActions];
+        STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
+        [appDelegate.mcManager setStageObj:self];
+        [appDelegate.mcManager sendBattleStageUIReady];
     }
     
     return self;
+}
+
+-(void)startCountDown {
+    //=== count down and fading out tanks
+    NSString * font = @"GridExerciseGaps";
+    countdownLabelNode = [SKLabelNode labelNodeWithFontNamed:font];
+    
+    NSString *cdStr = @"3";
+    countdownLabelNode.text = cdStr;
+    countdownLabelNode.fontSize = 38;
+    countdownLabelNode.fontColor = [SKColor whiteColor];
+    
+    CGFloat countdown_x = ([[UIScreen mainScreen] bounds].size.width)/2;
+    CGFloat countdown_y = [[UIScreen mainScreen] bounds].size.height - 200;
+    
+    countdownLabelNode.position = CGPointMake(countdown_x,countdown_y);
+    
+    int between_countdown_wait = 1;
+    SKAction* displayCountdown3Action = [SKAction runBlock:^() {
+        [self.scene addChild:countdownLabelNode];
+    }];
+    SKAction* displayCountdown2Action = [SKAction runBlock:^() {
+        countdownLabelNode.text = @"2";
+    }];
+    SKAction* displayCountdown1Action = [SKAction runBlock:^() {
+        countdownLabelNode.text = @"1";
+    }];
+    SKAction* fadeoutTanksAction = [SKAction runBlock:^() {
+        [countdownLabelNode removeFromParent];
+        
+        SKAction * playerFadeOutAction = [SKAction runBlock:^(){
+            self.player.isBrakingOn = false;
+            [self.player fadeOut];
+        }];
+        
+        //a timer to fade out both tanks!
+        SKAction * enemyFadeOutAction = [SKAction runBlock:^() {
+            self.enemy.isBrakingOn = false;
+            [self.enemy fadeOut];
+        }];
+        
+        [self.playerFadeNode runAction:playerFadeOutAction];
+        [self.enemyFadeNode runAction:enemyFadeOutAction];
+        
+        isGameStart = true;
+    }];
+    
+    SKAction* countdownActions=[SKAction sequence:@[[SKAction waitForDuration:between_countdown_wait],displayCountdown3Action,
+                                                    [SKAction waitForDuration:between_countdown_wait],displayCountdown2Action,
+                                                    [SKAction waitForDuration:between_countdown_wait],displayCountdown1Action,
+                                                    [SKAction waitForDuration:between_countdown_wait],fadeoutTanksAction]];
+    [self.scene runAction:countdownActions];
 }
 
 -(void) fadeInOutEnemy {
@@ -427,5 +503,6 @@
     [self.scene addChild:replay_button];
     [self.scene addChild:back_button];
 }
+
 
 @end

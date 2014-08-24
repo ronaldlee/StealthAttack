@@ -35,5 +35,6 @@
 #import "STABattleStage.h"
 #import "STAMultiPlayerSelect.h"
 #import "STAMCManager.h"
+#import "STAMultiPlayBattleStage.h"
 
 #endif
