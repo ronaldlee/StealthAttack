@@ -65,8 +65,12 @@ UIColor* TANK_BODY_BASE_YELLOW;
 UIColor* TANK_BODY_BLUE;
 UIColor* TANK_BODY_BASE_BLUE;
 
-const int ACTION_CHOOSE_COLOR = 11;
+const int ACTION_SUBMIT_CHOICE = 11;
+const int ACTION_ACK_CHOICE = 100011;
 
 const NSString* ENCODE_KEY = @"wooowowowos";
+
+const int MULTIPLAY_STAGE_CHOOSE_TANK = 1;
+const int MULTIPLAY_STAGE_FIGHT = 2;
 
 @end

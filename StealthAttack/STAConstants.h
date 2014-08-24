@@ -75,9 +75,13 @@ extern UIColor* TANK_BODY_BASE_YELLOW;
 extern UIColor* TANK_BODY_BLUE;
 extern UIColor* TANK_BODY_BASE_BLUE;
 
-extern const int ACTION_CHOOSE_COLOR;
+extern const int ACTION_ACK_CHOICE;
+extern const int ACTION_SUBMIT_CHOICE;
 
 extern const NSString* ENCODE_KEY;
+
+extern const int MULTIPLAY_STAGE_CHOOSE_TANK;
+extern const int MULTIPLAY_STAGE_FIGHT;
 
 
 @end

@@ -21,6 +21,19 @@
 -(void)setupMCBrowser;
 -(void)advertiseSelf:(BOOL)shouldAdvertise;
 
--(void)chooseColor:(int)color;
+-(void)reset;
+
+-(void)resetStage;
+-(void)setStage:(int)stage;
+
+//
+//-(void)chooseColor:(int)color;
+//-(void)chooseTank:(int)tank;
+//
+//-(void)ackColor;
+//-(void)ackTank;
+
+-(BOOL)isStageChooseTankReady;
+-(void)submitPlayerChoiceTank:(int)myTankId Color:(int)myColorId;
 
 @end

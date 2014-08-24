@@ -9,10 +9,8 @@
 #import "STAMultiPlayerSelect.h"
 
 @interface STAMultiPlayerSelect () {
-    int tankId;
-    int opponentTankId;
-    int myTankColor;
-    int oppTankColor;
+    int myTankId;
+    int myColorId;
 }
 @end
 
@@ -20,6 +18,7 @@
 @synthesize selectOppTitle;
 @synthesize backLabel;
 @synthesize backButton;
+@synthesize readyButton;
 
 @synthesize enemy1;
 @synthesize enemy2;
@@ -44,7 +43,6 @@
     self = [super initWithScale:sk_scale Bounds:bounds Scene:sk_scene];
     
     if (self) {
-        opponentTankId = -1;
 //        STAMyScene* myScene = (STAMyScene*)self.scene;
 //        [myScene.currStage cleanup];
         
@@ -101,7 +99,6 @@
         backButton.userInteractionEnabled = NO;
         backButton.position = CGPointMake(back_button_orig_x-10,backLabel.position.y-5);
         [self.scene addChild:backButton];
-        
         
         //enemies to choose from
         CGFloat left_corner_x = self.bounds.origin.x;
@@ -250,6 +247,15 @@
         color5Button.position = CGPointMake(color4Button.position.x+40,
                                             color1Button.position.y);
         [self.scene addChild:color5Button];
+        
+        //
+        button_size = CGSizeMake(30,20);
+        
+        readyButton = [[STAButton alloc] initWithSize:button_size Name:@"ready_button" Alpha:0 BGAlpha:0.0 ButtonText:@"Ready"
+                                      ButtonTextColor:[UIColor whiteColor] ButtonTextFont:@"Press Start 2P" ButtonTextFontSize:10 isShowBorder:false];
+        readyButton.userInteractionEnabled = NO;
+        readyButton.position = CGPointMake(color1Button.position.x,color1Button.position.y - 50);
+        [self.scene addChild:readyButton];
     }
     
     return self;
@@ -274,64 +280,57 @@
         else if ([node.name isEqualToString:@"enemy1_button"]) {
             NSLog(@"enemy1_button");
             
-            tankId = 1;
+            myTankId = 1;
         }
         else if ([node.name isEqualToString:@"enemy2_button"]) {
             NSLog(@"enemy2_button");
             
-            tankId = 2;
+            myTankId = 2;
         }
         else if ([node.name isEqualToString:@"enemy3_button"]) {
             NSLog(@"enemy3_button");
             
-            tankId = 3;
+            myTankId = 3;
         }
         else if ([node.name isEqualToString:@"enemy4_button"]) {
             NSLog(@"enemy4_button");
             
-            tankId = 4;
+            myTankId = 4;
         }
         else if ([node.name isEqualToString:@"enemy5_button"]) {
             NSLog(@"enemy5_button");
             
-            tankId = 5;
-            if (opponentTankId != -1) {
-                STAMyScene* myScene = (STAMyScene*)self.scene;
-                
-                [myScene.currStage cleanup];
-                
+            myTankId = 5;
+//            if (oppTankId != -1) {
+//                STAMyScene* myScene = (STAMyScene*)self.scene;
+//                
+//                [myScene.currStage cleanup];
+//                
 //                myScene.currStage = [[STAP2PBattleStage alloc ] initWithScale:self.scale
 //                                                                       Bounds:self.bounds
 //                                                                        Scene:self.scene
 //                                                                     MyTankId:tankId
-//                                                                    OppTankId:opponentTankId];
-            }
+//                                                                    OppTankId:oppTankId];
+//            }
         }
         else if ([node.name isEqualToString:@"color1_button"]) {
-            STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
-            
-            [appDelegate.mcManager chooseColor:1];
-            
+            myColorId = 1;
         }
         else if ([node.name isEqualToString:@"color2_button"]) {
-            STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
-            
-            [appDelegate.mcManager chooseColor:2];
+            myColorId = 2;
         }
         else if ([node.name isEqualToString:@"color3_button"]) {
-            STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
-            
-            [appDelegate.mcManager chooseColor:3];
+            myColorId = 3;
         }
         else if ([node.name isEqualToString:@"color4_button"]) {
-            STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
-            
-            [appDelegate.mcManager chooseColor:4];
+            myColorId = 4;
         }
         else if ([node.name isEqualToString:@"color5_button"]) {
+            myColorId = 5;
+        }
+        else if ([node.name isEqualToString:@"ready_button"]) {
             STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
-            
-            [appDelegate.mcManager chooseColor:5];
+            [appDelegate.mcManager submitPlayerChoiceTank:myTankId Color:myColorId];
         }
         
     }
