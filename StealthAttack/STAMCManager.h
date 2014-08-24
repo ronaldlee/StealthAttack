@@ -25,15 +25,14 @@
 
 -(void)resetStage;
 -(void)setStage:(int)stage;
-
-//
-//-(void)chooseColor:(int)color;
-//-(void)chooseTank:(int)tank;
-//
-//-(void)ackColor;
-//-(void)ackTank;
+-(int)getStage;
+-(void)setOppTank:(STATank*)tank;
 
 -(BOOL)isStageChooseTankReady;
+-(BOOL)isStageBattleReady;
+
 -(void)submitPlayerChoiceTank:(int)myTankId Color:(int)myColorId;
+
+-(void)sendBattleStageUIReady;
 
 @end

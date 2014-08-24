@@ -77,11 +77,17 @@ extern UIColor* TANK_BODY_BASE_BLUE;
 
 extern const int ACTION_ACK_CHOICE;
 extern const int ACTION_SUBMIT_CHOICE;
+extern const int ACTION_SEND_READY_BATTLE_STAGE;
+extern const int ACTION_ACK_READY_BATTLE_STAGE;
+
+extern const int ACTION_SEND_BATTLE_STAGE_UI_READY;
+extern const int ACTION_ACK_BATTLE_STAGE_UI_READY;
 
 extern const NSString* ENCODE_KEY;
 
 extern const int MULTIPLAY_STAGE_CHOOSE_TANK;
-extern const int MULTIPLAY_STAGE_FIGHT;
+extern const int MULTIPLAY_STAGE_BATTLE;
+extern const int MULTIPLAY_STAGE_BATTLE_START;
 
 
 @end

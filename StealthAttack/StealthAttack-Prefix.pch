@@ -34,5 +34,6 @@
 #import "STASinglePlayerSelectOpponent.h"
 #import "STABattleStage.h"
 #import "STAMultiPlayerSelect.h"
+#import "STAMCManager.h"
 
 #endif

@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "STAMCManager.h"
 
+@class STAMCManager;
 @interface STAAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
