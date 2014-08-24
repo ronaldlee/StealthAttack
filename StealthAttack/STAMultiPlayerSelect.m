@@ -360,12 +360,15 @@
     [color4Button removeAllActions];
     [color5Button removeAllActions];
     
+    [readyButton removeAllActions];
+    
     
     NSArray* objs = [NSArray arrayWithObjects:selectOppTitle,backLabel,backButton,
                      enemy1Button,enemy1,enemy2Button,enemy2,
                      enemy3Button,enemy3,enemy4Button,enemy4,
                      enemy5Button,enemy5,
-                     color1Button,color2Button,color3Button,color4Button,color5Button,nil];
+                     color1Button,color2Button,color3Button,color4Button,color5Button,
+                     readyButton,nil];
     
     [self.scene removeChildrenInArray:objs];
     

@@ -8,7 +8,7 @@
 
 #import "STAStage.h"
 
-@interface STAMultiPlayBattleStage : STAStage
+@interface STAMultiPlayBattleStage : STABattleStage
 
 @property (nonatomic) STATank * player;
 @property (nonatomic) STATank * enemy;
@@ -38,5 +38,19 @@
 -(void)showGameOverPlayerWin:(BOOL)isPlayerWin;
 
 -(void)startCountDown;
+
+-(void)enemyRotateC;
+-(void)enemyRotateUC;
+-(void)enemyForward;
+-(void)enemyBackward;
+-(void)enemyStop;
+-(void)enemyFire;
+
+-(void)playerRotateC;
+-(void)playerRotateUC;
+-(void)playerForward;
+-(void)playerBackward;
+-(void)playerStop;
+-(void)playerFire;
 
 @end

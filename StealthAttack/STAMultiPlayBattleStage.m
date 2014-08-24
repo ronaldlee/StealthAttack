@@ -128,15 +128,7 @@
             tank_base_color = TANK_BODY_BASE_YELLOW;
         }
         
-        if (myTankId == 1) {
-            self.player = [[STATank alloc] initWithScale:self.scale Id:1
-                                               BodyColor:tank_color
-                                           BodyBaseColor:tank_base_color
-                                                      AI:NULL
-                                                Category:PLAYER_CATEGORY
-                                                  Bounds:bounds];
-        }
-        else if (myTankId == 2) {
+        if (myTankId == 2) {
             self.player = [[STAEnemyTank alloc] initWithScale:self.scale Id:1
                                                BodyColor:tank_color
                                            BodyBaseColor:tank_base_color
@@ -162,6 +154,15 @@
         }
         else if (myTankId == 5) {
             self.player = [[STASniperTank alloc] initWithScale:self.scale Id:1
+                                               BodyColor:tank_color
+                                           BodyBaseColor:tank_base_color
+                                                      AI:NULL
+                                                Category:PLAYER_CATEGORY
+                                                  Bounds:bounds];
+        }
+        else {
+            
+            self.player = [[STATank alloc] initWithScale:self.scale Id:1
                                                BodyColor:tank_color
                                            BodyBaseColor:tank_base_color
                                                       AI:NULL
@@ -213,16 +214,7 @@
         }
         
         //
-        
         if (oppTankId == 2) {
-            self.enemy = [[STATank alloc] initWithScale:self.scale Id:2
-                                                   BodyColor:tank_color
-                                               BodyBaseColor:tank_base_color
-                                                          AI:NULL
-                                                    Category:ENEMY_CATEGORY
-                                                      Bounds:bounds];
-        }
-        else if (oppTankId == 2) {
             self.enemy = [[STAEnemyTank alloc] initWithScale:self.scale Id:2
                                                    BodyColor:tank_color
                                                BodyBaseColor:tank_base_color
@@ -253,6 +245,14 @@
                                                            AI:NULL
                                                      Category:ENEMY_CATEGORY
                                                        Bounds:bounds];
+        }
+        else {
+            self.enemy = [[STATank alloc] initWithScale:self.scale Id:2
+                                              BodyColor:tank_color
+                                          BodyBaseColor:tank_base_color
+                                                     AI:NULL
+                                               Category:ENEMY_CATEGORY
+                                                 Bounds:bounds];
         }
         [self.enemy setBattleStage:self];
         
@@ -416,7 +416,8 @@
                 NSLog(@"fire!!");
                 
                 if (fire_button.isDoneRecharge) {
-                    [self.player fire];
+                    STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
+                    [appDelegate.mcManager sendFire];
                     [fire_button recharge];
                 }
                 return;
@@ -424,25 +425,29 @@
             else if ([node.name isEqualToString:@"rotate_c_button"]) {
                 
                 [rotate_c_button flashText];
-                [self.player rotateClockwise];
+                STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
+                [appDelegate.mcManager sendRotateC];
                 return;
             }
             else if ([node.name isEqualToString:@"rotate_uc_button"]) {
                 
                 [rotate_uc_button flashText];
-                [self.player rotateCounterClockwise];
+                STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
+                [appDelegate.mcManager sendRotateUC];
                 return;
             }
             else if ([node.name isEqualToString:@"forward_button"]) {
                 
                 [forward_button flashText];
-                [self.player moveForward];
+                STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
+                [appDelegate.mcManager sendForward];
                 return;
             }
             else if ([node.name isEqualToString:@"backward_button"]) {
                 
                 [backward_button flashText];
-                [self.player moveBackward];
+                STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
+                [appDelegate.mcManager sendBackward];
                 return;
             }
         }
@@ -450,7 +455,9 @@
 }
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    [self.player stop];
+//    [self.player stop];
+    STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
+    [appDelegate.mcManager sendStop];
     
     [rotate_c_button stopFlashText];
     [rotate_uc_button stopFlashText];
@@ -504,5 +511,43 @@
     [self.scene addChild:back_button];
 }
 
+-(void)enemyRotateC {
+    [enemy rotateClockwise];
+}
+-(void)enemyRotateUC {
+    [enemy rotateCounterClockwise];
+}
+-(void)enemyForward {
+    [enemy moveForward];
+}
+-(void)enemyBackward {
+    [enemy moveBackward];
+}
+-(void)enemyStop {
+    [enemy stop];
+}
+-(void)enemyFire {
+    [enemy fire];
+}
+
+//
+-(void)playerRotateC {
+    [player rotateClockwise];
+}
+-(void)playerRotateUC {
+    [player rotateCounterClockwise];
+}
+-(void)playerForward {
+    [player moveForward];
+}
+-(void)playerBackward {
+    [player moveBackward];
+}
+-(void)playerStop {
+    [player stop];
+}
+-(void)playerFire {
+    [player fire];
+}
 
 @end

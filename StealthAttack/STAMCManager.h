@@ -37,4 +37,11 @@
 
 -(void)setStageObj:(STAStage*)stage;
 
+-(void)sendRotateC;
+-(void)sendRotateUC;
+-(void)sendForward;
+-(void)sendBackward;
+-(void)sendFire;
+-(void)sendStop;
+
 @end

@@ -83,6 +83,25 @@ extern const int ACTION_ACK_READY_BATTLE_STAGE;
 extern const int ACTION_SEND_BATTLE_STAGE_UI_READY;
 extern const int ACTION_ACK_BATTLE_STAGE_UI_READY;
 
+//tank actions
+extern const int ACTION_ROTATE_C_BUTTON_PRESSED;
+extern const int ACTION_ACK_ROTATE_C_BUTTON_PRESSED;
+
+extern const int ACTION_ROTATE_UC_BUTTON_PRESSED;
+extern const int ACTION_ACK_ROTATE_UC_BUTTON_PRESSED;
+
+extern const int ACTION_FORWARD_BUTTON_PRESSED;
+extern const int ACTION_ACK_FORWARD_BUTTON_PRESSED;
+extern const int ACTION_BACKWARD_BUTTON_PRESSED;
+extern const int ACTION_ACK_BACKWARD_BUTTON_PRESSED;
+
+extern const int ACTION_FIRE_BUTTON_PRESSED;
+extern const int ACTION_ACK_FIRE_BUTTON_PRESSED;
+
+extern const int ACTION_STOP;
+extern const int ACTION_ACK_STOP;
+//
+
 extern const NSString* ENCODE_KEY;
 
 extern const int MULTIPLAY_STAGE_CHOOSE_TANK;

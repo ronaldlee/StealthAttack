@@ -248,6 +248,73 @@
     }
     else if (stage == MULTIPLAY_STAGE_BATTLE_START) {
         //opp tank's actions
+        STAMultiPlayBattleStage* mstage = (STAMultiPlayBattleStage*)curStage;
+        if (actionIdInt == ACTION_ROTATE_C_BUTTON_PRESSED) {
+            [mstage enemyRotateC];
+        }
+        else if (actionIdInt == ACTION_ACK_ROTATE_C_BUTTON_PRESSED) {
+            NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
+            int ackMsgId = [ackMsgIdNum intValue];
+            
+            if (ackMsgId == msgId) {
+                [mstage playerRotateC];
+            }
+        }
+        else if (actionIdInt == ACTION_ROTATE_UC_BUTTON_PRESSED) {
+            [mstage enemyRotateUC];
+        }
+        else if (actionIdInt == ACTION_ACK_ROTATE_UC_BUTTON_PRESSED) {
+            NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
+            int ackMsgId = [ackMsgIdNum intValue];
+            
+            if (ackMsgId == msgId) {
+                [mstage playerRotateUC];
+            }
+        }
+        else if (actionIdInt == ACTION_FORWARD_BUTTON_PRESSED) {
+            [mstage enemyForward];
+        }
+        else if (actionIdInt == ACTION_ACK_FORWARD_BUTTON_PRESSED) {
+            NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
+            int ackMsgId = [ackMsgIdNum intValue];
+            
+            if (ackMsgId == msgId) {
+                [mstage playerForward];
+            }
+        }
+        else if (actionIdInt == ACTION_BACKWARD_BUTTON_PRESSED) {
+            [mstage enemyBackward];
+        }
+        else if (actionIdInt == ACTION_ACK_BACKWARD_BUTTON_PRESSED) {
+            NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
+            int ackMsgId = [ackMsgIdNum intValue];
+            
+            if (ackMsgId == msgId) {
+                [mstage playerBackward];
+            }
+        }
+        else if (actionIdInt == ACTION_FIRE_BUTTON_PRESSED) {
+            [mstage enemyFire];
+        }
+        else if (actionIdInt == ACTION_ACK_FIRE_BUTTON_PRESSED) {
+            NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
+            int ackMsgId = [ackMsgIdNum intValue];
+            
+            if (ackMsgId == msgId) {
+                [mstage playerFire];
+            }
+        }
+        else if (actionIdInt == ACTION_STOP) {
+            [mstage enemyStop];
+        }
+        else if (actionIdInt == ACTION_ACK_STOP) {
+            NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
+            int ackMsgId = [ackMsgIdNum intValue];
+            
+            if (ackMsgId == msgId) {
+                [mstage playerStop];
+            }
+        }
     }
     
 }
@@ -425,8 +492,259 @@
 }
 
 //
--(void)setStageObj:(STAStage*)stage {
-    curStage = stage;
+-(void)sendRotateC {
+    msgId++;
+    NSDictionary* choiceData = @{@"action" : [NSNumber numberWithInt:ACTION_ROTATE_C_BUTTON_PRESSED],
+                                 @"id" : [NSNumber numberWithInt:msgId],};
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [archiver encodeObject:choiceData forKey:ENCODE_KEY];
+    [archiver finishEncoding];
+    
+    NSArray *allPeers = self.session.connectedPeers;
+    NSError *error;
+    
+    [self.session sendData:data
+                   toPeers:allPeers
+                  withMode:MCSessionSendDataReliable
+                     error:&error];
+    
+    if (error) {
+        NSLog(@"%@", [error localizedDescription]);
+    }
+}
+
+-(void)ackRotateC:(int)p_msgId {
+    NSDictionary* choiceData = @{@"action" : [NSNumber numberWithInt:ACTION_ACK_ROTATE_C_BUTTON_PRESSED],
+                                 @"id" : [NSNumber numberWithInt:p_msgId],};
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [archiver encodeObject:choiceData forKey:ENCODE_KEY];
+    [archiver finishEncoding];
+    
+    NSArray *allPeers = self.session.connectedPeers;
+    NSError *error;
+    
+    [self.session sendData:data
+                   toPeers:allPeers
+                  withMode:MCSessionSendDataReliable
+                     error:&error];
+    
+    if (error) {
+        NSLog(@"%@", [error localizedDescription]);
+    }
+}
+
+-(void)sendRotateUC {
+    msgId++;
+    NSDictionary* choiceData = @{@"action" : [NSNumber numberWithInt:ACTION_ROTATE_UC_BUTTON_PRESSED],
+                                 @"id" : [NSNumber numberWithInt:msgId],};
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [archiver encodeObject:choiceData forKey:ENCODE_KEY];
+    [archiver finishEncoding];
+    
+    NSArray *allPeers = self.session.connectedPeers;
+    NSError *error;
+    
+    [self.session sendData:data
+                   toPeers:allPeers
+                  withMode:MCSessionSendDataReliable
+                     error:&error];
+    
+    if (error) {
+        NSLog(@"%@", [error localizedDescription]);
+    }
+}
+-(void)ackRotateUC:(int)p_msgId {
+    NSDictionary* choiceData = @{@"action" : [NSNumber numberWithInt:ACTION_ACK_ROTATE_UC_BUTTON_PRESSED],
+                                 @"id" : [NSNumber numberWithInt:p_msgId],};
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [archiver encodeObject:choiceData forKey:ENCODE_KEY];
+    [archiver finishEncoding];
+    
+    NSArray *allPeers = self.session.connectedPeers;
+    NSError *error;
+    
+    [self.session sendData:data
+                   toPeers:allPeers
+                  withMode:MCSessionSendDataReliable
+                     error:&error];
+    
+    if (error) {
+        NSLog(@"%@", [error localizedDescription]);
+    }
+}
+
+-(void)sendForward {
+    msgId++;
+    NSDictionary* choiceData = @{@"action" : [NSNumber numberWithInt:ACTION_FORWARD_BUTTON_PRESSED],
+                                 @"id" : [NSNumber numberWithInt:msgId],};
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [archiver encodeObject:choiceData forKey:ENCODE_KEY];
+    [archiver finishEncoding];
+    
+    NSArray *allPeers = self.session.connectedPeers;
+    NSError *error;
+    
+    [self.session sendData:data
+                   toPeers:allPeers
+                  withMode:MCSessionSendDataReliable
+                     error:&error];
+    
+    if (error) {
+        NSLog(@"%@", [error localizedDescription]);
+    }
+}
+-(void)ackRForeward:(int)p_msgId {
+    NSDictionary* choiceData = @{@"action" : [NSNumber numberWithInt:ACTION_ACK_FORWARD_BUTTON_PRESSED],
+                                 @"id" : [NSNumber numberWithInt:p_msgId],};
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [archiver encodeObject:choiceData forKey:ENCODE_KEY];
+    [archiver finishEncoding];
+    
+    NSArray *allPeers = self.session.connectedPeers;
+    NSError *error;
+    
+    [self.session sendData:data
+                   toPeers:allPeers
+                  withMode:MCSessionSendDataReliable
+                     error:&error];
+    
+    if (error) {
+        NSLog(@"%@", [error localizedDescription]);
+    }
+}
+-(void)sendBackward {
+    msgId++;
+    NSDictionary* choiceData = @{@"action" : [NSNumber numberWithInt:ACTION_BACKWARD_BUTTON_PRESSED],
+                                 @"id" : [NSNumber numberWithInt:msgId],};
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [archiver encodeObject:choiceData forKey:ENCODE_KEY];
+    [archiver finishEncoding];
+    
+    NSArray *allPeers = self.session.connectedPeers;
+    NSError *error;
+    
+    [self.session sendData:data
+                   toPeers:allPeers
+                  withMode:MCSessionSendDataReliable
+                     error:&error];
+    
+    if (error) {
+        NSLog(@"%@", [error localizedDescription]);
+    }
+}
+-(void)ackBackward:(int)p_msgId {
+    NSDictionary* choiceData = @{@"action" : [NSNumber numberWithInt:ACTION_ACK_BACKWARD_BUTTON_PRESSED],
+                                 @"id" : [NSNumber numberWithInt:p_msgId],};
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [archiver encodeObject:choiceData forKey:ENCODE_KEY];
+    [archiver finishEncoding];
+    
+    NSArray *allPeers = self.session.connectedPeers;
+    NSError *error;
+    
+    [self.session sendData:data
+                   toPeers:allPeers
+                  withMode:MCSessionSendDataReliable
+                     error:&error];
+    
+    if (error) {
+        NSLog(@"%@", [error localizedDescription]);
+    }
+}
+-(void)sendFire {
+    msgId++;
+    NSDictionary* choiceData = @{@"action" : [NSNumber numberWithInt:ACTION_FIRE_BUTTON_PRESSED],
+                                 @"id" : [NSNumber numberWithInt:msgId],};
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [archiver encodeObject:choiceData forKey:ENCODE_KEY];
+    [archiver finishEncoding];
+    
+    NSArray *allPeers = self.session.connectedPeers;
+    NSError *error;
+    
+    [self.session sendData:data
+                   toPeers:allPeers
+                  withMode:MCSessionSendDataReliable
+                     error:&error];
+    
+    if (error) {
+        NSLog(@"%@", [error localizedDescription]);
+    }
+}
+-(void)ackFire:(int)p_msgId {
+    NSDictionary* choiceData = @{@"action" : [NSNumber numberWithInt:ACTION_ACK_FIRE_BUTTON_PRESSED],
+                                 @"id" : [NSNumber numberWithInt:p_msgId],};
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [archiver encodeObject:choiceData forKey:ENCODE_KEY];
+    [archiver finishEncoding];
+    
+    NSArray *allPeers = self.session.connectedPeers;
+    NSError *error;
+    
+    [self.session sendData:data
+                   toPeers:allPeers
+                  withMode:MCSessionSendDataReliable
+                     error:&error];
+    
+    if (error) {
+        NSLog(@"%@", [error localizedDescription]);
+    }
+}
+-(void)sendStop {
+    msgId++;
+    NSDictionary* choiceData = @{@"action" : [NSNumber numberWithInt:ACTION_STOP],
+                                 @"id" : [NSNumber numberWithInt:msgId],};
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [archiver encodeObject:choiceData forKey:ENCODE_KEY];
+    [archiver finishEncoding];
+    
+    NSArray *allPeers = self.session.connectedPeers;
+    NSError *error;
+    
+    [self.session sendData:data
+                   toPeers:allPeers
+                  withMode:MCSessionSendDataReliable
+                     error:&error];
+    
+    if (error) {
+        NSLog(@"%@", [error localizedDescription]);
+    }
+}
+-(void)ackStop:(int)p_msgId {
+    NSDictionary* choiceData = @{@"action" : [NSNumber numberWithInt:ACTION_ACK_STOP],
+                                 @"id" : [NSNumber numberWithInt:p_msgId],};
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [archiver encodeObject:choiceData forKey:ENCODE_KEY];
+    [archiver finishEncoding];
+    
+    NSArray *allPeers = self.session.connectedPeers;
+    NSError *error;
+    
+    [self.session sendData:data
+                   toPeers:allPeers
+                  withMode:MCSessionSendDataReliable
+                     error:&error];
+    
+    if (error) {
+        NSLog(@"%@", [error localizedDescription]);
+    }
+}
+
+//
+-(void)setStageObj:(STAStage*)p_stage {
+    curStage = p_stage;
 }
 
 
