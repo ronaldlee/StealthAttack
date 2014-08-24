@@ -11,17 +11,17 @@
 @interface STAMultiPlayerSelect : STAStage
 
 
-@property (nonatomic,strong) SKLabelNode * selectOppTitle;
-@property (nonatomic,strong) SKLabelNode * backLabel;
+@property (nonatomic) SKLabelNode * selectOppTitle;
+@property (nonatomic) SKLabelNode * backLabel;
 
-@property (nonatomic,strong) STAButton * backButton;
-@property (nonatomic,strong) STAButton * readyButton;
+@property (nonatomic) STAButton * backButton;
+@property (nonatomic) STAButton * readyButton;
 
-@property (nonatomic,strong) STAButton * enemy1Button;
-@property (nonatomic,strong) STAButton * enemy2Button;
-@property (nonatomic,strong) STAButton * enemy3Button;
-@property (nonatomic,strong) STAButton * enemy4Button;
-@property (nonatomic,strong) STAButton * enemy5Button;
+@property (nonatomic) STAButton * enemy1Button;
+@property (nonatomic) STAButton * enemy2Button;
+@property (nonatomic) STAButton * enemy3Button;
+@property (nonatomic) STAButton * enemy4Button;
+@property (nonatomic) STAButton * enemy5Button;
 
 
 @property (nonatomic) STATank * enemy1;
@@ -32,11 +32,11 @@
 
 //
 
-@property (nonatomic,strong) STAButton * color1Button;
-@property (nonatomic,strong) STAButton * color2Button;
-@property (nonatomic,strong) STAButton * color3Button;
-@property (nonatomic,strong) STAButton * color4Button;
-@property (nonatomic,strong) STAButton * color5Button;
+@property (nonatomic) STAButton * color1Button;
+@property (nonatomic) STAButton * color2Button;
+@property (nonatomic) STAButton * color3Button;
+@property (nonatomic) STAButton * color4Button;
+@property (nonatomic) STAButton * color5Button;
 
 -(void)goToBattleStageMyTank:(int)myTankId MyColor:(int)myColorId OppTankId:(int)oppTankId OppColor:(int)oppColorId;
 

@@ -114,7 +114,7 @@
         //==enemies
         //4 enemies per row, 2 rows (total 8 enemies)
         //locked => question mark?
-        enemy1 = [[STAEnemyTank alloc] initWithScale:self.scale Id:2
+        enemy1 = [[STATank alloc] initWithScale:self.scale Id:2
                                            BodyColor:TANK_BODY_BLUE
                                        BodyBaseColor:TANK_BODY_BASE_BLUE
                                                   AI:NULL
@@ -128,56 +128,73 @@
         [enemy1 dance:REGION_MIDDLE_BOTTOM];
         
         //
-        enemy2 = [[STAJeep alloc] initWithScale:self.scale Id:2
+        enemy2 = [[STAEnemyTank alloc] initWithScale:self.scale Id:2
+                                           BodyColor:TANK_BODY_BLUE
+                                       BodyBaseColor:TANK_BODY_BASE_BLUE
+                                                  AI:NULL
+                                            Category:ENEMY_CATEGORY
+                                              Bounds:bounds];
+        
+        [self.scene addChild:enemy2];
+        [enemy2 dance:REGION_MIDDLE_BOTTOM];
+        
+        //
+        enemy3 = [[STAJeep alloc] initWithScale:self.scale Id:2
                                       BodyColor:TANK_BODY_GREEN
                                   BodyBaseColor:TANK_BODY_BASE_GREEN
                                              AI:NULL
                                        Category:ENEMY_CATEGORY
                                          Bounds:bounds];
         
-        [self.scene addChild:enemy2];
-        [enemy2 dance:REGION_MIDDLE_BOTTOM];
+        [self.scene addChild:enemy3];
+        [enemy3 dance:REGION_MIDDLE_BOTTOM];
         
         //
-        enemy3 = [[STAShotgunTank alloc] initWithScale:self.scale Id:2
+        enemy4 = [[STAShotgunTank alloc] initWithScale:self.scale Id:2
                                              BodyColor:TANK_BODY_RED
                                          BodyBaseColor:TANK_BODY_BASE_RED
                                                     AI:NULL
                                               Category:ENEMY_CATEGORY
                                                 Bounds:bounds];
         
-        [self.scene addChild:enemy3];
-        [enemy3 dance:REGION_MIDDLE_BOTTOM];
+        [self.scene addChild:enemy4];
+        [enemy4 dance:REGION_MIDDLE_BOTTOM];
         
         //
-        enemy4 = [[STASniperTank alloc] initWithScale:self.scale Id:2
+        enemy5 = [[STASniperTank alloc] initWithScale:self.scale Id:2
                                             BodyColor:TANK_BODY_YELLOW
                                         BodyBaseColor:TANK_BODY_BASE_YELLOW
                                                    AI:NULL
                                              Category:ENEMY_CATEGORY
                                                Bounds:bounds];
         
-        [self.scene addChild:enemy4];
-        [enemy4 dance:REGION_MIDDLE_BOTTOM];
+        [self.scene addChild:enemy5];
+        [enemy5 dance:REGION_MIDDLE_BOTTOM];
         
         //
-        CGFloat total_width = enemy1.max_width + enemy2.max_width + enemy3.max_width + enemy4.max_width + 50*3-10;
+        int diff_between = 40;
+        CGFloat total_width = enemy1.max_width + enemy2.max_width + enemy3.max_width +
+                              enemy4.max_width + enemy5.max_width+diff_between*4-10;
         
         CGFloat stage_start_x = ([[UIScreen mainScreen] bounds].size.width - total_width)/2;
         
         enemy1.position = CGPointMake(stage_start_x,stage_start_y);
         
-        stage_start_x = enemy1.position.x + enemy1.max_width + 50;
+        stage_start_x = enemy1.position.x + enemy1.max_width + diff_between;
         
         enemy2.position = CGPointMake(stage_start_x,stage_start_y);
         
-        stage_start_x = enemy2.position.x + enemy2.max_width + 50;
+        stage_start_x = enemy2.position.x + enemy2.max_width + diff_between;
         
         enemy3.position = CGPointMake(stage_start_x,stage_start_y);
         
-        stage_start_x = enemy3.position.x + enemy3.max_width + 50;
+        stage_start_x = enemy3.position.x + enemy3.max_width + diff_between;
         
         enemy4.position = CGPointMake(stage_start_x,stage_start_y);
+        
+        stage_start_x = enemy4.position.x + enemy4.max_width + diff_between;
+        
+        enemy5.position = CGPointMake(stage_start_x,stage_start_y);
         
         //=== enemy selection button
         
@@ -210,6 +227,12 @@
                                             enemy4.position.y - (enemy4.max_height/2) - (button_size.height-enemy4.max_height)/2);
         [self.scene addChild:enemy4Button];
         
+        enemy5Button = [[STAButton alloc] initWithSize:button_size Name:@"enemy4_button" Alpha:1.0 BGAlpha:0.0 ButtonText:NULL
+                                       ButtonTextColor:NULL ButtonTextFont:@"Press Start 2P" ButtonTextFontSize:10 isShowBorder:false];
+        enemy5Button.userInteractionEnabled = NO;
+        enemy5Button.position = CGPointMake(enemy5.position.x - (enemy5.max_width/2) - (button_size.width-enemy5.max_width)/2,
+                                            enemy5.position.y - (enemy5.max_height/2) - (button_size.height-enemy5.max_height)/2);
+        [self.scene addChild:enemy5Button];
         //
         
         button_size = CGSizeMake(40,40);
