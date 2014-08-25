@@ -13,6 +13,8 @@
     
     SKLabelNode* labelNode;
     BOOL isShowBorder;
+    
+    SKShapeNode* border_top, *border_left, *border_bottom, *border_right;
 }
 @end
 
@@ -48,65 +50,70 @@ ButtonTextFontSize:(int)font_size
         right_corner_x = b_size.width;
         bottom_corner_y = b_size.height;
         
+        int borderAlpha = 0;
+        
         if (isShowBorder) {
-            CGMutablePathRef pathToDraw = CGPathCreateMutable();
-            
-            //top
-            SKShapeNode* border_top = [SKShapeNode node];
-            
-            CGPathMoveToPoint(pathToDraw, NULL, left_corner_x, top_corner_y);
-            CGPathAddLineToPoint(pathToDraw, NULL, right_corner_x, top_corner_y);
-            border_top.name = @"border_top";
-            border_top.path = pathToDraw;
-            border_top.userInteractionEnabled = NO;
-            border_top.alpha = alpha;
-            [border_top setStrokeColor:BORDER_COLOR];
-            [border_top setLineWidth:1];
-            [border_top setAntialiased:FALSE];
-            [self addChild:border_top];
-            
-            //left
-            SKShapeNode* border_left = [SKShapeNode node];
-            
-            CGPathMoveToPoint(pathToDraw, NULL, left_corner_x, bottom_corner_y);
-            CGPathAddLineToPoint(pathToDraw, NULL, left_corner_x, top_corner_y);
-            border_left.name = @"border_left";
-            border_left.userInteractionEnabled = NO;
-            border_left.path = pathToDraw;
-            border_left.alpha = alpha;
-            [border_left setStrokeColor:BORDER_COLOR];
-            [border_left setLineWidth:1];
-            [border_left setAntialiased:FALSE];
-            [self addChild:border_left];
-            
-            //bottom
-            SKShapeNode* border_bottom = [SKShapeNode node];
-            
-            CGPathMoveToPoint(pathToDraw, NULL, left_corner_x, bottom_corner_y);
-            CGPathAddLineToPoint(pathToDraw, NULL, right_corner_x, bottom_corner_y);
-            border_bottom.name = @"border_bottom";
-            border_bottom.userInteractionEnabled = NO;
-            border_bottom.path = pathToDraw;
-            border_bottom.alpha = alpha;
-            [border_bottom setStrokeColor:BORDER_COLOR];
-            [border_bottom setLineWidth:1];
-            [border_bottom setAntialiased:FALSE];
-            [self addChild:border_bottom];
-            
-            //right
-            SKShapeNode* border_right = [SKShapeNode node];
-            
-            CGPathMoveToPoint(pathToDraw, NULL, right_corner_x, bottom_corner_y);
-            CGPathAddLineToPoint(pathToDraw, NULL, right_corner_x, top_corner_y);
-            border_right.name = @"border_right";
-            border_right.userInteractionEnabled = NO;
-            border_right.path = pathToDraw;
-            border_right.alpha = alpha;
-            [border_right setStrokeColor:BORDER_COLOR];
-            [border_right setLineWidth:1];
-            [border_right setAntialiased:FALSE];
-            [self addChild:border_right];
+            borderAlpha = alpha;
         }
+        
+        CGMutablePathRef pathToDraw = CGPathCreateMutable();
+        
+        //top
+        border_top = [SKShapeNode node];
+        
+        CGPathMoveToPoint(pathToDraw, NULL, left_corner_x, top_corner_y);
+        CGPathAddLineToPoint(pathToDraw, NULL, right_corner_x, top_corner_y);
+        border_top.name = @"border_top";
+        border_top.path = pathToDraw;
+        border_top.userInteractionEnabled = NO;
+        border_top.alpha = borderAlpha;
+        [border_top setStrokeColor:BORDER_COLOR];
+        [border_top setLineWidth:1];
+        [border_top setAntialiased:FALSE];
+        [self addChild:border_top];
+        
+        //left
+        border_left = [SKShapeNode node];
+        
+        CGPathMoveToPoint(pathToDraw, NULL, left_corner_x, bottom_corner_y);
+        CGPathAddLineToPoint(pathToDraw, NULL, left_corner_x, top_corner_y);
+        border_left.name = @"border_left";
+        border_left.userInteractionEnabled = NO;
+        border_left.path = pathToDraw;
+        border_left.alpha = borderAlpha;
+        [border_left setStrokeColor:BORDER_COLOR];
+        [border_left setLineWidth:1];
+        [border_left setAntialiased:FALSE];
+        [self addChild:border_left];
+        
+        //bottom
+        border_bottom = [SKShapeNode node];
+        
+        CGPathMoveToPoint(pathToDraw, NULL, left_corner_x, bottom_corner_y);
+        CGPathAddLineToPoint(pathToDraw, NULL, right_corner_x, bottom_corner_y);
+        border_bottom.name = @"border_bottom";
+        border_bottom.userInteractionEnabled = NO;
+        border_bottom.path = pathToDraw;
+        border_bottom.alpha = borderAlpha;
+        [border_bottom setStrokeColor:BORDER_COLOR];
+        [border_bottom setLineWidth:1];
+        [border_bottom setAntialiased:FALSE];
+        [self addChild:border_bottom];
+        
+        //right
+        border_right = [SKShapeNode node];
+        
+        CGPathMoveToPoint(pathToDraw, NULL, right_corner_x, bottom_corner_y);
+        CGPathAddLineToPoint(pathToDraw, NULL, right_corner_x, top_corner_y);
+        border_right.name = @"border_right";
+        border_right.userInteractionEnabled = NO;
+        border_right.path = pathToDraw;
+        border_right.alpha = borderAlpha;
+        [border_right setStrokeColor:BORDER_COLOR];
+        [border_right setLineWidth:1];
+        [border_right setAntialiased:FALSE];
+        [self addChild:border_right];
+        
         
         //==
         
@@ -184,5 +191,11 @@ ButtonTextFontSize:(int)font_size
     labelNode.text = text;
 }
 
+-(void)showBorder:(BOOL)p_isShowBorder {
+    border_top.alpha = p_isShowBorder ? 1:0;
+    border_left.alpha = p_isShowBorder ? 1:0;
+    border_bottom.alpha = p_isShowBorder ? 1:0;
+    border_right.alpha = p_isShowBorder ? 1:0;
+}
 
 @end

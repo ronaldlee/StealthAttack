@@ -95,6 +95,22 @@
     
 }
 
+-(void)setBodyColor:(UIColor*)color BaseColor:(UIColor*)b_color {
+    self.tankAl.color = color;
+    self.tankA.color = color;
+    self.tankAr.color = color;
+    
+    self.tankB.color = b_color;
+    self.tankC.color = color;
+    self.tankD.color = b_color;
+    self.tankE.color = b_color;
+    self.tankF.color = color;
+    self.tankG.color = b_color;
+    
+    self.tankH.color = b_color;
+    self.tankI.color = b_color;
+}
+
 -(void) fadeInThenOutPreFadeOut {
     [super fadeInThenOutPreFadeOut];
     

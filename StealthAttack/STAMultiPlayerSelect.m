@@ -16,6 +16,7 @@
 
 @implementation STAMultiPlayerSelect
 @synthesize selectOppTitle;
+@synthesize selectColorTitle;
 @synthesize backLabel;
 @synthesize backButton;
 @synthesize readyButton;
@@ -129,8 +130,8 @@
         
         //
         enemy2 = [[STAEnemyTank alloc] initWithScale:self.scale Id:2
-                                           BodyColor:TANK_BODY_BLUE
-                                       BodyBaseColor:TANK_BODY_BASE_BLUE
+                                           BodyColor:TANK_BODY_WHITE
+                                       BodyBaseColor:TANK_BODY_BASE_WHITE
                                                   AI:NULL
                                             Category:ENEMY_CATEGORY
                                               Bounds:bounds];
@@ -140,8 +141,8 @@
         
         //
         enemy3 = [[STAJeep alloc] initWithScale:self.scale Id:2
-                                      BodyColor:TANK_BODY_GREEN
-                                  BodyBaseColor:TANK_BODY_BASE_GREEN
+                                      BodyColor:TANK_BODY_WHITE
+                                  BodyBaseColor:TANK_BODY_BASE_WHITE
                                              AI:NULL
                                        Category:ENEMY_CATEGORY
                                          Bounds:bounds];
@@ -151,8 +152,8 @@
         
         //
         enemy4 = [[STAShotgunTank alloc] initWithScale:self.scale Id:2
-                                             BodyColor:TANK_BODY_RED
-                                         BodyBaseColor:TANK_BODY_BASE_RED
+                                             BodyColor:TANK_BODY_WHITE
+                                         BodyBaseColor:TANK_BODY_BASE_WHITE
                                                     AI:NULL
                                               Category:ENEMY_CATEGORY
                                                 Bounds:bounds];
@@ -162,8 +163,8 @@
         
         //
         enemy5 = [[STASniperTank alloc] initWithScale:self.scale Id:2
-                                            BodyColor:TANK_BODY_YELLOW
-                                        BodyBaseColor:TANK_BODY_BASE_YELLOW
+                                            BodyColor:TANK_BODY_WHITE
+                                        BodyBaseColor:TANK_BODY_BASE_WHITE
                                                    AI:NULL
                                              Category:ENEMY_CATEGORY
                                                Bounds:bounds];
@@ -239,37 +240,58 @@
         color1Button = [[STAButton alloc] initWithSize:button_size Name:@"color1_button" Alpha:1.0 BGAlpha:1.0 ButtonText:NULL
                                        ButtonTextColor:NULL ButtonTextFont:@"Press Start 2P" ButtonTextFontSize:10 isShowBorder:false BGColor:[UIColor whiteColor]];
         color1Button.userInteractionEnabled = NO;
-        color1Button.position = CGPointMake(enemy1Button.position.x,
-                                            enemy1Button.position.y - 200);
         [self.scene addChild:color1Button];
         
         color2Button = [[STAButton alloc] initWithSize:button_size Name:@"color2_button" Alpha:1.0 BGAlpha:1.0 ButtonText:NULL
                                        ButtonTextColor:NULL ButtonTextFont:@"Press Start 2P" ButtonTextFontSize:10 isShowBorder:false BGColor:[UIColor blueColor]];
         color2Button.userInteractionEnabled = NO;
-        color2Button.position = CGPointMake(color1Button.position.x+40,
-                                            color1Button.position.y);
         [self.scene addChild:color2Button];
         
         color3Button = [[STAButton alloc] initWithSize:button_size Name:@"color3_button" Alpha:1.0 BGAlpha:1.0 ButtonText:NULL
                                        ButtonTextColor:NULL ButtonTextFont:@"Press Start 2P" ButtonTextFontSize:10 isShowBorder:false BGColor:[UIColor greenColor]];
         color3Button.userInteractionEnabled = NO;
-        color3Button.position = CGPointMake(color2Button.position.x+40,
-                                            color1Button.position.y);
         [self.scene addChild:color3Button];
         
         color4Button = [[STAButton alloc] initWithSize:button_size Name:@"color4_button" Alpha:1.0 BGAlpha:1.0 ButtonText:NULL
                                        ButtonTextColor:NULL ButtonTextFont:@"Press Start 2P" ButtonTextFontSize:10 isShowBorder:false BGColor:[UIColor redColor]];
         color4Button.userInteractionEnabled = NO;
-        color4Button.position = CGPointMake(color3Button.position.x+40,
-                                            color1Button.position.y);
         [self.scene addChild:color4Button];
 
         color5Button = [[STAButton alloc] initWithSize:button_size Name:@"color5_button" Alpha:1.0 BGAlpha:1.0 ButtonText:NULL
                                        ButtonTextColor:NULL ButtonTextFont:@"Press Start 2P" ButtonTextFontSize:10 isShowBorder:false BGColor:[UIColor yellowColor]];
         color5Button.userInteractionEnabled = NO;
-        color5Button.position = CGPointMake(color4Button.position.x+40,
-                                            color1Button.position.y);
         [self.scene addChild:color5Button];
+        
+        diff_between=5;
+        total_width = 40*5+diff_between*4-10;
+        
+        stage_start_x = ([[UIScreen mainScreen] bounds].size.width - total_width)/2;
+        color1Button.position = CGPointMake(stage_start_x,
+                                            enemy1Button.position.y - 200);
+        color2Button.position = CGPointMake(color1Button.position.x+40+diff_between,
+                                            color1Button.position.y);
+        color3Button.position = CGPointMake(color2Button.position.x+40+diff_between,
+                                            color1Button.position.y);
+        color4Button.position = CGPointMake(color3Button.position.x+40+diff_between,
+                                            color1Button.position.y);
+        color5Button.position = CGPointMake(color4Button.position.x+40+diff_between,
+                                            color1Button.position.y);
+        
+        //
+        selectColorTitle = [SKLabelNode labelNodeWithFontNamed:font];
+        
+        selectColorTitle.text = @"Select Color";
+        selectColorTitle.fontSize = 8;
+        selectColorTitle.fontColor = [SKColor whiteColor];
+        
+        title_y = [[UIScreen mainScreen] bounds].size.height - 100;
+        
+        selectColorTitle.position = CGPointMake(title_x,color1Button.position.y +50);
+        selectColorTitle.alpha = 0;
+        
+        [self.scene addChild:selectColorTitle];
+        
+        [selectColorTitle runAction:fadein];
         
         //
         button_size = CGSizeMake(30,20);
@@ -277,7 +299,8 @@
         readyButton = [[STAButton alloc] initWithSize:button_size Name:@"ready_button" Alpha:0 BGAlpha:0.0 ButtonText:@"Ready"
                                       ButtonTextColor:[UIColor whiteColor] ButtonTextFont:@"Press Start 2P" ButtonTextFontSize:10 isShowBorder:false];
         readyButton.userInteractionEnabled = NO;
-        readyButton.position = CGPointMake(color1Button.position.x,color1Button.position.y - 100);
+        readyButton.position = CGPointMake(([[UIScreen mainScreen] bounds].size.width - 30)/2,
+                                           color1Button.position.y - 50);
         [self.scene addChild:readyButton];
         
         //
@@ -308,42 +331,402 @@
         else if ([node.name isEqualToString:@"enemy1_button"]) {
             NSLog(@"enemy1_button");
             
+            [enemy1Button showBorder:true];
+            [enemy2Button showBorder:false];
+            [enemy3Button showBorder:false];
+            [enemy4Button showBorder:false];
+            [enemy5Button showBorder:false];
+            
+            if (myColorId == 2) {
+                [enemy1 setBodyColor:TANK_BODY_BLUE BaseColor:TANK_BODY_BASE_BLUE];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
+            else if (myColorId == 3) {
+                [enemy1 setBodyColor:TANK_BODY_GREEN BaseColor:TANK_BODY_BASE_GREEN];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
+            else if (myColorId == 4) {
+                [enemy1 setBodyColor:TANK_BODY_RED BaseColor:TANK_BODY_BASE_RED];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
+            else if (myColorId == 5) {
+                [enemy1 setBodyColor:TANK_BODY_YELLOW BaseColor:TANK_BODY_BASE_YELLOW];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
+            else {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
+            
             myTankId = 1;
         }
         else if ([node.name isEqualToString:@"enemy2_button"]) {
             NSLog(@"enemy2_button");
+            
+            [enemy1Button showBorder:false];
+            [enemy2Button showBorder:true];
+            [enemy3Button showBorder:false];
+            [enemy4Button showBorder:false];
+            [enemy5Button showBorder:false];
+            
+            if (myColorId == 2) {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_BLUE BaseColor:TANK_BODY_BASE_BLUE];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
+            else if (myColorId == 3) {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_GREEN BaseColor:TANK_BODY_BASE_GREEN];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
+            else if (myColorId == 4) {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_RED BaseColor:TANK_BODY_BASE_RED];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
+            else if (myColorId == 5) {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_YELLOW BaseColor:TANK_BODY_BASE_YELLOW];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
+            else {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
             
             myTankId = 2;
         }
         else if ([node.name isEqualToString:@"enemy3_button"]) {
             NSLog(@"enemy3_button");
             
+            [enemy1Button showBorder:false];
+            [enemy2Button showBorder:false];
+            [enemy3Button showBorder:true];
+            [enemy4Button showBorder:false];
+            [enemy5Button showBorder:false];
+            
+            if (myColorId == 2) {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_BLUE BaseColor:TANK_BODY_BASE_BLUE];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
+            else if (myColorId == 3) {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_GREEN BaseColor:TANK_BODY_BASE_GREEN];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
+            else if (myColorId == 4) {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_RED BaseColor:TANK_BODY_BASE_RED];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
+            else if (myColorId == 5) {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_YELLOW BaseColor:TANK_BODY_BASE_YELLOW];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
+            else {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
+            
             myTankId = 3;
         }
         else if ([node.name isEqualToString:@"enemy4_button"]) {
             NSLog(@"enemy4_button");
+            
+            [enemy1Button showBorder:false];
+            [enemy2Button showBorder:false];
+            [enemy3Button showBorder:false];
+            [enemy4Button showBorder:true];
+            [enemy5Button showBorder:false];
+            
+            if (myColorId == 2) {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_BLUE BaseColor:TANK_BODY_BASE_BLUE];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
+            else if (myColorId == 3) {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_GREEN BaseColor:TANK_BODY_BASE_GREEN];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
+            else if (myColorId == 4) {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_RED BaseColor:TANK_BODY_BASE_RED];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
+            else if (myColorId == 5) {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_YELLOW BaseColor:TANK_BODY_BASE_YELLOW];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
+            else {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
             
             myTankId = 4;
         }
         else if ([node.name isEqualToString:@"enemy5_button"]) {
             NSLog(@"enemy5_button");
             
+            [enemy1Button showBorder:false];
+            [enemy2Button showBorder:false];
+            [enemy3Button showBorder:false];
+            [enemy4Button showBorder:false];
+            [enemy5Button showBorder:true];
+            
+            if (myColorId == 2) {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_BLUE BaseColor:TANK_BODY_BASE_BLUE];
+            }
+            else if (myColorId == 3) {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_GREEN BaseColor:TANK_BODY_BASE_GREEN];
+            }
+            else if (myColorId == 4) {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_RED BaseColor:TANK_BODY_BASE_RED];
+            }
+            else if (myColorId == 5) {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_YELLOW BaseColor:TANK_BODY_BASE_YELLOW];
+            }
+            else {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
+            
             myTankId = 5;
         }
         else if ([node.name isEqualToString:@"color1_button"]) {
             myColorId = 1;
+            [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
         }
         else if ([node.name isEqualToString:@"color2_button"]) {
             myColorId = 2;
+            
+            if (myTankId == 2) {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_BLUE BaseColor:TANK_BODY_BASE_BLUE];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
+            else if (myTankId == 3) {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_BLUE BaseColor:TANK_BODY_BASE_BLUE];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
+            else if (myTankId == 4) {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_BLUE BaseColor:TANK_BODY_BASE_BLUE];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
+            else if (myTankId == 5) {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_BLUE BaseColor:TANK_BODY_BASE_BLUE];
+            }
+            else {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
+           
         }
         else if ([node.name isEqualToString:@"color3_button"]) {
             myColorId = 3;
+            
+            if (myTankId == 2) {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_GREEN BaseColor:TANK_BODY_BASE_GREEN];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
+            else if (myTankId == 3) {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_GREEN BaseColor:TANK_BODY_BASE_GREEN];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
+            else if (myTankId == 4) {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_GREEN BaseColor:TANK_BODY_BASE_GREEN];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
+            else if (myTankId == 5) {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_GREEN BaseColor:TANK_BODY_BASE_GREEN];
+            }
+            else {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
         }
         else if ([node.name isEqualToString:@"color4_button"]) {
             myColorId = 4;
+            
+            if (myTankId == 2) {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_RED BaseColor:TANK_BODY_BASE_RED];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
+            else if (myTankId == 3) {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_RED BaseColor:TANK_BODY_BASE_RED];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
+            else if (myTankId == 4) {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_RED BaseColor:TANK_BODY_BASE_RED];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
+            else if (myTankId == 5) {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_RED BaseColor:TANK_BODY_BASE_RED];
+            }
+            else {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
         }
         else if ([node.name isEqualToString:@"color5_button"]) {
             myColorId = 5;
+            
+            if (myTankId == 2) {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_YELLOW BaseColor:TANK_BODY_BASE_YELLOW];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
+            else if (myTankId == 3) {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_YELLOW BaseColor:TANK_BODY_BASE_YELLOW];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
+            else if (myTankId == 4) {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_YELLOW BaseColor:TANK_BODY_BASE_YELLOW];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
+            else if (myTankId == 5) {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_YELLOW BaseColor:TANK_BODY_BASE_YELLOW];
+            }
+            else {
+                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+            }
         }
         else if ([node.name isEqualToString:@"ready_button"]) {
             NSLog(@"Hit ready!: my tankId: %d, myColorId: %d",myTankId,myColorId);
@@ -362,6 +745,7 @@
 -(void)cleanup {
     
     [selectOppTitle removeAllActions];
+    [selectColorTitle removeAllActions];
     [backLabel removeAllActions];
     //    [startLabel removeAllActions];
     [backButton removeAllActions];
@@ -386,7 +770,8 @@
     [readyButton removeAllActions];
     
     
-    NSArray* objs = [NSArray arrayWithObjects:selectOppTitle,backLabel,backButton,
+    NSArray* objs = [NSArray arrayWithObjects:selectOppTitle,selectColorTitle,
+                     backLabel,backButton,
                      enemy1Button,enemy1,enemy2Button,enemy2,
                      enemy3Button,enemy3,enemy4Button,enemy4,
                      enemy5Button,enemy5,

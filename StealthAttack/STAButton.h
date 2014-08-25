@@ -33,4 +33,6 @@ ButtonTextFontSize:(int)font_size
 
 -(void)setText:(NSString*)text;
 
+-(void)showBorder:(BOOL)isShowBorder;
+
 @end

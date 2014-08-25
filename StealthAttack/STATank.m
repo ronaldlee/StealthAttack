@@ -317,6 +317,15 @@
     self.tankG.position = CGPointMake(scaled_width*2-anchoroffset_x,0-anchoroffset_y);
 }
 
+-(void)setBodyColor:(UIColor*)color BaseColor:(UIColor*)b_color {
+    self.tankA.color = color;
+    self.tankB.color = b_color;
+    self.tankC.color = color;
+    self.tankD.color = b_color;
+    self.tankE.color = b_color;
+    self.tankF.color = color;
+    self.tankG.color = b_color;
+}
 
 -(int)getWidthInPixels {
     return 3;

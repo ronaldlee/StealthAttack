@@ -87,6 +87,18 @@
     self.tankG.position = CGPointMake(self.scaled_width*2-self.anchoroffset_x,0-self.anchoroffset_y);
 }
 
+-(void)setBodyColor:(UIColor*)color BaseColor:(UIColor*)b_color {
+    self.tankA.color = color;
+    
+    self.tankB.color = b_color;
+    self.tankC.color = color;
+    self.tankD.color = b_color;
+    
+    self.tankE.color = b_color;
+    self.tankF.color = color;
+    self.tankG.color = b_color;
+}
+
 -(void) buildTankWheels {
     CGFloat wheel_x_offset = 1;
     CGFloat wheel_y_offset = -4;

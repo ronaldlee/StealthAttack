@@ -160,4 +160,6 @@
 
 -(void)preAiConfig;
 
+-(void)setBodyColor:(UIColor*)color BaseColor:(UIColor*)b_color;
+
 @end

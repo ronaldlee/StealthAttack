@@ -12,6 +12,8 @@
 
 
 @property (nonatomic) SKLabelNode * selectOppTitle;
+@property (nonatomic) SKLabelNode * selectColorTitle;
+
 @property (nonatomic) SKLabelNode * backLabel;
 
 @property (nonatomic) STAButton * backButton;
