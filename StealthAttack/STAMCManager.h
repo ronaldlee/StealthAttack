@@ -42,6 +42,6 @@
 -(void)sendForward;
 -(void)sendBackward;
 -(void)sendFire;
--(void)sendStop;
+-(void)sendStopX:(CGFloat)x Y:(CGFloat)y R:(CGFloat)r;
 
 @end

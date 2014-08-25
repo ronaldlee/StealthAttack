@@ -10,9 +10,6 @@
 
 @interface STAMultiPlayBattleStage : STABattleStage
 
-@property (nonatomic) STATank * player;
-@property (nonatomic) STATank * enemy;
-
 @property (nonatomic) STAButton * fire_button;
 @property (nonatomic) STAButton * rotate_c_button;
 @property (nonatomic) STAButton * rotate_uc_button;
@@ -52,5 +49,7 @@
 -(void)playerBackward;
 -(void)playerStop;
 -(void)playerFire;
+
+-(void)adjEnemyX:(CGFloat)x Y:(CGFloat)y R:(CGFloat)r;
 
 @end

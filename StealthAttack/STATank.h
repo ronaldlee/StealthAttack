@@ -139,6 +139,7 @@
 -(void)clearLastPositionData;
 
 -(CGRect)getBorderBounds;
+-(void)setBorderBounds:(CGRect)player_bounds;
 
 -(CGFloat)getMoveSpeed;
 

@@ -250,70 +250,102 @@
         //opp tank's actions
         STAMultiPlayBattleStage* mstage = (STAMultiPlayBattleStage*)curStage;
         if (actionIdInt == ACTION_ROTATE_C_BUTTON_PRESSED) {
+            NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
+            int ackMsgId = [ackMsgIdNum intValue];
+            
+            [self ackRotateC:ackMsgId];
             [mstage enemyRotateC];
         }
         else if (actionIdInt == ACTION_ACK_ROTATE_C_BUTTON_PRESSED) {
             NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
             int ackMsgId = [ackMsgIdNum intValue];
             
-            if (ackMsgId == msgId) {
+//            if (ackMsgId == msgId) {
                 [mstage playerRotateC];
-            }
+//            }
         }
         else if (actionIdInt == ACTION_ROTATE_UC_BUTTON_PRESSED) {
+            NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
+            int ackMsgId = [ackMsgIdNum intValue];
+            
+            [self ackRotateUC:ackMsgId];
             [mstage enemyRotateUC];
         }
         else if (actionIdInt == ACTION_ACK_ROTATE_UC_BUTTON_PRESSED) {
             NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
             int ackMsgId = [ackMsgIdNum intValue];
             
-            if (ackMsgId == msgId) {
+//            if (ackMsgId == msgId) {
                 [mstage playerRotateUC];
-            }
+//            }
         }
         else if (actionIdInt == ACTION_FORWARD_BUTTON_PRESSED) {
+            NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
+            int ackMsgId = [ackMsgIdNum intValue];
+            
+            [self ackForeward:ackMsgId];
             [mstage enemyForward];
         }
         else if (actionIdInt == ACTION_ACK_FORWARD_BUTTON_PRESSED) {
             NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
             int ackMsgId = [ackMsgIdNum intValue];
             
-            if (ackMsgId == msgId) {
+//            if (ackMsgId == msgId) {
                 [mstage playerForward];
-            }
+//            }
         }
         else if (actionIdInt == ACTION_BACKWARD_BUTTON_PRESSED) {
+            NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
+            int ackMsgId = [ackMsgIdNum intValue];
+            
+            [self ackBackward:ackMsgId];
             [mstage enemyBackward];
         }
         else if (actionIdInt == ACTION_ACK_BACKWARD_BUTTON_PRESSED) {
             NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
             int ackMsgId = [ackMsgIdNum intValue];
             
-            if (ackMsgId == msgId) {
+//            if (ackMsgId == msgId) {
                 [mstage playerBackward];
-            }
+//            }
         }
         else if (actionIdInt == ACTION_FIRE_BUTTON_PRESSED) {
+            NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
+            int ackMsgId = [ackMsgIdNum intValue];
+            
+            [self ackFire:ackMsgId];
             [mstage enemyFire];
         }
         else if (actionIdInt == ACTION_ACK_FIRE_BUTTON_PRESSED) {
             NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
             int ackMsgId = [ackMsgIdNum intValue];
             
-            if (ackMsgId == msgId) {
+//            if (ackMsgId == msgId) {
                 [mstage playerFire];
-            }
+//            }
         }
         else if (actionIdInt == ACTION_STOP) {
+            NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
+            int ackMsgId = [ackMsgIdNum intValue];
+            
+            NSNumber* xNum = (NSNumber*)[myDictionary objectForKey:@"x"];
+            CGFloat x = [xNum floatValue];
+            NSNumber* yNum = (NSNumber*)[myDictionary objectForKey:@"y"];
+            CGFloat y = [yNum floatValue];
+            NSNumber* rNum = (NSNumber*)[myDictionary objectForKey:@"r"];
+            CGFloat r = [rNum floatValue];
+            
+            [mstage adjEnemyX:x Y:y R:r];
+            [self ackStop:ackMsgId];
             [mstage enemyStop];
         }
         else if (actionIdInt == ACTION_ACK_STOP) {
             NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
             int ackMsgId = [ackMsgIdNum intValue];
             
-            if (ackMsgId == msgId) {
+//            if (ackMsgId == msgId) {
                 [mstage playerStop];
-            }
+//            }
         }
     }
     
@@ -598,7 +630,7 @@
         NSLog(@"%@", [error localizedDescription]);
     }
 }
--(void)ackRForeward:(int)p_msgId {
+-(void)ackForeward:(int)p_msgId {
     NSDictionary* choiceData = @{@"action" : [NSNumber numberWithInt:ACTION_ACK_FORWARD_BUTTON_PRESSED],
                                  @"id" : [NSNumber numberWithInt:p_msgId],};
     NSMutableData *data = [[NSMutableData alloc] init];
@@ -700,10 +732,13 @@
         NSLog(@"%@", [error localizedDescription]);
     }
 }
--(void)sendStop {
+-(void)sendStopX:(CGFloat)x Y:(CGFloat)y R:(CGFloat)r {
     msgId++;
     NSDictionary* choiceData = @{@"action" : [NSNumber numberWithInt:ACTION_STOP],
-                                 @"id" : [NSNumber numberWithInt:msgId],};
+                                 @"id" : [NSNumber numberWithInt:msgId],
+                                 @"x" : [NSNumber numberWithFloat:x],
+                                 @"y" : [NSNumber numberWithFloat:y],
+                                 @"r" : [NSNumber numberWithFloat:r],};
     NSMutableData *data = [[NSMutableData alloc] init];
     NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
     [archiver encodeObject:choiceData forKey:ENCODE_KEY];

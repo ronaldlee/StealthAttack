@@ -15,8 +15,7 @@
 @end
 
 @implementation STAMultiPlayBattleStage
-@synthesize player;
-@synthesize enemy;
+
 @synthesize fire_button;
 @synthesize rotate_c_button;
 @synthesize rotate_uc_button;
@@ -177,9 +176,10 @@
         CGFloat player_left_border_x = left_corner_x+3;
         CGFloat player_right_border_x = right_corner_x-11;
         
-        CGRect bounds = CGRectMake(player_left_border_x, player_bottom_border_y,
+        CGRect player_bounds = CGRectMake(player_left_border_x, player_bottom_border_y,
                                    player_right_border_x-player_left_border_x,
                                    player_top_border_y-player_bottom_border_y);
+        [self.player setBorderBounds:player_bounds];
         
         
         //        CGFloat stage_start_x = ([[UIScreen mainScreen] bounds].size.width-PLAYER_WIDTH)/2 + [self.player getAnchorOffsetX];
@@ -255,12 +255,23 @@
                                                  Bounds:bounds];
         }
         [self.enemy setBattleStage:self];
+        CGFloat enemy_bottom_border_y = bottom_corner_y + [self.enemy getAnchorOffsetY]+PIXEL_WIDTHHEIGHT+1;//+PIXEL_WIDTHHEIGHT+1;
+        CGFloat enemy_top_border_y = top_corner_y-PIXEL_WIDTHHEIGHT*2*self.scale-3;
+        CGFloat enemy_left_border_x = left_corner_x+3;
+        CGFloat enemy_right_border_x = right_corner_x-11;
+        
+        CGRect enemy_bounds = CGRectMake(enemy_left_border_x, enemy_bottom_border_y,
+                                          enemy_right_border_x-enemy_left_border_x,
+                                          enemy_top_border_y-enemy_bottom_border_y);
+        [self.enemy setBorderBounds:enemy_bounds];
         
         
-        stage_start_x = player_left_border_x + 20;
-        stage_start_y = player_top_border_y-20;
+        stage_start_x = enemy_left_border_x + 20;
+        stage_start_y = enemy_top_border_y-20;
         
         self.enemy.position = CGPointMake(stage_start_x,stage_start_y);
+        
+        self.enemy.zRotation = M_PI;
         
         [self.scene addChild:self.enemy];
         
@@ -457,7 +468,7 @@
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
 //    [self.player stop];
     STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
-    [appDelegate.mcManager sendStop];
+    [appDelegate.mcManager sendStopX:self.player.position.x Y:self.player.position.y R:self.player.zRotation];
     
     [rotate_c_button stopFlashText];
     [rotate_uc_button stopFlashText];
@@ -466,8 +477,8 @@
 }
 
 -(void)cleanup {
-    [player removeAllActions];
-    [enemy removeAllActions];
+    [self.player removeAllActions];
+    [self.enemy removeAllActions];
     
     [fire_button removeAllActions];
     [rotate_c_button removeAllActions];
@@ -481,8 +492,10 @@
     [countdownLabelNode removeAllActions];
     [game_over_label removeAllActions];
     
-    NSArray* objs = [NSArray arrayWithObjects:player,enemy,fire_button,rotate_c_button,rotate_uc_button,forward_button,backward_button,
-                     replay_button, back_button, playerFadeNode, enemyFadeNode, countdownLabelNode, game_over_label, nil];
+    NSArray* objs = [NSArray arrayWithObjects:self.player,self.enemy,fire_button,
+                     rotate_c_button,rotate_uc_button,forward_button,backward_button,
+                     replay_button, back_button, playerFadeNode, enemyFadeNode, countdownLabelNode,
+                     game_over_label, nil];
     
     [self.scene removeChildrenInArray:objs];
 }
@@ -512,42 +525,51 @@
 }
 
 -(void)enemyRotateC {
-    [enemy rotateClockwise];
+    [self.enemy rotateClockwise];
 }
 -(void)enemyRotateUC {
-    [enemy rotateCounterClockwise];
+    [self.enemy rotateCounterClockwise];
 }
 -(void)enemyForward {
-    [enemy moveForward];
+    [self.enemy moveForward];
 }
 -(void)enemyBackward {
-    [enemy moveBackward];
+    [self.enemy moveBackward];
 }
 -(void)enemyStop {
-    [enemy stop];
+    [self.enemy stop];
 }
 -(void)enemyFire {
-    [enemy fire];
+    [self.enemy fire];
+}
+-(void)adjEnemyX:(CGFloat)x Y:(CGFloat)y R:(CGFloat)r {
+    //need to reverse the x/y and also the r
+    CGRect bounds = self.enemy.getBorderBounds;
+    CGFloat invX = bounds.origin.x+bounds.size.width - x + bounds.origin.x;
+    CGFloat invY = bounds.origin.y+bounds.size.height - y + bounds.origin.y;
+    
+    self.enemy.position = CGPointMake(invX, invY);
+    self.enemy.zRotation = (M_PI-r) * -1;
 }
 
 //
 -(void)playerRotateC {
-    [player rotateClockwise];
+    [self.player rotateClockwise];
 }
 -(void)playerRotateUC {
-    [player rotateCounterClockwise];
+    [self.player rotateCounterClockwise];
 }
 -(void)playerForward {
-    [player moveForward];
+    [self.player moveForward];
 }
 -(void)playerBackward {
-    [player moveBackward];
+    [self.player moveBackward];
 }
 -(void)playerStop {
-    [player stop];
+    [self.player stop];
 }
 -(void)playerFire {
-    [player fire];
+    [self.player fire];
 }
 
 @end

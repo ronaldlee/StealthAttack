@@ -349,6 +349,9 @@
 -(CGRect)getBorderBounds {
     return bounds;
 }
+-(void)setBorderBounds:(CGRect)player_bounds {
+    bounds = player_bounds;
+}
 
 -(void) correctLeftWheels {
     SKSpriteNode *first = self.tankl1;

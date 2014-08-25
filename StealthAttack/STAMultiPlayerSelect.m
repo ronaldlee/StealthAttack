@@ -115,8 +115,8 @@
         //4 enemies per row, 2 rows (total 8 enemies)
         //locked => question mark?
         enemy1 = [[STATank alloc] initWithScale:self.scale Id:2
-                                           BodyColor:TANK_BODY_BLUE
-                                       BodyBaseColor:TANK_BODY_BASE_BLUE
+                                           BodyColor:TANK_BODY_WHITE
+                                       BodyBaseColor:TANK_BODY_BASE_WHITE
                                                   AI:NULL
                                             Category:ENEMY_CATEGORY
                                               Bounds:bounds];
@@ -227,7 +227,7 @@
                                             enemy4.position.y - (enemy4.max_height/2) - (button_size.height-enemy4.max_height)/2);
         [self.scene addChild:enemy4Button];
         
-        enemy5Button = [[STAButton alloc] initWithSize:button_size Name:@"enemy4_button" Alpha:1.0 BGAlpha:0.0 ButtonText:NULL
+        enemy5Button = [[STAButton alloc] initWithSize:button_size Name:@"enemy5_button" Alpha:1.0 BGAlpha:0.0 ButtonText:NULL
                                        ButtonTextColor:NULL ButtonTextFont:@"Press Start 2P" ButtonTextFontSize:10 isShowBorder:false];
         enemy5Button.userInteractionEnabled = NO;
         enemy5Button.position = CGPointMake(enemy5.position.x - (enemy5.max_width/2) - (button_size.width-enemy5.max_width)/2,
