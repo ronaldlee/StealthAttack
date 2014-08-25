@@ -347,6 +347,20 @@
                 [mstage playerStop];
 //            }
         }
+        else if (actionIdInt == ACTION_ADJ) {
+            NSLog(@"adj");
+            NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
+            int ackMsgId = [ackMsgIdNum intValue];
+            
+            NSNumber* xNum = (NSNumber*)[myDictionary objectForKey:@"x"];
+            CGFloat x = [xNum floatValue];
+            NSNumber* yNum = (NSNumber*)[myDictionary objectForKey:@"y"];
+            CGFloat y = [yNum floatValue];
+            NSNumber* rNum = (NSNumber*)[myDictionary objectForKey:@"r"];
+            CGFloat r = [rNum floatValue];
+            
+            [mstage adjEnemyX:x Y:y R:r];
+        }
     }
     
 }
@@ -756,6 +770,31 @@
         NSLog(@"%@", [error localizedDescription]);
     }
 }
+-(void)sendAdjX:(CGFloat)x Y:(CGFloat)y R:(CGFloat)r {
+    msgId++;
+    NSDictionary* choiceData = @{@"action" : [NSNumber numberWithInt:ACTION_ADJ],
+                                 @"id" : [NSNumber numberWithInt:msgId],
+                                 @"x" : [NSNumber numberWithFloat:x],
+                                 @"y" : [NSNumber numberWithFloat:y],
+                                 @"r" : [NSNumber numberWithFloat:r],};
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [archiver encodeObject:choiceData forKey:ENCODE_KEY];
+    [archiver finishEncoding];
+    
+    NSArray *allPeers = self.session.connectedPeers;
+    NSError *error;
+    
+    [self.session sendData:data
+                   toPeers:allPeers
+                  withMode:MCSessionSendDataReliable
+                     error:&error];
+    
+    if (error) {
+        NSLog(@"%@", [error localizedDescription]);
+    }
+}
+
 -(void)ackStop:(int)p_msgId {
     NSDictionary* choiceData = @{@"action" : [NSNumber numberWithInt:ACTION_ACK_STOP],
                                  @"id" : [NSNumber numberWithInt:p_msgId],};

@@ -97,4 +97,6 @@ const int ACTION_ACK_FIRE_BUTTON_PRESSED = 10025;
 const int ACTION_STOP = 26;
 const int ACTION_ACK_STOP = 10026;
 
+const int ACTION_ADJ = 27;
+
 @end

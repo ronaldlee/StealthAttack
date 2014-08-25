@@ -28,6 +28,7 @@
 
 @synthesize playerFadeNode;
 @synthesize enemyFadeNode;
+@synthesize playerAdjNode;
 
 @synthesize isGameOver;
 @synthesize isGameStart;
@@ -45,6 +46,9 @@
         [self.scene addChild:playerFadeNode];
         enemyFadeNode = [[SKNode alloc] init];
         [self.scene addChild:enemyFadeNode];
+        
+        playerAdjNode = [[SKNode alloc] init];
+        [self.scene addChild:playerAdjNode];
         
         //==
         
@@ -324,8 +328,16 @@
             [self.enemy fadeOut];
         }];
         
+        SKAction * playerAdjAction = [SKAction runBlock:^() {
+            STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
+            [appDelegate.mcManager sendAdjX:self.player.position.x Y:self.player.position.y R:self.player.zRotation];
+        }];
+        
         [self.playerFadeNode runAction:playerFadeOutAction];
         [self.enemyFadeNode runAction:enemyFadeOutAction];
+        
+        SKAction* adjPeriod = [SKAction waitForDuration:0.1];
+        [self.playerAdjNode runAction:[SKAction repeatActionForever:[SKAction sequence:@[adjPeriod,playerAdjAction]]]];
         
         isGameStart = true;
     }];

@@ -100,6 +100,8 @@ extern const int ACTION_ACK_FIRE_BUTTON_PRESSED;
 
 extern const int ACTION_STOP;
 extern const int ACTION_ACK_STOP;
+
+extern const int ACTION_ADJ;
 //
 
 extern const NSString* ENCODE_KEY;
