@@ -83,7 +83,9 @@
         //
         CGSize button_size = CGSizeMake(30*GAME_AREA_SCALE,20*GAME_AREA_SCALE);
         
-        backButton = [[STAButton alloc] initWithSize:button_size Name:@"back_button" Alpha:0 BGAlpha:0.0 ButtonText:NULL
+        backButton = [[STAButton alloc] initWithSize:button_size
+                                               Scale:GAME_AREA_SCALE
+                                                Name:@"back_button" Alpha:0 BGAlpha:0.0 ButtonText:NULL
                                      ButtonTextColor:NULL ButtonTextFont:@"Press Start 2P" ButtonTextFontSize:10 isShowBorder:false];
         backButton.userInteractionEnabled = NO;
         backButton.position = CGPointMake(back_button_orig_x-10*GAME_AREA_SCALE,backLabel.position.y-5*GAME_AREA_SCALE);
@@ -202,28 +204,36 @@
         //=== enemy selection button
         
         button_size = CGSizeMake(40*GAME_AREA_SCALE,40*GAME_AREA_SCALE);
-        enemy1Button = [[STAButton alloc] initWithSize:button_size Name:@"enemy1_button" Alpha:1.0 BGAlpha:0.0 ButtonText:NULL
+        enemy1Button = [[STAButton alloc] initWithSize:button_size
+                                                 Scale:GAME_AREA_SCALE
+                                                  Name:@"enemy1_button" Alpha:1.0 BGAlpha:0.0 ButtonText:NULL
                                      ButtonTextColor:NULL ButtonTextFont:@"Press Start 2P" ButtonTextFontSize:10 isShowBorder:false];
         enemy1Button.userInteractionEnabled = NO;
         enemy1Button.position = CGPointMake(enemy1.position.x - (enemy1.max_width/2) - (button_size.width-enemy1.max_width)/2,
                                             enemy1.position.y - (enemy1.max_height/2) - (button_size.height-enemy1.max_height)/2);
         [self.scene addChild:enemy1Button];
         
-        enemy2Button = [[STAButton alloc] initWithSize:button_size Name:@"enemy2_button" Alpha:1.0 BGAlpha:0.0 ButtonText:NULL
+        enemy2Button = [[STAButton alloc] initWithSize:button_size
+                                                 Scale:GAME_AREA_SCALE
+                                                  Name:@"enemy2_button" Alpha:1.0 BGAlpha:0.0 ButtonText:NULL
                                        ButtonTextColor:NULL ButtonTextFont:@"Press Start 2P" ButtonTextFontSize:10 isShowBorder:false];
         enemy2Button.userInteractionEnabled = NO;
         enemy2Button.position = CGPointMake(enemy2.position.x - (enemy2.max_width/2) - (button_size.width-enemy2.max_width)/2,
                                             enemy2.position.y - (enemy2.max_height/2) - (button_size.height-enemy2.max_height)/2);
         [self.scene addChild:enemy2Button];
         
-        enemy3Button = [[STAButton alloc] initWithSize:button_size Name:@"enemy3_button" Alpha:1.0 BGAlpha:0.0 ButtonText:NULL
+        enemy3Button = [[STAButton alloc] initWithSize:button_size
+                                                 Scale:GAME_AREA_SCALE
+                                                  Name:@"enemy3_button" Alpha:1.0 BGAlpha:0.0 ButtonText:NULL
                                        ButtonTextColor:NULL ButtonTextFont:@"Press Start 2P" ButtonTextFontSize:10 isShowBorder:false];
         enemy3Button.userInteractionEnabled = NO;
         enemy3Button.position = CGPointMake(enemy3.position.x - (enemy3.max_width/2) - (button_size.width-enemy3.max_width)/2,
                                             enemy3.position.y - (enemy3.max_height/2) - (button_size.height-enemy3.max_height)/2);
         [self.scene addChild:enemy3Button];
         
-        enemy4Button = [[STAButton alloc] initWithSize:button_size Name:@"enemy4_button" Alpha:1.0 BGAlpha:0.0 ButtonText:NULL
+        enemy4Button = [[STAButton alloc] initWithSize:button_size
+                                                 Scale:GAME_AREA_SCALE
+                                                  Name:@"enemy4_button" Alpha:1.0 BGAlpha:0.0 ButtonText:NULL
                                        ButtonTextColor:NULL ButtonTextFont:@"Press Start 2P" ButtonTextFontSize:10 isShowBorder:false];
         enemy4Button.userInteractionEnabled = NO;
         enemy4Button.position = CGPointMake(enemy4.position.x - (enemy4.max_width/2) - (button_size.width-enemy4.max_width)/2,

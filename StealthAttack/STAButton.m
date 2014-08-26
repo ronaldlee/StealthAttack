@@ -15,6 +15,7 @@
     BOOL isShowBorder;
     
     SKShapeNode* border_top, *border_left, *border_bottom, *border_right;
+    CGFloat scale;
 }
 @end
 
@@ -23,22 +24,26 @@
 @synthesize button;
 @synthesize isDoneRecharge;
 
-- (id)initWithSize:(CGSize)b_size  Name:(NSString*)b_name Alpha:(CGFloat)alpha BGAlpha:(CGFloat)bg_alpha
+- (id)initWithSize:(CGSize)b_size Scale:(CGFloat)b_scale Name:(NSString*)b_name Alpha:(CGFloat)alpha
+           BGAlpha:(CGFloat)bg_alpha
         ButtonText:(NSString*)button_text ButtonTextColor:(SKColor*)bt_color ButtonTextFont:(NSString*)bt_font
 ButtonTextFontSize:(int)font_size
-      isShowBorder:(BOOL)p_isShowBorder {
-    return [self initWithSize:b_size Name:b_name Alpha:alpha BGAlpha:bg_alpha ButtonText:button_text
+      isShowBorder:(BOOL)p_isShowBorder
+              {
+    return [self initWithSize:b_size Scale:b_scale Name:b_name Alpha:alpha BGAlpha:bg_alpha ButtonText:button_text
        ButtonTextColor:bt_color ButtonTextFont:bt_font ButtonTextFontSize:font_size isShowBorder:p_isShowBorder
                BGColor:[UIColor whiteColor]];
 }
 
-- (id)initWithSize:(CGSize)b_size  Name:(NSString*)b_name Alpha:(CGFloat)alpha BGAlpha:(CGFloat)bg_alpha
+- (id)initWithSize:(CGSize)b_size Scale:(CGFloat)b_scale Name:(NSString*)b_name Alpha:(CGFloat)alpha
+           BGAlpha:(CGFloat)bg_alpha
         ButtonText:(NSString*)button_text ButtonTextColor:(SKColor*)bt_color ButtonTextFont:(NSString*)bt_font
 ButtonTextFontSize:(int)font_size
       isShowBorder:(BOOL)p_isShowBorder
            BGColor:(UIColor*)bg_color{
     self = [super init];
     if (self) {
+        scale = b_scale;
         isShowBorder = p_isShowBorder;
         isDoneRecharge= true;
         self.anchorPoint = CGPointMake(0,0);
@@ -68,7 +73,7 @@ ButtonTextFontSize:(int)font_size
         border_top.userInteractionEnabled = NO;
         border_top.alpha = borderAlpha;
         [border_top setStrokeColor:BORDER_COLOR];
-        [border_top setLineWidth:1];
+        [border_top setLineWidth:1*scale];
         [border_top setAntialiased:FALSE];
         [self addChild:border_top];
         
@@ -82,7 +87,7 @@ ButtonTextFontSize:(int)font_size
         border_left.path = pathToDraw;
         border_left.alpha = borderAlpha;
         [border_left setStrokeColor:BORDER_COLOR];
-        [border_left setLineWidth:1];
+        [border_left setLineWidth:1*scale];
         [border_left setAntialiased:FALSE];
         [self addChild:border_left];
         
@@ -96,7 +101,7 @@ ButtonTextFontSize:(int)font_size
         border_bottom.path = pathToDraw;
         border_bottom.alpha = borderAlpha;
         [border_bottom setStrokeColor:BORDER_COLOR];
-        [border_bottom setLineWidth:1];
+        [border_bottom setLineWidth:1*scale];
         [border_bottom setAntialiased:FALSE];
         [self addChild:border_bottom];
         
@@ -110,7 +115,7 @@ ButtonTextFontSize:(int)font_size
         border_right.path = pathToDraw;
         border_right.alpha = borderAlpha;
         [border_right setStrokeColor:BORDER_COLOR];
-        [border_right setLineWidth:1];
+        [border_right setLineWidth:1*scale];
         [border_right setAntialiased:FALSE];
         [self addChild:border_right];
         
@@ -131,12 +136,12 @@ ButtonTextFontSize:(int)font_size
             
             NSString *cdStr = button_text;
             labelNode.text = cdStr;
-            labelNode.fontSize = font_size;
+            labelNode.fontSize = font_size*scale;
             labelNode.fontColor = bt_color;
             labelNode.name = b_name;
             
             CGFloat label_x = self.size.width/2;
-            CGFloat label_y = self.size.height-10;
+            CGFloat label_y = self.size.height-10*scale;
             
             labelNode.position = CGPointMake(label_x,label_y);
             

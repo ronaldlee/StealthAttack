@@ -60,66 +60,71 @@
 //        tankBodyBaseBlue = [UIColor colorWithRed:(4.0f/255.0f) green:(45.0f/255.0f) blue:(144.0f/255.0f) alpha:1.0];
         //==
         
-        CGSize button_size = CGSizeMake(50,50);
+        CGSize button_size = CGSizeMake(50*GAME_AREA_SCALE,50*GAME_AREA_SCALE);
         
         CGFloat left_corner_x = self.bounds.origin.x;
         CGFloat top_corner_y = self.bounds.origin.y+self.bounds.size.height;
         CGFloat right_corner_x = self.bounds.origin.x+self.bounds.size.width;
         CGFloat bottom_corner_y = self.bounds.origin.y;
+        CGFloat font_size = 10;
         
-        fire_button = [[STAButton alloc] initWithSize:button_size Name:@"fire_button" Alpha:1 BGAlpha:1.0 ButtonText:@"FIRE" ButtonTextColor:[SKColor blackColor] ButtonTextFont:@"GridExerciseGaps" ButtonTextFontSize:10 isShowBorder:true];
+        fire_button = [[STAButton alloc] initWithSize:button_size Scale:GAME_AREA_SCALE Name:@"fire_button" Alpha:1 BGAlpha:1.0 ButtonText:@"FIRE" ButtonTextColor:[SKColor blackColor] ButtonTextFont:@"GridExerciseGaps" ButtonTextFontSize:font_size isShowBorder:true];
         fire_button.userInteractionEnabled = NO;
-        fire_button.position = CGPointMake(left_corner_x, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
+        fire_button.position = CGPointMake(left_corner_x, (BOTTOM_HUD_HEIGHT - 10)*GAME_AREA_SCALE - button_size.height);
         [self.scene addChild:fire_button];
 
-        button_size = CGSizeMake(50,50);
-        rotate_uc_button = [[STAButton alloc] initWithSize:button_size Name:@"rotate_uc_button" Alpha:1 BGAlpha:0.0 ButtonText:@"L" ButtonTextColor:[SKColor whiteColor] ButtonTextFont:@"GridExerciseGaps" ButtonTextFontSize:10 isShowBorder:true];
+        rotate_uc_button = [[STAButton alloc] initWithSize:button_size Scale:GAME_AREA_SCALE Name:@"rotate_uc_button" Alpha:1 BGAlpha:0.0 ButtonText:@"L" ButtonTextColor:[SKColor whiteColor] ButtonTextFont:@"GridExerciseGaps"
+                                        ButtonTextFontSize:font_size isShowBorder:true];
         rotate_uc_button.userInteractionEnabled = NO;
-        rotate_uc_button.position = CGPointMake(right_corner_x-50*4, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
+        rotate_uc_button.position = CGPointMake(right_corner_x-button_size.width*4,
+                                                (BOTTOM_HUD_HEIGHT - 10)*GAME_AREA_SCALE - button_size.height);
         [self.scene addChild:rotate_uc_button];
         
-        button_size = CGSizeMake(50,50);
-        rotate_c_button = [[STAButton alloc] initWithSize:button_size Name:@"rotate_c_button" Alpha:1 BGAlpha:0.0 ButtonText:@"R"ButtonTextColor:[SKColor whiteColor] ButtonTextFont:@"GridExerciseGaps" ButtonTextFontSize:10 isShowBorder:true];
+        rotate_c_button = [[STAButton alloc] initWithSize:button_size Scale:GAME_AREA_SCALE Name:@"rotate_c_button" Alpha:1 BGAlpha:0.0 ButtonText:@"R"ButtonTextColor:[SKColor whiteColor] ButtonTextFont:@"GridExerciseGaps"
+                                       ButtonTextFontSize:font_size isShowBorder:true];
         rotate_c_button.userInteractionEnabled = NO;
-        rotate_c_button.position = CGPointMake(right_corner_x-50*3, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
+        rotate_c_button.position = CGPointMake(right_corner_x-button_size.width*3,
+                                               (BOTTOM_HUD_HEIGHT - 10)*GAME_AREA_SCALE - button_size.height);
         [self.scene addChild:rotate_c_button];
         
-        button_size = CGSizeMake(50,50);
-        forward_button = [[STAButton alloc] initWithSize:button_size Name:@"forward_button" Alpha:1 BGAlpha:0.0 ButtonText:@"F"ButtonTextColor:[SKColor whiteColor] ButtonTextFont:@"GridExerciseGaps" ButtonTextFontSize:10 isShowBorder:true];
+        forward_button = [[STAButton alloc] initWithSize:button_size Scale:GAME_AREA_SCALE Name:@"forward_button" Alpha:1 BGAlpha:0.0 ButtonText:@"F"ButtonTextColor:[SKColor whiteColor] ButtonTextFont:@"GridExerciseGaps"
+                                      ButtonTextFontSize:font_size isShowBorder:true];
         forward_button.userInteractionEnabled = NO;
-        forward_button.position = CGPointMake(right_corner_x-50*2, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
+        forward_button.position = CGPointMake(right_corner_x-button_size.width*2,
+                                              (BOTTOM_HUD_HEIGHT - 10)*GAME_AREA_SCALE - button_size.height);
         [self.scene addChild:forward_button];
         
-        button_size = CGSizeMake(50,50);
-        backward_button = [[STAButton alloc] initWithSize:button_size Name:@"backward_button" Alpha:1 BGAlpha:0.0 ButtonText:@"B"ButtonTextColor:[SKColor whiteColor] ButtonTextFont:@"GridExerciseGaps" ButtonTextFontSize:10 isShowBorder:true];
+        backward_button = [[STAButton alloc] initWithSize:button_size Scale:GAME_AREA_SCALE Name:@"backward_button" Alpha:1 BGAlpha:0.0 ButtonText:@"B"ButtonTextColor:[SKColor whiteColor] ButtonTextFont:@"GridExerciseGaps"
+                                       ButtonTextFontSize:font_size isShowBorder:true];
         backward_button.userInteractionEnabled = NO;
-        backward_button.position = CGPointMake(right_corner_x-50, BOTTOM_HUD_HEIGHT - 10 - button_size.height);
+        backward_button.position = CGPointMake(right_corner_x-button_size.width,
+                                               (BOTTOM_HUD_HEIGHT - 10)*GAME_AREA_SCALE - button_size.height);
         [self.scene addChild:backward_button];
         
         //
         
-        button_size = CGSizeMake(50,10);
+        button_size = CGSizeMake(50*GAME_AREA_SCALE,10*GAME_AREA_SCALE);
         NSString* game_over_font = @"GridExerciseGaps";
-        game_over_label = [[STAButton alloc] initWithSize:button_size Name:@"game_over_label" Alpha:1 BGAlpha:0.0 ButtonText:@"GAME OVER" ButtonTextColor:[SKColor whiteColor] ButtonTextFont:game_over_font ButtonTextFontSize:30 isShowBorder:false];
+        game_over_label = [[STAButton alloc] initWithSize:button_size Scale:GAME_AREA_SCALE Name:@"game_over_label" Alpha:1 BGAlpha:0.0 ButtonText:@"GAME OVER" ButtonTextColor:[SKColor whiteColor] ButtonTextFont:game_over_font ButtonTextFontSize:30 isShowBorder:false];
         game_over_label.userInteractionEnabled = NO;
-        game_over_label.position = CGPointMake((([[UIScreen mainScreen] bounds].size.width-50))/2,
-                                               ([[UIScreen mainScreen] bounds].size.height/2) +30);
+        game_over_label.position = CGPointMake((([[UIScreen mainScreen] bounds].size.width-50*GAME_AREA_SCALE))/2,
+                                               ([[UIScreen mainScreen] bounds].size.height/2) +30*GAME_AREA_SCALE);
         
-        button_size = CGSizeMake(50,10);
-        replay_button = [[STAButton alloc] initWithSize:button_size Name:@"replay_button" Alpha:1 BGAlpha:0.0 ButtonText:@"RELAY" ButtonTextColor:[SKColor whiteColor] ButtonTextFont:game_over_font ButtonTextFontSize:15 isShowBorder:false];
+        replay_button = [[STAButton alloc] initWithSize:button_size Scale:GAME_AREA_SCALE Name:@"replay_button" Alpha:1 BGAlpha:0.0 ButtonText:@"RELAY" ButtonTextColor:[SKColor whiteColor] ButtonTextFont:game_over_font
+                                     ButtonTextFontSize:15 isShowBorder:false];
         replay_button.userInteractionEnabled = NO;
-        replay_button.position = CGPointMake((([[UIScreen mainScreen] bounds].size.width-50))/2,
-                                             game_over_label.position.y - 100);
+        replay_button.position = CGPointMake((([[UIScreen mainScreen] bounds].size.width-50*GAME_AREA_SCALE))/2,
+                                             game_over_label.position.y - 100*GAME_AREA_SCALE);
         
-        button_size = CGSizeMake(50,10);
-        back_button = [[STAButton alloc] initWithSize:button_size Name:@"back_button" Alpha:1 BGAlpha:0.0 ButtonText:@"BACK" ButtonTextColor:[SKColor whiteColor] ButtonTextFont:game_over_font ButtonTextFontSize:15 isShowBorder:false];
+        back_button = [[STAButton alloc] initWithSize:button_size Scale:GAME_AREA_SCALE Name:@"back_button" Alpha:1 BGAlpha:0.0 ButtonText:@"BACK" ButtonTextColor:[SKColor whiteColor] ButtonTextFont:game_over_font
+                                   ButtonTextFontSize:15 isShowBorder:false];
         back_button.userInteractionEnabled = NO;
-        back_button.position = CGPointMake((([[UIScreen mainScreen] bounds].size.width-50))/2,
-                                             replay_button.position.y - 50);
+        back_button.position = CGPointMake((([[UIScreen mainScreen] bounds].size.width-50*GAME_AREA_SCALE))/2,
+                                             replay_button.position.y - 50*GAME_AREA_SCALE);
         
         
 //        //==
-        self.player = [[STATank alloc] initWithScale:self.scale Id:1
+        self.player = [[STATank alloc] initWithScale:self.scale*GAME_AREA_SCALE Id:1
                                            BodyColor:TANK_BODY_WHITE
                                        BodyBaseColor:TANK_BODY_BASE_WHITE
                                                   AI:NULL
@@ -127,10 +132,13 @@
                                             Bounds:bounds];
         [self.player setBattleStage:self];
 
-        CGFloat player_bottom_border_y = bottom_corner_y + [self.player getAnchorOffsetY]+PIXEL_WIDTHHEIGHT+1;//+PIXEL_WIDTHHEIGHT+1;
-        CGFloat player_top_border_y = top_corner_y-PIXEL_WIDTHHEIGHT*2*self.scale-3;
-        CGFloat player_left_border_x = left_corner_x+3;
-        CGFloat player_right_border_x = right_corner_x-11;
+        CGFloat player_bottom_border_y = bottom_corner_y + [self.player getAnchorOffsetY]+
+                                        (PIXEL_WIDTHHEIGHT+1)*GAME_AREA_SCALE;//+PIXEL_WIDTHHEIGHT+1;
+        CGFloat player_top_border_y = top_corner_y-
+                                        PIXEL_WIDTHHEIGHT*2*self.scale*GAME_AREA_SCALE-
+                                        3*GAME_AREA_SCALE;
+        CGFloat player_left_border_x = left_corner_x+3*GAME_AREA_SCALE;
+        CGFloat player_right_border_x = right_corner_x-11*GAME_AREA_SCALE;
         
         CGRect bounds = CGRectMake(player_left_border_x, player_bottom_border_y,
                                    player_right_border_x-player_left_border_x,
@@ -139,8 +147,8 @@
         
 //        CGFloat stage_start_x = ([[UIScreen mainScreen] bounds].size.width-PLAYER_WIDTH)/2 + [self.player getAnchorOffsetX];
 //        CGFloat stage_start_y = player_bottom_border_y+20;
-        CGFloat stage_start_x = player_right_border_x - 20;
-        CGFloat stage_start_y = player_bottom_border_y+20;
+        CGFloat stage_start_x = player_right_border_x - 20*GAME_AREA_SCALE;
+        CGFloat stage_start_y = player_bottom_border_y+20*GAME_AREA_SCALE;
         
         self.player.position = CGPointMake(stage_start_x,stage_start_y);
 //        [self.player updateLastPositionData];
@@ -149,7 +157,7 @@
         
         //==enemy
         if (enemyId == 1) {
-            self.enemy = [[STAEnemyTank alloc] initWithScale:self.scale Id:2
+            self.enemy = [[STAEnemyTank alloc] initWithScale:self.scale*GAME_AREA_SCALE Id:2
                                                    BodyColor:TANK_BODY_BLUE
                                                BodyBaseColor:TANK_BODY_BASE_BLUE
                                                       AI:[[STAAI alloc] initWithStage:self]
@@ -157,7 +165,7 @@
                                                       Bounds:bounds];
         }
         else if (enemyId == 2) {
-            self.enemy = [[STAJeep alloc] initWithScale:self.scale Id:2
+            self.enemy = [[STAJeep alloc] initWithScale:self.scale*GAME_AREA_SCALE Id:2
                                                    BodyColor:TANK_BODY_GREEN
                                                BodyBaseColor:TANK_BODY_BASE_GREEN
                                                      AI:[[STAAI alloc] initWithStage:self]
@@ -165,7 +173,7 @@
                                                       Bounds:bounds];
         }
         else if (enemyId == 3) {
-            self.enemy = [[STAShotgunTank alloc] initWithScale:self.scale Id:2
+            self.enemy = [[STAShotgunTank alloc] initWithScale:self.scale*GAME_AREA_SCALE Id:2
                                               BodyColor:TANK_BODY_RED
                                           BodyBaseColor:TANK_BODY_BASE_RED
                                                      AI:[[STAAI alloc] initWithStage:self]
@@ -173,7 +181,7 @@
                                                  Bounds:bounds];
         }
         else if (enemyId == 4) {
-            self.enemy = [[STASniperTank alloc] initWithScale:self.scale Id:2
+            self.enemy = [[STASniperTank alloc] initWithScale:self.scale*GAME_AREA_SCALE Id:2
                                                      BodyColor:TANK_BODY_YELLOW
                                                  BodyBaseColor:TANK_BODY_BASE_YELLOW
                                                             AI:[[STAAI alloc] initWithStage:self]
@@ -186,8 +194,8 @@
 //        stage_start_x = 200;
 //        stage_start_y = player_top_border_y-200;
         
-        stage_start_x = player_left_border_x + 20;
-        stage_start_y = player_top_border_y-20;
+        stage_start_x = player_left_border_x + 20*GAME_AREA_SCALE;
+        stage_start_y = player_top_border_y-20*GAME_AREA_SCALE;
         
         self.enemy.position = CGPointMake(stage_start_x,stage_start_y);
         
@@ -201,11 +209,11 @@
         
         NSString *cdStr = @"3";
         countdownLabelNode.text = cdStr;
-        countdownLabelNode.fontSize = 38;
+        countdownLabelNode.fontSize = 38*GAME_AREA_SCALE;
         countdownLabelNode.fontColor = [SKColor whiteColor];
         
         CGFloat countdown_x = ([[UIScreen mainScreen] bounds].size.width)/2;
-        CGFloat countdown_y = [[UIScreen mainScreen] bounds].size.height - 200;
+        CGFloat countdown_y = [[UIScreen mainScreen] bounds].size.height - 200*GAME_AREA_SCALE;
         
         countdownLabelNode.position = CGPointMake(countdown_x,countdown_y);
         

@@ -159,7 +159,7 @@
     back_wheel_bottom_y = self.tankl4.position.y-self.wheel_height-self.wheel_diff;
     
     //==
-    wheel_x_offset = 2;
+    wheel_x_offset = 1*self.scale;
     self.tankr1 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,self.wheel_height)];
     [self addChild:self.tankr1];
     self.tankr1.position = CGPointMake(self.scaled_width*3-wheel_width-wheel_x_offset-self.anchoroffset_x,
