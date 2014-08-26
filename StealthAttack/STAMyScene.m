@@ -50,10 +50,24 @@
         self.physicsWorld.gravity = CGVectorMake(0,0);
         self.physicsWorld.contactDelegate = self;
         
-        left_corner_x = BORDER_SIDE_MARGIN;
-        top_corner_y = [[UIScreen mainScreen] bounds].size.height - TOP_HUD_HEIGHT;
-        right_corner_x = [[UIScreen mainScreen] bounds].size.width - BORDER_SIDE_MARGIN;
-        bottom_corner_y = BOTTOM_HUD_HEIGHT;
+//        left_corner_x = BORDER_SIDE_MARGIN;
+//        top_corner_y = [[UIScreen mainScreen] bounds].size.height - TOP_HUD_HEIGHT;
+//        right_corner_x = [[UIScreen mainScreen] bounds].size.width - BORDER_SIDE_MARGIN;
+//        bottom_corner_y = BOTTOM_HUD_HEIGHT;
+        
+        GAME_AREA_SCALE = [[UIScreen mainScreen] bounds].size.height/(GAME_AREA_HEIGHT+BOTTOM_HUD_HEIGHT+TOP_HUD_HEIGHT);
+        
+        GAME_AREA_WIDTH = GAME_AREA_WIDTH*GAME_AREA_SCALE;
+        GAME_AREA_HEIGHT = GAME_AREA_HEIGHT*GAME_AREA_SCALE;
+        
+        //adjust GAME_AREA_WIDTH and HEIGHT based on the screen size
+        
+        left_corner_x = ([[UIScreen mainScreen] bounds].size.width-GAME_AREA_WIDTH)/2;
+//        top_corner_y = [[UIScreen mainScreen] bounds].size.height-
+//                        (([[UIScreen mainScreen] bounds].size.height-BOTTOM_HUD_HEIGHT) - GAME_AREA_HEIGHT)/2;
+        top_corner_y = [[UIScreen mainScreen] bounds].size.height - TOP_HUD_HEIGHT*GAME_AREA_SCALE;
+        right_corner_x = left_corner_x + GAME_AREA_WIDTH;
+        bottom_corner_y = top_corner_y - GAME_AREA_HEIGHT;
         
         scale = [UIScreen mainScreen].scale;
         

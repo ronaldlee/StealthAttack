@@ -110,5 +110,10 @@ extern const int MULTIPLAY_STAGE_CHOOSE_TANK;
 extern const int MULTIPLAY_STAGE_BATTLE;
 extern const int MULTIPLAY_STAGE_BATTLE_START;
 
+extern int GAME_AREA_WIDTH;
+extern int GAME_AREA_HEIGHT;
+
+extern CGFloat GAME_AREA_SCALE;
+
 
 @end

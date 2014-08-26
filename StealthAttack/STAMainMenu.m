@@ -54,12 +54,12 @@
         
         NSString *title1Str = @"STEALTH";
         title1.text = title1Str;
-        title1.fontSize = 28;
+        title1.fontSize = 28*GAME_AREA_SCALE;
         title1.fontColor = [SKColor whiteColor];
         title1.alpha = 0;
         
         CGFloat title_x = ([[UIScreen mainScreen] bounds].size.width)/2;
-        CGFloat title_y = [[UIScreen mainScreen] bounds].size.height - 100;
+        CGFloat title_y = bounds.origin.y + bounds.size.height - 100*GAME_AREA_SCALE;   //[[UIScreen mainScreen] bounds].size.height - 100;
         
         title1.position = CGPointMake(title_x,title_y);
         
@@ -73,11 +73,11 @@
         
         NSString *title2Str = @"ATTACK";
         title2.text = title2Str;
-        title2.fontSize = 28;
+        title2.fontSize = 28*GAME_AREA_SCALE;
         title2.fontColor = [SKColor whiteColor];
         title2.alpha = 0;
         
-        title_y = title_y - 50;
+        title_y = title_y - 50*GAME_AREA_SCALE;
         
         title2.position = CGPointMake(title_x,title_y);
         
@@ -92,11 +92,11 @@
         
         NSString *singlePlay = @"single player";
         singlePlayer.text = singlePlay;
-        singlePlayer.fontSize = 8;
+        singlePlayer.fontSize = 8*GAME_AREA_SCALE;
         singlePlayer.fontColor = [SKColor whiteColor];
         singlePlayer.name = @"single_player";
         
-        title_y = BOTTOM_HUD_HEIGHT + 200;
+        title_y = (BOTTOM_HUD_HEIGHT + 150)*GAME_AREA_SCALE;
         
         singlePlayer.position = CGPointMake(title_x,title_y);
         
@@ -107,11 +107,11 @@
         
         NSString *multiPlay = @"multi player";
         multiPlayer.text = multiPlay;
-        multiPlayer.fontSize = 8;
+        multiPlayer.fontSize = 8*GAME_AREA_SCALE;
         multiPlayer.fontColor = [SKColor whiteColor];
         multiPlayer.name = @"multi_player";
         
-        title_y = BOTTOM_HUD_HEIGHT + 150;
+        title_y = (BOTTOM_HUD_HEIGHT + 100)*GAME_AREA_SCALE;
         
         multiPlayer.position = CGPointMake(title_x,title_y);
         

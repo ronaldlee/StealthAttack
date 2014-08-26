@@ -53,13 +53,13 @@
 }
 
 -(void) buildTankWheels {
-    CGFloat wheel_x_offset = 1;
-    CGFloat wheel_y_offset = -1;
-    CGFloat wheel_width = 3;
+    CGFloat wheel_x_offset = 0.5*self.scale;
+    CGFloat wheel_y_offset = -0.5*self.scale;
+    CGFloat wheel_width = 1.5*self.scale;
     
-    self.wheel_height = 2;
+    self.wheel_height = 1*self.scale;
     UIColor *wheel_color = [UIColor blackColor];
-    self.wheel_diff = 2;
+    self.wheel_diff = 1*self.scale;
     
     self.tankl1 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,self.wheel_height)];
     [self addChild:self.tankl1];

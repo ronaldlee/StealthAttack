@@ -12,6 +12,7 @@
 
 @property int playerId;
 
+@property (nonatomic) float scale;
 @property (nonatomic) CGFloat scaled_width;
 @property (nonatomic) CGFloat scaled_height;
 

@@ -9,7 +9,6 @@
 #import "STATank.h"
 
 @interface STATank() {
-    float scale;
     CGRect bounds;
     float bottom_border_y, top_border_y, left_border_x, right_border_x;
     BOOL isVisible;
@@ -31,6 +30,7 @@
 
 @implementation STATank
 
+@synthesize scale;
 @synthesize brainNode;
 @synthesize moveToNode;
 @synthesize attackCooldownNode;
@@ -230,13 +230,13 @@
 }
 
 -(void) buildTankWheels {
-    CGFloat wheel_x_offset = 1;
-    CGFloat wheel_y_offset = 1;
-    CGFloat wheel_width = 3;
+    CGFloat wheel_x_offset = 0.5*scale;
+    CGFloat wheel_y_offset = 0.5*scale;
+    CGFloat wheel_width = 1.5*scale;
     
-    wheel_height = 2;
+    wheel_height = 1*scale;
     UIColor *wheel_color = [UIColor blackColor];
-    wheel_diff = 2;
+    wheel_diff = 1*scale;
     
     self.tankl1 = [SKSpriteNode spriteNodeWithColor:wheel_color size:CGSizeMake(wheel_width,wheel_height)];
     [self addChild:self.tankl1];
