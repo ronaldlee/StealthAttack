@@ -279,7 +279,7 @@
     [tank updateLastPositionData];
     SKAction* shootBulletAction = [SKAction runBlock:^{
         CGPoint location = [tank position];
-        STABullet *bullet = [[STABullet alloc]initWithScale:1.0];
+        STABullet *bullet = [[STABullet alloc]initWithScale:self.scale];
         
         //need to position at the tip of the tank's turret..
         
@@ -288,8 +288,8 @@
         
         //bullet.scale = 0.8;
         
-        CGFloat velocity_x = cos([tank getAdjRotation])*tank.bulletSpeed;
-        CGFloat velocity_y = sin([tank getAdjRotation])*tank.bulletSpeed;
+        CGFloat velocity_x = cos([tank getAdjRotation])*tank.bulletSpeed/self.scale;
+        CGFloat velocity_y = sin([tank getAdjRotation])*tank.bulletSpeed/self.scale;
         
         CGFloat radius = PLAYER_WIDTH;
         CGFloat x = cos([tank getAdjRotation])*radius + tank.position.x;

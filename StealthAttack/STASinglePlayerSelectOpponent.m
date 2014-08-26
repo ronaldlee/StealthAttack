@@ -68,7 +68,7 @@
         
         title_y = bounds.origin.y + bounds.size.height-20*GAME_AREA_SCALE;
         
-        backLabel.position = CGPointMake(20*GAME_AREA_SCALE,title_y);
+        backLabel.position = CGPointMake(bounds.origin.x+15*GAME_AREA_SCALE,title_y);
         
         [self.scene addChild:backLabel];
         [backLabel runAction:fadein];

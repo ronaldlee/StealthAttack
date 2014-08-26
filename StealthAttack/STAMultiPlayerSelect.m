@@ -55,10 +55,10 @@
         
         NSString *singlePlay = @"Select Your Tank";
         selectOppTitle.text = singlePlay;
-        selectOppTitle.fontSize = 8;
+        selectOppTitle.fontSize = 8*GAME_AREA_SCALE;
         selectOppTitle.fontColor = [SKColor whiteColor];
         
-        CGFloat title_y = [[UIScreen mainScreen] bounds].size.height - 100;
+        CGFloat title_y = bounds.origin.y + bounds.size.height - 100*GAME_AREA_SCALE;
         
         selectOppTitle.position = CGPointMake(title_x,title_y);
         selectOppTitle.alpha = 0;
@@ -73,32 +73,32 @@
         
         NSString *back = @"<<";
         backLabel.text = back;
-        backLabel.fontSize = 8;
+        backLabel.fontSize = 8*GAME_AREA_SCALE;
         backLabel.fontColor = [SKColor whiteColor];
         backLabel.name = @"back_label";
         backLabel.alpha = 0;
         
-        title_y = [[UIScreen mainScreen] bounds].size.height-50;
+        title_y = bounds.origin.y + bounds.size.height-20*GAME_AREA_SCALE;
         
-        backLabel.position = CGPointMake(20,title_y);
-        
+        backLabel.position = CGPointMake(bounds.origin.x+15*GAME_AREA_SCALE,title_y);
+
         [self.scene addChild:backLabel];
         [backLabel runAction:fadein];
         
         CGFloat back_button_orig_x =backLabel.position.x;
         
-        SKAction * backLabelMoveRight = [SKAction moveToX:back_button_orig_x+5 duration:0.5];
+        SKAction * backLabelMoveRight = [SKAction moveToX:back_button_orig_x+5*GAME_AREA_SCALE duration:0.5];
         SKAction * backLabelMoveLeft = [SKAction moveToX:back_button_orig_x duration:0.2];
         
         [backLabel runAction:[SKAction repeatActionForever:[SKAction sequence:@[backLabelMoveRight,backLabelMoveLeft]]]];
         
         //
-        CGSize button_size = CGSizeMake(30,20);
+        CGSize button_size = CGSizeMake(30*GAME_AREA_SCALE,20*GAME_AREA_SCALE);
         
         backButton = [[STAButton alloc] initWithSize:button_size Scale:GAME_AREA_SCALE Name:@"back_button" Alpha:0 BGAlpha:0.0 ButtonText:NULL
                                      ButtonTextColor:NULL ButtonTextFont:@"Press Start 2P" ButtonTextFontSize:10 isShowBorder:false];
         backButton.userInteractionEnabled = NO;
-        backButton.position = CGPointMake(back_button_orig_x-10,backLabel.position.y-5);
+        backButton.position = CGPointMake(back_button_orig_x-10*GAME_AREA_SCALE,backLabel.position.y-5*GAME_AREA_SCALE);
         [self.scene addChild:backButton];
         
         //enemies to choose from
@@ -115,21 +115,21 @@
         //==enemies
         //4 enemies per row, 2 rows (total 8 enemies)
         //locked => question mark?
-        enemy1 = [[STATank alloc] initWithScale:self.scale Id:2
+        enemy1 = [[STATank alloc] initWithScale:self.scale*GAME_AREA_SCALE Id:2
                                            BodyColor:TANK_BODY_WHITE
                                        BodyBaseColor:TANK_BODY_BASE_WHITE
                                                   AI:NULL
                                             Category:ENEMY_CATEGORY
                                               Bounds:bounds];
         
-        CGFloat stage_start_y = [[UIScreen mainScreen] bounds].size.height-150;
+        CGFloat stage_start_y = [[UIScreen mainScreen] bounds].size.height-150*GAME_AREA_SCALE;
         
         
         [self.scene addChild:enemy1];
         [enemy1 dance:REGION_MIDDLE_BOTTOM];
         
         //
-        enemy2 = [[STAEnemyTank alloc] initWithScale:self.scale Id:2
+        enemy2 = [[STAEnemyTank alloc] initWithScale:self.scale*GAME_AREA_SCALE Id:2
                                            BodyColor:TANK_BODY_WHITE
                                        BodyBaseColor:TANK_BODY_BASE_WHITE
                                                   AI:NULL
@@ -140,7 +140,7 @@
         [enemy2 dance:REGION_MIDDLE_BOTTOM];
         
         //
-        enemy3 = [[STAJeep alloc] initWithScale:self.scale Id:2
+        enemy3 = [[STAJeep alloc] initWithScale:self.scale*GAME_AREA_SCALE Id:2
                                       BodyColor:TANK_BODY_WHITE
                                   BodyBaseColor:TANK_BODY_BASE_WHITE
                                              AI:NULL
@@ -151,7 +151,7 @@
         [enemy3 dance:REGION_MIDDLE_BOTTOM];
         
         //
-        enemy4 = [[STAShotgunTank alloc] initWithScale:self.scale Id:2
+        enemy4 = [[STAShotgunTank alloc] initWithScale:self.scale*GAME_AREA_SCALE Id:2
                                              BodyColor:TANK_BODY_WHITE
                                          BodyBaseColor:TANK_BODY_BASE_WHITE
                                                     AI:NULL
@@ -162,7 +162,7 @@
         [enemy4 dance:REGION_MIDDLE_BOTTOM];
         
         //
-        enemy5 = [[STASniperTank alloc] initWithScale:self.scale Id:2
+        enemy5 = [[STASniperTank alloc] initWithScale:self.scale*GAME_AREA_SCALE Id:2
                                             BodyColor:TANK_BODY_WHITE
                                         BodyBaseColor:TANK_BODY_BASE_WHITE
                                                    AI:NULL
@@ -173,9 +173,9 @@
         [enemy5 dance:REGION_MIDDLE_BOTTOM];
         
         //
-        int diff_between = 40;
+        int diff_between = 40*GAME_AREA_SCALE;
         CGFloat total_width = enemy1.max_width + enemy2.max_width + enemy3.max_width +
-                              enemy4.max_width + enemy5.max_width+diff_between*4-10;
+                              enemy4.max_width + enemy5.max_width+diff_between*4-10*GAME_AREA_SCALE;
         
         CGFloat stage_start_x = ([[UIScreen mainScreen] bounds].size.width - total_width)/2;
         
@@ -199,7 +199,7 @@
         
         //=== enemy selection button
         
-        button_size = CGSizeMake(40,40);
+        button_size = CGSizeMake(40*GAME_AREA_SCALE,40*GAME_AREA_SCALE);
         enemy1Button = [[STAButton alloc] initWithSize:button_size Scale:GAME_AREA_SCALE Name:@"enemy1_button" Alpha:1.0 BGAlpha:0.0 ButtonText:NULL
                                        ButtonTextColor:NULL ButtonTextFont:@"Press Start 2P" ButtonTextFontSize:10 isShowBorder:false];
         enemy1Button.userInteractionEnabled = NO;
@@ -236,7 +236,7 @@
         [self.scene addChild:enemy5Button];
         //
         
-        button_size = CGSizeMake(40,40);
+        button_size = CGSizeMake(40*GAME_AREA_SCALE,40*GAME_AREA_SCALE);
         color1Button = [[STAButton alloc] initWithSize:button_size Scale:GAME_AREA_SCALE Name:@"color1_button" Alpha:1.0 BGAlpha:1.0 ButtonText:NULL
                                        ButtonTextColor:NULL ButtonTextFont:@"Press Start 2P" ButtonTextFontSize:10 isShowBorder:false BGColor:[UIColor whiteColor]];
         color1Button.userInteractionEnabled = NO;
@@ -262,31 +262,31 @@
         color5Button.userInteractionEnabled = NO;
         [self.scene addChild:color5Button];
         
-        diff_between=5;
-        total_width = 40*5+diff_between*4-10;
+        diff_between=5*GAME_AREA_SCALE;
+        total_width = 40*5*GAME_AREA_SCALE+diff_between*4-10*GAME_AREA_SCALE;
         
         stage_start_x = ([[UIScreen mainScreen] bounds].size.width - total_width)/2;
         color1Button.position = CGPointMake(stage_start_x,
-                                            enemy1Button.position.y - 200);
-        color2Button.position = CGPointMake(color1Button.position.x+40+diff_between,
+                                            enemy1Button.position.y - 200*GAME_AREA_SCALE);
+        color2Button.position = CGPointMake(color1Button.position.x+40*GAME_AREA_SCALE+diff_between,
                                             color1Button.position.y);
-        color3Button.position = CGPointMake(color2Button.position.x+40+diff_between,
+        color3Button.position = CGPointMake(color2Button.position.x+40*GAME_AREA_SCALE+diff_between,
                                             color1Button.position.y);
-        color4Button.position = CGPointMake(color3Button.position.x+40+diff_between,
+        color4Button.position = CGPointMake(color3Button.position.x+40*GAME_AREA_SCALE+diff_between,
                                             color1Button.position.y);
-        color5Button.position = CGPointMake(color4Button.position.x+40+diff_between,
+        color5Button.position = CGPointMake(color4Button.position.x+40*GAME_AREA_SCALE+diff_between,
                                             color1Button.position.y);
         
         //
         selectColorTitle = [SKLabelNode labelNodeWithFontNamed:font];
         
         selectColorTitle.text = @"Select Color";
-        selectColorTitle.fontSize = 8;
+        selectColorTitle.fontSize = 8*GAME_AREA_SCALE;
         selectColorTitle.fontColor = [SKColor whiteColor];
         
-        title_y = [[UIScreen mainScreen] bounds].size.height - 100;
+        title_y = title_y - 100;
         
-        selectColorTitle.position = CGPointMake(title_x,color1Button.position.y +50);
+        selectColorTitle.position = CGPointMake(title_x,color1Button.position.y +50*GAME_AREA_SCALE);
         selectColorTitle.alpha = 0;
         
         [self.scene addChild:selectColorTitle];
@@ -294,13 +294,13 @@
         [selectColorTitle runAction:fadein];
         
         //
-        button_size = CGSizeMake(30,20);
+        button_size = CGSizeMake(30*GAME_AREA_SCALE,20*GAME_AREA_SCALE);
         
         readyButton = [[STAButton alloc] initWithSize:button_size Scale:GAME_AREA_SCALE Name:@"ready_button" Alpha:0 BGAlpha:0.0 ButtonText:@"Ready"
                                       ButtonTextColor:[UIColor whiteColor] ButtonTextFont:@"Press Start 2P" ButtonTextFontSize:10 isShowBorder:false];
         readyButton.userInteractionEnabled = NO;
         readyButton.position = CGPointMake(([[UIScreen mainScreen] bounds].size.width - 30)/2,
-                                           color1Button.position.y - 50);
+                                           color1Button.position.y - 50*GAME_AREA_SCALE);
         [self.scene addChild:readyButton];
         
         //

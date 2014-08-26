@@ -42,7 +42,7 @@
         
         self.bullet = [SKSpriteNode spriteNodeWithColor:[UIColor whiteColor] size:CGSizeMake(scaled_width,scaled_height)];
         [self addChild:self.bullet];
-        self.bullet.position = CGPointMake(scaled_width,scaled_height-3);
+        self.bullet.position = CGPointMake(scaled_width,scaled_height-3*scale);
         
         self.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:self.size];
         self.physicsBody.affectedByGravity = NO;

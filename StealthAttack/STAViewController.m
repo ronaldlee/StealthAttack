@@ -24,10 +24,15 @@
         STAMyScene* myScene = (STAMyScene*) scene;
         [myScene.currStage cleanup];
         
-        CGFloat left_corner_x = BORDER_SIDE_MARGIN;
-        CGFloat top_corner_y = [[UIScreen mainScreen] bounds].size.height - TOP_HUD_HEIGHT;
-        CGFloat right_corner_x = [[UIScreen mainScreen] bounds].size.width - BORDER_SIDE_MARGIN;
-        CGFloat bottom_corner_y = BOTTOM_HUD_HEIGHT;
+//        CGFloat left_corner_x = BORDER_SIDE_MARGIN;
+//        CGFloat top_corner_y = [[UIScreen mainScreen] bounds].size.height - TOP_HUD_HEIGHT;
+//        CGFloat right_corner_x = [[UIScreen mainScreen] bounds].size.width - BORDER_SIDE_MARGIN;
+//        CGFloat bottom_corner_y = BOTTOM_HUD_HEIGHT;
+        
+        CGFloat left_corner_x = ([[UIScreen mainScreen] bounds].size.width-GAME_AREA_WIDTH)/2;
+        CGFloat top_corner_y = [[UIScreen mainScreen] bounds].size.height - TOP_HUD_HEIGHT*GAME_AREA_SCALE;
+        CGFloat right_corner_x = left_corner_x + GAME_AREA_WIDTH;
+        CGFloat bottom_corner_y = top_corner_y - GAME_AREA_HEIGHT;
         
         myScene.currStage = [[STAMultiPlayerSelect alloc ]
                              initWithScale:[UIScreen mainScreen].scale
