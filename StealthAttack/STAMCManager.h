@@ -31,7 +31,7 @@
 -(BOOL)isStageChooseTankReady;
 -(BOOL)isStageBattleReady;
 
--(void)submitPlayerChoiceTank:(int)myTankId Color:(int)myColorId;
+-(void)submitPlayerChoiceTank:(int)myTankId Color:(int)myColorId Scale:(CGFloat)myScale;
 
 -(void)sendBattleStageUIReady;
 

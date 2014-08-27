@@ -11,6 +11,8 @@
 @interface STAMultiPlayBattleStage () {
     
     SKLabelNode* countdownLabelNode;
+    CGFloat myScale;
+    CGFloat oppScale;
 }
 @end
 
@@ -34,11 +36,14 @@
 @synthesize isGameStart;
 
 - (id)initWithScale:(float)sk_scale Bounds:(CGRect)bounds Scene:(SKScene*)sk_scene
-             MyTank:(int)myTankId MyColor:(int)myColorId OppTankId:(int)oppTankId OppColor:(int)oppColorId {
+             MyTank:(int)myTankId MyColor:(int)myColorId MyScale:(CGFloat)p_myScale
+          OppTankId:(int)oppTankId OppColor:(int)oppColorId OppScale:(CGFloat)p_oppScale {
     
     self = [super initWithScale:sk_scale Bounds:bounds Scene:sk_scene];
     
     if (self) {
+        myScale = p_myScale;
+        oppScale = p_oppScale;
         
         isGameStart= false;
         isGameOver = false;
@@ -554,8 +559,8 @@
 -(void)adjEnemyX:(CGFloat)x Y:(CGFloat)y R:(CGFloat)r {
     //need to reverse the x/y and also the r
     CGRect bounds = self.enemy.getBorderBounds;
-    CGFloat invX = bounds.origin.x+bounds.size.width - x*GAME_AREA_SCALE + bounds.origin.x;
-    CGFloat invY = bounds.origin.y+bounds.size.height - y*GAME_AREA_SCALE + bounds.origin.y;
+    CGFloat invX = bounds.origin.x+bounds.size.width - x*oppScale/myScale + bounds.origin.x;
+    CGFloat invY = bounds.origin.y+bounds.size.height - y*oppScale/myScale + bounds.origin.y;
     
     self.enemy.position = CGPointMake(invX, invY);
     self.enemy.zRotation = (M_PI-r) * -1;

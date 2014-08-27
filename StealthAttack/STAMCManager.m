@@ -14,11 +14,14 @@
     
     int oppColorId;
     int oppTankId;
+    CGFloat oppScale;
     
     int myColorId;
     int myTankId;
+    CGFloat myScale;
     BOOL isAckColor;
     BOOL isAckTank;
+    BOOL isAckScale;
     
     BOOL isReadyBattleStage;
     BOOL isAckReadyBattleStage;
@@ -63,8 +66,10 @@
     
     myColorId = 0;
     myTankId = 0;
+    myScale = 0.0;
     isAckColor = FALSE;
     isAckTank = FALSE;
+    isAckScale = FALSE;
     
     isReadyBattleStage = false;
     isAckReadyBattleStage = false;
@@ -142,10 +147,13 @@
             NSNumber* oppTankIdNum = (NSNumber*)[myDictionary objectForKey:@"tank"];
             oppTankId = [oppTankIdNum intValue];
             
+            NSNumber* oppScaleNum = (NSNumber*)[myDictionary objectForKey:@"scale"];
+            oppScale = [oppScaleNum floatValue];
+            
 //            NSNumber* oppMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
 //            int oppMsgId = [oppMsgIdNum intValue];
             
-            [self ackPlayerChoiceTank:oppTankId Color:oppColorId MsgId:[[myDictionary objectForKey:@"id"] intValue]];
+            [self ackPlayerChoiceTank:oppTankId Color:oppColorId Scale:oppScale MsgId:[[myDictionary objectForKey:@"id"] intValue]];
             
             if ([self isStageChooseTankReady]) {
                 [self sendReadyBattleStage];
@@ -162,15 +170,19 @@
                 int ackColorId = [ackColorIdNum intValue];
                 
                 if (ackColorId == myColorId) {
-                    NSLog(@"action ack choice: isAckColor");
                     isAckColor = TRUE;
                 }
                 NSNumber* ackTankIdNum = (NSNumber*)[myDictionary objectForKey:@"tank"];
                 int ackTankId = [ackTankIdNum intValue];
                 
                 if (ackTankId == myTankId) {
-                    NSLog(@"action ack choice: isAckTank");
                     isAckTank = TRUE;
+                }
+                NSNumber * ackScaleNum = (NSNumber*)[myDictionary objectForKey:@"scale"];
+                CGFloat ackScale = [ackScaleNum floatValue];
+                
+                if (ackScale == myScale) {
+                    isAckScale= TRUE;
                 }
                 
                 if ([self isStageChooseTankReady]) {
@@ -197,7 +209,8 @@
                 stage = MULTIPLAY_STAGE_BATTLE;
                 
                 STAMultiPlayerSelect* mstage = (STAMultiPlayerSelect*)curStage;
-                [mstage goToBattleStageMyTank:myTankId MyColor:myColorId OppTankId:oppTankId OppColor:oppColorId];
+                [mstage goToBattleStageMyTank:myTankId MyColor:myColorId MyScale:myScale
+                                    OppTankId:oppTankId OppColor:oppColorId OppScale:oppScale];
             }
         }
         else if (actionIdInt == ACTION_ACK_READY_BATTLE_STAGE) {
@@ -212,7 +225,8 @@
                 //go to Battle Stage
                 stage = MULTIPLAY_STAGE_BATTLE;
                 STAMultiPlayerSelect* mstage = (STAMultiPlayerSelect*)curStage;
-                [mstage goToBattleStageMyTank:myTankId MyColor:myColorId OppTankId:oppTankId OppColor:oppColorId];
+                [mstage goToBattleStageMyTank:myTankId MyColor:myColorId MyScale:myScale
+                                    OppTankId:oppTankId OppColor:oppColorId OppScale:oppScale];
             }
         }
     }
@@ -374,7 +388,8 @@
 }
 
 -(BOOL)isStageChooseTankReady {
-    return oppColorId != 0 && oppTankId != 0 && myColorId != 0 && myTankId != 0 && isAckColor && isAckTank;
+    return oppColorId != 0 && oppTankId != 0 && myColorId != 0 && myTankId != 0 && oppScale != 0.0 && myScale != 0.0 &&
+            isAckColor && isAckTank && isAckScale;
 }
 
 
@@ -395,15 +410,17 @@
 //===
 
 
--(void)submitPlayerChoiceTank:(int)tankId Color:(int)colorId {
+-(void)submitPlayerChoiceTank:(int)tankId Color:(int)colorId Scale:(CGFloat)scale {
     myTankId = tankId;
     myColorId = colorId;
+    myScale = scale;
     msgId++;
     
     NSLog(@"submitPlayerChoiceTank");
     NSDictionary* choiceData = @{@"action" : [NSNumber numberWithInt:ACTION_SUBMIT_CHOICE],
                                 @"tank" : [NSNumber numberWithInt:myTankId],
                                 @"color" : [NSNumber numberWithInt:myColorId],
+                                @"scale" : [NSNumber numberWithFloat:myScale],
                                 @"id": [NSNumber numberWithInt:msgId] };
     NSMutableData *data = [[NSMutableData alloc] init];
     NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
@@ -423,11 +440,12 @@
     }
 }
 
--(void)ackPlayerChoiceTank:(int)tankId Color:(int)colorId MsgId:(int)p_msgId {
+-(void)ackPlayerChoiceTank:(int)p_tankId Color:(int)p_colorId Scale:(CGFloat)p_scale MsgId:(int)p_msgId {
     
     NSDictionary* choiceData = @{@"action" : [NSNumber numberWithInt:ACTION_ACK_CHOICE],
-                                 @"tank" : [NSNumber numberWithInt:tankId],
-                                 @"color" : [NSNumber numberWithInt:colorId],
+                                 @"tank" : [NSNumber numberWithInt:p_tankId],
+                                 @"color" : [NSNumber numberWithInt:p_colorId],
+                                 @"scale" : [NSNumber numberWithFloat:p_scale],
                                  @"id" : [NSNumber numberWithInt:p_msgId]};
     NSMutableData *data = [[NSMutableData alloc] init];
     NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];

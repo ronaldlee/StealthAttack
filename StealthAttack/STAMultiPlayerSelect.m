@@ -300,7 +300,7 @@
                                       ButtonTextColor:[UIColor whiteColor] ButtonTextFont:@"Press Start 2P" ButtonTextFontSize:10 isShowBorder:false];
         readyButton.userInteractionEnabled = NO;
         readyButton.position = CGPointMake(([[UIScreen mainScreen] bounds].size.width - 30)/2,
-                                           color1Button.position.y - 50*GAME_AREA_SCALE);
+                                           color1Button.position.y - 80*GAME_AREA_SCALE);
         [self.scene addChild:readyButton];
         
         //
@@ -732,7 +732,7 @@
             NSLog(@"Hit ready!: my tankId: %d, myColorId: %d",myTankId,myColorId);
             
             STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
-            [appDelegate.mcManager submitPlayerChoiceTank:myTankId Color:myColorId];
+            [appDelegate.mcManager submitPlayerChoiceTank:myTankId Color:myColorId Scale:GAME_AREA_SCALE];
         }
         
     }
@@ -782,14 +782,16 @@
     
 }
 
--(void)goToBattleStageMyTank:(int)myTankId MyColor:(int)myColorId OppTankId:(int)oppTankId OppColor:(int)oppColorId {
+-(void)goToBattleStageMyTank:(int)myTankId MyColor:(int)myColorId MyScale:(CGFloat)myScale
+                   OppTankId:(int)oppTankId OppColor:(int)oppColorId OppScale:(CGFloat)oppScale {
     STAMyScene* myScene = (STAMyScene*)self.scene;
     
     [myScene.currStage cleanup];
     
     myScene.currStage = [[STAMultiPlayBattleStage alloc ]
                          initWithScale:self.scale Bounds:self.bounds Scene:self.scene
-                         MyTank:myTankId MyColor:myColorId OppTankId:oppTankId OppColor:oppColorId];
+                         MyTank:myTankId MyColor:myColorId MyScale:myScale
+                         OppTankId:oppTankId OppColor:oppColorId OppScale:oppScale];
 }
 
 @end

@@ -28,7 +28,8 @@
 @property (nonatomic) BOOL isGameOver;
 
 - (id)initWithScale:(float)scale Bounds:(CGRect)bounds Scene:(SKScene*)scene
-             MyTank:(int)myTankId MyColor:(int)myColorId OppTankId:(int)oppTankId OppColor:(int)oppColorId;
+             MyTank:(int)myTankId MyColor:(int)myColorId MyScale:(CGFloat)myScale
+          OppTankId:(int)oppTankId OppColor:(int)oppColorId OppScale:(CGFloat)oppScale;
 
 -(void) fireBullet:(STATank*)tank;
 

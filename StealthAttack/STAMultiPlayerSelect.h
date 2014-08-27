@@ -40,6 +40,7 @@
 @property (nonatomic) STAButton * color4Button;
 @property (nonatomic) STAButton * color5Button;
 
--(void)goToBattleStageMyTank:(int)myTankId MyColor:(int)myColorId OppTankId:(int)oppTankId OppColor:(int)oppColorId;
+-(void)goToBattleStageMyTank:(int)myTankId MyColor:(int)myColorId MyScale:(CGFloat)myScale
+                   OppTankId:(int)oppTankId OppColor:(int)oppColorId OppScale:(CGFloat)oppScale;
 
 @end
