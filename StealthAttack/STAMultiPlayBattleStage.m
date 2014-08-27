@@ -484,7 +484,7 @@
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
 //    [self.player stop];
     STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
-    [appDelegate.mcManager sendStopX:self.player.position.x Y:self.player.position.y R:self.player.zRotation];
+    [appDelegate.mcManager sendStop];//    :self.player.position.x Y:self.player.position.y R:self.player.zRotation];
     
     [rotate_c_button stopFlashText];
     [rotate_uc_button stopFlashText];

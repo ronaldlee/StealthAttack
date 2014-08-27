@@ -342,14 +342,14 @@
             NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
             int ackMsgId = [ackMsgIdNum intValue];
             
-            NSNumber* xNum = (NSNumber*)[myDictionary objectForKey:@"x"];
-            CGFloat x = [xNum floatValue];
-            NSNumber* yNum = (NSNumber*)[myDictionary objectForKey:@"y"];
-            CGFloat y = [yNum floatValue];
-            NSNumber* rNum = (NSNumber*)[myDictionary objectForKey:@"r"];
-            CGFloat r = [rNum floatValue];
+//            NSNumber* xNum = (NSNumber*)[myDictionary objectForKey:@"x"];
+//            CGFloat x = [xNum floatValue];
+//            NSNumber* yNum = (NSNumber*)[myDictionary objectForKey:@"y"];
+//            CGFloat y = [yNum floatValue];
+//            NSNumber* rNum = (NSNumber*)[myDictionary objectForKey:@"r"];
+//            CGFloat r = [rNum floatValue];
             
-            [mstage adjEnemyX:x Y:y R:r];
+//            [mstage adjEnemyX:x Y:y R:r];
             [self ackStop:ackMsgId];
             [mstage enemyStop];
         }
@@ -764,13 +764,17 @@
         NSLog(@"%@", [error localizedDescription]);
     }
 }
--(void)sendStopX:(CGFloat)x Y:(CGFloat)y R:(CGFloat)r {
+-(void)sendStop {  //X:(CGFloat)x Y:(CGFloat)y R:(CGFloat)r {
     msgId++;
+//    NSDictionary* choiceData = @{@"action" : [NSNumber numberWithInt:ACTION_STOP],
+//                                 @"id" : [NSNumber numberWithInt:msgId],
+//                                 @"x" : [NSNumber numberWithFloat:x],
+//                                 @"y" : [NSNumber numberWithFloat:y],
+//                                 @"r" : [NSNumber numberWithFloat:r],};
+    
     NSDictionary* choiceData = @{@"action" : [NSNumber numberWithInt:ACTION_STOP],
-                                 @"id" : [NSNumber numberWithInt:msgId],
-                                 @"x" : [NSNumber numberWithFloat:x],
-                                 @"y" : [NSNumber numberWithFloat:y],
-                                 @"r" : [NSNumber numberWithFloat:r],};
+                                 @"id" : [NSNumber numberWithInt:msgId],};
+    
     NSMutableData *data = [[NSMutableData alloc] init];
     NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
     [archiver encodeObject:choiceData forKey:ENCODE_KEY];
