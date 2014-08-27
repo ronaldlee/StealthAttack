@@ -332,7 +332,9 @@
         
         SKAction * playerAdjAction = [SKAction runBlock:^() {
             STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
-            [appDelegate.mcManager sendAdjX:self.player.position.x Y:self.player.position.y R:self.player.zRotation];
+            [appDelegate.mcManager sendAdjX:self.player.position.x-self.player.getBorderBounds.origin.x
+                                          Y:self.player.position.y-self.player.getBorderBounds.origin.y
+                                          R:self.player.zRotation];
         }];
         
         [self.playerFadeNode runAction:playerFadeOutAction];
@@ -559,8 +561,10 @@
 -(void)adjEnemyX:(CGFloat)x Y:(CGFloat)y R:(CGFloat)r {
     //need to reverse the x/y and also the r
     CGRect bounds = self.enemy.getBorderBounds;
-    CGFloat invX = bounds.origin.x+bounds.size.width - x*oppScale/myScale + bounds.origin.x;
-    CGFloat invY = bounds.origin.y+bounds.size.height - y*oppScale/myScale + bounds.origin.y;
+    CGFloat ratio = myScale/oppScale;
+    
+    CGFloat invX = bounds.origin.x+bounds.size.width - x*ratio;
+    CGFloat invY = bounds.origin.y+bounds.size.height - y*ratio;
     
     self.enemy.position = CGPointMake(invX, invY);
     self.enemy.zRotation = (M_PI-r) * -1;
