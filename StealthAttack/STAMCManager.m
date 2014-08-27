@@ -181,7 +181,7 @@
                 NSNumber * ackScaleNum = (NSNumber*)[myDictionary objectForKey:@"scale"];
                 CGFloat ackScale = [ackScaleNum floatValue];
                 
-                if (ackScale == myScale) {
+                if (fabs(ackScale - myScale) < 0.001) {
                     isAckScale= TRUE;
                 }
                 
