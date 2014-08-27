@@ -458,11 +458,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StealthAttack/STAMultiPlayBattleStage.m"
-            timestampString = "430811106.529043"
+            timestampString = "430813511.873815"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "563"
-            endingLineNumber = "563"
+            startingLineNumber = "567"
+            endingLineNumber = "567"
             landmarkName = "-adjEnemyX:Y:R:"
             landmarkType = "5">
          </BreakpointContent>

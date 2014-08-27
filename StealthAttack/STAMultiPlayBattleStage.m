@@ -260,6 +260,10 @@
                                                Category:ENEMY_CATEGORY
                                                  Bounds:bounds];
         }
+        
+        CGFloat ratio = myScale/oppScale;
+        self.enemy.moveSpeed *= ratio;
+        
         [self.enemy setBattleStage:self];
         CGFloat enemy_bottom_border_y = bottom_corner_y + [self.enemy getAnchorOffsetY]+(PIXEL_WIDTHHEIGHT+1)*GAME_AREA_SCALE;//+PIXEL_WIDTHHEIGHT+1;
         CGFloat enemy_top_border_y = top_corner_y-PIXEL_WIDTHHEIGHT*2*self.scale*GAME_AREA_SCALE-3*GAME_AREA_SCALE;
