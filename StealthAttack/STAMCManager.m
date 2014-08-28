@@ -14,11 +14,11 @@
     
     int oppColorId;
     int oppTankId;
-    CGFloat oppScale;
+    double oppScale;
     
     int myColorId;
     int myTankId;
-    CGFloat myScale;
+    double myScale;
     BOOL isAckColor;
     BOOL isAckTank;
     BOOL isAckScale;
@@ -148,7 +148,7 @@
             oppTankId = [oppTankIdNum intValue];
             
             NSNumber* oppScaleNum = (NSNumber*)[myDictionary objectForKey:@"scale"];
-            oppScale = [oppScaleNum floatValue];
+            oppScale = [oppScaleNum doubleValue];
             
 //            NSNumber* oppMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
 //            int oppMsgId = [oppMsgIdNum intValue];
@@ -179,9 +179,10 @@
                     isAckTank = TRUE;
                 }
                 NSNumber * ackScaleNum = (NSNumber*)[myDictionary objectForKey:@"scale"];
-                CGFloat ackScale = [ackScaleNum floatValue];
+                double ackScale = [ackScaleNum doubleValue];
                 
-                if (fabs(ackScale - myScale) < 0.001) {
+                //if (fabs(ackScale - myScale) < 0.001) {
+                if (ackScale == myScale) {
                     isAckScale= TRUE;
                 }
                 
@@ -410,7 +411,7 @@
 //===
 
 
--(void)submitPlayerChoiceTank:(int)tankId Color:(int)colorId Scale:(CGFloat)scale {
+-(void)submitPlayerChoiceTank:(int)tankId Color:(int)colorId Scale:(double)scale {
     myTankId = tankId;
     myColorId = colorId;
     myScale = scale;
@@ -420,7 +421,7 @@
     NSDictionary* choiceData = @{@"action" : [NSNumber numberWithInt:ACTION_SUBMIT_CHOICE],
                                 @"tank" : [NSNumber numberWithInt:myTankId],
                                 @"color" : [NSNumber numberWithInt:myColorId],
-                                @"scale" : [NSNumber numberWithFloat:myScale],
+                                @"scale" : [NSNumber numberWithDouble:myScale],
                                 @"id": [NSNumber numberWithInt:msgId] };
     NSMutableData *data = [[NSMutableData alloc] init];
     NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
@@ -440,12 +441,12 @@
     }
 }
 
--(void)ackPlayerChoiceTank:(int)p_tankId Color:(int)p_colorId Scale:(CGFloat)p_scale MsgId:(int)p_msgId {
+-(void)ackPlayerChoiceTank:(int)p_tankId Color:(int)p_colorId Scale:(double)p_scale MsgId:(int)p_msgId {
     
     NSDictionary* choiceData = @{@"action" : [NSNumber numberWithInt:ACTION_ACK_CHOICE],
                                  @"tank" : [NSNumber numberWithInt:p_tankId],
                                  @"color" : [NSNumber numberWithInt:p_colorId],
-                                 @"scale" : [NSNumber numberWithFloat:p_scale],
+                                 @"scale" : [NSNumber numberWithDouble:p_scale],
                                  @"id" : [NSNumber numberWithInt:p_msgId]};
     NSMutableData *data = [[NSMutableData alloc] init];
     NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];

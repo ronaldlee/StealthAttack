@@ -102,6 +102,6 @@ const int ACTION_ADJ = 27;
 int GAME_AREA_WIDTH = 316;
 int GAME_AREA_HEIGHT = 438;
 
-CGFloat GAME_AREA_SCALE = 1.0;
+double GAME_AREA_SCALE = 1.0;
 
 @end
