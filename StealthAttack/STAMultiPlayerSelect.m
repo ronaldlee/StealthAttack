@@ -120,7 +120,8 @@
                                        BodyBaseColor:TANK_BODY_BASE_WHITE
                                                   AI:NULL
                                             Category:ENEMY_CATEGORY
-                                              Bounds:bounds];
+                                              Bounds:bounds
+                                     IsEnableStealth:IS_ENABLE_STEALTH];
         
         CGFloat stage_start_y = [[UIScreen mainScreen] bounds].size.height-150*GAME_AREA_SCALE;
         
@@ -134,7 +135,8 @@
                                        BodyBaseColor:TANK_BODY_BASE_WHITE
                                                   AI:NULL
                                             Category:ENEMY_CATEGORY
-                                              Bounds:bounds];
+                                              Bounds:bounds
+                                     IsEnableStealth:IS_ENABLE_STEALTH];
         
         [self.scene addChild:enemy2];
         [enemy2 dance:REGION_MIDDLE_BOTTOM];
@@ -145,7 +147,8 @@
                                   BodyBaseColor:TANK_BODY_BASE_WHITE
                                              AI:NULL
                                        Category:ENEMY_CATEGORY
-                                         Bounds:bounds];
+                                         Bounds:bounds
+                                IsEnableStealth:IS_ENABLE_STEALTH];
         
         [self.scene addChild:enemy3];
         [enemy3 dance:REGION_MIDDLE_BOTTOM];
@@ -156,7 +159,8 @@
                                          BodyBaseColor:TANK_BODY_BASE_WHITE
                                                     AI:NULL
                                               Category:ENEMY_CATEGORY
-                                                Bounds:bounds];
+                                                Bounds:bounds
+                                       IsEnableStealth:IS_ENABLE_STEALTH];
         
         [self.scene addChild:enemy4];
         [enemy4 dance:REGION_MIDDLE_BOTTOM];
@@ -167,7 +171,8 @@
                                         BodyBaseColor:TANK_BODY_BASE_WHITE
                                                    AI:NULL
                                              Category:ENEMY_CATEGORY
-                                               Bounds:bounds];
+                                               Bounds:bounds
+                                      IsEnableStealth:IS_ENABLE_STEALTH];
         
         [self.scene addChild:enemy5];
         [enemy5 dance:REGION_MIDDLE_BOTTOM];

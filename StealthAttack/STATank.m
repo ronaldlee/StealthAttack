@@ -105,10 +105,14 @@
 @synthesize attackCoolDownDuration;
 @synthesize fadeOutDuration;
 
+@synthesize isEnableStealth;
+
 - (id)initWithScale:(CGFloat)f_scale Id:(int)t_id BodyColor:(UIColor*)b_color BodyBaseColor:(UIColor*)bb_color
-                 AI:(STAAI*)t_ai Category:(uint32_t)category Bounds:(CGRect)p_bounds{
+                 AI:(STAAI*)t_ai Category:(uint32_t)category Bounds:(CGRect)p_bounds
+                    IsEnableStealth:(BOOL)is_enable_stealth{
     self = [super init];
     if (self) {
+        isEnableStealth = is_enable_stealth;
         bounds = p_bounds;
         
         left_border_x = bounds.origin.x;
@@ -966,7 +970,7 @@
 }
 
 -(void)fadeInThenOut {
-    if (!IS_ENABLE_STEALTH && !isGameOver) return;
+    if (!isEnableStealth && !isGameOver) return;
     
     SKAction* fadeIn=[SKAction fadeInWithDuration:1];
     
@@ -984,7 +988,7 @@
 }
 
 -(void)fadeOut {
-    if (!IS_ENABLE_STEALTH && !isGameOver) return;
+    if (!isEnableStealth && !isGameOver) return;
     
     [self stopFadeOut];
     
@@ -1044,7 +1048,7 @@
 -(void)fadeInNow {
     isGameOver = true;
     
-    if (!IS_ENABLE_STEALTH) return;
+    if (!isEnableStealth) return;
     
     self.tankA.alpha = 1.0;
     self.tankB.alpha = 1.0;

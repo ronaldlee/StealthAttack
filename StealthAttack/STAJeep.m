@@ -29,10 +29,11 @@
 @synthesize tankBr2;
 
 - (id)initWithScale:(CGFloat)f_scale Id:(int)t_id BodyColor:tankBodyColor BodyBaseColor:tankBodyBaseColor
-                 AI:(STAAI*) ai Category:(uint32_t)category Bounds:(CGRect)p_bounds {
+                 AI:(STAAI*) ai Category:(uint32_t)category Bounds:(CGRect)p_bounds
+    IsEnableStealth:(BOOL)is_enable_stealth{
     
     self = [super initWithScale:f_scale Id:t_id BodyColor:tankBodyColor BodyBaseColor:tankBodyBaseColor
-                             AI:ai Category:category Bounds:p_bounds];
+                             AI:ai Category:category Bounds:p_bounds IsEnableStealth:is_enable_stealth];
     
     self.rotation_speed=5;
     self.moveSpeed = 40;

@@ -129,7 +129,8 @@
                                        BodyBaseColor:TANK_BODY_BASE_WHITE
                                                   AI:NULL
                                             Category:PLAYER_CATEGORY
-                                            Bounds:bounds];
+                                            Bounds:bounds
+                                     IsEnableStealth:IS_ENABLE_STEALTH];
         [self.player setBattleStage:self];
 
         CGFloat player_bottom_border_y = bottom_corner_y + [self.player getAnchorOffsetY]+
@@ -162,7 +163,8 @@
                                                BodyBaseColor:TANK_BODY_BASE_BLUE
                                                       AI:[[STAAI alloc] initWithStage:self]
                                                     Category:ENEMY_CATEGORY
-                                                      Bounds:bounds];
+                                                      Bounds:bounds
+                                             IsEnableStealth:IS_ENABLE_STEALTH];
         }
         else if (enemyId == 2) {
             self.enemy = [[STAJeep alloc] initWithScale:self.scale*GAME_AREA_SCALE Id:2
@@ -170,7 +172,8 @@
                                                BodyBaseColor:TANK_BODY_BASE_GREEN
                                                      AI:[[STAAI alloc] initWithStage:self]
                                                     Category:ENEMY_CATEGORY
-                                                      Bounds:bounds];
+                                                      Bounds:bounds
+                                             IsEnableStealth:IS_ENABLE_STEALTH];
         }
         else if (enemyId == 3) {
             self.enemy = [[STAShotgunTank alloc] initWithScale:self.scale*GAME_AREA_SCALE Id:2
@@ -178,7 +181,8 @@
                                           BodyBaseColor:TANK_BODY_BASE_RED
                                                      AI:[[STAAI alloc] initWithStage:self]
                                                Category:ENEMY_CATEGORY
-                                                 Bounds:bounds];
+                                                 Bounds:bounds
+                                               IsEnableStealth:IS_ENABLE_STEALTH];
         }
         else if (enemyId == 4) {
             self.enemy = [[STASniperTank alloc] initWithScale:self.scale*GAME_AREA_SCALE Id:2
@@ -186,7 +190,8 @@
                                                  BodyBaseColor:TANK_BODY_BASE_YELLOW
                                                             AI:[[STAAI alloc] initWithStage:self]
                                                       Category:ENEMY_CATEGORY
-                                                        Bounds:bounds];
+                                                        Bounds:bounds
+                                                IsEnableStealth:IS_ENABLE_STEALTH];
         }
         [self.enemy setBattleStage:self];
         
@@ -279,7 +284,7 @@
     [tank updateLastPositionData];
     SKAction* shootBulletAction = [SKAction runBlock:^{
         CGPoint location = [tank position];
-        STABullet *bullet = [[STABullet alloc]initWithScale:self.scale];
+        STABullet *bullet = [[STABullet alloc]initWithScale:GAME_AREA_SCALE];
         
         //need to position at the tip of the tank's turret..
         
@@ -288,8 +293,8 @@
         
         //bullet.scale = 0.8;
         
-        CGFloat velocity_x = cos([tank getAdjRotation])*tank.bulletSpeed/self.scale;
-        CGFloat velocity_y = sin([tank getAdjRotation])*tank.bulletSpeed/self.scale;
+        CGFloat velocity_x = cos([tank getAdjRotation])*tank.bulletSpeed/GAME_AREA_SCALE;
+        CGFloat velocity_y = sin([tank getAdjRotation])*tank.bulletSpeed/GAME_AREA_SCALE;
         
         CGFloat radius = PLAYER_WIDTH;
         CGFloat x = cos([tank getAdjRotation])*radius + tank.position.x;

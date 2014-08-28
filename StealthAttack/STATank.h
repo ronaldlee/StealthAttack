@@ -90,12 +90,15 @@
 @property (nonatomic) int attackCoolDownDuration;
 @property (nonatomic) int fadeOutDuration;
 
+@property (nonatomic) BOOL isEnableStealth;
+
 
 //-(void)setBorderBounds:(CGRect)p_bounds;
 -(id)initWithScale:(CGFloat)scale Id:(int)t_id BodyColor:(UIColor*)b_color BodyBaseColor:(UIColor*)bb_color
                 AI:(STAAI*) ai
           Category:(uint32_t)category
-            Bounds:(CGRect)p_bounds;
+            Bounds:(CGRect)p_bounds
+   IsEnableStealth:(BOOL)is_enable_stealth;
 
 -(void)moveForward;
 -(void)moveForwardToX:(CGFloat)x Y:(CGFloat)y complete:(void (^)() )block;
