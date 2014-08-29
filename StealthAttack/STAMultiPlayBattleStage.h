@@ -29,7 +29,8 @@
 
 - (id)initWithScale:(float)scale Bounds:(CGRect)bounds Scene:(SKScene*)scene
              MyTank:(int)myTankId MyColor:(int)myColorId MyScale:(CGFloat)myScale
-          OppTankId:(int)oppTankId OppColor:(int)oppColorId OppScale:(CGFloat)oppScale;
+          OppTankId:(int)oppTankId OppColor:(int)oppColorId OppScale:(CGFloat)oppScale
+        isStealthOn:(BOOL)isStealthOn;
 
 -(void) fireBullet:(STATank*)tank;
 

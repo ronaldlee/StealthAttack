@@ -203,4 +203,8 @@ ButtonTextFontSize:(int)font_size
     border_right.alpha = p_isShowBorder ? 1:0;
 }
 
+-(void)setFontColor:(UIColor*)f_color {
+    labelNode.fontColor = f_color;
+}
+
 @end

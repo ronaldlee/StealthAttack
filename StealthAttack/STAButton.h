@@ -36,4 +36,6 @@ ButtonTextFontSize:(int)font_size
 
 -(void)showBorder:(BOOL)isShowBorder;
 
+-(void)setFontColor:(UIColor*)f_color;
+
 @end

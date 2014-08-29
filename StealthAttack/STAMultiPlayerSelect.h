@@ -18,6 +18,7 @@
 
 @property (nonatomic) STAButton * backButton;
 @property (nonatomic) STAButton * readyButton;
+@property (nonatomic) STAButton * stealthOnOffButton;
 
 @property (nonatomic) STAButton * enemy1Button;
 @property (nonatomic) STAButton * enemy2Button;
@@ -41,6 +42,7 @@
 @property (nonatomic) STAButton * color5Button;
 
 -(void)goToBattleStageMyTank:(int)myTankId MyColor:(int)myColorId MyScale:(CGFloat)myScale
-                   OppTankId:(int)oppTankId OppColor:(int)oppColorId OppScale:(CGFloat)oppScale;
+                   OppTankId:(int)oppTankId OppColor:(int)oppColorId OppScale:(CGFloat)oppScale
+                 IsStealthOn:(BOOL)isStealthOn;
 
 @end

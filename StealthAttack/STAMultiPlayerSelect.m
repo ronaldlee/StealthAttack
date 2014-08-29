@@ -11,6 +11,8 @@
 @interface STAMultiPlayerSelect () {
     int myTankId;
     int myColorId;
+    
+    BOOL isStealthOn;
 }
 @end
 
@@ -20,6 +22,7 @@
 @synthesize backLabel;
 @synthesize backButton;
 @synthesize readyButton;
+@synthesize stealthOnOffButton;
 
 @synthesize enemy1;
 @synthesize enemy2;
@@ -46,6 +49,8 @@
     if (self) {
 //        STAMyScene* myScene = (STAMyScene*)self.scene;
 //        [myScene.currStage cleanup];
+        
+        isStealthOn = true;
         
         CGFloat title_x = ([[UIScreen mainScreen] bounds].size.width)/2;
         
@@ -307,6 +312,16 @@
         readyButton.position = CGPointMake(([[UIScreen mainScreen] bounds].size.width - 30)/2,
                                            color1Button.position.y - 80*GAME_AREA_SCALE);
         [self.scene addChild:readyButton];
+        
+        //
+        button_size = CGSizeMake(30*GAME_AREA_SCALE,20*GAME_AREA_SCALE);
+        
+        stealthOnOffButton = [[STAButton alloc] initWithSize:button_size Scale:GAME_AREA_SCALE Name:@"stealth_button" Alpha:0 BGAlpha:0.0 ButtonText:@"Stealth"
+                                      ButtonTextColor:[UIColor whiteColor] ButtonTextFont:@"Press Start 2P" ButtonTextFontSize:8 isShowBorder:true];
+        stealthOnOffButton.userInteractionEnabled = NO;
+        stealthOnOffButton.position = CGPointMake(readyButton.position.x + (30+30)*GAME_AREA_SCALE,
+                                                  readyButton.position.y);
+        [self.scene addChild:stealthOnOffButton];
         
         //
         STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -737,7 +752,21 @@
             NSLog(@"Hit ready!: my tankId: %d, myColorId: %d",myTankId,myColorId);
             
             STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
-            [appDelegate.mcManager submitPlayerChoiceTank:myTankId Color:myColorId Scale:GAME_AREA_SCALE];
+            [appDelegate.mcManager submitPlayerChoiceTank:myTankId Color:myColorId Scale:GAME_AREA_SCALE
+                                              IsStealthOn:isStealthOn];
+        }
+        else if ([node.name isEqualToString:@"stealth_button"]) {
+            
+            STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
+            
+            if (isStealthOn) {
+                [stealthOnOffButton setFontColor:[UIColor blackColor]];
+            }
+            else {
+                [stealthOnOffButton setFontColor:[UIColor whiteColor]];
+            }
+            
+            isStealthOn = !isStealthOn;
         }
         
     }
@@ -788,7 +817,8 @@
 }
 
 -(void)goToBattleStageMyTank:(int)myTankId MyColor:(int)myColorId MyScale:(CGFloat)myScale
-                   OppTankId:(int)oppTankId OppColor:(int)oppColorId OppScale:(CGFloat)oppScale {
+                   OppTankId:(int)oppTankId OppColor:(int)oppColorId OppScale:(CGFloat)oppScale
+                 IsStealthOn:(BOOL)isStealthOn {
     STAMyScene* myScene = (STAMyScene*)self.scene;
     
     [myScene.currStage cleanup];
@@ -796,7 +826,8 @@
     myScene.currStage = [[STAMultiPlayBattleStage alloc ]
                          initWithScale:self.scale Bounds:self.bounds Scene:self.scene
                          MyTank:myTankId MyColor:myColorId MyScale:myScale
-                         OppTankId:oppTankId OppColor:oppColorId OppScale:oppScale];
+                         OppTankId:oppTankId OppColor:oppColorId OppScale:oppScale
+                         isStealthOn:isStealthOn];
 }
 
 @end

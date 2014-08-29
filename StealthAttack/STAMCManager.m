@@ -36,6 +36,8 @@
     
     STAStage* curStage;
     
+    BOOL isStealthOn;
+    
 }
 @end
 
@@ -44,6 +46,7 @@
     self = [super init];
     
     if (self) {
+        isStealthOn = true;
         _peerID = nil;
         _session = nil;
         _browser = nil;
@@ -150,6 +153,9 @@
             NSNumber* oppScaleNum = (NSNumber*)[myDictionary objectForKey:@"scale"];
             oppScale = [oppScaleNum doubleValue];
             
+            NSNumber* oppIsStealthOnNum = (NSNumber*)[myDictionary objectForKey:@"isStealthOn"];
+            isStealthOn = [oppIsStealthOnNum boolValue];
+            
 //            NSNumber* oppMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
 //            int oppMsgId = [oppMsgIdNum intValue];
             
@@ -211,7 +217,8 @@
                 
                 STAMultiPlayerSelect* mstage = (STAMultiPlayerSelect*)curStage;
                 [mstage goToBattleStageMyTank:myTankId MyColor:myColorId MyScale:myScale
-                                    OppTankId:oppTankId OppColor:oppColorId OppScale:oppScale];
+                                    OppTankId:oppTankId OppColor:oppColorId OppScale:oppScale
+                                  IsStealthOn:isStealthOn];
             }
         }
         else if (actionIdInt == ACTION_ACK_READY_BATTLE_STAGE) {
@@ -227,7 +234,8 @@
                 stage = MULTIPLAY_STAGE_BATTLE;
                 STAMultiPlayerSelect* mstage = (STAMultiPlayerSelect*)curStage;
                 [mstage goToBattleStageMyTank:myTankId MyColor:myColorId MyScale:myScale
-                                    OppTankId:oppTankId OppColor:oppColorId OppScale:oppScale];
+                                    OppTankId:oppTankId OppColor:oppColorId OppScale:oppScale
+                                  IsStealthOn:isStealthOn];
             }
         }
     }
@@ -411,7 +419,7 @@
 //===
 
 
--(void)submitPlayerChoiceTank:(int)tankId Color:(int)colorId Scale:(double)scale {
+-(void)submitPlayerChoiceTank:(int)tankId Color:(int)colorId Scale:(double)scale IsStealthOn:(BOOL)isStealthOn{
     myTankId = tankId;
     myColorId = colorId;
     myScale = scale;
@@ -422,6 +430,7 @@
                                 @"tank" : [NSNumber numberWithInt:myTankId],
                                 @"color" : [NSNumber numberWithInt:myColorId],
                                 @"scale" : [NSNumber numberWithDouble:myScale],
+                                @"isStealthOn" : [NSNumber numberWithBool:isStealthOn],
                                 @"id": [NSNumber numberWithInt:msgId] };
     NSMutableData *data = [[NSMutableData alloc] init];
     NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];

@@ -38,7 +38,8 @@
 
 - (id)initWithScale:(float)sk_scale Bounds:(CGRect)bounds Scene:(SKScene*)sk_scene
              MyTank:(int)myTankId MyColor:(int)myColorId MyScale:(CGFloat)p_myScale
-          OppTankId:(int)oppTankId OppColor:(int)oppColorId OppScale:(CGFloat)p_oppScale {
+          OppTankId:(int)oppTankId OppColor:(int)oppColorId OppScale:(CGFloat)p_oppScale
+        isStealthOn:(BOOL)isStealthOn{
     
     self = [super initWithScale:sk_scale Bounds:bounds Scene:sk_scene];
     
@@ -136,7 +137,7 @@
             tank_base_color = TANK_BODY_BASE_YELLOW;
         }
         
-        BOOL isPlayerStealth = IS_ENABLE_STEALTH;
+        BOOL isPlayerStealth = isStealthOn;
         
         if (myTankId == 2) {
             self.player = [[STAEnemyTank alloc] initWithScale:self.scale*GAME_AREA_SCALE Id:1
@@ -230,7 +231,7 @@
         }
         
         //
-        BOOL isEnemyStealth = IS_ENABLE_STEALTH;
+        BOOL isEnemyStealth = isStealthOn;
         
         if (oppTankId == 2) {
             self.enemy = [[STAEnemyTank alloc] initWithScale:self.scale*GAME_AREA_SCALE Id:2
@@ -393,7 +394,7 @@
     NSLog(@"fire bullet");
     [tank updateLastPositionData];
     SKAction* shootBulletAction = [SKAction runBlock:^{
-        CGPoint location = [tank position];
+//        CGPoint location = [tank position];
         STABullet *bullet = [[STABullet alloc]initWithScale:GAME_AREA_SCALE];
         
         //need to position at the tip of the tank's turret..
