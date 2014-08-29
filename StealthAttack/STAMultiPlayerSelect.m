@@ -319,7 +319,7 @@
         stealthOnOffButton = [[STAButton alloc] initWithSize:button_size Scale:GAME_AREA_SCALE Name:@"stealth_button" Alpha:0 BGAlpha:0.0 ButtonText:@"Stealth"
                                       ButtonTextColor:[UIColor whiteColor] ButtonTextFont:@"Press Start 2P" ButtonTextFontSize:8 isShowBorder:true];
         stealthOnOffButton.userInteractionEnabled = NO;
-        stealthOnOffButton.position = CGPointMake(readyButton.position.x + (30+30)*GAME_AREA_SCALE,
+        stealthOnOffButton.position = CGPointMake(readyButton.position.x + (30+70)*GAME_AREA_SCALE,
                                                   readyButton.position.y);
         [self.scene addChild:stealthOnOffButton];
         
@@ -802,6 +802,7 @@
     [color5Button removeAllActions];
     
     [readyButton removeAllActions];
+    [stealthOnOffButton removeAllActions];
     
     
     NSArray* objs = [NSArray arrayWithObjects:selectOppTitle,selectColorTitle,
@@ -810,7 +811,7 @@
                      enemy3Button,enemy3,enemy4Button,enemy4,
                      enemy5Button,enemy5,
                      color1Button,color2Button,color3Button,color4Button,color5Button,
-                     readyButton,nil];
+                     readyButton,stealthOnOffButton,nil];
     
     [self.scene removeChildrenInArray:objs];
     

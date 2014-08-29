@@ -449,7 +449,19 @@
                 
                 [myScene.currStage cleanup];
                 
-                myScene.currStage = [[STASinglePlayerSelectOpponent alloc ] initWithScale:self.scale Bounds:self.bounds Scene:self.scene];
+                CGFloat left_corner_x = ([[UIScreen mainScreen] bounds].size.width-GAME_AREA_WIDTH)/2;
+                CGFloat top_corner_y = [[UIScreen mainScreen] bounds].size.height - TOP_HUD_HEIGHT*GAME_AREA_SCALE;
+                CGFloat right_corner_x = left_corner_x + GAME_AREA_WIDTH;
+                CGFloat bottom_corner_y = top_corner_y - GAME_AREA_HEIGHT;
+                
+                myScene.currStage = [[STAMultiPlayerSelect alloc ]
+                         initWithScale:[UIScreen mainScreen].scale
+                         Bounds:CGRectMake(left_corner_x,bottom_corner_y,
+                                           right_corner_x-left_corner_x,
+                                           top_corner_y-bottom_corner_y)
+                         Scene:self.scene];
+                
+//                myScene.currStage = [[STAMultiPlayerSelect alloc] initWithScale:self.scale Bounds:self.bounds Scene:self.scene];
                 return;
             }
         }

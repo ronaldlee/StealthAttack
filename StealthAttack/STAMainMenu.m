@@ -111,7 +111,7 @@
         multiPlayer.fontColor = [SKColor whiteColor];
         multiPlayer.name = @"multi_player";
         
-        title_y = (BOTTOM_HUD_HEIGHT + 100)*GAME_AREA_SCALE;
+        title_y = (BOTTOM_HUD_HEIGHT + 80)*GAME_AREA_SCALE;
         
         multiPlayer.position = CGPointMake(title_x,title_y);
         
