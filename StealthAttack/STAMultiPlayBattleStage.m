@@ -14,6 +14,12 @@
     CGFloat myScale;
     CGFloat oppScale;
     CGFloat ratio;
+    
+    int myTankId;
+    int myColorId;
+    int oppTankId;
+    int oppColorId;
+    BOOL isStealthOn;
 }
 @end
 
@@ -37,15 +43,22 @@
 @synthesize isGameStart;
 
 - (id)initWithScale:(float)sk_scale Bounds:(CGRect)bounds Scene:(SKScene*)sk_scene
-             MyTank:(int)myTankId MyColor:(int)myColorId MyScale:(CGFloat)p_myScale
-          OppTankId:(int)oppTankId OppColor:(int)oppColorId OppScale:(CGFloat)p_oppScale
-        isStealthOn:(BOOL)isStealthOn{
+             MyTank:(int)p_myTankId MyColor:(int)p_myColorId MyScale:(CGFloat)p_myScale
+          OppTankId:(int)p_oppTankId OppColor:(int)p_oppColorId OppScale:(CGFloat)p_oppScale
+        isStealthOn:(BOOL)p_isStealthOn{
     
     self = [super initWithScale:sk_scale Bounds:bounds Scene:sk_scene];
     
     if (self) {
+        p_isStealthOn = FALSE;
+        
+        myTankId = p_myTankId;
+        myColorId = p_myColorId;
         myScale = p_myScale;
+        oppTankId = p_oppTankId;
+        oppColorId = p_oppColorId;
         oppScale = p_oppScale;
+        isStealthOn = p_isStealthOn;
         
         ratio = myScale/oppScale;
         
@@ -137,7 +150,6 @@
             tank_base_color = TANK_BODY_BASE_YELLOW;
         }
         
-        BOOL isPlayerStealth = isStealthOn;
         
         if (myTankId == 2) {
             self.player = [[STAEnemyTank alloc] initWithScale:self.scale*GAME_AREA_SCALE Id:1
@@ -146,7 +158,7 @@
                                                       AI:NULL
                                                 Category:PLAYER_CATEGORY
                                                   Bounds:bounds
-                                         IsEnableStealth:isPlayerStealth];
+                                         IsEnableStealth:isStealthOn];
         }
         else if (myTankId == 3) {
             self.player = [[STAJeep alloc] initWithScale:self.scale*GAME_AREA_SCALE Id:1
@@ -155,7 +167,7 @@
                                                       AI:NULL
                                                 Category:PLAYER_CATEGORY
                                                   Bounds:bounds
-                                         IsEnableStealth:isPlayerStealth];
+                                         IsEnableStealth:isStealthOn];
         }
         else if (myTankId == 4) {
             self.player = [[STAShotgunTank alloc] initWithScale:self.scale*GAME_AREA_SCALE Id:1
@@ -164,7 +176,7 @@
                                                       AI:NULL
                                                 Category:PLAYER_CATEGORY
                                                   Bounds:bounds
-                                         IsEnableStealth:isPlayerStealth];
+                                         IsEnableStealth:isStealthOn];
         }
         else if (myTankId == 5) {
             self.player = [[STASniperTank alloc] initWithScale:self.scale*GAME_AREA_SCALE Id:1
@@ -173,7 +185,7 @@
                                                       AI:NULL
                                                 Category:PLAYER_CATEGORY
                                                   Bounds:bounds
-                                         IsEnableStealth:isPlayerStealth];
+                                         IsEnableStealth:isStealthOn];
         }
         else {
             
@@ -183,7 +195,7 @@
                                                       AI:NULL
                                                 Category:PLAYER_CATEGORY
                                                   Bounds:bounds
-                                         IsEnableStealth:isPlayerStealth];
+                                         IsEnableStealth:isStealthOn];
         }
         
         [self.player setBattleStage:self];
@@ -231,7 +243,6 @@
         }
         
         //
-        BOOL isEnemyStealth = isStealthOn;
         
         if (oppTankId == 2) {
             self.enemy = [[STAEnemyTank alloc] initWithScale:self.scale*GAME_AREA_SCALE Id:2
@@ -240,7 +251,7 @@
                                                           AI:NULL
                                                     Category:ENEMY_CATEGORY
                                                       Bounds:bounds
-                                             IsEnableStealth:isEnemyStealth];
+                                             IsEnableStealth:isStealthOn];
         }
         else if (oppTankId == 3) {
             self.enemy = [[STAJeep alloc] initWithScale:self.scale*GAME_AREA_SCALE Id:2
@@ -249,7 +260,7 @@
                                                      AI:NULL
                                                Category:ENEMY_CATEGORY
                                                  Bounds:bounds
-                                        IsEnableStealth:isEnemyStealth];
+                                        IsEnableStealth:isStealthOn];
         }
         else if (oppTankId == 4) {
             self.enemy = [[STAShotgunTank alloc] initWithScale:self.scale*GAME_AREA_SCALE Id:2
@@ -258,7 +269,7 @@
                                                             AI:NULL
                                                       Category:ENEMY_CATEGORY
                                                         Bounds:bounds
-                                               IsEnableStealth:isEnemyStealth];
+                                               IsEnableStealth:isStealthOn];
         }
         else if (oppTankId == 5) {
             self.enemy = [[STASniperTank alloc] initWithScale:self.scale*GAME_AREA_SCALE Id:2
@@ -267,7 +278,7 @@
                                                            AI:NULL
                                                      Category:ENEMY_CATEGORY
                                                        Bounds:bounds
-                                              IsEnableStealth:isEnemyStealth];
+                                              IsEnableStealth:isStealthOn];
         }
         else {
             self.enemy = [[STATank alloc] initWithScale:self.scale*GAME_AREA_SCALE Id:2
@@ -276,7 +287,7 @@
                                                      AI:NULL
                                                Category:ENEMY_CATEGORY
                                                  Bounds:bounds
-                                        IsEnableStealth:isEnemyStealth];
+                                        IsEnableStealth:isStealthOn];
         }
         
         self.enemy.moveSpeed *= ratio;
@@ -444,7 +455,8 @@
                 //this needs to be confirmed from ALL players..
                 //needs to boardcast a msg saying player requested replay
                 
-                
+                STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
+                [appDelegate.mcManager sendReplay];
                 return;
             }
             else if ([node.name isEqualToString:@"back_button"]) {
@@ -631,10 +643,26 @@
     if (isPlayerWin) {
         [game_over_label setText:@"Got you!"];
     }
+    else {
+        [game_over_label setText:@"GAME OVER"];
+//        [self.enemy stop];
+    }
     
     [self.scene addChild:game_over_label];
     [self.scene addChild:replay_button];
     [self.scene addChild:back_button];
+}
+
+-(void)reset {
+    STAMyScene* myScene = (STAMyScene*)self.scene;
+    
+    [myScene.currStage cleanup];
+    
+    myScene.currStage = [[STAMultiPlayBattleStage alloc ]
+                         initWithScale:self.scale Bounds:self.bounds Scene:self.scene
+                         MyTank:myTankId MyColor:myColorId MyScale:myScale
+                         OppTankId:oppTankId OppColor:oppColorId OppScale:oppScale
+                         isStealthOn:isStealthOn];
 }
 
 @end

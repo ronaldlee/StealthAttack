@@ -279,6 +279,12 @@
                 [mstage startCountDown];
             }
         }
+        else if (actionIdInt == ACTION_REPLAY) {
+            NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
+            int ackMsgId = [ackMsgIdNum intValue];
+            
+            [self ackReplay:ackMsgId];
+        }
     }
     else if (stage == MULTIPLAY_STAGE_BATTLE_START) {
         //opp tank's actions
@@ -412,10 +418,13 @@
             NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
             int ackMsgId = [ackMsgIdNum intValue];
             
-            if (ackMsgId == msgId) {
+//            if (ackMsgId == msgId) {
+            
+                isOppBattleStageUIReady = FALSE;
+                isAckBattleStageUIReady = FALSE;
                 [mstage showGameOver:isPlayerWonLocal];
                 stage = MULTIPLAY_STAGE_BATTLE_END;
-            }
+//            }
         }
         
     }
@@ -439,9 +448,32 @@
             NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
             int ackMsgId = [ackMsgIdNum intValue];
             
-            if (ackMsgId == msgId) {
+//            if (ackMsgId == msgId) {
+            
+                isOppBattleStageUIReady = FALSE;
+                isAckBattleStageUIReady = FALSE;
                 [mstage showGameOver:isPlayerWonLocal];
-            }
+//            }
+        }
+        else if (actionIdInt == ACTION_REPLAY) {
+            NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
+            int ackMsgId = [ackMsgIdNum intValue];
+            
+            [self ackReplay:ackMsgId];
+            
+//            stage = MULTIPLAY_STAGE_BATTLE;
+//            STAMultiPlayBattleStage* mstage = (STAMultiPlayBattleStage*)curStage;
+//            [mstage reset];
+        }
+        else if (actionIdInt == ACTION_ACK_REPLAY) {
+            NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
+            int ackMsgId = [ackMsgIdNum intValue];
+            
+//            if (ackMsgId == msgId) {
+                stage = MULTIPLAY_STAGE_BATTLE;
+                STAMultiPlayBattleStage* mstage = (STAMultiPlayBattleStage*)curStage;
+                [mstage reset];
+//            }
         }
     }
     

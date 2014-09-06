@@ -57,4 +57,6 @@
 
 -(void)showGameOver:(BOOL)isPlayerWin;
 
+-(void)reset;
+
 @end
