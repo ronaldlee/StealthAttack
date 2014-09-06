@@ -31,6 +31,8 @@
     BOOL isBattleStageUIReady;
     BOOL isAckBattleStageUIReady;
     BOOL isOppBattleStageUIReady;
+    BOOL isOppReplayOK;
+    BOOL isAckReplayOK;
     
     STATank* oppTank;
     
@@ -92,6 +94,8 @@
     isBattleStageUIReady = false;
     isAckBattleStageUIReady = false;
     isOppBattleStageUIReady = false;
+    isOppReplayOK = false;
+    isAckReplayOK = false;
 }
 
 -(void)resetStage {
@@ -459,24 +463,32 @@
             NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
             int ackMsgId = [ackMsgIdNum intValue];
             
+            isOppReplayOK = true;
             [self ackReplay:ackMsgId];
             
-//            stage = MULTIPLAY_STAGE_BATTLE;
-//            STAMultiPlayBattleStage* mstage = (STAMultiPlayBattleStage*)curStage;
-//            [mstage reset];
+            if ([self isAllReplayOK]) {
+                stage = MULTIPLAY_STAGE_BATTLE;
+                STAMultiPlayBattleStage* mstage = (STAMultiPlayBattleStage*)curStage;
+                [mstage reset];
+            }
         }
         else if (actionIdInt == ACTION_ACK_REPLAY) {
             NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
             int ackMsgId = [ackMsgIdNum intValue];
             
-//            if (ackMsgId == msgId) {
+            isAckReplayOK = true;
+            if ([self isAllReplayOK]) {
                 stage = MULTIPLAY_STAGE_BATTLE;
                 STAMultiPlayBattleStage* mstage = (STAMultiPlayBattleStage*)curStage;
                 [mstage reset];
-//            }
+            }
         }
     }
     
+}
+
+-(BOOL)isAllReplayOK {
+    return isOppReplayOK && isAckReplayOK;
 }
 
 -(BOOL)isStageBattleStageUIReady {
