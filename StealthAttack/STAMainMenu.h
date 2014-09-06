@@ -17,4 +17,7 @@
 
 @property (nonatomic, strong) SKLabelNode * multiPlayer;
 
+@property (nonatomic) STAButton * singlePlayerButton;
+@property (nonatomic) STAButton * multiPlayerButton;
+
 @end
