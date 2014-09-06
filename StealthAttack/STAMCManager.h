@@ -27,6 +27,7 @@
 -(void)setStage:(int)stage;
 -(int)getStage;
 -(void)setOppTank:(STATank*)tank;
+-(void)setIsPlayerWonLocal:(int)flag;
 
 -(BOOL)isStageChooseTankReady;
 -(BOOL)isStageBattleReady;
@@ -44,5 +45,7 @@
 -(void)sendFire;
 -(void)sendStop; //X:(CGFloat)x Y:(CGFloat)y R:(CGFloat)r;
 -(void)sendAdjX:(CGFloat)x Y:(CGFloat)y R:(CGFloat)r;
+-(void)sendGameOverIsIWon:(BOOL)isIWon;
+-(void)sendReplay;
 
 @end

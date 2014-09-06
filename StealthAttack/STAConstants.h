@@ -102,6 +102,14 @@ extern const int ACTION_STOP;
 extern const int ACTION_ACK_STOP;
 
 extern const int ACTION_ADJ;
+
+extern const int ACTION_GAMEOVER;
+extern const int ACTION_ACK_GAMEOVER;
+
+extern const int ACTION_REPLAY;
+extern const int ACTION_ACK_REPLAY;
+
+extern const int ACTION_BACK;
 //
 
 extern const NSString* ENCODE_KEY;
@@ -109,6 +117,7 @@ extern const NSString* ENCODE_KEY;
 extern const int MULTIPLAY_STAGE_CHOOSE_TANK;
 extern const int MULTIPLAY_STAGE_BATTLE;
 extern const int MULTIPLAY_STAGE_BATTLE_START;
+extern const int MULTIPLAY_STAGE_BATTLE_END;
 
 extern int GAME_AREA_WIDTH;
 extern int GAME_AREA_HEIGHT;

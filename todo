@@ -16,12 +16,23 @@ x-or go back to previous screen
 x-disable status bar
 x-hide frame rate
 
+-bug: first guy pick stealth, second guy also pick stealth. But first guy is visible, but not second guy!
 
+-singleplay:Game Over/Got you!: add replay
+  - when one choose replay but another one is 'back' already, invalid the replay
+-multi play: replay
+-multi play: back
+-multi play: handle disconnect
 
--Game Over/Got you!: add replay
 - from title to battle stage fade in
 
+-single play: score (winning %)
+-multi play: score (winning %)
+
 -add mobile ad
+- tutorial
+-multiplayer restrict 2 players
+-4 players
 
 - guessing should consider player's tank current rotation..
  - where the tank point to is more likely go there.

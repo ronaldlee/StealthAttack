@@ -78,6 +78,7 @@ const NSString* ENCODE_KEY = @"wooowowowos";
 const int MULTIPLAY_STAGE_CHOOSE_TANK = 1;
 const int MULTIPLAY_STAGE_BATTLE = 2;
 const int MULTIPLAY_STAGE_BATTLE_START = 3;
+const int MULTIPLAY_STAGE_BATTLE_END = 4;
 
 //
 const int ACTION_ROTATE_C_BUTTON_PRESSED = 21;
@@ -98,6 +99,14 @@ const int ACTION_STOP = 26;
 const int ACTION_ACK_STOP = 10026;
 
 const int ACTION_ADJ = 27;
+
+const int ACTION_GAMEOVER = 28;
+const int ACTION_ACK_GAMEOVER = 10028;
+
+const int ACTION_REPLAY = 29;
+const int ACTION_ACK_REPLAY = 10029;
+
+const int ACTION_BACK = 30;
 
 int GAME_AREA_WIDTH = 316;
 int GAME_AREA_HEIGHT = 438;

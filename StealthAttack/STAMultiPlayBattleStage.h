@@ -55,4 +55,6 @@
 
 -(void)adjEnemyX:(CGFloat)x Y:(CGFloat)y R:(CGFloat)r;
 
+-(void)showGameOver:(BOOL)isPlayerWin;
+
 @end

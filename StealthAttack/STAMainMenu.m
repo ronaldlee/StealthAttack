@@ -89,7 +89,7 @@
         CGSize button_size = CGSizeMake(150*GAME_AREA_SCALE,30*GAME_AREA_SCALE);
 //        NSString* playFont = @"GridExerciseGaps";
         NSString * playFont = @"Press Start 2P";
-        int font_size = 8*GAME_AREA_SCALE;
+        int font_size = 8;
         
         singlePlayerButton = [[STAButton alloc] initWithSize:button_size
                                                  Scale:GAME_AREA_SCALE

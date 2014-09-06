@@ -441,10 +441,17 @@
             SKNode *node = [self.scene nodeAtPoint:location];
             
             if ([node.name isEqualToString:@"replay_button"]) {
+                //this needs to be confirmed from ALL players..
+                //needs to boardcast a msg saying player requested replay
+                
                 
                 return;
             }
             else if ([node.name isEqualToString:@"back_button"]) {
+                //needs to wait all other players to go back and select
+                //needs to boardcast a msg saying the player has exited to multi select screen.
+                
+                
                 STAMyScene* myScene = (STAMyScene*)self.scene;
                 
                 [myScene.currStage cleanup];
@@ -565,12 +572,9 @@
 
 -(void)showGameOverPlayerWin:(BOOL)isPlayerWin {
     isGameOver = true;
-    if (isPlayerWin) {
-        [game_over_label setText:@"Got you!"];
-    }
-    [self.scene addChild:game_over_label];
-    [self.scene addChild:replay_button];
-    [self.scene addChild:back_button];
+    
+    STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
+    [appDelegate.mcManager setIsPlayerWonLocal:[[NSNumber numberWithBool:isPlayerWin]intValue]];
 }
 
 -(void)enemyRotateC {
@@ -621,6 +625,16 @@
 }
 -(void)playerFire {
     [self.player fire];
+}
+
+-(void)showGameOver:(BOOL)isPlayerWin {
+    if (isPlayerWin) {
+        [game_over_label setText:@"Got you!"];
+    }
+    
+    [self.scene addChild:game_over_label];
+    [self.scene addChild:replay_button];
+    [self.scene addChild:back_button];
 }
 
 @end

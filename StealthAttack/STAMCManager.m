@@ -38,6 +38,8 @@
     
     BOOL isStealthOn;
     
+    int isPlayerWonLocal;
+    
 }
 @end
 
@@ -51,6 +53,7 @@
         _session = nil;
         _browser = nil;
         _advertiser = nil;
+        isPlayerWonLocal = -1;
         
         [self reset];
     }
@@ -60,6 +63,14 @@
 
 -(void)setOppTank:(STATank*)tank {
     oppTank = tank;
+}
+
+-(void)setIsPlayerWonLocal:(int)flag {
+    if (isPlayerWonLocal == -1) { //not yet set by other end!
+        isPlayerWonLocal = flag;
+    }
+    
+    [self sendGameOverIsIWon:[[NSNumber numberWithInt:isPlayerWonLocal]boolValue]];
 }
 
 -(void) reset {
@@ -383,6 +394,54 @@
             CGFloat r = [rNum floatValue];
             
             [mstage adjEnemyX:x Y:y R:r];
+        }
+        else if (actionIdInt == ACTION_GAMEOVER) {
+            NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
+            int ackMsgId = [ackMsgIdNum intValue];
+            
+            NSNumber* isIWonNum = (NSNumber*)[myDictionary objectForKey:@"isIWon"];
+            BOOL isOpponentWon = [isIWonNum boolValue];
+            
+            if (isPlayerWonLocal == -1) {
+                isPlayerWonLocal = !isOpponentWon;
+            }
+            
+            [self ackGameOver:ackMsgId];
+        }
+        else if (actionIdInt == ACTION_ACK_GAMEOVER) {
+            NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
+            int ackMsgId = [ackMsgIdNum intValue];
+            
+            if (ackMsgId == msgId) {
+                [mstage showGameOver:isPlayerWonLocal];
+                stage = MULTIPLAY_STAGE_BATTLE_END;
+            }
+        }
+        
+    }
+    else if (stage == MULTIPLAY_STAGE_BATTLE_END) {
+        //can show REPLAY/BACK message
+        STAMultiPlayBattleStage* mstage = (STAMultiPlayBattleStage*)curStage;
+        if (actionIdInt == ACTION_GAMEOVER) {
+            NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
+            int ackMsgId = [ackMsgIdNum intValue];
+            
+            NSNumber* isIWonNum = (NSNumber*)[myDictionary objectForKey:@"isIWon"];
+            BOOL isOpponentWon = [isIWonNum boolValue];
+            
+            if (isPlayerWonLocal == -1) {
+                isPlayerWonLocal = !isOpponentWon;
+            }
+            
+            [self ackGameOver:ackMsgId];
+        }
+        else if (actionIdInt == ACTION_ACK_GAMEOVER) {
+            NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
+            int ackMsgId = [ackMsgIdNum intValue];
+            
+            if (ackMsgId == msgId) {
+                [mstage showGameOver:isPlayerWonLocal];
+            }
         }
     }
     
@@ -802,6 +861,7 @@
         NSLog(@"%@", [error localizedDescription]);
     }
 }
+
 -(void)sendAdjX:(CGFloat)x Y:(CGFloat)y R:(CGFloat)r {
     msgId++;
     NSDictionary* choiceData = @{@"action" : [NSNumber numberWithInt:ACTION_ADJ],
@@ -829,6 +889,94 @@
 
 -(void)ackStop:(int)p_msgId {
     NSDictionary* choiceData = @{@"action" : [NSNumber numberWithInt:ACTION_ACK_STOP],
+                                 @"id" : [NSNumber numberWithInt:p_msgId],};
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [archiver encodeObject:choiceData forKey:ENCODE_KEY];
+    [archiver finishEncoding];
+    
+    NSArray *allPeers = self.session.connectedPeers;
+    NSError *error;
+    
+    [self.session sendData:data
+                   toPeers:allPeers
+                  withMode:MCSessionSendDataReliable
+                     error:&error];
+    
+    if (error) {
+        NSLog(@"%@", [error localizedDescription]);
+    }
+}
+
+-(void)sendReplay {
+    msgId++;
+    NSDictionary* choiceData = @{@"action" : [NSNumber numberWithInt:ACTION_REPLAY],
+                                 @"id" : [NSNumber numberWithInt:msgId]};
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [archiver encodeObject:choiceData forKey:ENCODE_KEY];
+    [archiver finishEncoding];
+    
+    NSArray *allPeers = self.session.connectedPeers;
+    NSError *error;
+    
+    [self.session sendData:data
+                   toPeers:allPeers
+                  withMode:MCSessionSendDataReliable
+                     error:&error];
+    
+    if (error) {
+        NSLog(@"%@", [error localizedDescription]);
+    }
+}
+
+-(void)sendGameOverIsIWon:(BOOL)isIWon {
+    msgId++;
+    NSDictionary* choiceData = @{@"action" : [NSNumber numberWithInt:ACTION_GAMEOVER],
+                                 @"id" : [NSNumber numberWithInt:msgId],
+                                 @"isIWon": [NSNumber numberWithBool:isIWon]};
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [archiver encodeObject:choiceData forKey:ENCODE_KEY];
+    [archiver finishEncoding];
+    
+    NSArray *allPeers = self.session.connectedPeers;
+    NSError *error;
+    
+    [self.session sendData:data
+                   toPeers:allPeers
+                  withMode:MCSessionSendDataReliable
+                     error:&error];
+    
+    if (error) {
+        NSLog(@"%@", [error localizedDescription]);
+    }
+}
+
+-(void)ackGameOver:(int)p_msgId {
+    NSDictionary* choiceData = @{@"action" : [NSNumber numberWithInt:ACTION_ACK_GAMEOVER],
+                                 @"id" : [NSNumber numberWithInt:p_msgId]};
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [archiver encodeObject:choiceData forKey:ENCODE_KEY];
+    [archiver finishEncoding];
+    
+    NSArray *allPeers = self.session.connectedPeers;
+    NSError *error;
+    
+    [self.session sendData:data
+                   toPeers:allPeers
+                  withMode:MCSessionSendDataReliable
+                     error:&error];
+    
+    if (error) {
+        NSLog(@"%@", [error localizedDescription]);
+    }
+}
+
+
+-(void)ackReplay:(int)p_msgId {
+    NSDictionary* choiceData = @{@"action" : [NSNumber numberWithInt:ACTION_ACK_REPLAY],
                                  @"id" : [NSNumber numberWithInt:p_msgId],};
     NSMutableData *data = [[NSMutableData alloc] init];
     NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
