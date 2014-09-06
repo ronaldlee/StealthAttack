@@ -120,7 +120,7 @@
         [self.scene addChild:multiPlayer];
         
         //
-        CGSize button_size = CGSizeMake(singlePlayer.frame.size.width*2,singlePlayer.frame.size.height*2);
+        CGSize button_size = CGSizeMake(singlePlayer.frame.size.width*2,singlePlayer.frame.size.height*3);
         
         singlePlayerButton = [[STAButton alloc] initWithSize:button_size
                                                  Scale:GAME_AREA_SCALE
@@ -140,7 +140,7 @@
         
         //
         
-        button_size = CGSizeMake(multiPlayer.frame.size.width*2,multiPlayer.frame.size.height*2);
+        button_size = CGSizeMake(multiPlayer.frame.size.width*2,multiPlayer.frame.size.height*3);
         
         multiPlayerButton = [[STAButton alloc] initWithSize:button_size
                                                        Scale:GAME_AREA_SCALE

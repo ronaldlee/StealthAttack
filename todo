@@ -5,20 +5,20 @@ x-evade bullet
     -> faster tank can response later, slower tank might want to evade earlier.
 x-Tiger tank explode, H and J not explode
 x-player shot reload logic 
-
 x-starting moves:
  -aim at player but quickly turn to trick player think it is aiming at it.
  -why if i don't shoot, enemy never shoot 
-
 x- after dance, face player!
 x-bug: explode keep invisible
-
--bug: shoot multiple times at beginning!
--disable status bar
 x-disable landscape
+x-bug: shoot multiple times at beginning!
+x-or go back to previous screen
+x-disable status bar
+x-hide frame rate
 
--Game Over/Got you!: add replay or go back to previous screen
 
+
+-Game Over/Got you!: add replay
 - guessing should consider player's tank current rotation..
  - where the tank point to is more likely go there.
 
