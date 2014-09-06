@@ -17,8 +17,6 @@
 @synthesize title1;
 @synthesize title2;
 
-@synthesize singlePlayer;
-@synthesize multiPlayer;
 @synthesize singlePlayerButton;
 @synthesize multiPlayerButton;
 
@@ -88,68 +86,40 @@
         [title2 runAction:fadein];
         
         //
+        CGSize button_size = CGSizeMake(150*GAME_AREA_SCALE,30*GAME_AREA_SCALE);
+//        NSString* playFont = @"GridExerciseGaps";
         NSString * playFont = @"Press Start 2P";
-        
-        singlePlayer = [SKLabelNode labelNodeWithFontNamed:playFont];
-        
-        NSString *singlePlay = @"single player";
-        singlePlayer.text = singlePlay;
-        singlePlayer.fontSize = 8*GAME_AREA_SCALE;
-        singlePlayer.fontColor = [SKColor whiteColor];
-        singlePlayer.name = @"single_player";
-        
-        title_y = (BOTTOM_HUD_HEIGHT + 150)*GAME_AREA_SCALE;
-        
-        singlePlayer.position = CGPointMake(title_x,title_y);
-        
-        [self.scene addChild:singlePlayer];
-        
-        //
-        multiPlayer = [SKLabelNode labelNodeWithFontNamed:playFont];
-        
-        NSString *multiPlay = @"multi player";
-        multiPlayer.text = multiPlay;
-        multiPlayer.fontSize = 8*GAME_AREA_SCALE;
-        multiPlayer.fontColor = [SKColor whiteColor];
-        multiPlayer.name = @"multi_player";
-        
-        title_y = (BOTTOM_HUD_HEIGHT + 80)*GAME_AREA_SCALE;
-        
-        multiPlayer.position = CGPointMake(title_x,title_y);
-        
-        [self.scene addChild:multiPlayer];
-        
-        //
-        CGSize button_size = CGSizeMake(singlePlayer.frame.size.width*2,singlePlayer.frame.size.height*3);
+        int font_size = 8*GAME_AREA_SCALE;
         
         singlePlayerButton = [[STAButton alloc] initWithSize:button_size
                                                  Scale:GAME_AREA_SCALE
-                                                  Name:@"singleplay_button" Alpha:0.0 BGAlpha:0.0 ButtonText:NULL
-                                       ButtonTextColor:NULL ButtonTextFont:@"Press Start 2P" ButtonTextFontSize:10 isShowBorder:true];
+                                                  Name:@"singleplay_button" Alpha:0.0 BGAlpha:0.0
+                                                  ButtonText:@"single player"
+                                       ButtonTextColor:[SKColor whiteColor] ButtonTextFont:playFont
+                                          ButtonTextFontSize:font_size isShowBorder:true];
         singlePlayerButton.userInteractionEnabled = NO;
 //        singlePlayerButton.position = CGPointMake(singlePlayer.position.x - (singlePlayer.frame.size.width/2) -
 //                                                  (button_size.width-singlePlayer.frame.size.width)/2,
 //                                                  
 //                                                  singlePlayer.position.y - (singlePlayer.frame.size.height/2) -
 //                                                  (button_size.height-singlePlayer.frame.size.height)/2);
-        
-        singlePlayerButton.position = CGPointMake(singlePlayer.position.x - (button_size.width)/2,
-                                                  singlePlayer.position.y - (button_size.height)/2);
+        title_y = (BOTTOM_HUD_HEIGHT + 150)*GAME_AREA_SCALE;
+        singlePlayerButton.position = CGPointMake(title_x-button_size.width/2,title_y);
         
         [self.scene addChild:singlePlayerButton];
         
         //
         
-        button_size = CGSizeMake(multiPlayer.frame.size.width*2,multiPlayer.frame.size.height*3);
+        //button_size = CGSizeMake(multiPlayer.frame.size.width*2,multiPlayer.frame.size.height*3);
         
         multiPlayerButton = [[STAButton alloc] initWithSize:button_size
                                                        Scale:GAME_AREA_SCALE
-                                                        Name:@"multiplay_button" Alpha:0.0 BGAlpha:0.0 ButtonText:NULL
-                                             ButtonTextColor:NULL ButtonTextFont:@"Press Start 2P" ButtonTextFontSize:10 isShowBorder:true];
+                                                        Name:@"multiplay_button" Alpha:0.0 BGAlpha:0.0
+                                                 ButtonText:@"multi player"
+                                             ButtonTextColor:[SKColor whiteColor] ButtonTextFont:playFont ButtonTextFontSize:font_size isShowBorder:true];
         multiPlayerButton.userInteractionEnabled = NO;
-        
-        multiPlayerButton.position = CGPointMake(multiPlayer.position.x - (button_size.width)/2,
-                                                 multiPlayer.position.y - (button_size.height)/2);
+        title_y = (BOTTOM_HUD_HEIGHT + 80)*GAME_AREA_SCALE;
+        multiPlayerButton.position = CGPointMake(title_x-button_size.width/2,title_y);
         
         [self.scene addChild:multiPlayerButton];
         
@@ -174,7 +144,7 @@
         CGPoint location = [touch locationInNode:self.scene];
         SKNode *node = [self.scene nodeAtPoint:location];
         
-        if ([node.name isEqualToString:@"single_player"] || [node.name isEqualToString:@"singleplay_button"]) {
+        if ([node.name isEqualToString:@"singleplay_button"]) {
             NSLog(@"single player!!");
             //go to single player menu: select opponents:
             //beat the first 3 and unlock more
@@ -186,7 +156,7 @@
             myScene.currStage = [[STASinglePlayerSelectOpponent alloc ]
                                  initWithScale:self.scale Bounds:self.bounds Scene:self.scene];
         }
-        else if ([node.name isEqualToString:@"multi_player"] || [node.name isEqualToString:@"multiplay_button"]) {
+        else if ([node.name isEqualToString:@"multiplay_button"]) {
             
             STAMyScene* myScene = (STAMyScene*)self.scene;
             
@@ -207,11 +177,7 @@
 
 -(void)cleanup {
     
-    [singlePlayer removeAllActions];
-    [multiPlayer removeAllActions];
-    
-    NSArray* objs = [NSArray arrayWithObjects:title1,title2,singlePlayer,multiPlayer,
-                     singlePlayerButton,multiPlayerButton,nil];
+    NSArray* objs = [NSArray arrayWithObjects:title1,title2,singlePlayerButton,multiPlayerButton,nil];
     
     [self.scene removeChildrenInArray:objs];
 }

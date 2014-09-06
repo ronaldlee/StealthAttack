@@ -13,10 +13,6 @@
 @property (nonatomic) SKLabelNode * title1;
 @property (nonatomic) SKLabelNode * title2;
 
-@property (nonatomic, strong) SKLabelNode * singlePlayer;
-
-@property (nonatomic, strong) SKLabelNode * multiPlayer;
-
 @property (nonatomic) STAButton * singlePlayerButton;
 @property (nonatomic) STAButton * multiPlayerButton;
 
