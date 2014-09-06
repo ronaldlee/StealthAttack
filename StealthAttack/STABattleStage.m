@@ -10,6 +10,7 @@
 @interface STABattleStage () {
     
     SKLabelNode* countdownLabelNode;
+    int enemyId;
 }
 @end
 
@@ -33,10 +34,11 @@
 @synthesize isGameOver;
 @synthesize isGameStart;
 
-- (id)initWithScale:(float)sk_scale Bounds:(CGRect)bounds Scene:(SKScene*)sk_scene EnemyId:(int)enemyId {
+- (id)initWithScale:(float)sk_scale Bounds:(CGRect)bounds Scene:(SKScene*)sk_scene EnemyId:(int)p_enemyId {
     self = [super initWithScale:sk_scale Bounds:bounds Scene:sk_scene];
     
     if (self) {
+        enemyId = p_enemyId;
         isGameStart= false;
         isGameOver = false;
         playerFadeNode = [[SKNode alloc] init];
@@ -330,6 +332,12 @@
             SKNode *node = [self.scene nodeAtPoint:location];
             
             if ([node.name isEqualToString:@"replay_button"]) {
+                STAMyScene* myScene = (STAMyScene*)self.scene;
+                
+                [myScene.currStage cleanup];
+                
+                myScene.currStage = [[STABattleStage alloc ] initWithScale:self.scale Bounds:self.bounds
+                                                                     Scene:self.scene EnemyId:enemyId];
                 
                 return;
             }
