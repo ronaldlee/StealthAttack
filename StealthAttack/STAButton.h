@@ -19,6 +19,14 @@
         ButtonText:(NSString*)button_text ButtonTextColor:(SKColor*)bt_color ButtonTextFont:(NSString*)bt_font
 ButtonTextFontSize:(int)font_size
       isShowBorder:(BOOL)p_isShowBorder
+           BGColor:(UIColor*)bg_color
+  ButtonTextVAlign:(int)b_valign;
+
+- (id)initWithSize:(CGSize)b_size Scale:(CGFloat)scale Name:(NSString*)b_name Alpha:(CGFloat)alpha
+           BGAlpha:(CGFloat)bg_alpha
+        ButtonText:(NSString*)button_text ButtonTextColor:(SKColor*)bt_color ButtonTextFont:(NSString*)bt_font
+ButtonTextFontSize:(int)font_size
+      isShowBorder:(BOOL)p_isShowBorder
            BGColor:(UIColor*)bg_color;
 
 - (id)initWithSize:(CGSize)size Scale:(CGFloat)scale Name:(NSString*)name Alpha:(CGFloat)alpha BGAlpha:(CGFloat)bg_alpha
@@ -37,5 +45,12 @@ ButtonTextFontSize:(int)font_size
 -(void)showBorder:(BOOL)isShowBorder;
 
 -(void)setFontColor:(UIColor*)f_color;
+
+-(void)setButtonColor:(UIColor*)b_color;
+
+-(void)setEnabled:(BOOL)isEnabled;
+
+-(BOOL)isEnabled;
+
 
 @end

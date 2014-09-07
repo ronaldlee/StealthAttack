@@ -16,6 +16,8 @@
     
     SKShapeNode* border_top, *border_left, *border_bottom, *border_right;
     CGFloat scale;
+    BOOL isEnabled;
+    int valign;
 }
 @end
 
@@ -32,7 +34,8 @@ ButtonTextFontSize:(int)font_size
               {
     return [self initWithSize:b_size Scale:b_scale Name:b_name Alpha:alpha BGAlpha:bg_alpha ButtonText:button_text
        ButtonTextColor:bt_color ButtonTextFont:bt_font ButtonTextFontSize:font_size isShowBorder:p_isShowBorder
-               BGColor:[UIColor whiteColor]];
+               BGColor:[UIColor whiteColor]
+      ButtonTextVAlign:BUTTON_TEXT_TOP];
 }
 
 - (id)initWithSize:(CGSize)b_size Scale:(CGFloat)b_scale Name:(NSString*)b_name Alpha:(CGFloat)alpha
@@ -40,9 +43,24 @@ ButtonTextFontSize:(int)font_size
         ButtonText:(NSString*)button_text ButtonTextColor:(SKColor*)bt_color ButtonTextFont:(NSString*)bt_font
 ButtonTextFontSize:(int)font_size
       isShowBorder:(BOOL)p_isShowBorder
-           BGColor:(UIColor*)bg_color{
+           BGColor:(UIColor*)bg_color {
+    return [self initWithSize:b_size Scale:b_scale Name:b_name Alpha:alpha BGAlpha:bg_alpha ButtonText:button_text
+              ButtonTextColor:bt_color ButtonTextFont:bt_font ButtonTextFontSize:font_size isShowBorder:p_isShowBorder
+                      BGColor:bg_color
+             ButtonTextVAlign:BUTTON_TEXT_TOP];
+}
+
+- (id)initWithSize:(CGSize)b_size Scale:(CGFloat)b_scale Name:(NSString*)b_name Alpha:(CGFloat)alpha
+           BGAlpha:(CGFloat)bg_alpha
+        ButtonText:(NSString*)button_text ButtonTextColor:(SKColor*)bt_color ButtonTextFont:(NSString*)bt_font
+ButtonTextFontSize:(int)font_size
+      isShowBorder:(BOOL)p_isShowBorder
+           BGColor:(UIColor*)bg_color
+  ButtonTextVAlign:(int)b_valign{
     self = [super init];
     if (self) {
+        valign = b_valign;
+        isEnabled = true;
         scale = b_scale;
         isShowBorder = p_isShowBorder;
         isDoneRecharge= true;
@@ -143,6 +161,10 @@ ButtonTextFontSize:(int)font_size
             CGFloat label_x = self.size.width/2;
             CGFloat label_y = self.size.height-10*scale;
             
+            if (valign == BUTTON_TEXT_MIDDLE) {
+                label_y = (self.size.height - labelNode.frame.size.height)/2;
+            }
+            
             labelNode.position = CGPointMake(label_x,label_y);
             
             [self addChild:labelNode];
@@ -205,6 +227,18 @@ ButtonTextFontSize:(int)font_size
 
 -(void)setFontColor:(UIColor*)f_color {
     labelNode.fontColor = f_color;
+}
+
+-(void)setButtonColor:(UIColor*)b_color {
+    button.color = b_color;
+}
+
+-(void)setEnabled:(BOOL)p_isEnabled {
+    isEnabled = p_isEnabled;
+}
+
+-(BOOL)isEnabled {
+    return isEnabled;
 }
 
 @end

@@ -119,16 +119,14 @@
                                                ([[UIScreen mainScreen] bounds].size.height/2) +30*GAME_AREA_SCALE);
         
         button_size = CGSizeMake(150*GAME_AREA_SCALE,30*GAME_AREA_SCALE);
-        replay_button = [[STAButton alloc] initWithSize:button_size Scale:GAME_AREA_SCALE Name:@"replay_button" Alpha:1 BGAlpha:0.0 ButtonText:@"RELAY" ButtonTextColor:[SKColor whiteColor] ButtonTextFont:game_over_font ButtonTextFontSize:15 isShowBorder:false];
+        replay_button = [[STAButton alloc] initWithSize:button_size Scale:GAME_AREA_SCALE Name:@"replay_button" Alpha:1 BGAlpha:0.0 ButtonText:@"REMATCH" ButtonTextColor:[SKColor whiteColor] ButtonTextFont:game_over_font ButtonTextFontSize:15 isShowBorder:false BGColor:[UIColor whiteColor] ButtonTextVAlign:BUTTON_TEXT_MIDDLE];
         replay_button.userInteractionEnabled = NO;
-        replay_button.position = CGPointMake((([[UIScreen mainScreen] bounds].size.width-
-                                               button_size.width))/2,
+        replay_button.position = CGPointMake((([[UIScreen mainScreen] bounds].size.width-button_size.width))/2,
                                              game_over_label.position.y - 100*GAME_AREA_SCALE);
         
-        back_button = [[STAButton alloc] initWithSize:button_size Scale:GAME_AREA_SCALE Name:@"back_button" Alpha:1 BGAlpha:0.0 ButtonText:@"BACK" ButtonTextColor:[SKColor whiteColor] ButtonTextFont:game_over_font ButtonTextFontSize:15 isShowBorder:false];
+        back_button = [[STAButton alloc] initWithSize:button_size Scale:GAME_AREA_SCALE Name:@"back_button" Alpha:1 BGAlpha:0.0 ButtonText:@"BACK" ButtonTextColor:[SKColor whiteColor] ButtonTextFont:game_over_font ButtonTextFontSize:15 isShowBorder:false BGColor:[UIColor whiteColor] ButtonTextVAlign:BUTTON_TEXT_MIDDLE];
         back_button.userInteractionEnabled = NO;
-        back_button.position = CGPointMake((([[UIScreen mainScreen] bounds].size.width-
-                                             button_size.width))/2,
+        back_button.position = CGPointMake((([[UIScreen mainScreen] bounds].size.width-button_size.width))/2,
                                            replay_button.position.y - 80*GAME_AREA_SCALE);
         
         
@@ -454,9 +452,13 @@
             CGPoint location = [touch locationInNode:self.scene];
             SKNode *node = [self.scene nodeAtPoint:location];
             
-            if ([node.name isEqualToString:@"replay_button"]) {
+            if ([node.name isEqualToString:@"replay_button"] && [replay_button isEnabled]) {
                 //this needs to be confirmed from ALL players..
                 //needs to boardcast a msg saying player requested replay
+                
+                [replay_button setEnabled:false];
+                [replay_button setFontColor:[UIColor blackColor]];
+                [replay_button setButtonColor:[UIColor whiteColor]];
                 
                 STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
                 [appDelegate.mcManager sendReplay];

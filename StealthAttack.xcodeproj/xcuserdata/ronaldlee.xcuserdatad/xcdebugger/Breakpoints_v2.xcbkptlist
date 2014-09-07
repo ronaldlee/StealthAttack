@@ -282,12 +282,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StealthAttack/STAButton.m"
-            timestampString = "430723442.376836"
+            timestampString = "431814242.543895"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "46"
-            endingLineNumber = "46"
-            landmarkName = "-initWithSize:Scale:Name:Alpha:BGAlpha:ButtonText:ButtonTextColor:ButtonTextFont:ButtonTextFontSize:isShowBorder:BGColor:"
+            startingLineNumber = "64"
+            endingLineNumber = "64"
+            landmarkName = "-initWithSize:Scale:Name:Alpha:BGAlpha:ButtonText:ButtonTextColor:ButtonTextFont:ButtonTextFontSize:isShowBorder:BGColor:ButtonTextVAlign:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -410,11 +410,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StealthAttack/STAMultiPlayBattleStage.m"
-            timestampString = "431803404.824588"
+            timestampString = "431814242.543895"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "618"
-            endingLineNumber = "618"
+            startingLineNumber = "620"
+            endingLineNumber = "620"
             landmarkName = "-adjEnemyX:Y:R:"
             landmarkType = "5">
          </BreakpointContent>
@@ -522,11 +522,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StealthAttack/STAMultiPlayBattleStage.m"
-            timestampString = "431803404.824588"
+            timestampString = "431814242.543895"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "590"
-            endingLineNumber = "590"
+            startingLineNumber = "592"
+            endingLineNumber = "592"
             landmarkName = "-showGameOverPlayerWin:"
             landmarkType = "5">
          </BreakpointContent>

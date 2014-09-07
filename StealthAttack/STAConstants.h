@@ -128,5 +128,8 @@ extern double GAME_AREA_SCALE;
 
 extern int GAME_OVER_DRAW;
 
+extern int BUTTON_TEXT_TOP;
+extern int BUTTON_TEXT_MIDDLE;
+
 
 @end

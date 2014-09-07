@@ -117,4 +117,7 @@ double GAME_AREA_SCALE = 1.0;
 
 int GAME_OVER_DRAW = 3;
 
+int BUTTON_TEXT_TOP = 1;
+int BUTTON_TEXT_MIDDLE = 2;
+
 @end
