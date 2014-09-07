@@ -154,11 +154,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StealthAttack/STAMCManager.m"
-            timestampString = "431797485.02191"
+            timestampString = "431804168.089905"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "582"
-            endingLineNumber = "582"
+            startingLineNumber = "577"
+            endingLineNumber = "577"
             landmarkName = "-isStageChooseTankReady"
             landmarkType = "5">
          </BreakpointContent>
@@ -394,11 +394,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StealthAttack/STAMCManager.m"
-            timestampString = "431797485.02191"
+            timestampString = "431804168.089905"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "630"
-            endingLineNumber = "630"
+            startingLineNumber = "625"
+            endingLineNumber = "625"
             landmarkName = "-submitPlayerChoiceTank:Color:Scale:IsStealthOn:"
             landmarkType = "5">
          </BreakpointContent>
@@ -458,11 +458,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StealthAttack/STAMCManager.m"
-            timestampString = "431797485.02191"
+            timestampString = "431804168.089905"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "490"
-            endingLineNumber = "490"
+            startingLineNumber = "481"
+            endingLineNumber = "481"
             landmarkName = "-session:didReceiveData:fromPeer:"
             landmarkType = "5">
          </BreakpointContent>
@@ -474,11 +474,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StealthAttack/STAMCManager.m"
-            timestampString = "431797485.02191"
+            timestampString = "431804168.089905"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "530"
-            endingLineNumber = "530"
+            startingLineNumber = "514"
+            endingLineNumber = "514"
             landmarkName = "-session:didReceiveData:fromPeer:"
             landmarkType = "5">
          </BreakpointContent>
@@ -490,11 +490,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StealthAttack/STAMCManager.m"
-            timestampString = "431797485.02191"
+            timestampString = "431804168.089905"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1058"
-            endingLineNumber = "1058"
+            startingLineNumber = "1053"
+            endingLineNumber = "1053"
             landmarkName = "-sendGameOverIsIWon:"
             landmarkType = "5">
          </BreakpointContent>
@@ -534,7 +534,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StealthAttack/STAMyScene.m"
@@ -586,11 +586,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StealthAttack/STAMCManager.m"
-            timestampString = "431797485.02191"
+            timestampString = "431804168.089905"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "838"
-            endingLineNumber = "838"
+            startingLineNumber = "833"
+            endingLineNumber = "833"
             landmarkName = "-sendForward"
             landmarkType = "5">
          </BreakpointContent>
@@ -634,11 +634,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StealthAttack/STAMCManager.m"
-            timestampString = "431798795.478249"
+            timestampString = "431804168.089905"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "542"
-            endingLineNumber = "542"
+            startingLineNumber = "523"
+            endingLineNumber = "523"
             landmarkName = "-session:didReceiveData:fromPeer:"
             landmarkType = "5">
          </BreakpointContent>
@@ -650,11 +650,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StealthAttack/STAMCManager.m"
-            timestampString = "431800209.994624"
+            timestampString = "431804168.089905"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "555"
-            endingLineNumber = "555"
+            startingLineNumber = "543"
+            endingLineNumber = "543"
             landmarkName = "-session:didReceiveData:fromPeer:"
             landmarkType = "5">
          </BreakpointContent>

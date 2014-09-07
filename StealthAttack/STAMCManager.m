@@ -438,9 +438,7 @@
             
             if (isPlayerWonLocal == -1) {
                 isPlayerWonLocal = isPlayerWonRemote;
-                
-                isOppBattleStageUIReady = FALSE;
-                isAckBattleStageUIReady = FALSE;
+  
                 [mstage showGameOver:isPlayerWonLocal];
                 
                 stage = MULTIPLAY_STAGE_BATTLE_END;
@@ -450,15 +448,11 @@
             else {
                 //if isPlayerWonLocal is set, compare with remote and see.
                 if (isPlayerWonRemote == isPlayerWonLocal) {
-                    isOppBattleStageUIReady = FALSE;
-                    isAckBattleStageUIReady = FALSE;
                     [mstage showGameOver:isPlayerWonLocal];
                     
                     stage = MULTIPLAY_STAGE_BATTLE_END;
                 }
                 else { //draw
-                    isOppBattleStageUIReady = FALSE;
-                    isAckBattleStageUIReady = FALSE;
                     [mstage showGameOver:GAME_OVER_DRAW];
                     
                     stage = MULTIPLAY_STAGE_BATTLE_END;
@@ -473,9 +467,6 @@
             int ackMsgId = [ackMsgIdNum intValue];
             NSNumber* isPlayerWonNum = (NSNumber*)[myDictionary objectForKey:@"isPlayerWon"];
             int isPlayerWon = [isPlayerWonNum intValue];
-
-            isOppBattleStageUIReady = FALSE;
-            isAckBattleStageUIReady = FALSE;
             
             [mstage showGameOver:isPlayerWon];
             
@@ -496,9 +487,6 @@
             
             if (isPlayerWonLocal == -1) {
                 isPlayerWonLocal = isPlayerWonRemote;
-                
-                isOppBattleStageUIReady = FALSE;
-                isAckBattleStageUIReady = FALSE;
                 [mstage showGameOver:isPlayerWonLocal];
                 
                 stage = MULTIPLAY_STAGE_BATTLE_END;
@@ -508,15 +496,11 @@
             else {
                 //if isPlayerWonLocal is set, compare with remote and see.
                 if (isPlayerWonRemote == isPlayerWonLocal) {
-                    isOppBattleStageUIReady = FALSE;
-                    isAckBattleStageUIReady = FALSE;
                     [mstage showGameOver:isPlayerWonLocal];
                     
                     stage = MULTIPLAY_STAGE_BATTLE_END;
                 }
                 else { //draw
-                    isOppBattleStageUIReady = FALSE;
-                    isAckBattleStageUIReady = FALSE;
                     [mstage showGameOver:GAME_OVER_DRAW];
                     
                     stage = MULTIPLAY_STAGE_BATTLE_END;
@@ -531,9 +515,6 @@
             NSNumber* isPlayerWonNum = (NSNumber*)[myDictionary objectForKey:@"isPlayerWon"];
             int isPlayerWon = [isPlayerWonNum intValue];
             
-            isOppBattleStageUIReady = FALSE;
-            isAckBattleStageUIReady = FALSE;
-            
             [mstage showGameOver:isPlayerWon];
             
             stage = MULTIPLAY_STAGE_BATTLE_END;
@@ -546,6 +527,13 @@
             [self ackReplay:ackMsgId];
             
             if ([self isAllReplayOK]) {
+                
+                isOppBattleStageUIReady = FALSE;
+                isAckBattleStageUIReady = FALSE;
+                isOppReplayOK = false;
+                isAckReplayOK = false;
+                isPlayerWonLocal = -1;
+                isPlayerWonRemote = -1;
                 stage = MULTIPLAY_STAGE_BATTLE;
                 STAMultiPlayBattleStage* mstage = (STAMultiPlayBattleStage*)curStage;
                 [mstage reset];
@@ -557,6 +545,13 @@
             
             isAckReplayOK = true;
             if ([self isAllReplayOK]) {
+                
+                isOppBattleStageUIReady = FALSE;
+                isAckBattleStageUIReady = FALSE;
+                isOppReplayOK = false;
+                isAckReplayOK = false;
+                isPlayerWonLocal = -1;
+                isPlayerWonRemote = -1;
                 stage = MULTIPLAY_STAGE_BATTLE;
                 STAMultiPlayBattleStage* mstage = (STAMultiPlayBattleStage*)curStage;
                 [mstage reset];

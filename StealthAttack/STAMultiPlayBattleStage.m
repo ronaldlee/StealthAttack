@@ -119,13 +119,13 @@
                                                ([[UIScreen mainScreen] bounds].size.height/2) +30*GAME_AREA_SCALE);
         
         button_size = CGSizeMake(150*GAME_AREA_SCALE,30*GAME_AREA_SCALE);
-        replay_button = [[STAButton alloc] initWithSize:button_size Scale:GAME_AREA_SCALE Name:@"replay_button" Alpha:1 BGAlpha:0.0 ButtonText:@"RELAY" ButtonTextColor:[SKColor whiteColor] ButtonTextFont:game_over_font ButtonTextFontSize:15 isShowBorder:true];
+        replay_button = [[STAButton alloc] initWithSize:button_size Scale:GAME_AREA_SCALE Name:@"replay_button" Alpha:1 BGAlpha:0.0 ButtonText:@"RELAY" ButtonTextColor:[SKColor whiteColor] ButtonTextFont:game_over_font ButtonTextFontSize:15 isShowBorder:false];
         replay_button.userInteractionEnabled = NO;
         replay_button.position = CGPointMake((([[UIScreen mainScreen] bounds].size.width-
                                                button_size.width))/2,
                                              game_over_label.position.y - 100*GAME_AREA_SCALE);
         
-        back_button = [[STAButton alloc] initWithSize:button_size Scale:GAME_AREA_SCALE Name:@"back_button" Alpha:1 BGAlpha:0.0 ButtonText:@"BACK" ButtonTextColor:[SKColor whiteColor] ButtonTextFont:game_over_font ButtonTextFontSize:15 isShowBorder:true];
+        back_button = [[STAButton alloc] initWithSize:button_size Scale:GAME_AREA_SCALE Name:@"back_button" Alpha:1 BGAlpha:0.0 ButtonText:@"BACK" ButtonTextColor:[SKColor whiteColor] ButtonTextFont:game_over_font ButtonTextFontSize:15 isShowBorder:false];
         back_button.userInteractionEnabled = NO;
         back_button.position = CGPointMake((([[UIScreen mainScreen] bounds].size.width-
                                              button_size.width))/2,
