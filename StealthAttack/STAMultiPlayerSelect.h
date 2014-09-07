@@ -15,6 +15,8 @@
 @property (nonatomic) SKLabelNode * selectColorTitle;
 
 @property (nonatomic) SKLabelNode * backLabel;
+@property (nonatomic) SKLabelNode * oppReadyLabel;
+@property (nonatomic) SKLabelNode * errorLabel;
 
 @property (nonatomic) STAButton * backButton;
 @property (nonatomic) STAButton * readyButton;
@@ -44,5 +46,7 @@
 -(void)goToBattleStageMyTank:(int)myTankId MyColor:(int)myColorId MyScale:(CGFloat)myScale
                    OppTankId:(int)oppTankId OppColor:(int)oppColorId OppScale:(CGFloat)oppScale
                  IsStealthOn:(BOOL)isStealthOn;
+
+-(void)showOppIsReady;
 
 @end

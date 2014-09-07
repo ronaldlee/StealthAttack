@@ -23,6 +23,8 @@
 @synthesize backButton;
 @synthesize readyButton;
 @synthesize stealthOnOffButton;
+@synthesize oppReadyLabel;
+@synthesize errorLabel;
 
 @synthesize enemy1;
 @synthesize enemy2;
@@ -50,6 +52,9 @@
 //        STAMyScene* myScene = (STAMyScene*)self.scene;
 //        [myScene.currStage cleanup];
         
+        myTankId = -1;
+        myColorId = -1;
+        
         isStealthOn = true;
         
         CGFloat title_x = ([[UIScreen mainScreen] bounds].size.width)/2;
@@ -72,6 +77,7 @@
         
         SKAction * fadein = [SKAction fadeInWithDuration:0.5];
         [selectOppTitle runAction:fadein];
+      
         
         //
         backLabel = [SKLabelNode labelNodeWithFontNamed:font];
@@ -304,14 +310,47 @@
         [selectColorTitle runAction:fadein];
         
         //
-        button_size = CGSizeMake(30*GAME_AREA_SCALE,20*GAME_AREA_SCALE);
+        button_size = CGSizeMake(150*GAME_AREA_SCALE,30*GAME_AREA_SCALE);
         
-        readyButton = [[STAButton alloc] initWithSize:button_size Scale:GAME_AREA_SCALE Name:@"ready_button" Alpha:0 BGAlpha:0.0 ButtonText:@"Ready"
-                                      ButtonTextColor:[UIColor whiteColor] ButtonTextFont:@"Press Start 2P" ButtonTextFontSize:10 isShowBorder:false];
+        readyButton = [[STAButton alloc] initWithSize:button_size Scale:GAME_AREA_SCALE Name:@"ready_button"
+                                                Alpha:0
+                                              BGAlpha:0.0 ButtonText:@"Ready"
+                                      ButtonTextColor:[UIColor whiteColor]
+                                       ButtonTextFont:@"Press Start 2P"
+                                   ButtonTextFontSize:10 isShowBorder:false
+                                              BGColor:[UIColor whiteColor]
+                                     ButtonTextVAlign:BUTTON_TEXT_MIDDLE];
         readyButton.userInteractionEnabled = NO;
-        readyButton.position = CGPointMake(([[UIScreen mainScreen] bounds].size.width - 30)/2,
+        readyButton.position = CGPointMake(([[UIScreen mainScreen] bounds].size.width - button_size.width)/2,
                                            color1Button.position.y - 80*GAME_AREA_SCALE);
         [self.scene addChild:readyButton];
+        
+        //
+        oppReadyLabel = [SKLabelNode labelNodeWithFontNamed:font];
+        NSString *oppReady = @"Your opponent is ready!";
+        oppReadyLabel.text = oppReady;
+        oppReadyLabel.fontSize = 8*GAME_AREA_SCALE;
+        oppReadyLabel.fontColor = [SKColor grayColor];
+        oppReadyLabel.name = @"oppready_label";
+        oppReadyLabel.alpha = 1;
+        
+        oppReadyLabel.position = CGPointMake(([[UIScreen mainScreen] bounds].size.width)/2,
+                                             readyButton.position.y + oppReadyLabel.frame.size.height + 40*GAME_AREA_SCALE);
+        
+        //
+        
+        errorLabel = [SKLabelNode labelNodeWithFontNamed:font];
+        NSString *errorTxt = @"You need to select a tank and a color!";
+        errorLabel.text = errorTxt;
+        errorLabel.fontSize = 8*GAME_AREA_SCALE;
+        errorLabel.fontColor = [SKColor grayColor];
+        errorLabel.name = @"error_label";
+        errorLabel.alpha = 0.0;
+        
+        errorLabel.position = CGPointMake(([[UIScreen mainScreen] bounds].size.width)/2,
+                                             selectOppTitle.position.y + errorLabel.frame.size.height +
+                                          30*GAME_AREA_SCALE);
+        [self.scene addChild:errorLabel];
         
         //
         button_size = CGSizeMake(30*GAME_AREA_SCALE,20*GAME_AREA_SCALE);
@@ -319,7 +358,8 @@
         stealthOnOffButton = [[STAButton alloc] initWithSize:button_size Scale:GAME_AREA_SCALE Name:@"stealth_button" Alpha:0 BGAlpha:0.0 ButtonText:@"Stealth"
                                       ButtonTextColor:[UIColor whiteColor] ButtonTextFont:@"Press Start 2P" ButtonTextFontSize:8 isShowBorder:true];
         stealthOnOffButton.userInteractionEnabled = NO;
-        stealthOnOffButton.position = CGPointMake(readyButton.position.x + (30+70)*GAME_AREA_SCALE,
+        stealthOnOffButton.position = CGPointMake(readyButton.position.x +
+                                                  readyButton.size.width+30*GAME_AREA_SCALE,
                                                   readyButton.position.y);
         [self.scene addChild:stealthOnOffButton];
         
@@ -748,12 +788,25 @@
                 [enemy5 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
             }
         }
-        else if ([node.name isEqualToString:@"ready_button"]) {
-            NSLog(@"Hit ready!: my tankId: %d, myColorId: %d",myTankId,myColorId);
+        else if ([node.name isEqualToString:@"ready_button"] && [readyButton isEnabled]) {
+//            NSLog(@"Hit ready!: my tankId: %d, myColorId: %d",myTankId,myColorId);
             
-            STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
-            [appDelegate.mcManager submitPlayerChoiceTank:myTankId Color:myColorId Scale:GAME_AREA_SCALE
-                                              IsStealthOn:isStealthOn];
+            if (myTankId != -1 && myColorId != -1) {
+                [readyButton setEnabled:false];
+                [readyButton setFontColor:[UIColor blackColor]];
+                [readyButton setButtonColor:[UIColor whiteColor]];
+                
+                STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
+                [appDelegate.mcManager submitPlayerChoiceTank:myTankId Color:myColorId Scale:GAME_AREA_SCALE
+                                                  IsStealthOn:isStealthOn];
+            }
+            else {
+                SKAction * fadein = [SKAction fadeInWithDuration:0.5];
+                SKAction * fadeout = [SKAction fadeOutWithDuration:0.5];
+                SKAction *wait = [SKAction waitForDuration:3];
+                
+                [errorLabel runAction:[SKAction sequence:@[fadein, wait, fadeout]]];
+            }
         }
         else if ([node.name isEqualToString:@"stealth_button"]) {
             
@@ -803,6 +856,8 @@
     
     [readyButton removeAllActions];
     [stealthOnOffButton removeAllActions];
+    [oppReadyLabel removeAllActions];
+    [errorLabel removeAllActions];
     
     
     NSArray* objs = [NSArray arrayWithObjects:selectOppTitle,selectColorTitle,
@@ -811,7 +866,7 @@
                      enemy3Button,enemy3,enemy4Button,enemy4,
                      enemy5Button,enemy5,
                      color1Button,color2Button,color3Button,color4Button,color5Button,
-                     readyButton,stealthOnOffButton,nil];
+                     readyButton,stealthOnOffButton,oppReadyLabel,errorLabel,nil];
     
     [self.scene removeChildrenInArray:objs];
     
@@ -829,6 +884,10 @@
                          MyTank:myTankId MyColor:myColorId MyScale:myScale
                          OppTankId:oppTankId OppColor:oppColorId OppScale:oppScale
                          isStealthOn:isStealthOn];
+}
+
+-(void)showOppIsReady {
+    [self.scene addChild:oppReadyLabel];
 }
 
 @end

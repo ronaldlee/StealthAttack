@@ -176,7 +176,9 @@
     
     if (stage == MULTIPLAY_STAGE_CHOOSE_TANK) {
         if (actionIdInt == ACTION_SUBMIT_CHOICE) {
-            NSLog(@"action submit choice");
+            STAMultiPlayerSelect* mstage = (STAMultiPlayerSelect*)curStage;
+            
+//            NSLog(@"action submit choice");
             NSNumber* oppColorIdNum = (NSNumber*)[myDictionary objectForKey:@"color"];
             oppColorId = [oppColorIdNum intValue];
             
@@ -191,6 +193,8 @@
             
 //            NSNumber* oppMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
 //            int oppMsgId = [oppMsgIdNum intValue];
+            
+            [mstage showOppIsReady];
             
             [self ackPlayerChoiceTank:oppTankId Color:oppColorId Scale:oppScale MsgId:[[myDictionary objectForKey:@"id"] intValue]];
             
@@ -235,11 +239,13 @@
         }
         else if (actionIdInt == ACTION_SEND_READY_BATTLE_STAGE) {
             NSLog(@"action send ready battle stage");
+            STAMultiPlayerSelect* mstage = (STAMultiPlayerSelect*)curStage;
             
             NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
             int ackMsgId = [ackMsgIdNum intValue];
             
             isOppReadyBattleStage = TRUE;
+            
             [self ackReadyBattleStage:ackMsgId];
             
             if ([self isStageBattleReady]) {
@@ -248,7 +254,7 @@
                 //go to Battle Stage
                 stage = MULTIPLAY_STAGE_BATTLE;
                 
-                STAMultiPlayerSelect* mstage = (STAMultiPlayerSelect*)curStage;
+                
                 [mstage goToBattleStageMyTank:myTankId MyColor:myColorId MyScale:myScale
                                     OppTankId:oppTankId OppColor:oppColorId OppScale:oppScale
                                   IsStealthOn:isStealthOn];
