@@ -330,11 +330,11 @@
     
     NSString *cdStr = @"3";
     countdownLabelNode.text = cdStr;
-    countdownLabelNode.fontSize = 38;
+    countdownLabelNode.fontSize = 38*GAME_AREA_SCALE;
     countdownLabelNode.fontColor = [SKColor whiteColor];
     
     CGFloat countdown_x = ([[UIScreen mainScreen] bounds].size.width)/2;
-    CGFloat countdown_y = [[UIScreen mainScreen] bounds].size.height - 200;
+    CGFloat countdown_y = [[UIScreen mainScreen] bounds].size.height - 200*GAME_AREA_SCALE;
     
     countdownLabelNode.position = CGPointMake(countdown_x,countdown_y);
     
