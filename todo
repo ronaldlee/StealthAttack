@@ -34,6 +34,7 @@ x-singleplay: replay
 -multiplayer restrict 2 players
 -4 players
 
+-bug: multiplay iphone start sometimes crash
 -bug: missing tank!? is the tankId default value missing?
 -bug: first guy pick stealth, second guy also pick stealth. But first guy is visible, but not second guy!
 - guessing should consider player's tank current rotation..
