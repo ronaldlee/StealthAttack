@@ -585,8 +585,10 @@
 -(void)showGameOverPlayerWin:(BOOL)isPlayerWin {
     isGameOver = true;
     
+    int isPlayerWinInt = [[NSNumber numberWithBool:isPlayerWin]intValue];
+    
     STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
-    [appDelegate.mcManager setIsPlayerWonLocal:[[NSNumber numberWithBool:isPlayerWin]intValue]];
+    [appDelegate.mcManager setIsPlayerWonLocal:isPlayerWinInt];
 }
 
 -(void)enemyRotateC {
@@ -639,13 +641,23 @@
     [self.player fire];
 }
 
--(void)showGameOver:(BOOL)isPlayerWin {
-    if (isPlayerWin) {
+-(void)showGameOver:(int)isPlayerWin {
+    if (isPlayerWin == 1) {
         [game_over_label setText:@"Got you!"];
+        [self.enemy explode];
+        [self.player fadeInNow];
     }
-    else {
+    else if (isPlayerWin == 0) {
         [game_over_label setText:@"GAME OVER"];
-//        [self.enemy stop];
+
+        [self.player explode];
+        [self.enemy fadeInNow];
+    }
+    else if (isPlayerWin == 3) {
+        [game_over_label setText:@"DRAW"];
+        
+        [self.player explode];
+        [self.enemy explode];
     }
     
     [self.scene addChild:game_over_label];

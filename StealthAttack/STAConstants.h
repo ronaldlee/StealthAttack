@@ -63,6 +63,8 @@ extern const uint32_t REGION_RIGHT_MIDDLE;
 extern const uint32_t REGION_RIGHT_TOP;
 
 extern const BOOL IS_ENABLE_STEALTH;
+extern const BOOL IS_TEST_GAMEOVER_SYNC;
+extern const BOOL IS_SHOW_RECEIVE_DATA;
 
 extern UIColor* TANK_BODY_WHITE;
 extern UIColor* TANK_BODY_BASE_WHITE;
@@ -123,6 +125,8 @@ extern int GAME_AREA_WIDTH;
 extern int GAME_AREA_HEIGHT;
 
 extern double GAME_AREA_SCALE;
+
+extern int GAME_OVER_DRAW;
 
 
 @end

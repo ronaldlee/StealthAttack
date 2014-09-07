@@ -810,6 +810,8 @@
 }
 
 -(void)explode {
+    if (isExploded) return;
+    
     isExploded = true;
     [self removeAllActions];
     

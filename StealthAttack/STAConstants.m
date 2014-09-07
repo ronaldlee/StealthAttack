@@ -53,6 +53,8 @@ const uint32_t REGION_RIGHT_MIDDLE = 8;
 const uint32_t REGION_RIGHT_TOP = 9;
 
 const BOOL IS_ENABLE_STEALTH = true;
+const BOOL IS_TEST_GAMEOVER_SYNC = false;
+const BOOL IS_SHOW_RECEIVE_DATA = false;
 
 UIColor* TANK_BODY_WHITE;
 UIColor* TANK_BODY_BASE_WHITE;
@@ -112,5 +114,7 @@ int GAME_AREA_WIDTH = 316;
 int GAME_AREA_HEIGHT = 438;
 
 double GAME_AREA_SCALE = 1.0;
+
+int GAME_OVER_DRAW = 3;
 
 @end

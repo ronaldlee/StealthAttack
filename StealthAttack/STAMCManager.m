@@ -41,6 +41,7 @@
     BOOL isStealthOn;
     
     int isPlayerWonLocal;
+    int isPlayerWonRemote;
     
 }
 @end
@@ -56,6 +57,7 @@
         _browser = nil;
         _advertiser = nil;
         isPlayerWonLocal = -1;
+        isPlayerWonRemote = -1;
         
         [self reset];
     }
@@ -70,9 +72,22 @@
 -(void)setIsPlayerWonLocal:(int)flag {
     if (isPlayerWonLocal == -1) { //not yet set by other end!
         isPlayerWonLocal = flag;
+        
+        BOOL isPlayerWonLocalBool = [[NSNumber numberWithInt:isPlayerWonLocal] boolValue];
+        
+        [self sendGameOverIsIWon:isPlayerWonLocalBool];
     }
-    
-    [self sendGameOverIsIWon:[[NSNumber numberWithInt:isPlayerWonLocal]boolValue]];
+//    else {
+//        if (stage == MULTIPLAY_STAGE_BATTLE_START) {
+//            STAMultiPlayBattleStage* mstage = (STAMultiPlayBattleStage*)curStage;
+//            isOppBattleStageUIReady = FALSE;
+//            isAckBattleStageUIReady = FALSE;
+//            
+//            [mstage showGameOver:isPlayerWonLocal];
+//            
+//            stage = MULTIPLAY_STAGE_BATTLE_END;
+//        }
+//    }
 }
 
 -(void) reset {
@@ -96,6 +111,9 @@
     isOppBattleStageUIReady = false;
     isOppReplayOK = false;
     isAckReplayOK = false;
+    
+    isPlayerWonLocal = -1;
+    isPlayerWonRemote = -1;
 }
 
 -(void)resetStage {
@@ -146,7 +164,7 @@
 
 
 -(void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID{
-    NSLog(@"didReceiveData");
+    if (IS_SHOW_RECEIVE_DATA) NSLog(@"didReceiveData");
     
     NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
     NSDictionary *myDictionary = [unarchiver decodeObjectForKey:ENCODE_KEY];
@@ -154,7 +172,7 @@
     
     NSNumber* actionId = (NSNumber*)[myDictionary objectForKey:@"action"];
     int actionIdInt = [actionId intValue];
-    NSLog(@"didReceiveData: stage: %d, actionId: %d",stage,actionIdInt);
+    if (IS_SHOW_RECEIVE_DATA) NSLog(@"didReceiveData: stage: %d, actionId: %d",stage,actionIdInt);
     
     if (stage == MULTIPLAY_STAGE_CHOOSE_TANK) {
         if (actionIdInt == ACTION_SUBMIT_CHOICE) {
@@ -328,7 +346,10 @@
             int ackMsgId = [ackMsgIdNum intValue];
             
             [self ackForeward:ackMsgId];
-            [mstage enemyForward];
+            
+            if (!IS_TEST_GAMEOVER_SYNC) {
+                [mstage enemyForward];
+            }
         }
         else if (actionIdInt == ACTION_ACK_FORWARD_BUTTON_PRESSED) {
             NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
@@ -392,7 +413,7 @@
 //            }
         }
         else if (actionIdInt == ACTION_ADJ) {
-            NSLog(@"adj");
+            
             NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
             int ackMsgId = [ackMsgIdNum intValue];
             
@@ -403,7 +424,9 @@
             NSNumber* rNum = (NSNumber*)[myDictionary objectForKey:@"r"];
             CGFloat r = [rNum floatValue];
             
-            [mstage adjEnemyX:x Y:y R:r];
+            if (!IS_TEST_GAMEOVER_SYNC) {
+                [mstage adjEnemyX:x Y:y R:r];
+            }
         }
         else if (actionIdInt == ACTION_GAMEOVER) {
             NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
@@ -411,24 +434,52 @@
             
             NSNumber* isIWonNum = (NSNumber*)[myDictionary objectForKey:@"isIWon"];
             BOOL isOpponentWon = [isIWonNum boolValue];
+            isPlayerWonRemote = [[NSNumber numberWithBool:!isOpponentWon]intValue];
             
             if (isPlayerWonLocal == -1) {
-                isPlayerWonLocal = !isOpponentWon;
+                isPlayerWonLocal = isPlayerWonRemote;
+                
+                isOppBattleStageUIReady = FALSE;
+                isAckBattleStageUIReady = FALSE;
+                [mstage showGameOver:isPlayerWonLocal];
+                
+                stage = MULTIPLAY_STAGE_BATTLE_END;
+                
+                [self ackGameOver:ackMsgId IsPlayerWon:[isIWonNum intValue]];
+            }
+            else {
+                //if isPlayerWonLocal is set, compare with remote and see.
+                if (isPlayerWonRemote == isPlayerWonLocal) {
+                    isOppBattleStageUIReady = FALSE;
+                    isAckBattleStageUIReady = FALSE;
+                    [mstage showGameOver:isPlayerWonLocal];
+                    
+                    stage = MULTIPLAY_STAGE_BATTLE_END;
+                }
+                else { //draw
+                    isOppBattleStageUIReady = FALSE;
+                    isAckBattleStageUIReady = FALSE;
+                    [mstage showGameOver:GAME_OVER_DRAW];
+                    
+                    stage = MULTIPLAY_STAGE_BATTLE_END;
+                    
+                    [self ackGameOver:ackMsgId IsPlayerWon:GAME_OVER_DRAW];
+                }
             }
             
-            [self ackGameOver:ackMsgId];
         }
         else if (actionIdInt == ACTION_ACK_GAMEOVER) {
             NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
             int ackMsgId = [ackMsgIdNum intValue];
+            NSNumber* isPlayerWonNum = (NSNumber*)[myDictionary objectForKey:@"isPlayerWon"];
+            int isPlayerWon = [isPlayerWonNum intValue];
+
+            isOppBattleStageUIReady = FALSE;
+            isAckBattleStageUIReady = FALSE;
             
-//            if (ackMsgId == msgId) {
+            [mstage showGameOver:isPlayerWon];
             
-                isOppBattleStageUIReady = FALSE;
-                isAckBattleStageUIReady = FALSE;
-                [mstage showGameOver:isPlayerWonLocal];
-                stage = MULTIPLAY_STAGE_BATTLE_END;
-//            }
+            stage = MULTIPLAY_STAGE_BATTLE_END;
         }
         
     }
@@ -441,23 +492,51 @@
             
             NSNumber* isIWonNum = (NSNumber*)[myDictionary objectForKey:@"isIWon"];
             BOOL isOpponentWon = [isIWonNum boolValue];
+            isPlayerWonRemote = [[NSNumber numberWithBool:!isOpponentWon]intValue];
             
             if (isPlayerWonLocal == -1) {
-                isPlayerWonLocal = !isOpponentWon;
+                isPlayerWonLocal = isPlayerWonRemote;
+                
+                isOppBattleStageUIReady = FALSE;
+                isAckBattleStageUIReady = FALSE;
+                [mstage showGameOver:isPlayerWonLocal];
+                
+                stage = MULTIPLAY_STAGE_BATTLE_END;
+                
+                [self ackGameOver:ackMsgId IsPlayerWon:[isIWonNum intValue]];
             }
-            
-            [self ackGameOver:ackMsgId];
+            else {
+                //if isPlayerWonLocal is set, compare with remote and see.
+                if (isPlayerWonRemote == isPlayerWonLocal) {
+                    isOppBattleStageUIReady = FALSE;
+                    isAckBattleStageUIReady = FALSE;
+                    [mstage showGameOver:isPlayerWonLocal];
+                    
+                    stage = MULTIPLAY_STAGE_BATTLE_END;
+                }
+                else { //draw
+                    isOppBattleStageUIReady = FALSE;
+                    isAckBattleStageUIReady = FALSE;
+                    [mstage showGameOver:GAME_OVER_DRAW];
+                    
+                    stage = MULTIPLAY_STAGE_BATTLE_END;
+                    
+                    [self ackGameOver:ackMsgId IsPlayerWon:GAME_OVER_DRAW];
+                }
+            }
         }
         else if (actionIdInt == ACTION_ACK_GAMEOVER) {
             NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
             int ackMsgId = [ackMsgIdNum intValue];
+            NSNumber* isPlayerWonNum = (NSNumber*)[myDictionary objectForKey:@"isPlayerWon"];
+            int isPlayerWon = [isPlayerWonNum intValue];
             
-//            if (ackMsgId == msgId) {
+            isOppBattleStageUIReady = FALSE;
+            isAckBattleStageUIReady = FALSE;
             
-                isOppBattleStageUIReady = FALSE;
-                isAckBattleStageUIReady = FALSE;
-                [mstage showGameOver:isPlayerWonLocal];
-//            }
+            [mstage showGameOver:isPlayerWon];
+            
+            stage = MULTIPLAY_STAGE_BATTLE_END;
         }
         else if (actionIdInt == ACTION_REPLAY) {
             NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
@@ -987,6 +1066,8 @@
     NSArray *allPeers = self.session.connectedPeers;
     NSError *error;
     
+    if (isPlayerWonRemote != -1) return;
+    
     [self.session sendData:data
                    toPeers:allPeers
                   withMode:MCSessionSendDataReliable
@@ -997,9 +1078,10 @@
     }
 }
 
--(void)ackGameOver:(int)p_msgId {
+-(void)ackGameOver:(int)p_msgId IsPlayerWon:(int)IsPlayerWon{
     NSDictionary* choiceData = @{@"action" : [NSNumber numberWithInt:ACTION_ACK_GAMEOVER],
-                                 @"id" : [NSNumber numberWithInt:p_msgId]};
+                                 @"id" : [NSNumber numberWithInt:p_msgId],
+                                 @"isPlayerWon" : [NSNumber numberWithInt:IsPlayerWon]};
     NSMutableData *data = [[NSMutableData alloc] init];
     NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
     [archiver encodeObject:choiceData forKey:ENCODE_KEY];
