@@ -16,8 +16,9 @@ x-or go back to previous screen
 x-disable status bar
 x-hide frame rate
 x-singleplay: replay
+x-bug: replay how come one tank's old position is still sending over?
 
--bug: replay how come one tank's old position is still sending over?
+-bug: after replay, the next time it doesn't game over/replay again
 -bug: when one got hit, but the other doesn't. only one is gameover and the other is not!
 -multiplay:Game Over/Got you!: add replay
   - when one choose replay but another one is 'back' already, invalid the replay

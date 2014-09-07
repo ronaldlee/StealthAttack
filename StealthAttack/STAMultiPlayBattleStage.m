@@ -562,11 +562,12 @@
     [enemyFadeNode removeAllActions];
     [countdownLabelNode removeAllActions];
     [game_over_label removeAllActions];
+    [playerAdjNode removeAllActions];
     
     NSArray* objs = [NSArray arrayWithObjects:self.player,self.enemy,fire_button,
                      rotate_c_button,rotate_uc_button,forward_button,backward_button,
                      replay_button, back_button, playerFadeNode, enemyFadeNode, countdownLabelNode,
-                     game_over_label, nil];
+                     game_over_label,playerAdjNode, nil];
     
     [self.scene removeChildrenInArray:objs];
 }
