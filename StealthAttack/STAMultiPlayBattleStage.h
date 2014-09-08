@@ -24,6 +24,8 @@
 @property (nonatomic) SKNode* enemyFadeNode;
 @property (nonatomic) SKNode* playerAdjNode;
 
+@property (nonatomic) SKLabelNode * oppRematchLabel;
+
 @property (nonatomic) BOOL isGameStart;
 @property (nonatomic) BOOL isGameOver;
 
@@ -58,5 +60,6 @@
 -(void)showGameOver:(int)isPlayerWin;
 
 -(void)reset;
+-(void)showOppRematch;
 
 @end

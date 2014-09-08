@@ -19,10 +19,12 @@ x-singleplay: replay
 x-bug: replay how come one tank's old position is still sending over?
 x-bug: after replay, the next time it doesn't game over/replay again
 x-bug: when one got hit, but the other doesn't. only one is gameover and the other is not!
+x-replay indicator: opp choose to rematch, when I choose replay, it change button bg color to white and font to black
+x-multi play: select tank, 'ready' also need to change state to wait
+x-replay need to notify opp that you want rematch
 
--multi play: select tank, 'ready' also need to change state to wait
--replay indicator: opp choose to rematch, when I choose replay, it change button bg color to white and font to black
 -multiplay: when one choose replay but another one is 'back' already, invalid the replay
+ - when opp chooses back, your 'replay' will be removed
 -multi play: back
 -multi play: handle disconnect
 -bug: back, select and not wait for opp to choose and start game!

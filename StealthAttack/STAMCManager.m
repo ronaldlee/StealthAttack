@@ -307,12 +307,6 @@
                 [mstage startCountDown];
             }
         }
-        else if (actionIdInt == ACTION_REPLAY) {
-            NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
-            int ackMsgId = [ackMsgIdNum intValue];
-            
-            [self ackReplay:ackMsgId];
-        }
     }
     else if (stage == MULTIPLAY_STAGE_BATTLE_START) {
         //opp tank's actions
@@ -530,6 +524,9 @@
             int ackMsgId = [ackMsgIdNum intValue];
             
             isOppReplayOK = true;
+            
+            [mstage showOppRematch];
+            
             [self ackReplay:ackMsgId];
             
             if ([self isAllReplayOK]) {

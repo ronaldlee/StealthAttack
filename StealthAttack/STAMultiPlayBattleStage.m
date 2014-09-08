@@ -41,6 +41,7 @@
 
 @synthesize isGameOver;
 @synthesize isGameStart;
+@synthesize oppRematchLabel;
 
 - (id)initWithScale:(float)sk_scale Bounds:(CGRect)bounds Scene:(SKScene*)sk_scene
              MyTank:(int)p_myTankId MyColor:(int)p_myColorId MyScale:(CGFloat)p_myScale
@@ -128,7 +129,20 @@
         back_button.userInteractionEnabled = NO;
         back_button.position = CGPointMake((([[UIScreen mainScreen] bounds].size.width-button_size.width))/2,
                                            replay_button.position.y - 80*GAME_AREA_SCALE);
+        //
+        NSString * font = @"Press Start 2P";
+        oppRematchLabel = [SKLabelNode labelNodeWithFontNamed:font];
         
+        NSString *singlePlay = @"Your opponent wants to rematch";
+        oppRematchLabel.text = singlePlay;
+        oppRematchLabel.fontSize = 8*GAME_AREA_SCALE;
+        oppRematchLabel.fontColor = [SKColor grayColor];
+        
+        oppRematchLabel.position = CGPointMake([[UIScreen mainScreen] bounds].size.width/2,
+                                               replay_button.position.y + 40*GAME_AREA_SCALE);
+        
+        oppRematchLabel.alpha = 0;
+        [self.scene addChild:oppRematchLabel];
         
         //
         UIColor* tank_color = TANK_BODY_WHITE;
@@ -565,11 +579,12 @@
     [countdownLabelNode removeAllActions];
     [game_over_label removeAllActions];
     [playerAdjNode removeAllActions];
+    [oppRematchLabel removeAllActions];
     
     NSArray* objs = [NSArray arrayWithObjects:self.player,self.enemy,fire_button,
                      rotate_c_button,rotate_uc_button,forward_button,backward_button,
                      replay_button, back_button, playerFadeNode, enemyFadeNode, countdownLabelNode,
-                     game_over_label,playerAdjNode, nil];
+                     game_over_label,playerAdjNode,oppRematchLabel, nil];
     
     [self.scene removeChildrenInArray:objs];
 }
@@ -684,6 +699,11 @@
                          MyTank:myTankId MyColor:myColorId MyScale:myScale
                          OppTankId:oppTankId OppColor:oppColorId OppScale:oppScale
                          isStealthOn:isStealthOn];
+}
+
+-(void)showOppRematch {
+    SKAction * fadein = [SKAction fadeInWithDuration:0.5];
+    [oppRematchLabel runAction:fadein];
 }
 
 @end
