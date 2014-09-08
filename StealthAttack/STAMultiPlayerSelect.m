@@ -890,4 +890,8 @@
     [self.scene addChild:oppReadyLabel];
 }
 
+-(BOOL)isReadyButtonPressed{
+    return ![readyButton isEnabled];
+}
+
 @end

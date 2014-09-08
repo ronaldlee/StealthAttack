@@ -49,4 +49,6 @@
 
 -(void)showOppIsReady;
 
+-(BOOL)isReadyButtonPressed;
+
 @end

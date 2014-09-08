@@ -92,8 +92,14 @@
 
 -(void) reset {
     [self resetStage];
+    
+    [self resetFlags];
+}
+
+-(void)resetFlags {
     oppColorId = 0;
     oppTankId = 0;
+    oppScale = 0.0;
     
     myColorId = 0;
     myTankId = 0;
@@ -105,7 +111,7 @@
     isReadyBattleStage = false;
     isAckReadyBattleStage = false;
     isOppReadyBattleStage = false;
-  
+    
     isBattleStageUIReady = false;
     isAckBattleStageUIReady = false;
     isOppBattleStageUIReady = false;
@@ -200,6 +206,12 @@
             
             if ([self isStageChooseTankReady]) {
                 [self sendReadyBattleStage];
+            }
+            else {
+                if ([mstage isReadyButtonPressed]) {
+                    [self submitPlayerChoiceTank:myTankId Color:myColorId Scale:GAME_AREA_SCALE
+                                     IsStealthOn:isStealthOn];
+                }
             }
         }
         else if (actionIdInt == ACTION_ACK_CHOICE) {
@@ -1134,6 +1146,8 @@
     
     NSArray *allPeers = self.session.connectedPeers;
     NSError *error;
+    
+    [self resetFlags];
     
     [self.session sendData:data
                    toPeers:allPeers
