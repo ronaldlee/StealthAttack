@@ -560,6 +560,9 @@
                 [mstage reset];
             }
         }
+        else if (actionIdInt == ACTION_BACK) {
+            [mstage showOppBack];
+        }
     }
     
 }
@@ -1102,6 +1105,28 @@
 -(void)ackReplay:(int)p_msgId {
     NSDictionary* choiceData = @{@"action" : [NSNumber numberWithInt:ACTION_ACK_REPLAY],
                                  @"id" : [NSNumber numberWithInt:p_msgId],};
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [archiver encodeObject:choiceData forKey:ENCODE_KEY];
+    [archiver finishEncoding];
+    
+    NSArray *allPeers = self.session.connectedPeers;
+    NSError *error;
+    
+    [self.session sendData:data
+                   toPeers:allPeers
+                  withMode:MCSessionSendDataReliable
+                     error:&error];
+    
+    if (error) {
+        NSLog(@"%@", [error localizedDescription]);
+    }
+}
+
+-(void)sendBack {
+    msgId++;
+    NSDictionary* choiceData = @{@"action" : [NSNumber numberWithInt:ACTION_BACK],
+                                 @"id" : [NSNumber numberWithInt:msgId]};
     NSMutableData *data = [[NSMutableData alloc] init];
     NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
     [archiver encodeObject:choiceData forKey:ENCODE_KEY];

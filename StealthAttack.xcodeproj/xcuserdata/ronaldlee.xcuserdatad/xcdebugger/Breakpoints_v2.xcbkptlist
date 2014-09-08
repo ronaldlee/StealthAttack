@@ -154,11 +154,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StealthAttack/STAMCManager.m"
-            timestampString = "431829777.849058"
+            timestampString = "431841749.428432"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "580"
-            endingLineNumber = "580"
+            startingLineNumber = "583"
+            endingLineNumber = "583"
             landmarkName = "-isStageChooseTankReady"
             landmarkType = "5">
          </BreakpointContent>
@@ -394,11 +394,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StealthAttack/STAMCManager.m"
-            timestampString = "431829777.849058"
+            timestampString = "431841749.428432"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "628"
-            endingLineNumber = "628"
+            startingLineNumber = "631"
+            endingLineNumber = "631"
             landmarkName = "-submitPlayerChoiceTank:Color:Scale:IsStealthOn:"
             landmarkType = "5">
          </BreakpointContent>
@@ -410,11 +410,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StealthAttack/STAMultiPlayBattleStage.m"
-            timestampString = "431830146.915169"
+            timestampString = "431841749.428432"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "635"
-            endingLineNumber = "635"
+            startingLineNumber = "637"
+            endingLineNumber = "637"
             landmarkName = "-adjEnemyX:Y:R:"
             landmarkType = "5">
          </BreakpointContent>
@@ -490,11 +490,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StealthAttack/STAMCManager.m"
-            timestampString = "431829777.849058"
+            timestampString = "431841749.428432"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1056"
-            endingLineNumber = "1056"
+            startingLineNumber = "1059"
+            endingLineNumber = "1059"
             landmarkName = "-sendGameOverIsIWon:"
             landmarkType = "5">
          </BreakpointContent>
@@ -522,11 +522,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StealthAttack/STAMultiPlayBattleStage.m"
-            timestampString = "431830146.915169"
+            timestampString = "431841749.428432"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "607"
-            endingLineNumber = "607"
+            startingLineNumber = "609"
+            endingLineNumber = "609"
             landmarkName = "-showGameOverPlayerWin:"
             landmarkType = "5">
          </BreakpointContent>
@@ -586,11 +586,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StealthAttack/STAMCManager.m"
-            timestampString = "431829777.849058"
+            timestampString = "431841749.428432"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "836"
-            endingLineNumber = "836"
+            startingLineNumber = "839"
+            endingLineNumber = "839"
             landmarkName = "-sendForward"
             landmarkType = "5">
          </BreakpointContent>

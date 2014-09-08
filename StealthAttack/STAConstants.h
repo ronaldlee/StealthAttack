@@ -112,6 +112,7 @@ extern const int ACTION_REPLAY;
 extern const int ACTION_ACK_REPLAY;
 
 extern const int ACTION_BACK;
+extern const int ACTION_ACK_BACK;
 //
 
 extern const NSString* ENCODE_KEY;

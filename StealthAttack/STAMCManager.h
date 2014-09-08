@@ -47,5 +47,6 @@
 -(void)sendAdjX:(CGFloat)x Y:(CGFloat)y R:(CGFloat)r;
 -(void)sendGameOverIsIWon:(BOOL)isIWon;
 -(void)sendReplay;
+-(void)sendBack;
 
 @end

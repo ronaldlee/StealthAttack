@@ -61,5 +61,6 @@
 
 -(void)reset;
 -(void)showOppRematch;
+-(void)showOppBack;
 
 @end

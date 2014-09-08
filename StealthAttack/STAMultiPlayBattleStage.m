@@ -482,6 +482,8 @@
                 //needs to wait all other players to go back and select
                 //needs to boardcast a msg saying the player has exited to multi select screen.
                 
+                STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
+                [appDelegate.mcManager sendBack];
                 
                 STAMyScene* myScene = (STAMyScene*)self.scene;
                 
@@ -703,6 +705,16 @@
 
 -(void)showOppRematch {
     SKAction * fadein = [SKAction fadeInWithDuration:0.5];
+    oppRematchLabel.text = @"Your opponent wants to rematch";
+    [oppRematchLabel runAction:fadein];
+}
+
+-(void)showOppBack{
+    [self.replay_button setEnabled:false];
+    self.replay_button.alpha = 0.0;
+    
+    SKAction * fadein = [SKAction fadeInWithDuration:0.5];
+    oppRematchLabel.text = @"Opponent has hit 'Back' button";
     [oppRematchLabel runAction:fadein];
 }
 

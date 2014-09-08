@@ -24,13 +24,17 @@ x-multi play: select tank, 'ready' also need to change state to wait
 x-replay need to notify opp that you want rematch
 
 -multiplay: when one choose replay but another one is 'back' already, invalid the replay
- - when opp chooses back, your 'replay' will be removed
+ -when i choose back, it will just go back. => send back noti to opp.
+ -when opp chooses back, your 'replay' will be removed
+
 -multi play: back
 -multi play: handle disconnect
 -bug: back, select and not wait for opp to choose and start game!
 -bug: after back and play. no GameOver!
 
 - from title to battle stage fade in
+
+-p2p connect: remove visible to others?, Browse for devices and Disconnect doesn't look like a button.
 
 -single play: score (winning %)
 -multi play: score (winning %)
