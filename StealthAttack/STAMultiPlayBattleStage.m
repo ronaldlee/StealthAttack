@@ -417,7 +417,7 @@
 }
 
 -(void) fireBullet:(STATank*)tank {
-    NSLog(@"fire bullet");
+//    NSLog(@"fire bullet");
     [tank updateLastPositionData];
     SKAction* shootBulletAction = [SKAction runBlock:^{
 //        CGPoint location = [tank position];

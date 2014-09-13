@@ -13,6 +13,8 @@
 		B44452B819A315FD009D0787 /* STAMCManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B44452B719A315FD009D0787 /* STAMCManager.m */; };
 		B44452BB19A8F7C9009D0787 /* STAConnectionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B44452BA19A8F7C9009D0787 /* STAConnectionsViewController.m */; };
 		B44452C419A8FA66009D0787 /* STAAppUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B44452C319A8FA66009D0787 /* STAAppUtil.m */; };
+		B46B996619C40FE700EE44CC /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B46B996219C40FE700EE44CC /* libTestFlight.a */; };
+		B46B996819C4102500EE44CC /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B46B996719C4102500EE44CC /* libz.dylib */; };
 		B4A9CE4819A981600097AAF0 /* STAMultiPlayerSelect.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A9CE4719A981600097AAF0 /* STAMultiPlayerSelect.m */; };
 		B4A9CE4B19AA5C4A0097AAF0 /* STAMultiPlayBattleStage.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A9CE4A19AA5C4A0097AAF0 /* STAMultiPlayBattleStage.m */; };
 		B4B12F93195F5A5A005DBFF4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4B12F92195F5A5A005DBFF4 /* Foundation.framework */; };
@@ -72,6 +74,11 @@
 		B44452BA19A8F7C9009D0787 /* STAConnectionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STAConnectionsViewController.m; sourceTree = "<group>"; };
 		B44452C219A8FA66009D0787 /* STAAppUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STAAppUtil.h; sourceTree = "<group>"; };
 		B44452C319A8FA66009D0787 /* STAAppUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STAAppUtil.m; sourceTree = "<group>"; };
+		B46B996219C40FE700EE44CC /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
+		B46B996319C40FE700EE44CC /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
+		B46B996419C40FE700EE44CC /* TestFlight+AsyncLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+AsyncLogging.h"; sourceTree = "<group>"; };
+		B46B996519C40FE700EE44CC /* TestFlight+ManualSessions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+ManualSessions.h"; sourceTree = "<group>"; };
+		B46B996719C4102500EE44CC /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		B4A9CE4619A981600097AAF0 /* STAMultiPlayerSelect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STAMultiPlayerSelect.h; sourceTree = "<group>"; };
 		B4A9CE4719A981600097AAF0 /* STAMultiPlayerSelect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STAMultiPlayerSelect.m; sourceTree = "<group>"; };
 		B4A9CE4919AA5C4A0097AAF0 /* STAMultiPlayBattleStage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STAMultiPlayBattleStage.h; sourceTree = "<group>"; };
@@ -133,6 +140,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B46B996819C4102500EE44CC /* libz.dylib in Frameworks */,
+				B46B996619C40FE700EE44CC /* libTestFlight.a in Frameworks */,
 				B4B12F95195F5A5A005DBFF4 /* CoreGraphics.framework in Frameworks */,
 				B4B12F97195F5A5A005DBFF4 /* UIKit.framework in Frameworks */,
 				B4B12F99195F5A5A005DBFF4 /* SpriteKit.framework in Frameworks */,
@@ -184,6 +193,7 @@
 		B4B12F91195F5A5A005DBFF4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B46B996719C4102500EE44CC /* libz.dylib */,
 				B4B12F92195F5A5A005DBFF4 /* Foundation.framework */,
 				B4B12F94195F5A5A005DBFF4 /* CoreGraphics.framework */,
 				B4B12F96195F5A5A005DBFF4 /* UIKit.framework */,
@@ -200,6 +210,10 @@
 				B4B12FE11969ADD1005DBFF4 /* stages */,
 				B4B12FA3195F5A5A005DBFF4 /* STAAppDelegate.h */,
 				B4B12FA4195F5A5A005DBFF4 /* STAAppDelegate.m */,
+				B46B996219C40FE700EE44CC /* libTestFlight.a */,
+				B46B996319C40FE700EE44CC /* TestFlight.h */,
+				B46B996419C40FE700EE44CC /* TestFlight+AsyncLogging.h */,
+				B46B996519C40FE700EE44CC /* TestFlight+ManualSessions.h */,
 				B4B12FA6195F5A5A005DBFF4 /* Main_iPhone.storyboard */,
 				B4B12FA9195F5A5A005DBFF4 /* Main_iPad.storyboard */,
 				B4B12FAC195F5A5A005DBFF4 /* STAViewController.h */,
@@ -337,6 +351,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = noisysubmarine;
 				TargetAttributes = {
+					B4B12F8E195F5A5A005DBFF4 = {
+						DevelopmentTeam = 6VK8HZF98U;
+					};
 					B4B12FB9195F5A5B005DBFF4 = {
 						TestTargetID = B4B12F8E195F5A5A005DBFF4;
 					};
@@ -549,10 +566,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "StealthAttack/StealthAttack-Prefix.pch";
 				INFOPLIST_FILE = "StealthAttack/StealthAttack-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/StealthAttack",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
 				WRAPPER_EXTENSION = app;
 			};
@@ -563,10 +587,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "StealthAttack/StealthAttack-Prefix.pch";
 				INFOPLIST_FILE = "StealthAttack/StealthAttack-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/StealthAttack",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
 				WRAPPER_EXTENSION = app;
 			};

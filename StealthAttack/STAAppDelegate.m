@@ -7,12 +7,15 @@
 //
 
 #import "STAAppDelegate.h"
+#import "TestFlight.h"
 
 @implementation STAAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    [TestFlight takeOff:@"1cddac94-f742-420e-b1e4-f1d60226c3f1"];
+    
     _mcManager = [[STAMCManager alloc] init];
     
     return YES;

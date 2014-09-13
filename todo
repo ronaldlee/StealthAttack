@@ -22,18 +22,16 @@ x-bug: when one got hit, but the other doesn't. only one is gameover and the oth
 x-replay indicator: opp choose to rematch, when I choose replay, it change button bg color to white and font to black
 x-multi play: select tank, 'ready' also need to change state to wait
 x-replay need to notify opp that you want rematch
-
--multiplay: when one choose replay but another one is 'back' already, invalid the replay
+x(cant reproduce)-bug-after back, replay and tanks not moving and strange..
+x-multiplay: when one choose replay but another one is 'back' already, invalid the replay
  -when i choose back, it will just go back. => send back noti to opp.
  -when opp chooses back, your 'replay' will be removed
+x-multi play: back
+x-bug: back, select and not wait for opp to choose and start game!
+x-bug: after back and play. no GameOver!
 
--multi play: back
 -multi play: handle disconnect
--bug: back, select and not wait for opp to choose and start game!
--bug: after back and play. no GameOver!
-
 - from title to battle stage fade in
-
 -p2p connect: remove visible to others?, Browse for devices and Disconnect doesn't look like a button.
 
 -single play: score (winning %)
@@ -44,6 +42,7 @@ x-replay need to notify opp that you want rematch
 -multiplayer restrict 2 players
 -4 players
 
+-bug: crash??
 -bug: multiplay iphone start sometimes crash
 -bug: missing tank!? is the tankId default value missing?
 -bug: first guy pick stealth, second guy also pick stealth. But first guy is visible, but not second guy!
