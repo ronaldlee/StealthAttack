@@ -18,7 +18,7 @@ float const PLAYER_WIDTH = PIXEL_WIDTHHEIGHT*3;
 float const PLAYER_HEIGHT = PIXEL_WIDTHHEIGHT*3;
 
 float const BOTTOM_HUD_HEIGHT = 100;
-float const TOP_HUD_HEIGHT = 30;
+float const TOP_HUD_HEIGHT = 80;//30;
 
 const CGFloat SPEED = 100;
 float const BORDER_SIDE_MARGIN=2;
