@@ -170,11 +170,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StealthAttack/STAMultiPlayerSelect.m"
-            timestampString = "432351679.633396"
+            timestampString = "432425744.03562"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "854"
-            endingLineNumber = "854"
+            startingLineNumber = "860"
+            endingLineNumber = "860"
             landmarkName = "-cleanup"
             landmarkType = "5">
          </BreakpointContent>
@@ -681,22 +681,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "StealthAttack/STAMultiPlayerSelect.m"
-            timestampString = "432351679.633396"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "920"
-            endingLineNumber = "920"
-            landmarkName = "-showOppLeft"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "StealthAttack/STAConnectionsViewController.m"
             timestampString = "432335639.580814"
             startingColumnNumber = "9223372036854775807"
@@ -768,6 +752,22 @@
             startingLineNumber = "153"
             endingLineNumber = "153"
             landmarkName = "-setupPeerAndSessionWithDisplayName:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "StealthAttack/STAMultiPlayerSelect.m"
+            timestampString = "432425744.03562"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "886"
+            endingLineNumber = "886"
+            landmarkName = "-cleanup"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

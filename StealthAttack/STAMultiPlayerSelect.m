@@ -324,6 +324,8 @@
         readyButton.userInteractionEnabled = NO;
         readyButton.position = CGPointMake(([[UIScreen mainScreen] bounds].size.width - button_size.width)/2,
                                            color1Button.position.y - 80*GAME_AREA_SCALE);
+        
+        readyButton.alpha = 1.0;
         [self.scene addChild:readyButton];
         
         //
@@ -333,10 +335,12 @@
         oppReadyLabel.fontSize = 8*GAME_AREA_SCALE;
         oppReadyLabel.fontColor = [SKColor grayColor];
         oppReadyLabel.name = @"oppready_label";
-        oppReadyLabel.alpha = 1;
+        oppReadyLabel.alpha = 0.0;
         
         oppReadyLabel.position = CGPointMake(([[UIScreen mainScreen] bounds].size.width)/2,
                                              readyButton.position.y + oppReadyLabel.frame.size.height + 40*GAME_AREA_SCALE);
+        
+        [self.scene addChild:oppReadyLabel];
         
         //
         oppLeftLabel = [SKLabelNode labelNodeWithFontNamed:font];
@@ -345,10 +349,12 @@
         oppLeftLabel.fontSize = 8*GAME_AREA_SCALE;
         oppLeftLabel.fontColor = [SKColor grayColor];
         oppLeftLabel.name = @"oppready_label";
-        oppLeftLabel.alpha = 1;
+        oppLeftLabel.alpha = 0.0;
         
         oppLeftLabel.position = CGPointMake(([[UIScreen mainScreen] bounds].size.width)/2,
                                              readyButton.position.y + oppLeftLabel.frame.size.height + 40*GAME_AREA_SCALE);
+        
+        [self.scene addChild:oppLeftLabel];
     
 //        oppLeftLabel.position = CGPointMake(([[UIScreen mainScreen] bounds].size.width)/2,
 //                                            readyButton.position.y);
@@ -908,7 +914,8 @@
 }
 
 -(void)showOppIsReady {
-    [self.scene addChild:oppReadyLabel];
+    oppReadyLabel.alpha = 1.0;
+    oppLeftLabel.alpha = 0.0;
 }
 
 -(void)showOppLeft {
@@ -917,7 +924,8 @@
 //    [self.scene removeChildrenInArray:objs];
     
     //remove the Ready button, so you can only go back too!
-    [self.scene addChild:oppLeftLabel];
+    oppReadyLabel.alpha = 0.0;
+    oppLeftLabel.alpha = 1.0;
     
     NSArray* objs = [NSArray arrayWithObjects:readyButton,nil];
     
