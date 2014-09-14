@@ -160,8 +160,16 @@
                                                   dataForKey:peerIdKey]];
     }
     
-    _session = [[MCSession alloc] initWithPeer:_peerID];
-    _session.delegate = self;
+    if (_session == nil) { //this will keep the connected device to be displayed.
+        _session = [[MCSession alloc] initWithPeer:_peerID];
+        _session.delegate = self;
+    }
+    
+    NSArray *connectedPeers = _session.connectedPeers;
+    for (MCPeerID* peer in connectedPeers) {
+        [_session cancelConnectPeer:peer];
+    }
+    
 }
 
 -(void)setupMCBrowser{

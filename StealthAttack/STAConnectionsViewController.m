@@ -45,8 +45,9 @@
     _btnDisconnect.titleLabel.font = [UIFont fontWithName:playFont size:10];
     
     [_txtName setDelegate:self];
-    
     [_txtName setText:[[UIDevice currentDevice] name]];
+    
+
     
     _appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
     
@@ -54,6 +55,7 @@
     
     [[_appDelegate mcManager] setupPeerAndSessionWithDisplayName:[UIDevice currentDevice].name];
     [[_appDelegate mcManager] advertiseSelf:_swVisible.isOn];
+    
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(peerDidChangeStateWithNotification:)
@@ -84,6 +86,8 @@
 */
 
 - (IBAction)browseForDevices:(id)sender {
+    [[_appDelegate mcManager] setupPeerAndSessionWithDisplayName:[UIDevice currentDevice].name];
+    
     [[_appDelegate mcManager] setupMCBrowser];
     
     [[[_appDelegate mcManager] browser] setDelegate:self];
