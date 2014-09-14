@@ -48,5 +48,8 @@
 -(void)sendGameOverIsIWon:(BOOL)isIWon;
 -(void)sendReplay;
 -(void)sendBack;
+-(void)sendMultiPlaySelectBack;
+
+-(void)resetMC;
 
 @end

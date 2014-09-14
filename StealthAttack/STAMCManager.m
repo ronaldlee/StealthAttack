@@ -90,6 +90,13 @@
 //    }
 }
 
+-(void)resetMC {
+    _peerID = nil;
+    _session = nil;
+    _browser = nil;
+    _advertiser = nil;
+}
+
 -(void) reset {
     [self resetStage];
     
@@ -135,7 +142,23 @@
 }
 
 -(void)setupPeerAndSessionWithDisplayName:(NSString *)displayName{
-    _peerID = [[MCPeerID alloc] initWithDisplayName:displayName];
+//    _peerID = [[MCPeerID alloc] initWithDisplayName:displayName];
+    
+    //If there is no PeerID save, create one and save it
+    NSMutableString* peerIdKey = [NSMutableString stringWithString:@"stealthattk_peerid_"];
+    [peerIdKey appendString:displayName];
+    
+    if ([[NSUserDefaults standardUserDefaults] dataForKey:peerIdKey] == nil)
+    {
+        _peerID = [[MCPeerID alloc] initWithDisplayName:displayName];
+        [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver
+                              archivedDataWithRootObject:_peerID] forKey:peerIdKey];
+    }
+    else
+    {
+        _peerID = [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults]
+                                                  dataForKey:peerIdKey]];
+    }
     
     _session = [[MCSession alloc] initWithPeer:_peerID];
     _session.delegate = self;
@@ -288,6 +311,11 @@
                                     OppTankId:oppTankId OppColor:oppColorId OppScale:oppScale
                                   IsStealthOn:isStealthOn];
             }
+        }
+        else if (actionIdInt == ACTION_MULTIPLAY_SELECT_BACK) {
+            
+            STAMultiPlayerSelect* mstage = (STAMultiPlayerSelect*)curStage;
+            [mstage showOppLeft];
         }
     }
     else if (stage == MULTIPLAY_STAGE_BATTLE) {
@@ -576,6 +604,13 @@
             [mstage showOppBack];
         }
     }
+//    else {
+//        else if (actionIdInt == ACTION_ACK_MULTIPLAY_SELECT_BACK) {
+//            
+//            STAMultiPlayerSelect* mstage = (STAMultiPlayerSelect*)curStage;
+//            [mstage showOppLeft];
+//        }
+//    }
     
 }
 
@@ -1138,6 +1173,30 @@
 -(void)sendBack {
     msgId++;
     NSDictionary* choiceData = @{@"action" : [NSNumber numberWithInt:ACTION_BACK],
+                                 @"id" : [NSNumber numberWithInt:msgId]};
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [archiver encodeObject:choiceData forKey:ENCODE_KEY];
+    [archiver finishEncoding];
+    
+    NSArray *allPeers = self.session.connectedPeers;
+    NSError *error;
+    
+    [self resetFlags];
+    
+    [self.session sendData:data
+                   toPeers:allPeers
+                  withMode:MCSessionSendDataReliable
+                     error:&error];
+    
+    if (error) {
+        NSLog(@"%@", [error localizedDescription]);
+    }
+}
+
+-(void)sendMultiPlaySelectBack {
+    msgId++;
+    NSDictionary* choiceData = @{@"action" : [NSNumber numberWithInt:ACTION_MULTIPLAY_SELECT_BACK],
                                  @"id" : [NSNumber numberWithInt:msgId]};
     NSMutableData *data = [[NSMutableData alloc] init];
     NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];

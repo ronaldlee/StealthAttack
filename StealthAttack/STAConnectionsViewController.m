@@ -34,6 +34,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
     // Do any additional setup after loading the view.
     
     NSString * playFont = @"Press Start 2P";
@@ -48,6 +49,9 @@
     [_txtName setText:[[UIDevice currentDevice] name]];
     
     _appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+//    [_appDelegate.mcManager resetMC];
+    
     [[_appDelegate mcManager] setupPeerAndSessionWithDisplayName:[UIDevice currentDevice].name];
     [[_appDelegate mcManager] advertiseSelf:_swVisible.isOn];
     
@@ -57,6 +61,7 @@
                                                object:nil];
     
     _arrConnectedDevices = [[NSMutableArray alloc] init];
+    
     [_tblConnectedDevices setDelegate:self];
     [_tblConnectedDevices setDataSource:self];
 }
@@ -80,7 +85,9 @@
 
 - (IBAction)browseForDevices:(id)sender {
     [[_appDelegate mcManager] setupMCBrowser];
+    
     [[[_appDelegate mcManager] browser] setDelegate:self];
+    
     [self presentViewController:[[_appDelegate mcManager] browser] animated:YES completion:nil];
 }
 
@@ -104,9 +111,11 @@
 //    [self presentViewController:viewController animated:NO completion:NULL];
     
 //    [self dismissModalViewControllerAnimated:NO];
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+//===== browser delegate
 -(void)browserViewControllerDidFinish:(MCBrowserViewController *)browserViewController{
     [_appDelegate.mcManager.browser dismissViewControllerAnimated:YES completion:nil];
 }
@@ -115,6 +124,7 @@
 -(void)browserViewControllerWasCancelled:(MCBrowserViewController *)browserViewController{
     [_appDelegate.mcManager.browser dismissViewControllerAnimated:YES completion:nil];
 }
+//======
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     [_txtName resignFirstResponder];
@@ -161,6 +171,8 @@
     }
 }
 
+//=== Table DataSource delegate functions
+
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
 }
@@ -182,6 +194,8 @@
     
     return cell;
 }
+
+//====
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{

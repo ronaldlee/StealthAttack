@@ -16,6 +16,7 @@
 
 @property (nonatomic) SKLabelNode * backLabel;
 @property (nonatomic) SKLabelNode * oppReadyLabel;
+@property (nonatomic) SKLabelNode * oppLeftLabel;
 @property (nonatomic) SKLabelNode * errorLabel;
 
 @property (nonatomic) STAButton * backButton;
@@ -48,6 +49,7 @@
                  IsStealthOn:(BOOL)isStealthOn;
 
 -(void)showOppIsReady;
+-(void)showOppLeft;
 
 -(BOOL)isReadyButtonPressed;
 

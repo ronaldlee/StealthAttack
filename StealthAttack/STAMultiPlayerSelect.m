@@ -24,6 +24,7 @@
 @synthesize readyButton;
 @synthesize stealthOnOffButton;
 @synthesize oppReadyLabel;
+@synthesize oppLeftLabel;
 @synthesize errorLabel;
 
 @synthesize enemy1;
@@ -338,6 +339,21 @@
                                              readyButton.position.y + oppReadyLabel.frame.size.height + 40*GAME_AREA_SCALE);
         
         //
+        oppLeftLabel = [SKLabelNode labelNodeWithFontNamed:font];
+        NSString *oppLeft = @"Your opponent has left!";
+        oppLeftLabel.text = oppLeft;
+        oppLeftLabel.fontSize = 8*GAME_AREA_SCALE;
+        oppLeftLabel.fontColor = [SKColor grayColor];
+        oppLeftLabel.name = @"oppready_label";
+        oppLeftLabel.alpha = 1;
+        
+        oppLeftLabel.position = CGPointMake(([[UIScreen mainScreen] bounds].size.width)/2,
+                                             readyButton.position.y + oppLeftLabel.frame.size.height + 40*GAME_AREA_SCALE);
+    
+//        oppLeftLabel.position = CGPointMake(([[UIScreen mainScreen] bounds].size.width)/2,
+//                                            readyButton.position.y);
+        
+        //
         
         errorLabel = [SKLabelNode labelNodeWithFontNamed:font];
         NSString *errorTxt = @"You need to select a tank and a color!";
@@ -364,7 +380,7 @@
         [self.scene addChild:stealthOnOffButton];
         
         //
-        STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
+        STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];        
         [appDelegate.mcManager setStage:MULTIPLAY_STAGE_CHOOSE_TANK];
         [appDelegate.mcManager setStageObj:self];
     }
@@ -373,14 +389,18 @@
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    NSLog(@"single opponent screen touched");
+//    NSLog(@"single opponent screen touched");
     for (UITouch *touch in touches) {
         CGPoint location = [touch locationInNode:self.scene];
         SKNode *node = [self.scene nodeAtPoint:location];
         
         if ([node.name isEqualToString:@"back_button"]) {
-            NSLog(@"back_button");
+            STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
+            [appDelegate.mcManager sendMultiPlaySelectBack];
             
+            [appDelegate.mcManager reset];
+            
+            //======
             STAMyScene* myScene = (STAMyScene*)self.scene;
             
             [myScene.currStage cleanup];
@@ -389,7 +409,7 @@
                                  initWithScale:self.scale Bounds:self.bounds Scene:self.scene];
         }
         else if ([node.name isEqualToString:@"enemy1_button"]) {
-            NSLog(@"enemy1_button");
+//            NSLog(@"enemy1_button");
             
             [enemy1Button showBorder:true];
             [enemy2Button showBorder:false];
@@ -436,7 +456,7 @@
             myTankId = 1;
         }
         else if ([node.name isEqualToString:@"enemy2_button"]) {
-            NSLog(@"enemy2_button");
+//            NSLog(@"enemy2_button");
             
             [enemy1Button showBorder:false];
             [enemy2Button showBorder:true];
@@ -483,7 +503,7 @@
             myTankId = 2;
         }
         else if ([node.name isEqualToString:@"enemy3_button"]) {
-            NSLog(@"enemy3_button");
+//            NSLog(@"enemy3_button");
             
             [enemy1Button showBorder:false];
             [enemy2Button showBorder:false];
@@ -530,7 +550,7 @@
             myTankId = 3;
         }
         else if ([node.name isEqualToString:@"enemy4_button"]) {
-            NSLog(@"enemy4_button");
+//            NSLog(@"enemy4_button");
             
             [enemy1Button showBorder:false];
             [enemy2Button showBorder:false];
@@ -577,7 +597,7 @@
             myTankId = 4;
         }
         else if ([node.name isEqualToString:@"enemy5_button"]) {
-            NSLog(@"enemy5_button");
+//            NSLog(@"enemy5_button");
             
             [enemy1Button showBorder:false];
             [enemy2Button showBorder:false];
@@ -858,6 +878,7 @@
     [stealthOnOffButton removeAllActions];
     [oppReadyLabel removeAllActions];
     [errorLabel removeAllActions];
+    [oppLeftLabel removeAllActions];
     
     
     NSArray* objs = [NSArray arrayWithObjects:selectOppTitle,selectColorTitle,
@@ -866,7 +887,7 @@
                      enemy3Button,enemy3,enemy4Button,enemy4,
                      enemy5Button,enemy5,
                      color1Button,color2Button,color3Button,color4Button,color5Button,
-                     readyButton,stealthOnOffButton,oppReadyLabel,errorLabel,nil];
+                     readyButton,stealthOnOffButton,oppReadyLabel,errorLabel,oppLeftLabel,nil];
     
     [self.scene removeChildrenInArray:objs];
     
@@ -888,6 +909,19 @@
 
 -(void)showOppIsReady {
     [self.scene addChild:oppReadyLabel];
+}
+
+-(void)showOppLeft {
+//    NSArray* objs = [NSArray arrayWithObjects:oppReadyLabel,nil];
+//    
+//    [self.scene removeChildrenInArray:objs];
+    
+    //remove the Ready button, so you can only go back too!
+    [self.scene addChild:oppLeftLabel];
+    
+    NSArray* objs = [NSArray arrayWithObjects:readyButton,nil];
+    
+    [self.scene removeChildrenInArray:objs];
 }
 
 -(BOOL)isReadyButtonPressed{

@@ -113,6 +113,10 @@ extern const int ACTION_ACK_REPLAY;
 
 extern const int ACTION_BACK;
 extern const int ACTION_ACK_BACK;
+
+extern const int ACTION_MULTIPLAY_SELECT_BACK; //on select tank page, hit back button
+extern const int ACTION_ACK_MULTIPLAY_SELECT_BACK;
+
 //
 
 extern const NSString* ENCODE_KEY;
