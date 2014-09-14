@@ -16,7 +16,12 @@
     // Override point for customization after application launch.
     [TestFlight takeOff:@"1cddac94-f742-420e-b1e4-f1d60226c3f1"];
     
+    [Flurry startSession:@"RNTZ9Q7M3C38Z62FMT93"];
+    [FlurryAds initialize:self.window.rootViewController];
+    
     _mcManager = [[STAMCManager alloc] init];
+
+    
     
     return YES;
 }

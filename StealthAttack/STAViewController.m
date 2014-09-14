@@ -13,8 +13,28 @@
 
 @synthesize scene;
 
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    // Remove Banner Ads and reset delegate
+    [FlurryAds removeAdFromSpace:@"StealthAttack Top Banner"];
+    [FlurryAds setAdDelegate:nil];
+}
+
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    
+    //Flurry ad
+    /**
+     * We will show banner and interstitial integrations here. *
+     */
+    // Register yourself as a delegate for ad callbacks
+    [FlurryAds setAdDelegate:self];
+//    [FlurryAds enableTestAds:TRUE];
+    // 1. Fetch and display banner ads
+    [FlurryAds fetchAndDisplayAdForSpace:@"StealthAttack Top Banner" view:self.view size:BANNER_TOP];
+    // 2. Fetch fullscreen ads for later display
+//    [FlurryAds fetchAdForSpace:@"INTERSTITIAL_MAIN_VC" frame:self.view.frame size:FULLSCREEN];
+    //
     
     STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
     BOOL isPeersExist = ([[appDelegate.mcManager.session connectedPeers] count] > 0);
