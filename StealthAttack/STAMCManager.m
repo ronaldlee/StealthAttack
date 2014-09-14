@@ -101,6 +101,8 @@
     [self resetStage];
     
     [self resetFlags];
+    
+    [self cancelConnectPeers];
 }
 
 -(void)resetFlags {
@@ -165,11 +167,15 @@
         _session.delegate = self;
     }
     
+}
+
+-(void)cancelConnectPeers{
+    if (_session == nil) return;
+    
     NSArray *connectedPeers = _session.connectedPeers;
     for (MCPeerID* peer in connectedPeers) {
         [_session cancelConnectPeer:peer];
     }
-    
 }
 
 -(void)setupMCBrowser{

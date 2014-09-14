@@ -51,5 +51,6 @@
 -(void)sendMultiPlaySelectBack;
 
 -(void)resetMC;
+-(void)cancelConnectPeers;
 
 @end
