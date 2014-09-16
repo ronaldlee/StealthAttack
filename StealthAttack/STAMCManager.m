@@ -256,7 +256,7 @@
             NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
             int ackMsgId = [ackMsgIdNum intValue];
             
-            if (ackMsgId == msgId) {
+//            if (ackMsgId == msgId) {
                 NSLog(@"action ack choice: ackMsgId match");
                 NSNumber* ackColorIdNum = (NSNumber*)[myDictionary objectForKey:@"color"];
                 int ackColorId = [ackColorIdNum intValue];
@@ -281,10 +281,10 @@
                 if ([self isStageChooseTankReady]) {
                     [self sendReadyBattleStage];
                 }
-            }
-            else {
-                //ack msg id not match!
-            }
+//            }
+//            else {
+//                //ack msg id not match!
+//            }
         }
         else if (actionIdInt == ACTION_SEND_READY_BATTLE_STAGE) {
             NSLog(@"action send ready battle stage");
@@ -313,9 +313,9 @@
             NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
             int ackMsgId = [ackMsgIdNum intValue];
             
-            if (ackMsgId == msgId) {
+//            if (ackMsgId == msgId) {
                 isAckReadyBattleStage = TRUE;
-            }
+//            }
             
             if ([self isStageBattleReady]) {
                 //go to Battle Stage
@@ -351,9 +351,9 @@
             NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
             int ackMsgId = [ackMsgIdNum intValue];
             
-            if (ackMsgId == msgId) {
+//            if (ackMsgId == msgId) {
                 isAckBattleStageUIReady = TRUE;
-            }
+//            }
             
             if ([self isStageBattleStageUIReady]) {
                 stage = MULTIPLAY_STAGE_BATTLE_START;

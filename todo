@@ -29,6 +29,10 @@ x-multiplay: when one choose replay but another one is 'back' already, invalid t
 x-multi play: back
 x-bug: back, select and not wait for opp to choose and start game!
 x-bug: after back and play. no GameOver!
+x-add mobile ad
+
+-single play: score (winning %)
+-multi play: score (winning %)
 
 -multi play: handle disconnect
  - after go back and go back in multi-play, hit 'browse' button again, u see 2 of same phones..
@@ -36,15 +40,11 @@ x-bug: after back and play. no GameOver!
 -bug: remove bullet when is hit on remote device (gameover state).
 
 -tutorial
--add mobile ad
 
 - from title to battle stage fade in
 -p2p connect: remove visible to others?, Browse for devices and Disconnect doesn't look like a button.
 
--single play: score (winning %)
--multi play: score (winning %)
 
-- tutorial
 -multiplayer restrict 2 players
 -4 players
 
