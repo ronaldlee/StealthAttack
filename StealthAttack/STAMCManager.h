@@ -32,7 +32,7 @@
 -(BOOL)isStageChooseTankReady;
 -(BOOL)isStageBattleReady;
 
--(void)submitPlayerChoiceTank:(int)myTankId Color:(int)myColorId Scale:(CGFloat)myScale IsStealthOn:(BOOL)isStealthOn;
+-(void)submitPlayerChoiceTank:(int)myTankId Color:(int)myColorId Scale:(double)myScale IsStealthOn:(BOOL)isStealthOn;
 
 -(void)sendBattleStageUIReady;
 

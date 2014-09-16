@@ -244,19 +244,19 @@
             if ([self isStageChooseTankReady]) {
                 [self sendReadyBattleStage];
             }
-//            else {
-//                if ([mstage isReadyButtonPressed]) {
-//                    [self submitPlayerChoiceTank:myTankId Color:myColorId Scale:GAME_AREA_SCALE
-//                                     IsStealthOn:isStealthOn];
-//                }
-//            }
+            else {
+                if ([mstage isReadyButtonPressed]) {
+                    [self submitPlayerChoiceTank:myTankId Color:myColorId Scale:GAME_AREA_SCALE
+                                     IsStealthOn:isStealthOn];
+                }
+            }
         }
         else if (actionIdInt == ACTION_ACK_CHOICE) {
             NSLog(@"action ack choice");
             NSNumber* ackMsgIdNum = (NSNumber*)[myDictionary objectForKey:@"id"];
             int ackMsgId = [ackMsgIdNum intValue];
             
-//            if (ackMsgId == msgId) {
+            if (ackMsgId == msgId) {
                 NSLog(@"action ack choice: ackMsgId match");
                 NSNumber* ackColorIdNum = (NSNumber*)[myDictionary objectForKey:@"color"];
                 int ackColorId = [ackColorIdNum intValue];
@@ -281,10 +281,10 @@
                 if ([self isStageChooseTankReady]) {
                     [self sendReadyBattleStage];
                 }
-//            }
-//            else {
-//                //ack msg id not match!
-//            }
+            }
+            else {
+                //ack msg id not match!
+            }
         }
         else if (actionIdInt == ACTION_SEND_READY_BATTLE_STAGE) {
             NSLog(@"action send ready battle stage");
@@ -641,7 +641,8 @@
 }
 
 -(BOOL)isStageChooseTankReady {
-    return oppColorId != 0 && oppTankId != 0 && myColorId != 0 && myTankId != 0 && oppScale != 0.0 && myScale != 0.0 &&
+    return oppColorId != 0 && oppTankId != 0 && myColorId != 0 && myTankId != 0 &&
+           oppScale != 0.0 && myScale != 0.0 &&
             isAckColor && isAckTank && isAckScale;
 }
 

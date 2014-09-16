@@ -31,6 +31,7 @@ x-bug: back, select and not wait for opp to choose and start game!
 x-bug: after back and play. no GameOver!
 x-add mobile ad
 
+-bug: 32bit fucked up!
 -single play: score (winning %)
 -multi play: score (winning %)
 
