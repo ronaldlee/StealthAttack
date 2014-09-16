@@ -244,12 +244,12 @@
             if ([self isStageChooseTankReady]) {
                 [self sendReadyBattleStage];
             }
-            else {
-                if ([mstage isReadyButtonPressed]) {
-                    [self submitPlayerChoiceTank:myTankId Color:myColorId Scale:GAME_AREA_SCALE
-                                     IsStealthOn:isStealthOn];
-                }
-            }
+//            else {
+//                if ([mstage isReadyButtonPressed]) {
+//                    [self submitPlayerChoiceTank:myTankId Color:myColorId Scale:GAME_AREA_SCALE
+//                                     IsStealthOn:isStealthOn];
+//                }
+//            }
         }
         else if (actionIdInt == ACTION_ACK_CHOICE) {
             NSLog(@"action ack choice");
