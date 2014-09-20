@@ -176,6 +176,10 @@
     for (MCPeerID* peer in connectedPeers) {
         [_session cancelConnectPeer:peer];
     }
+    
+    [NSThread sleepForTimeInterval:2];
+    
+    NSLog(@"boo");
 }
 
 -(void)setupMCBrowser{
