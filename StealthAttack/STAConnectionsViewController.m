@@ -14,7 +14,7 @@
 
 @property (nonatomic, strong) STAAppDelegate *appDelegate;
 
-@property (nonatomic, strong) NSMutableArray *arrConnectedDevices;
+//@property (nonatomic, strong) NSMutableArray *arrConnectedDevices;
 
 -(void)peerDidChangeStateWithNotification:(NSNotification *)notification;
 
@@ -38,8 +38,7 @@
     // Do any additional setup after loading the view.
     
     NSString * playFont = @"Press Start 2P";
-
-    _visibleLabel.font = [UIFont fontWithName:playFont size:10];
+    
     _btnBack.titleLabel.font = [UIFont fontWithName:playFont size:8];
     _btnBrowse.titleLabel.font = [UIFont fontWithName:playFont size:10];
     _btnDisconnect.titleLabel.font = [UIFont fontWithName:playFont size:10];
@@ -54,18 +53,15 @@
 //    [_appDelegate.mcManager resetMC];
     
     [[_appDelegate mcManager] setupPeerAndSessionWithDisplayName:[UIDevice currentDevice].name];
-    [[_appDelegate mcManager] advertiseSelf:_swVisible.isOn];
+    [[_appDelegate mcManager] advertiseSelf:true];
     
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(peerDidChangeStateWithNotification:)
-                                                 name:@"MCDidChangeStateNotification"
-                                               object:nil];
-    
-    _arrConnectedDevices = [[NSMutableArray alloc] init];
-    
-    [_tblConnectedDevices setDelegate:self];
-    [_tblConnectedDevices setDataSource:self];
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(peerDidChangeStateWithNotification:)
+//                                                 name:@"MCDidChangeStateNotification"
+//                                               object:nil];
+//    
+//    _arrConnectedDevices = [[NSMutableArray alloc] init];
 }
 
 - (void)didReceiveMemoryWarning
@@ -95,17 +91,12 @@
     [self presentViewController:[[_appDelegate mcManager] browser] animated:YES completion:nil];
 }
 
-- (IBAction)toggleVisibility:(id)sender {
-    [_appDelegate.mcManager advertiseSelf:_swVisible.isOn];
-}
-
 - (IBAction)disconnect:(id)sender {
     [_appDelegate.mcManager.session disconnect];
     
     _txtName.enabled = YES;
     
-    [_arrConnectedDevices removeAllObjects];
-    [_tblConnectedDevices reloadData];
+//    [_arrConnectedDevices removeAllObjects];
 }
 
 - (IBAction)back:(id)sender {
@@ -133,71 +124,68 @@
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     [_txtName resignFirstResponder];
     
-    _appDelegate.mcManager.peerID = nil;
-    _appDelegate.mcManager.session = nil;
-    _appDelegate.mcManager.browser = nil;
+//    _appDelegate.mcManager.peerID = nil;
+//    _appDelegate.mcManager.session = nil;
+//    _appDelegate.mcManager.browser = nil;
     
-    if ([_swVisible isOn]) {
-        [_appDelegate.mcManager.advertiser stop];
-    }
-    _appDelegate.mcManager.advertiser = nil;
+    [_appDelegate.mcManager.advertiser stop];
+    
+//    _appDelegate.mcManager.advertiser = nil;
     
     
     [_appDelegate.mcManager setupPeerAndSessionWithDisplayName:_txtName.text];
     [_appDelegate.mcManager setupMCBrowser];
-    [_appDelegate.mcManager advertiseSelf:_swVisible.isOn];
+    [_appDelegate.mcManager advertiseSelf:true];
     
     return YES;
 }
 
--(void)peerDidChangeStateWithNotification:(NSNotification *)notification{
-    MCPeerID *peerID = [[notification userInfo] objectForKey:@"peerID"];
-    NSString *peerDisplayName = peerID.displayName;
-    MCSessionState state = [[[notification userInfo] objectForKey:@"state"] intValue];
-    
-    if (state != MCSessionStateConnecting) {
-        if (state == MCSessionStateConnected) {
-            [_arrConnectedDevices addObject:peerDisplayName];
-            
-        }
-        else if (state == MCSessionStateNotConnected){
-            if ([_arrConnectedDevices count] > 0) {
-                int indexOfPeer = [_arrConnectedDevices indexOfObject:peerDisplayName];
-                [_arrConnectedDevices removeObjectAtIndex:indexOfPeer];
-            }
-        }
-        
-        [_tblConnectedDevices reloadData];
-        
-        BOOL isPeersExist = ([[_appDelegate.mcManager.session connectedPeers] count] > 0);
-        [_btnDisconnect setEnabled:isPeersExist];
-        [_txtName setEnabled:!isPeersExist];
-    }
-}
+//-(void)peerDidChangeStateWithNotification:(NSNotification *)notification{
+//    MCPeerID *peerID = [[notification userInfo] objectForKey:@"peerID"];
+//    NSString *peerDisplayName = peerID.displayName;
+//    MCSessionState state = [[[notification userInfo] objectForKey:@"state"] intValue];
+//    
+//    if (state != MCSessionStateConnecting) {
+//        if (state == MCSessionStateConnected) {
+//            [_arrConnectedDevices addObject:peerDisplayName];
+//            
+//        }
+//        else if (state == MCSessionStateNotConnected){
+//            if ([_arrConnectedDevices count] > 0) {
+//                int indexOfPeer = [_arrConnectedDevices indexOfObject:peerDisplayName];
+//                [_arrConnectedDevices removeObjectAtIndex:indexOfPeer];
+//            }
+//        }
+//        
+//        BOOL isPeersExist = ([[_appDelegate.mcManager.session connectedPeers] count] > 0);
+//        [_btnDisconnect setEnabled:isPeersExist];
+//        [_txtName setEnabled:!isPeersExist];
+//    }
+//}
 
 //=== Table DataSource delegate functions
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 1;
-}
-
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return [_arrConnectedDevices count];
-}
-
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellIdentifier"];
-    
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CellIdentifier"];
-    }
-    
-    cell.textLabel.text = [_arrConnectedDevices objectAtIndex:indexPath.row];
-    
-    return cell;
-}
+//-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+//    return 1;
+//}
+//
+//
+//-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+//    return [_arrConnectedDevices count];
+//}
+//
+//
+//-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellIdentifier"];
+//    
+//    if (cell == nil) {
+//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CellIdentifier"];
+//    }
+//    
+//    cell.textLabel.text = [_arrConnectedDevices objectAtIndex:indexPath.row];
+//    
+//    return cell;
+//}
 
 //====
 
