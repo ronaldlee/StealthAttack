@@ -21,7 +21,7 @@
 
 @property (nonatomic) STAButton * backButton;
 @property (nonatomic) STAButton * readyButton;
-@property (nonatomic) STAButton * stealthOnOffButton;
+//@property (nonatomic) STAButton * stealthOnOffButton;
 
 @property (nonatomic) STAButton * enemy1Button;
 @property (nonatomic) STAButton * enemy2Button;

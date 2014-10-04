@@ -22,7 +22,7 @@
 @synthesize backLabel;
 @synthesize backButton;
 @synthesize readyButton;
-@synthesize stealthOnOffButton;
+//@synthesize stealthOnOffButton;
 @synthesize oppReadyLabel;
 @synthesize oppLeftLabel;
 @synthesize errorLabel;
@@ -53,10 +53,10 @@
 //        STAMyScene* myScene = (STAMyScene*)self.scene;
 //        [myScene.currStage cleanup];
         
+        isStealthOn = IS_ENABLE_STEALTH;
+        
         myTankId = -1;
         myColorId = -1;
-        
-        isStealthOn = true;
         
         CGFloat title_x = ([[UIScreen mainScreen] bounds].size.width)/2;
         
@@ -377,13 +377,13 @@
         //
         button_size = CGSizeMake(30*GAME_AREA_SCALE,20*GAME_AREA_SCALE);
         
-        stealthOnOffButton = [[STAButton alloc] initWithSize:button_size Scale:GAME_AREA_SCALE Name:@"stealth_button" Alpha:0 BGAlpha:0.0 ButtonText:@"Stealth"
-                                      ButtonTextColor:[UIColor whiteColor] ButtonTextFont:@"Press Start 2P" ButtonTextFontSize:8 isShowBorder:true];
-        stealthOnOffButton.userInteractionEnabled = NO;
-        stealthOnOffButton.position = CGPointMake(readyButton.position.x +
-                                                  readyButton.size.width+30*GAME_AREA_SCALE,
-                                                  readyButton.position.y);
-        [self.scene addChild:stealthOnOffButton];
+//        stealthOnOffButton = [[STAButton alloc] initWithSize:button_size Scale:GAME_AREA_SCALE Name:@"stealth_button" Alpha:0 BGAlpha:0.0 ButtonText:@"Stealth"
+//                                      ButtonTextColor:[UIColor whiteColor] ButtonTextFont:@"Press Start 2P" ButtonTextFontSize:8 isShowBorder:true];
+//        stealthOnOffButton.userInteractionEnabled = NO;
+//        stealthOnOffButton.position = CGPointMake(readyButton.position.x +
+//                                                  readyButton.size.width+30*GAME_AREA_SCALE,
+//                                                  readyButton.position.y);
+//        [self.scene addChild:stealthOnOffButton];
         
         //
         STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];        
@@ -834,19 +834,19 @@
                 [errorLabel runAction:[SKAction sequence:@[fadein, wait, fadeout]]];
             }
         }
-        else if ([node.name isEqualToString:@"stealth_button"]) {
-            
-            STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
-            
-            if (isStealthOn) {
-                [stealthOnOffButton setFontColor:[UIColor blackColor]];
-            }
-            else {
-                [stealthOnOffButton setFontColor:[UIColor whiteColor]];
-            }
-            
-            isStealthOn = !isStealthOn;
-        }
+//        else if ([node.name isEqualToString:@"stealth_button"]) {
+//            
+//            STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
+//            
+//            if (isStealthOn) {
+//                [stealthOnOffButton setFontColor:[UIColor blackColor]];
+//            }
+//            else {
+//                [stealthOnOffButton setFontColor:[UIColor whiteColor]];
+//            }
+//            
+//            isStealthOn = !isStealthOn;
+//        }
         
     }
 }
@@ -881,7 +881,7 @@
     [color5Button removeAllActions];
     
     [readyButton removeAllActions];
-    [stealthOnOffButton removeAllActions];
+//    [stealthOnOffButton removeAllActions];
     [oppReadyLabel removeAllActions];
     [errorLabel removeAllActions];
     [oppLeftLabel removeAllActions];
@@ -893,7 +893,7 @@
                      enemy3Button,enemy3,enemy4Button,enemy4,
                      enemy5Button,enemy5,
                      color1Button,color2Button,color3Button,color4Button,color5Button,
-                     readyButton,stealthOnOffButton,oppReadyLabel,errorLabel,oppLeftLabel,nil];
+                     readyButton/*,stealthOnOffButton*/,oppReadyLabel,errorLabel,oppLeftLabel,nil];
     
     [self.scene removeChildrenInArray:objs];
     

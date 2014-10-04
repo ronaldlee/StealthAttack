@@ -51,7 +51,6 @@
     self = [super initWithScale:sk_scale Bounds:bounds Scene:sk_scene];
     
     if (self) {
-        p_isStealthOn = FALSE;
         
         myTankId = p_myTankId;
         myColorId = p_myColorId;
