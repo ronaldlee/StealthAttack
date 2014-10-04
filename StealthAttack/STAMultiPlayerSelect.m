@@ -689,7 +689,7 @@
                 [enemy5 setBodyColor:TANK_BODY_BLUE BaseColor:TANK_BODY_BASE_BLUE];
             }
             else {
-                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy1 setBodyColor:TANK_BODY_BLUE BaseColor:TANK_BODY_BASE_BLUE];
                 [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
                 [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
                 [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
@@ -729,7 +729,7 @@
                 [enemy5 setBodyColor:TANK_BODY_GREEN BaseColor:TANK_BODY_BASE_GREEN];
             }
             else {
-                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy1 setBodyColor:TANK_BODY_GREEN BaseColor:TANK_BODY_BASE_GREEN];
                 [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
                 [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
                 [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
@@ -768,7 +768,7 @@
                 [enemy5 setBodyColor:TANK_BODY_RED BaseColor:TANK_BODY_BASE_RED];
             }
             else {
-                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy1 setBodyColor:TANK_BODY_RED BaseColor:TANK_BODY_BASE_RED];
                 [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
                 [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
                 [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
@@ -807,7 +807,7 @@
                 [enemy5 setBodyColor:TANK_BODY_YELLOW BaseColor:TANK_BODY_BASE_YELLOW];
             }
             else {
-                [enemy1 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
+                [enemy1 setBodyColor:TANK_BODY_YELLOW BaseColor:TANK_BODY_BASE_YELLOW];
                 [enemy2 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
                 [enemy3 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
                 [enemy4 setBodyColor:TANK_BODY_WHITE BaseColor:TANK_BODY_BASE_WHITE];
