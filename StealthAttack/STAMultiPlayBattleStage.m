@@ -7,6 +7,7 @@
 //
 
 #import "STAMultiPlayBattleStage.h"
+#import <AudioToolbox/AudioToolbox.h>
 
 @interface STAMultiPlayBattleStage () {
     

@@ -7,6 +7,7 @@
 //
 
 #import "STAMyScene.h"
+#import <AudioToolbox/AudioToolbox.h>
 
 @interface STAMyScene () {
     UILongPressGestureRecognizer* longPressGestureRecognizer;
@@ -31,6 +32,8 @@
 
 @synthesize currStage;
 
+@synthesize explodeSound;
+
 //-(void) didMoveToView:(SKView *)view {
 //    longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
 //    
@@ -44,6 +47,7 @@
 -(id)initWithSize:(CGSize)size {    
     if (self = [super initWithSize:size]) {
         /* Setup your scene here */
+        
         
         [self createSceneContents];
         
@@ -150,6 +154,14 @@
                                                                   right_corner_x-left_corner_x,
                                                                   top_corner_y-bottom_corner_y)
                                                 Scene:self];
+        //===
+        
+        NSString *explodeSoundPath = [[NSBundle mainBundle]
+                                      pathForResource:@"explode" ofType:@"aif"];
+        NSURL *explodeSoundURL = [NSURL fileURLWithPath:explodeSoundPath];
+        AudioServicesCreateSystemSoundID((__bridge CFURLRef)explodeSoundURL, &explodeSound);
+        
+        
         
 //        for(NSString *fontfamilyname in [UIFont familyNames])
 //        {
@@ -345,6 +357,8 @@
                 [battleStage showGameOverPlayerWin:false];
                 [player explode];
                 
+                AudioServicesPlaySystemSound(explodeSound);
+                
                 STATank* tank = ((STABattleStage*)currStage).enemy;
                 [tank fadeInNow];
                 [bullet removeFromParent];
@@ -361,6 +375,8 @@
             if (bullet.ownerId != enemy.playerId && !battleStage.isGameOver) {
                 [battleStage showGameOverPlayerWin:true];
                 [enemy explode];
+                
+                AudioServicesPlaySystemSound(explodeSound);
                 
                 STATank* tank = ((STABattleStage*)currStage).player;
                 [tank stop];
@@ -394,6 +410,8 @@
             if (bullet.ownerId != player.playerId && !battleStage.isGameOver) {
                 [battleStage showGameOverPlayerWin:false];
                 [player explode];
+                
+                AudioServicesPlaySystemSound(explodeSound);
                 
                 STATank* tank = ((STABattleStage*)currStage).enemy;
                 [tank fadeInNow];

@@ -7,6 +7,7 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
+#import <AudioToolbox/AudioToolbox.h>
 
 @interface STAMyScene : SKScene<SKPhysicsContactDelegate>
 
@@ -19,5 +20,7 @@
 
 @property (nonatomic) STAStage * currStage;
 @property (nonatomic) UIViewController* viewController;
+
+@property (nonatomic) SystemSoundID *explodeSound;
 
 @end

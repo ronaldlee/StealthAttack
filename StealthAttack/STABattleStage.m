@@ -47,6 +47,9 @@
         NSURL *shotSoundURL = [NSURL fileURLWithPath:shotSoundPath];
         AudioServicesCreateSystemSoundID((__bridge CFURLRef)shotSoundURL, &shotSound);
         
+        //
+        
+        
         enemyId = p_enemyId;
         isGameStart= false;
         isGameOver = false;
