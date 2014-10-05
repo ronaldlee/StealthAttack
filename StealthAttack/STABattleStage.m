@@ -295,8 +295,8 @@
         
         //bullet.scale = 0.8;
         
-        CGFloat velocity_x = cos([tank getAdjRotation])*tank.bulletSpeed/GAME_AREA_SCALE;
-        CGFloat velocity_y = sin([tank getAdjRotation])*tank.bulletSpeed/GAME_AREA_SCALE;
+        CGFloat velocity_x = cos([tank getAdjRotation])*tank.bulletSpeed*GAME_AREA_SCALE;
+        CGFloat velocity_y = sin([tank getAdjRotation])*tank.bulletSpeed*GAME_AREA_SCALE;
         
         CGFloat radius = PLAYER_WIDTH;
         CGFloat x = cos([tank getAdjRotation])*radius + tank.position.x;
