@@ -15,6 +15,8 @@
 		B44452C419A8FA66009D0787 /* STAAppUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B44452C319A8FA66009D0787 /* STAAppUtil.m */; };
 		B46B996619C40FE700EE44CC /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B46B996219C40FE700EE44CC /* libTestFlight.a */; };
 		B46B996819C4102500EE44CC /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B46B996719C4102500EE44CC /* libz.dylib */; };
+		B47B52B619E1A5AF00BA1872 /* shot.aiff in Resources */ = {isa = PBXBuildFile; fileRef = B47B52B519E1A5AF00BA1872 /* shot.aiff */; };
+		B47B52B819E1A79D00BA1872 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B47B52B719E1A79D00BA1872 /* AudioToolbox.framework */; };
 		B49DB6DD19C6056600D6B23F /* libFlurryAds_5.3.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B49DB6DC19C6056600D6B23F /* libFlurryAds_5.3.0.a */; };
 		B49DB6E119C6064400D6B23F /* libFlurry_5.3.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B49DB6E019C6064400D6B23F /* libFlurry_5.3.0.a */; };
 		B49DB6E519C609CF00D6B23F /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B49DB6E419C609CF00D6B23F /* MediaPlayer.framework */; };
@@ -86,6 +88,8 @@
 		B46B996419C40FE700EE44CC /* TestFlight+AsyncLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+AsyncLogging.h"; sourceTree = "<group>"; };
 		B46B996519C40FE700EE44CC /* TestFlight+ManualSessions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+ManualSessions.h"; sourceTree = "<group>"; };
 		B46B996719C4102500EE44CC /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		B47B52B519E1A5AF00BA1872 /* shot.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = shot.aiff; sourceTree = "<group>"; };
+		B47B52B719E1A79D00BA1872 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		B49DB6DA19C6056600D6B23F /* FlurryAdDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAdDelegate.h; sourceTree = "<group>"; };
 		B49DB6DB19C6056600D6B23F /* FlurryAds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAds.h; sourceTree = "<group>"; };
 		B49DB6DC19C6056600D6B23F /* libFlurryAds_5.3.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurryAds_5.3.0.a; sourceTree = "<group>"; };
@@ -157,6 +161,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B47B52B819E1A79D00BA1872 /* AudioToolbox.framework in Frameworks */,
 				B49DB6EC19C60A1F00D6B23F /* StoreKit.framework in Frameworks */,
 				B49DB6EA19C60A1900D6B23F /* AdSupport.framework in Frameworks */,
 				B46B996819C4102500EE44CC /* libz.dylib in Frameworks */,
@@ -237,6 +242,7 @@
 		B4B12F91195F5A5A005DBFF4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B47B52B719E1A79D00BA1872 /* AudioToolbox.framework */,
 				B49DB6EB19C60A1F00D6B23F /* StoreKit.framework */,
 				B49DB6E819C609F200D6B23F /* SystemConfiguration.framework */,
 				B49DB6E619C609D600D6B23F /* Security.framework */,
@@ -303,6 +309,7 @@
 		B4B12F9B195F5A5A005DBFF4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B47B52B519E1A5AF00BA1872 /* shot.aiff */,
 				B4B12FF7197198A5005DBFF4 /* GRIDEG__.TTF */,
 				B4B12FF3197196BD005DBFF4 /* phaserbank.ttf */,
 				B4B12FF119718CE2005DBFF4 /* TRON.TTF */,
@@ -435,6 +442,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B4B12FF8197198A5005DBFF4 /* GRIDEG__.TTF in Resources */,
+				B47B52B619E1A5AF00BA1872 /* shot.aiff in Resources */,
 				B4B12FB5195F5A5A005DBFF4 /* Images.xcassets in Resources */,
 				B4B12FF4197196BD005DBFF4 /* phaserbank.ttf in Resources */,
 				B4B12FEC1971874A005DBFF4 /* PressStart2P-Regular.ttf in Resources */,

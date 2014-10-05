@@ -7,6 +7,7 @@
 //
 
 #import "STAStage.h"
+#import <AudioToolbox/AudioToolbox.h>
 
 @interface STAMultiPlayBattleStage : STABattleStage
 
@@ -28,6 +29,8 @@
 
 @property (nonatomic) BOOL isGameStart;
 @property (nonatomic) BOOL isGameOver;
+
+@property (nonatomic) SystemSoundID *shotSound;
 
 - (id)initWithScale:(float)scale Bounds:(CGRect)bounds Scene:(SKScene*)scene
              MyTank:(int)myTankId MyColor:(int)myColorId MyScale:(CGFloat)myScale

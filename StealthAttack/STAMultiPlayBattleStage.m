@@ -42,6 +42,7 @@
 @synthesize isGameOver;
 @synthesize isGameStart;
 @synthesize oppRematchLabel;
+@synthesize shotSound;
 
 - (id)initWithScale:(float)sk_scale Bounds:(CGRect)bounds Scene:(SKScene*)sk_scene
              MyTank:(int)p_myTankId MyColor:(int)p_myColorId MyScale:(CGFloat)p_myScale
@@ -51,6 +52,10 @@
     self = [super initWithScale:sk_scale Bounds:bounds Scene:sk_scene];
     
     if (self) {
+        NSString *shotSoundPath = [[NSBundle mainBundle]
+                                   pathForResource:@"shot" ofType:@"aiff"];
+        NSURL *shotSoundURL = [NSURL fileURLWithPath:shotSoundPath];
+        AudioServicesCreateSystemSoundID((__bridge CFURLRef)shotSoundURL, &shotSound);
         
         myTankId = p_myTankId;
         myColorId = p_myColorId;
@@ -445,6 +450,9 @@
         bullet.ownerId = tank.playerId;
         
         [self.scene addChild:bullet];
+        
+        AudioServicesPlaySystemSound(shotSound);
+        
         tank.fireCount++;
         
     }];// queue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];

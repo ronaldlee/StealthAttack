@@ -7,6 +7,7 @@
 //
 
 #import "STAStage.h"
+#import <AudioToolbox/AudioToolbox.h>
 
 @interface STABattleStage : STAStage
 
@@ -29,6 +30,7 @@
 
 @property (nonatomic) BOOL isGameStart;
 @property (nonatomic) BOOL isGameOver;
+@property (nonatomic) SystemSoundID *shotSound;
 
 - (id)initWithScale:(float)scale Bounds:(CGRect)bounds Scene:(SKScene*)scene EnemyId:(int)enemyId;
 

@@ -7,6 +7,8 @@
 //
 
 #import "STABattleStage.h"
+#import <AudioToolbox/AudioToolbox.h>
+
 @interface STABattleStage () {
     
     SKLabelNode* countdownLabelNode;
@@ -33,11 +35,18 @@
 
 @synthesize isGameOver;
 @synthesize isGameStart;
+@synthesize shotSound;
 
 - (id)initWithScale:(float)sk_scale Bounds:(CGRect)bounds Scene:(SKScene*)sk_scene EnemyId:(int)p_enemyId {
     self = [super initWithScale:sk_scale Bounds:bounds Scene:sk_scene];
     
     if (self) {
+        
+        NSString *shotSoundPath = [[NSBundle mainBundle]
+                                pathForResource:@"shot" ofType:@"aiff"];
+        NSURL *shotSoundURL = [NSURL fileURLWithPath:shotSoundPath];
+        AudioServicesCreateSystemSoundID((__bridge CFURLRef)shotSoundURL, &shotSound);
+        
         enemyId = p_enemyId;
         isGameStart= false;
         isGameOver = false;
@@ -311,6 +320,9 @@
         bullet.ownerId = tank.playerId;
         
         [self.scene addChild:bullet];
+
+        AudioServicesPlaySystemSound(shotSound);
+        
         tank.fireCount++;
         
     }];// queue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
