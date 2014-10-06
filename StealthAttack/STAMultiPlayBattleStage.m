@@ -310,6 +310,7 @@
                                         IsEnableStealth:isStealthOn];
         }
         
+        self.enemy.isRemote = TRUE;
         self.enemy.moveSpeed *= ratio;
         
         [self.enemy setBattleStage:self];
@@ -525,7 +526,49 @@
                 
                 if (fire_button.isDoneRecharge) {
                     STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
-                    [appDelegate.mcManager sendFire];
+                    
+                    if (self.player.numShots == 1) {
+                        [appDelegate.mcManager sendFire];
+                    }
+                    else if (self.player.numShots > 1) {
+                        CGFloat rand = (CGFloat)arc4random_uniform(self.player.attackAccuracyInRadian);
+                        CGFloat adj_radian = rand / (CGFloat)100.0 + 0.05;
+                        
+                        NSLog(@"rrrradian: %f", adj_radian);
+                        
+                        __block int localNumShots = self.player.numShots;
+                        
+                        [self.player rotateInDegree:adj_radian complete:^(void) {
+                            NSLog(@"ronn fire first time");
+                            [appDelegate.mcManager sendFire];
+                            
+                            localNumShots--;
+                            
+                            if (localNumShots > 1) {
+                                
+                                __block int localNumShots = self.player.numShots;
+                                
+                                SKAction * individualShot = [SKAction runBlock:^(void) {
+                                    CGFloat rand = (CGFloat)arc4random_uniform(self.player.betweenShotsAccuracyInRadian);
+                                    CGFloat adj_radian = rand / (CGFloat)100.0 + 0.05;
+                                    
+                                    [self.player rotateInDegree:adj_radian complete:^(void) {
+                                        STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
+                                        
+                                        NSLog(@"ronn fire other time");
+                                        [appDelegate.mcManager sendFire];
+                                        
+                                        localNumShots--;
+                                    }];
+                                }];
+                                
+                                SKAction *wait = [SKAction waitForDuration:self.player.betweenShotsDuration];
+                                [self.player.attackNode runAction:[SKAction repeatAction:[SKAction sequence:@[wait,individualShot]]
+                                                                                   count:self.player.numShots-1]];
+                            }
+                        }];
+                    }
+                    
                     [fire_button recharge];
                 }
                 return;

@@ -103,9 +103,11 @@
 @synthesize attackAccuracyInRadian;
 @synthesize bulletSpeed;
 @synthesize attackCoolDownDuration;
+@synthesize betweenShotsDuration;
 @synthesize fadeOutDuration;
 
 @synthesize isEnableStealth;
+@synthesize isRemote;
 
 - (id)initWithScale:(CGFloat)f_scale Id:(int)t_id BodyColor:(UIColor*)b_color BodyBaseColor:(UIColor*)bb_color
                  AI:(STAAI*)t_ai Category:(uint32_t)category Bounds:(CGRect)p_bounds
@@ -139,6 +141,7 @@
         scale = f_scale;
         numShots = 1;
         betweenShotsAccuracyInRadian=0;
+        betweenShotsDuration=0.5;
         accuracyInRadian=5;
         attackAccuracyInRadian=5;
         bulletSpeed = 100;
@@ -770,7 +773,9 @@
         if (isRotatingClockwise || isMovingForward || isMovingBackward) return;
         isRotatingCounterClockwise= true;
         
-        SKAction *rotation = [SKAction rotateByAngle:degree duration:degree/(M_PI*2)*rotation_speed];
+        CGFloat r_duration = degree/(M_PI*2)*rotation_speed;
+        
+        SKAction *rotation = [SKAction rotateByAngle:degree duration:r_duration];
         
         [self runAction:rotation completion:^(void) {
             [self updateLastSelfRotate];

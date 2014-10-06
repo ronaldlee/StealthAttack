@@ -134,7 +134,7 @@
                                    ButtonTextFontSize:15 isShowBorder:false];
         back_button.userInteractionEnabled = NO;
         back_button.position = CGPointMake((([[UIScreen mainScreen] bounds].size.width-50*GAME_AREA_SCALE))/2,
-                                             replay_button.position.y - 50*GAME_AREA_SCALE);
+                                             replay_button.position.y - 80*GAME_AREA_SCALE);
         
         
 //        //==

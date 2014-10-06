@@ -86,12 +86,13 @@
 @property (nonatomic) CGFloat betweenShotsAccuracyInRadian;
 @property (nonatomic) CGFloat accuracyInRadian;
 @property (nonatomic) CGFloat attackAccuracyInRadian;
+@property (nonatomic) CGFloat betweenShotsDuration;
 @property (nonatomic) int bulletSpeed;
 @property (nonatomic) int attackCoolDownDuration;
 @property (nonatomic) int fadeOutDuration;
 
 @property (nonatomic) BOOL isEnableStealth;
-
+@property (nonatomic) BOOL isRemote;
 
 //-(void)setBorderBounds:(CGRect)p_bounds;
 -(id)initWithScale:(CGFloat)scale Id:(int)t_id BodyColor:(UIColor*)b_color BodyBaseColor:(UIColor*)bb_color

@@ -23,6 +23,10 @@
     
     self.wheel_rotate_speed = 1;
     
+    self.attackAccuracyInRadian = 25;
+    self.betweenShotsAccuracyInRadian = 45;
+    self.numShots = 3;
+    
     return self;
 }
 
@@ -214,5 +218,51 @@
     
     [self fadeInNow];
 }
+
+//-(void)fire {
+//    if (self.ai != NULL || self.isRemote) {
+//        [super fire];
+//        return;
+//    }
+//    
+//    if (self.isBrakingOn || self.isGameOver) return;
+//    
+//    if (self.battleStage != NULL) {
+//        
+//        CGFloat rand = (CGFloat)arc4random_uniform(self.attackAccuracyInRadian);
+//        CGFloat r = rand / (CGFloat)100.0;
+//        
+//        __block int localNumShots = self.numShots;
+//        
+//        CGFloat adj_radian = r;
+//        
+//        [self rotateInDegree:adj_radian complete:^(void) {
+//            [super fire];
+//            localNumShots--;
+//
+//            //if numShots > 1
+//            if (localNumShots > 0) {
+//                SKAction * individualShot = [SKAction runBlock:^(void) {
+//                    CGFloat rand = (CGFloat)arc4random_uniform(self.betweenShotsAccuracyInRadian);
+//                    CGFloat r = rand / (CGFloat)100.0;
+//                    
+//                    CGFloat adj_radian = r;
+//                    
+//                    [self rotateInDegree:adj_radian complete:^(void) {
+////                        [super fire];
+//                        STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
+//                        [appDelegate.mcManager sendFire];
+//                        
+//                        localNumShots--;
+//                    }];
+//                }];
+//                
+//                SKAction *wait = [SKAction waitForDuration:self.betweenShotsDuration];
+//                [self.attackNode runAction:[SKAction repeatAction:[SKAction sequence:@[wait,individualShot]] count:self.numShots-1]];
+//            }
+//        }];
+//
+//    }
+//}
 
 @end
