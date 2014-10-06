@@ -21,6 +21,8 @@
     int oppTankId;
     int oppColorId;
     BOOL isStealthOn;
+    
+    BOOL isPlayerSkipStop;
 }
 @end
 
@@ -531,6 +533,7 @@
                         [appDelegate.mcManager sendFire];
                     }
                     else if (self.player.numShots > 1) {
+                        isPlayerSkipStop = TRUE;
                         CGFloat rand = (CGFloat)arc4random_uniform(self.player.attackAccuracyInRadian);
                         CGFloat adj_radian = rand / (CGFloat)100.0 + 0.05;
                         
@@ -559,6 +562,10 @@
                                         [appDelegate.mcManager sendFire];
                                         
                                         localNumShots--;
+                                        
+                                        if (localNumShots == 0) {
+                                            [self.player stop];
+                                        }
                                     }];
                                 }];
                                 
@@ -709,7 +716,12 @@
     [self.player moveBackward];
 }
 -(void)playerStop {
-    [self.player stop];
+    if (!isPlayerSkipStop) {
+        [self.player stop];
+    }
+    else {
+        isPlayerSkipStop = false;
+    }
 }
 -(void)playerFire {
     [self.player fire];

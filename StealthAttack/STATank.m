@@ -770,7 +770,9 @@
     }
     else {
         //rotate counter clockwise
-        if (isRotatingClockwise || isMovingForward || isMovingBackward) return;
+        if (isRotatingClockwise || isMovingForward || isMovingBackward) {
+            return;
+        }
         isRotatingCounterClockwise= true;
         
         CGFloat r_duration = degree/(M_PI*2)*rotation_speed;
