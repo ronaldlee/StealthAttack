@@ -16,7 +16,7 @@
 
 //@property (nonatomic, strong) NSMutableArray *arrConnectedDevices;
 
--(void)peerDidChangeStateWithNotification:(NSNotification *)notification;
+//-(void)peerDidChangeStateWithNotification:(NSNotification *)notification;
 
 @end
 
