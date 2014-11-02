@@ -35,6 +35,9 @@
     
     [self.deviceName setText:self.sessionController.displayName];
     
+    self.devicesTableView.delegate = self;
+    [self.devicesTableView setDataSource:self];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -90,14 +93,16 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [ (NSMutableArray*)self.sessionController.discoveredPeers count ];
+    NSInteger count = [ (NSMutableArray*)self.sessionController.discoveredPeers count ];
+    
+    return count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     STADeviceTableCell *cell = [tableView dequeueReusableCellWithIdentifier:@"STADeviceTableCell"];
     
-    MCPeerID * peerID = (MCPeerID*)[[self.sessionController.discoveredPeers objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    MCPeerID * peerID = (MCPeerID*)[self.sessionController.discoveredPeers objectAtIndex:indexPath.row];
     
     cell.deviceNameLabel.text = peerID.displayName;
     

@@ -128,6 +128,7 @@ static NSString * const kMCSessionServiceType = @"mcsessionp2p";
     [self.session disconnect];
     [self.connectingPeersOrderedSet removeAllObjects];
     [self.disconnectedPeersOrderedSet removeAllObjects];
+    [self.discoveredPeersOrderedSet removeAllObjects];
 }
 
 - (void)startServices
