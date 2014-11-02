@@ -11,7 +11,7 @@
 
 @protocol STASessionControllerDelegate;
 
-@interface STAMCManager : NSObject<MCSessionDelegate, MCNearbyServiceBrowserDelegate, MCNearbyServiceAdvertiserDelegate>
+@interface STAMCManager : NSObject<MCSessionDelegate, MCNearbyServiceBrowserDelegate, MCNearbyServiceAdvertiserDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, weak) id<STASessionControllerDelegate> delegate;
 

@@ -55,6 +55,12 @@
     int isPlayerWonLocal;
     int isPlayerWonRemote;
     
+//    (void(^)(BOOL accept, MCSession *session)) tempInvitationHandler;
+    
+    void (^ tempInvitationHandler)(BOOL accept, MCSession *session);
+    
+    MCPeerID* tempRemotePeerID;
+    
 }
 @end
 
@@ -1472,12 +1478,33 @@ static NSString * const kMCSessionServiceType = @"stasessionp2p";
 {
     NSLog(@"didReceiveInvitationFromPeer %@", peerID.displayName);
     
-    invitationHandler(YES, self.session);
+    tempInvitationHandler = invitationHandler;
+    tempRemotePeerID = peerID;
     
-    [self.connectingPeersOrderedSet addObject:peerID];
-    [self.disconnectedPeersOrderedSet removeObject:peerID];
     
-    [self updateDelegate];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invite"
+                                                    message:@"Accept invite from?"
+                                                   delegate:self
+                                          cancelButtonTitle:@"Cancel"
+                                          otherButtonTitles:@"Yes",nil];
+    
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0) {
+        NSLog(@"Cancel Tapped.");
+    }
+    else if (buttonIndex == 1) {
+        NSLog(@"OK Tapped. Hello World!");
+        
+        tempInvitationHandler(YES, self.session);
+        
+        [self.connectingPeersOrderedSet addObject:tempRemotePeerID];
+        [self.disconnectedPeersOrderedSet removeObject:tempRemotePeerID];
+        
+        [self updateDelegate];
+    }
 }
 
 - (void)advertiser:(MCNearbyServiceAdvertiser *)advertiser didNotStartAdvertisingPeer:(NSError *)error
