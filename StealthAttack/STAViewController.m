@@ -37,7 +37,7 @@
     //
     
     STAAppDelegate* appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
-    BOOL isPeersExist = ([[appDelegate.mcManager.session connectedPeers] count] > 0);
+    BOOL isPeersExist = ([[appDelegate.mcManager connectedPeers] count] > 0);
     
     if (isPeersExist && scene != NULL) {
         

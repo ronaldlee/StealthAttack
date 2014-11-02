@@ -7,8 +7,20 @@
 //
 
 #import "STAMCManager.h"
+@interface STAMCManager () // Class extension
+
+@property (nonatomic, strong) MCPeerID *peerID;
+@property (nonatomic, strong) MCSession *session;
+@property (nonatomic, strong) MCNearbyServiceAdvertiser *serviceAdvertiser;
+@property (nonatomic, strong) MCNearbyServiceBrowser *serviceBrowser;
+
+@property (nonatomic, strong) NSMutableOrderedSet *discoveredPeersOrderedSet;
+@property (nonatomic, strong) NSMutableOrderedSet *connectingPeersOrderedSet;
+@property (nonatomic, strong) NSMutableOrderedSet *disconnectedPeersOrderedSet;
+@end
 
 @interface STAMCManager() {
+    
     int stage;
     int msgId;
     
@@ -47,17 +59,44 @@
 @end
 
 @implementation STAMCManager
+
+static NSString * const kMCSessionServiceType = @"stasessionp2p";
+
 -(id)init {
     self = [super init];
     
     if (self) {
         isStealthOn = true;
-        _peerID = nil;
         _session = nil;
-        _browser = nil;
-        _advertiser = nil;
+        
+//        _browser = nil;
+//        _advertiser = nil;
+        
+        
         isPlayerWonLocal = -1;
         isPlayerWonRemote = -1;
+        
+        _peerID = [[MCPeerID alloc] initWithDisplayName:[[UIDevice currentDevice] name]];
+        
+        _discoveredPeersOrderedSet = [[NSMutableOrderedSet alloc] init];
+        _connectingPeersOrderedSet = [[NSMutableOrderedSet alloc] init];
+        _disconnectedPeersOrderedSet = [[NSMutableOrderedSet alloc] init];
+        
+        
+//        NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+//        
+//        // Register for notifications
+//        [defaultCenter addObserver:self
+//                          selector:@selector(startServices)
+//                              name:UIApplicationWillEnterForegroundNotification
+//                            object:nil];
+//        
+//        [defaultCenter addObserver:self
+//                          selector:@selector(stopServices)
+//                              name:UIApplicationDidEnterBackgroundNotification
+//                            object:nil];
+        
+//        _displayName = self.session.myPeerID.displayName;
         
         [self reset];
     }
@@ -93,8 +132,8 @@
 -(void)resetMC {
     _peerID = nil;
     _session = nil;
-    _browser = nil;
-    _advertiser = nil;
+//    _browser = nil;
+//    _advertiser = nil;
 }
 
 -(void) reset {
@@ -181,33 +220,33 @@
     
     NSLog(@"boo");
 }
+//
+//-(void)setupMCBrowser{
+//    _browser = [[MCBrowserViewController alloc] initWithServiceType:@"chat-files" session:_session];
+//}
 
--(void)setupMCBrowser{
-    _browser = [[MCBrowserViewController alloc] initWithServiceType:@"chat-files" session:_session];
-}
+//-(void)advertiseSelf:(BOOL)shouldAdvertise{
+//    if (shouldAdvertise) {
+//        _advertiser = [[MCAdvertiserAssistant alloc] initWithServiceType:@"chat-files"
+//                                                           discoveryInfo:nil
+//                                                                 session:_session];
+//        [_advertiser start];
+//    }
+//    else{
+//        [_advertiser stop];
+//        _advertiser = nil;
+//    }
+//}
 
--(void)advertiseSelf:(BOOL)shouldAdvertise{
-    if (shouldAdvertise) {
-        _advertiser = [[MCAdvertiserAssistant alloc] initWithServiceType:@"chat-files"
-                                                           discoveryInfo:nil
-                                                                 session:_session];
-        [_advertiser start];
-    }
-    else{
-        [_advertiser stop];
-        _advertiser = nil;
-    }
-}
-
--(void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state{
-    NSDictionary *dict = @{@"peerID": peerID,
-                           @"state" : [NSNumber numberWithInt:state]
-                           };
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"MCDidChangeStateNotification"
-                                                        object:nil
-                                                      userInfo:dict];
-}
+//-(void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state{
+//    NSDictionary *dict = @{@"peerID": peerID,
+//                           @"state" : [NSNumber numberWithInt:state]
+//                           };
+//    
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"MCDidChangeStateNotification"
+//                                                        object:nil
+//                                                      userInfo:dict];
+//}
 
 
 -(void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID{
@@ -1240,6 +1279,210 @@
 //
 -(void)setStageObj:(STAStage*)p_stage {
     curStage = p_stage;
+}
+
+#pragma mark - Override property accessors
+
+- (NSArray *)connectedPeers
+{
+    return self.session.connectedPeers;
+}
+
+- (NSArray *)connectingPeers
+{
+    return [self.connectingPeersOrderedSet array];
+}
+
+- (NSArray *)disconnectedPeers
+{
+    return [self.disconnectedPeersOrderedSet array];
+}
+
+- (NSArray *)discoveredPeers
+{
+    return [self.discoveredPeersOrderedSet array];
+}
+
+-(void)disconnect
+{
+    [self.session disconnect];
+}
+
+#pragma mark - Memory management
+
+- (void)dealloc
+{
+    // Unregister for notifications on deallocation.
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    // Nil out delegates
+    _session.delegate = nil;
+    _serviceAdvertiser.delegate = nil;
+    _serviceBrowser.delegate = nil;
+}
+#pragma mark - Private methods
+
+- (void)setupSession
+{
+    // Create the session that peers will be invited/join into.
+    _session = [[MCSession alloc] initWithPeer:self.peerID];
+    self.session.delegate = self;
+    
+    _displayName = self.session.myPeerID.displayName;
+    
+    // Create the service advertiser
+    _serviceAdvertiser = [[MCNearbyServiceAdvertiser alloc] initWithPeer:self.peerID
+                                                           discoveryInfo:nil
+                                                             serviceType:kMCSessionServiceType];
+    self.serviceAdvertiser.delegate = self;
+    
+    // Create the service browser
+    _serviceBrowser = [[MCNearbyServiceBrowser alloc] initWithPeer:self.peerID
+                                                       serviceType:kMCSessionServiceType];
+    self.serviceBrowser.delegate = self;
+}
+
+- (void)teardownSession
+{
+    [self.session disconnect];
+    [self.connectingPeersOrderedSet removeAllObjects];
+    [self.disconnectedPeersOrderedSet removeAllObjects];
+    [self.discoveredPeersOrderedSet removeAllObjects];
+}
+
+- (void)startServices
+{
+    [self setupSession];
+    [self.serviceAdvertiser startAdvertisingPeer];
+    [self.serviceBrowser startBrowsingForPeers];
+}
+
+- (void)stopServices
+{
+    [self.serviceBrowser stopBrowsingForPeers];
+    [self.serviceAdvertiser stopAdvertisingPeer];
+    [self teardownSession];
+}
+
+- (void)updateDelegate
+{
+    [self.delegate sessionDidChangeState];
+}
+
+- (NSString *)stringForPeerConnectionState:(MCSessionState)state
+{
+    switch (state) {
+        case MCSessionStateConnected:
+            return @"Connected";
+            
+        case MCSessionStateConnecting:
+            return @"Connecting";
+            
+        case MCSessionStateNotConnected:
+            return @"Not Connected";
+    }
+}
+
+#pragma mark - MCSessionDelegate protocol conformance
+
+- (void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state
+{
+    NSLog(@"Peer [%@] changed state to %@", peerID.displayName, [self stringForPeerConnectionState:state]);
+    
+    switch (state)
+    {
+        case MCSessionStateConnecting:
+        {
+            [self.connectingPeersOrderedSet addObject:peerID];
+            [self.disconnectedPeersOrderedSet removeObject:peerID];
+            break;
+        }
+            
+        case MCSessionStateConnected:
+        {
+            [self.connectingPeersOrderedSet removeObject:peerID];
+            [self.disconnectedPeersOrderedSet removeObject:peerID];
+            break;
+        }
+            
+        case MCSessionStateNotConnected:
+        {
+            [self.connectingPeersOrderedSet removeObject:peerID];
+            [self.disconnectedPeersOrderedSet addObject:peerID];
+            break;
+        }
+    }
+    
+    [self updateDelegate];
+}
+
+#pragma mark - MCNearbyServiceBrowserDelegate protocol conformance
+
+// Found a nearby advertising peer
+- (void)browser:(MCNearbyServiceBrowser *)browser foundPeer:(MCPeerID *)peerID withDiscoveryInfo:(NSDictionary *)info
+{
+    NSString *remotePeerName = peerID.displayName;
+    
+    NSLog(@"Browser found %@", remotePeerName);
+    
+    MCPeerID *myPeerID = self.session.myPeerID;
+    
+    BOOL shouldInvite = ([myPeerID.displayName compare:remotePeerName] != NSOrderedSame);
+    
+    if (shouldInvite)
+    {
+        NSLog(@"Inviting %@", remotePeerName);
+        
+        [_discoveredPeersOrderedSet addObject:peerID];
+        
+        //        [browser invitePeer:peerID toSession:self.session withContext:nil timeout:30.0];
+    }
+    else
+    {
+        NSLog(@"Not inviting %@", remotePeerName);
+    }
+    
+    [self updateDelegate];
+}
+
+- (void) invitePeer:(MCPeerID *)peerID {
+    [_serviceBrowser invitePeer:peerID toSession:self.session withContext:nil timeout:30.0];
+    
+    [self updateDelegate];
+}
+
+- (void)browser:(MCNearbyServiceBrowser *)browser lostPeer:(MCPeerID *)peerID
+{
+    NSLog(@"lostPeer %@", peerID.displayName);
+    
+    [self.connectingPeersOrderedSet removeObject:peerID];
+    [self.disconnectedPeersOrderedSet addObject:peerID];
+    
+    [self updateDelegate];
+}
+
+- (void)browser:(MCNearbyServiceBrowser *)browser didNotStartBrowsingForPeers:(NSError *)error
+{
+    NSLog(@"didNotStartBrowsingForPeers: %@", error);
+}
+
+#pragma mark - MCNearbyServiceAdvertiserDelegate protocol conformance
+
+- (void)advertiser:(MCNearbyServiceAdvertiser *)advertiser didReceiveInvitationFromPeer:(MCPeerID *)peerID withContext:(NSData *)context invitationHandler:(void(^)(BOOL accept, MCSession *session))invitationHandler
+{
+    NSLog(@"didReceiveInvitationFromPeer %@", peerID.displayName);
+    
+    invitationHandler(YES, self.session);
+    
+    [self.connectingPeersOrderedSet addObject:peerID];
+    [self.disconnectedPeersOrderedSet removeObject:peerID];
+    
+    [self updateDelegate];
+}
+
+- (void)advertiser:(MCNearbyServiceAdvertiser *)advertiser didNotStartAdvertisingPeer:(NSError *)error
+{
+    NSLog(@"didNotStartAdvertisingForPeers: %@", error);
 }
 
 

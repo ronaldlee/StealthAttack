@@ -10,7 +10,10 @@
 #import "STADeviceTableCell.h"
 
 @interface STAP2PConnectionsViewController ()
-@property (nonatomic, strong) STASessionController *sessionController;
+//@property (nonatomic, strong) STASessionController *sessionController;
+
+@property (nonatomic, strong) STAAppDelegate *appDelegate;
+
 @property (nonatomic, strong) MCPeerID * selectedPeerID;
 @end
 
@@ -30,14 +33,21 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    _sessionController = [[STASessionController alloc] init];
-    self.sessionController.delegate = self;
     
-    [self.deviceName setText:self.sessionController.displayName];
+    _appDelegate = (STAAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+//    _sessionController = [[STASessionController alloc] init];
+    
+    _appDelegate.mcManager.delegate = self;
+    
+//    self.sessionController.delegate = self;
     
     self.devicesTableView.delegate = self;
     [self.devicesTableView setDataSource:self];
     
+    [_appDelegate.mcManager startServices];
+    
+    [self.deviceName setText: _appDelegate.mcManager.displayName];    
 }
 
 - (void)didReceiveMemoryWarning
@@ -70,7 +80,7 @@
         return;
     }
     
-    [self.sessionController invitePeer:self.selectedPeerID];
+    [ _appDelegate.mcManager invitePeer:self.selectedPeerID];
 }
 
 - (IBAction)back:(id)sender {
@@ -82,7 +92,11 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"ronn select row");
     
-//    SongTableCell* cell = (SongTableCell*)[searchResultTable cellForRowAtIndexPath:indexPath];
+    STADeviceTableCell* cell = (STADeviceTableCell*)[tableView cellForRowAtIndexPath:indexPath];
+    
+    self.selectedPeerID = cell.peerID;
+    
+    self.selectedDeviceLabel.text = cell.peerID.displayName;
 }
 
 #pragma mark - Table view data source
@@ -93,7 +107,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSInteger count = [ (NSMutableArray*)self.sessionController.discoveredPeers count ];
+    NSInteger count = [ (NSMutableArray*)_appDelegate.mcManager.discoveredPeers count ];
     
     return count;
 }
@@ -102,9 +116,10 @@
 {
     STADeviceTableCell *cell = [tableView dequeueReusableCellWithIdentifier:@"STADeviceTableCell"];
     
-    MCPeerID * peerID = (MCPeerID*)[self.sessionController.discoveredPeers objectAtIndex:indexPath.row];
+    MCPeerID * peerID = (MCPeerID*)[_appDelegate.mcManager.discoveredPeers objectAtIndex:indexPath.row];
     
     cell.deviceNameLabel.text = peerID.displayName;
+    cell.peerID = peerID;
     
     return cell;
 }

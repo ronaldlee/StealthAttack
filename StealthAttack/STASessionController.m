@@ -60,8 +60,6 @@ static NSString * const kMCSessionServiceType = @"mcsessionp2p";
                               name:UIApplicationDidEnterBackgroundNotification
                             object:nil];
         
-        [self startServices];
-        
         _displayName = self.session.myPeerID.displayName;
     }
     
@@ -255,7 +253,7 @@ static NSString * const kMCSessionServiceType = @"mcsessionp2p";
     
     MCPeerID *myPeerID = self.session.myPeerID;
     
-    BOOL shouldInvite = ([myPeerID.displayName compare:remotePeerName] == NSOrderedDescending);
+    BOOL shouldInvite = ([myPeerID.displayName compare:remotePeerName] != NSOrderedSame);
     
     if (shouldInvite)
     {

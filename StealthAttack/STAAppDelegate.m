@@ -22,6 +22,8 @@
     _mcManager = [[STAMCManager alloc] init];
 
     
+//    _sessionController = [[STASessionController alloc] init];
+    
     
     return YES;
 }

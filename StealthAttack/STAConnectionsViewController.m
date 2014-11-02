@@ -53,7 +53,7 @@
 //    [_appDelegate.mcManager resetMC];
     
     [[_appDelegate mcManager] setupPeerAndSessionWithDisplayName:[UIDevice currentDevice].name];
-    [[_appDelegate mcManager] advertiseSelf:true];
+//    [[_appDelegate mcManager] advertiseSelf:true];
     
     
 //    [[NSNotificationCenter defaultCenter] addObserver:self
@@ -84,15 +84,15 @@
 - (IBAction)browseForDevices:(id)sender {
     [[_appDelegate mcManager] setupPeerAndSessionWithDisplayName:[UIDevice currentDevice].name];
     
-    [[_appDelegate mcManager] setupMCBrowser];
-    
-    [[[_appDelegate mcManager] browser] setDelegate:self];
-    
-    [self presentViewController:[[_appDelegate mcManager] browser] animated:YES completion:nil];
+//    [[_appDelegate mcManager] setupMCBrowser];
+//    
+//    [[[_appDelegate mcManager] browser] setDelegate:self];
+//    
+//    [self presentViewController:[[_appDelegate mcManager] browser] animated:YES completion:nil];
 }
 
 - (IBAction)disconnect:(id)sender {
-    [_appDelegate.mcManager.session disconnect];
+    [_appDelegate.mcManager disconnect];
     
     _txtName.enabled = YES;
     
@@ -112,12 +112,12 @@
 
 //===== browser delegate
 -(void)browserViewControllerDidFinish:(MCBrowserViewController *)browserViewController{
-    [_appDelegate.mcManager.browser dismissViewControllerAnimated:YES completion:nil];
+//    [_appDelegate.mcManager.browser dismissViewControllerAnimated:YES completion:nil];
 }
 
 
 -(void)browserViewControllerWasCancelled:(MCBrowserViewController *)browserViewController{
-    [_appDelegate.mcManager.browser dismissViewControllerAnimated:YES completion:nil];
+//    [_appDelegate.mcManager.browser dismissViewControllerAnimated:YES completion:nil];
 }
 //======
 
@@ -128,14 +128,14 @@
 //    _appDelegate.mcManager.session = nil;
 //    _appDelegate.mcManager.browser = nil;
     
-    [_appDelegate.mcManager.advertiser stop];
+//    [_appDelegate.mcManager.advertiser stop];
     
 //    _appDelegate.mcManager.advertiser = nil;
     
     
     [_appDelegate.mcManager setupPeerAndSessionWithDisplayName:_txtName.text];
-    [_appDelegate.mcManager setupMCBrowser];
-    [_appDelegate.mcManager advertiseSelf:true];
+//    [_appDelegate.mcManager setupMCBrowser];
+//    [_appDelegate.mcManager advertiseSelf:true];
     
     return YES;
 }

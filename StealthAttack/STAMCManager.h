@@ -9,17 +9,29 @@
 #import <Foundation/Foundation.h>
 #import <MultipeerConnectivity/MultipeerConnectivity.h>
 
-@interface STAMCManager : NSObject<MCSessionDelegate>
+@protocol STASessionControllerDelegate;
 
-@property (nonatomic,strong)MCPeerID * peerID;
-@property (nonatomic,strong)MCSession*session;
-@property (nonatomic,strong)MCBrowserViewController *browser;
-@property (nonatomic,strong)MCAdvertiserAssistant *advertiser;
+@interface STAMCManager : NSObject<MCSessionDelegate, MCNearbyServiceBrowserDelegate, MCNearbyServiceAdvertiserDelegate>
+
+@property (nonatomic, weak) id<STASessionControllerDelegate> delegate;
+
+//@property (nonatomic,strong)MCPeerID * peerID;
+//@property (nonatomic,strong)MCSession*session;
+
+//@property (nonatomic,strong)MCBrowserViewController *browser;
+//@property (nonatomic,strong)MCAdvertiserAssistant *advertiser;
+
+@property (nonatomic, readonly) NSArray *connectedPeers;
+@property (nonatomic, readonly) NSArray *connectingPeers;
+@property (nonatomic, readonly) NSArray *disconnectedPeers;
+@property (nonatomic, readonly) NSArray *discoveredPeers;
+@property (nonatomic, readonly) NSString *displayName;
+
 @property (nonatomic)BOOL isServer;
 
 -(void)setupPeerAndSessionWithDisplayName:(NSString*)displayName;
--(void)setupMCBrowser;
--(void)advertiseSelf:(BOOL)shouldAdvertise;
+//-(void)setupMCBrowser;
+//-(void)advertiseSelf:(BOOL)shouldAdvertise;
 
 -(void)reset;
 
@@ -52,5 +64,20 @@
 
 -(void)resetMC;
 -(void)cancelConnectPeers;
+-(void)disconnect;
+
+//
+- (NSString *)stringForPeerConnectionState:(MCSessionState)state;
+- (void)startServices;
+- (void) invitePeer:(MCPeerID *)peerID;
+
+@end
+
+
+// Delegate methods for SessionController
+@protocol STASessionControllerDelegate <NSObject>
+
+// Session changed state - connecting, connected and disconnected peers changed
+- (void)sessionDidChangeState;
 
 @end

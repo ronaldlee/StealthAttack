@@ -9,9 +9,12 @@
 #import <UIKit/UIKit.h>
 
 @class STAMCManager;
+//@class STASessionController;
 @interface STAAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) STAMCManager *mcManager;
+
+//@property (strong, nonatomic) STASessionController *sessionController;
 
 @end

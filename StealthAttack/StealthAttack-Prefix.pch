@@ -36,6 +36,7 @@
 #import "STAMultiPlayerSelect.h"
 #import "STAMCManager.h"
 #import "STAMultiPlayBattleStage.h"
+#import "STASessionController.h"
 
 #import "Flurry.h"
 #import "FlurryAds.h"

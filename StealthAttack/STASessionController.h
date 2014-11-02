@@ -41,6 +41,8 @@
 // Helper method for human readable printing of MCSessionState. This state is per peer.
 - (NSString *)stringForPeerConnectionState:(MCSessionState)state;
 
+- (void)startServices;
+
 - (void) invitePeer:(MCPeerID *)peerID;
 
 @end

@@ -11,5 +11,6 @@
 @interface STADeviceTableCell : UITableViewCell
 
 @property (nonatomic, strong) IBOutlet UILabel *deviceNameLabel;
+@property (nonatomic,strong) MCPeerID* peerID;
 
 @end
