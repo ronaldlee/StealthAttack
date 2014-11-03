@@ -147,6 +147,7 @@
                         <outlet property="deviceName" destination="DJQ-bS-ZOb" id="nEl-ec-AQQ"/>
                         <outlet property="devicesTableView" destination="Slb-58-Q0V" id="Z0a-ym-1Sf"/>
                         <outlet property="selectedDeviceLabel" destination="YzM-ih-4SR" id="R08-ZW-fln"/>
+                        <outlet property="statusLabel" destination="CJU-bw-vEI" id="T1e-0N-9fp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Hh-sY-F3s" userLabel="First Responder" sceneMemberID="firstResponder"/>

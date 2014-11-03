@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnDisconnect;
 @property (weak, nonatomic) IBOutlet UIButton *btnBack;
 @property (weak, nonatomic) IBOutlet UIButton *btnBrowse;
+@property (weak, nonatomic) IBOutlet UILabel  *statusLabel;
 
 
 - (IBAction)browseForDevices:(id)sender;

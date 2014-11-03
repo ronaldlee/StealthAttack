@@ -45,9 +45,16 @@
     self.devicesTableView.delegate = self;
     [self.devicesTableView setDataSource:self];
     
+    [_appDelegate.mcManager setListenOk:TRUE];
     [_appDelegate.mcManager startServices];
     
     [self.deviceName setText: _appDelegate.mcManager.displayName];    
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [_appDelegate.mcManager setListenOk:FALSE];
 }
 
 - (void)didReceiveMemoryWarning
@@ -71,20 +78,35 @@
 {
     // Ensure UI updates occur on the main queue.
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.devicesTableView reloadData];
-        
         switch (state) {
             case MCSessionStateConnected:
-                [self.btnConnect setEnabled:TRUE];
-                [self.btnConnect setBackgroundColor:[UIColor whiteColor]];
-                [self.btnConnect setTitle:@"Disconnect" forState:UIControlStateNormal];
+                if (peerID != NULL) {
+                    [self.btnConnect setEnabled:TRUE];
+                    [self.btnConnect setBackgroundColor:[UIColor whiteColor]];
+                    [self.btnConnect setTitle:@"Disconnect" forState:UIControlStateNormal];
+                    [self.selectedDeviceLabel setText:peerID.displayName];
+                    [self.statusLabel setText:@"Hit '<<' to start the game!"];
+                }
                 break;
             case MCSessionStateConnecting:
                 
                 break;
             case MCSessionStateNotConnected:
+                if ([self.btnConnect.titleLabel.text isEqualToString:@"Disconnect"]) {
+                    [self.btnConnect setEnabled:TRUE];
+                    [self.btnConnect setBackgroundColor:[UIColor whiteColor]];
+                    [self.btnConnect setTitle:@"Connect" forState:UIControlStateNormal];
+                    [self.selectedDeviceLabel setText:@""];
+                    [self.statusLabel setText:@"Discovering is in progress..."];
+                    
+                    //add back the peer to the discovered device list, or init a broadcast again?
+//                  [_appDelegate.mcManager broadcast];
+                    [_appDelegate.mcManager startServices];
+                }
                 break;
         }
+        
+        [self.devicesTableView reloadData];
     });
 }
 

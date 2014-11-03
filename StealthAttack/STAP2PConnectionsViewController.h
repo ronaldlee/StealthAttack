@@ -16,7 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnBack;
 @property (weak, nonatomic) IBOutlet UITableView *devicesTableView;
 @property (weak, nonatomic) IBOutlet UITextField *deviceName;
-
+@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 
 - (IBAction)connectDevice:(id)sender;
 - (IBAction)back:(id)sender;

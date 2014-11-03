@@ -65,6 +65,9 @@
 -(void)resetMC;
 -(void)cancelConnectPeers;
 -(void)disconnect;
+-(void)broadcast;
+
+-(void)setListenOk:(BOOL)isListenOk;
 
 //
 - (NSString *)stringForPeerConnectionState:(MCSessionState)state;

@@ -51,6 +51,7 @@
     STAStage* curStage;
     
     BOOL isStealthOn;
+    BOOL isListenOk;
     
     int isPlayerWonLocal;
     int isPlayerWonRemote;
@@ -108,6 +109,10 @@ static NSString * const kMCSessionServiceType = @"stasessionp2p";
     }
     
     return self;
+}
+
+-(void)setListenOk:(BOOL)parmIsListenOk {
+    isListenOk = parmIsListenOk;
 }
 
 -(void)setOppTank:(STATank*)tank {
@@ -1356,6 +1361,12 @@ static NSString * const kMCSessionServiceType = @"stasessionp2p";
     [self.discoveredPeersOrderedSet removeAllObjects];
 }
 
+-(void)broadcast
+{
+    [self.serviceAdvertiser startAdvertisingPeer];
+    [self.serviceBrowser startBrowsingForPeers];
+}
+
 - (void)startServices
 {
     [self setupSession];
@@ -1393,6 +1404,8 @@ static NSString * const kMCSessionServiceType = @"stasessionp2p";
 
 - (void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state
 {
+    if (!isListenOk) return;
+    
     NSLog(@"Peer [%@] changed state to %@", peerID.displayName, [self stringForPeerConnectionState:state]);
     
     switch (state)
@@ -1428,6 +1441,8 @@ static NSString * const kMCSessionServiceType = @"stasessionp2p";
 // Found a nearby advertising peer
 - (void)browser:(MCNearbyServiceBrowser *)browser foundPeer:(MCPeerID *)peerID withDiscoveryInfo:(NSDictionary *)info
 {
+    if (!isListenOk) return;
+    
     NSString *remotePeerName = peerID.displayName;
     
     NSLog(@"Browser found %@", remotePeerName);
@@ -1460,6 +1475,8 @@ static NSString * const kMCSessionServiceType = @"stasessionp2p";
 
 - (void)browser:(MCNearbyServiceBrowser *)browser lostPeer:(MCPeerID *)peerID
 {
+    if (!isListenOk) return;
+    
     NSLog(@"lostPeer %@", peerID.displayName);
     
     [self.connectingPeersOrderedSet removeObject:peerID];
@@ -1470,6 +1487,8 @@ static NSString * const kMCSessionServiceType = @"stasessionp2p";
 
 - (void)browser:(MCNearbyServiceBrowser *)browser didNotStartBrowsingForPeers:(NSError *)error
 {
+    if (!isListenOk) return;
+    
     NSLog(@"didNotStartBrowsingForPeers: %@", error);
 }
 
@@ -1477,6 +1496,8 @@ static NSString * const kMCSessionServiceType = @"stasessionp2p";
 
 - (void)advertiser:(MCNearbyServiceAdvertiser *)advertiser didReceiveInvitationFromPeer:(MCPeerID *)peerID withContext:(NSData *)context invitationHandler:(void(^)(BOOL accept, MCSession *session))invitationHandler
 {
+    if (!isListenOk) return;
+    
     NSLog(@"didReceiveInvitationFromPeer %@", peerID.displayName);
     
     tempInvitationHandler = invitationHandler;
@@ -1493,6 +1514,8 @@ static NSString * const kMCSessionServiceType = @"stasessionp2p";
 }
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (!isListenOk) return;
+    
     if (buttonIndex == 0) {
         NSLog(@"Cancel Tapped.");
     }
@@ -1511,6 +1534,8 @@ static NSString * const kMCSessionServiceType = @"stasessionp2p";
 
 - (void)advertiser:(MCNearbyServiceAdvertiser *)advertiser didNotStartAdvertisingPeer:(NSError *)error
 {
+    if (!isListenOk) return;
+    
     NSLog(@"didNotStartAdvertisingForPeers: %@", error);
 }
 
