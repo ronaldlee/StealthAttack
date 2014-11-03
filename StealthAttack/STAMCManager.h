@@ -78,6 +78,6 @@
 @protocol STASessionControllerDelegate <NSObject>
 
 // Session changed state - connecting, connected and disconnected peers changed
-- (void)sessionDidChangeState;
+- (void)sessionDidChangeStateForPeer:(MCPeerID *)peerID state:(MCSessionState)state;
 
 @end

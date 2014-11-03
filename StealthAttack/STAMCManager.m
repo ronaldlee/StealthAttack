@@ -1370,9 +1370,9 @@ static NSString * const kMCSessionServiceType = @"stasessionp2p";
     [self teardownSession];
 }
 
-- (void)updateDelegate
+- (void)updateDelegateForPeer:(MCPeerID *)peerID state:(MCSessionState)state
 {
-    [self.delegate sessionDidChangeState];
+    [self.delegate sessionDidChangeStateForPeer:peerID state:state];
 }
 
 - (NSString *)stringForPeerConnectionState:(MCSessionState)state
@@ -1408,6 +1408,7 @@ static NSString * const kMCSessionServiceType = @"stasessionp2p";
         {
             [self.connectingPeersOrderedSet removeObject:peerID];
             [self.disconnectedPeersOrderedSet removeObject:peerID];
+            [self.discoveredPeersOrderedSet removeObject:peerID];
             break;
         }
             
@@ -1419,7 +1420,7 @@ static NSString * const kMCSessionServiceType = @"stasessionp2p";
         }
     }
     
-    [self updateDelegate];
+    [self updateDelegateForPeer:(MCPeerID *)peerID state:(MCSessionState)state];
 }
 
 #pragma mark - MCNearbyServiceBrowserDelegate protocol conformance
@@ -1448,13 +1449,13 @@ static NSString * const kMCSessionServiceType = @"stasessionp2p";
         NSLog(@"Not inviting %@", remotePeerName);
     }
     
-    [self updateDelegate];
+    [self updateDelegateForPeer:peerID state:NULL];
 }
 
 - (void) invitePeer:(MCPeerID *)peerID {
     [_serviceBrowser invitePeer:peerID toSession:self.session withContext:nil timeout:30.0];
     
-    [self updateDelegate];
+    [self updateDelegateForPeer:NULL state:NULL];
 }
 
 - (void)browser:(MCNearbyServiceBrowser *)browser lostPeer:(MCPeerID *)peerID
@@ -1464,7 +1465,7 @@ static NSString * const kMCSessionServiceType = @"stasessionp2p";
     [self.connectingPeersOrderedSet removeObject:peerID];
     [self.disconnectedPeersOrderedSet addObject:peerID];
     
-    [self updateDelegate];
+    [self updateDelegateForPeer:NULL state:NULL];
 }
 
 - (void)browser:(MCNearbyServiceBrowser *)browser didNotStartBrowsingForPeers:(NSError *)error
@@ -1502,8 +1503,9 @@ static NSString * const kMCSessionServiceType = @"stasessionp2p";
         
         [self.connectingPeersOrderedSet addObject:tempRemotePeerID];
         [self.disconnectedPeersOrderedSet removeObject:tempRemotePeerID];
+        [self.discoveredPeersOrderedSet removeObject:tempRemotePeerID];
         
-        [self updateDelegate];
+        [self updateDelegateForPeer:NULL state:NULL];
     }
 }
 

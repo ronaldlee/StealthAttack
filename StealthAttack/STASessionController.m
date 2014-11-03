@@ -145,7 +145,7 @@ static NSString * const kMCSessionServiceType = @"mcsessionp2p";
 
 - (void)updateDelegate
 {
-    [self.delegate sessionDidChangeState];
+    [self.delegate sessionDidChangeStateForPeer:NULL state:NULL];
 }
 
 - (NSString *)stringForPeerConnectionState:(MCSessionState)state

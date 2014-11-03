@@ -67,20 +67,48 @@
 }
 */
 
-- (void)sessionDidChangeState
+- (void)sessionDidChangeStateForPeer:(MCPeerID *)peerID state:(MCSessionState)state
 {
     // Ensure UI updates occur on the main queue.
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.devicesTableView reloadData];
+        
+        switch (state) {
+            case MCSessionStateConnected:
+                [self.btnConnect setEnabled:TRUE];
+                [self.btnConnect setBackgroundColor:[UIColor whiteColor]];
+                [self.btnConnect setTitle:@"Disconnect" forState:UIControlStateNormal];
+                break;
+            case MCSessionStateConnecting:
+                
+                break;
+            case MCSessionStateNotConnected:
+                break;
+        }
     });
 }
 
 - (IBAction)connectDevice:(id)sender {
-    if (self.selectedPeerID == NULL) {
-        return;
+    if ([self.btnConnect.titleLabel.text isEqualToString:@"Disconnect"]) {
+        
+        [_appDelegate.mcManager disconnect];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.devicesTableView reloadData];
+        });
     }
-    
-    [ _appDelegate.mcManager invitePeer:self.selectedPeerID];
+    else if ([self.btnConnect.titleLabel.text isEqualToString:@"Connect"]) {
+        
+        if (self.selectedPeerID == NULL) {
+            return;
+        }
+        
+        [ _appDelegate.mcManager invitePeer:self.selectedPeerID];
+        
+        [self.btnConnect setBackgroundColor:[UIColor grayColor]];
+        [self.btnConnect setEnabled:FALSE];
+        [self.btnConnect setTitle:@"Inviting.." forState:UIControlStateDisabled];
+    }
 }
 
 - (IBAction)back:(id)sender {
@@ -91,6 +119,11 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"ronn select row");
+    
+    //already connected to a device. Need to disconnect first
+    if ([self.selectedDeviceLabel.text isEqualToString:@"Disconnect"]) {
+        return;
+    }
     
     STADeviceTableCell* cell = (STADeviceTableCell*)[tableView cellForRowAtIndexPath:indexPath];
     
